@@ -1,7 +1,8 @@
 #!/usr/bin/env bun
+/// <reference types="bun" />
 //
 // Copies the published documentation from the product repositories into
-// src/content/docs/docs/. The output is committed, so the site builds without
+// src/content/docs/. The output is committed, so the site builds without
 // network access; re-run this after a product repository changes.
 //
 //   bun run sync:docs           write
@@ -21,10 +22,9 @@
 
 import { mkdir } from "node:fs/promises"
 import { dirname, join, posix } from "node:path"
-import { sources, type DocSource } from "./docs-sources"
+import { LOCALES, pages, routeFor, type DocPage, type Locale } from "./docs-sources"
 
 const ROOT = dirname(import.meta.dir)
-const OUT_ROOT = join(ROOT, "src/content/docs/docs")
 const RAW = "https://raw.githubusercontent.com"
 const GITHUB = "https://github.com"
 const REF = "main"
@@ -45,11 +45,17 @@ async function shaFor(repo: string) {
   return sha
 }
 
-export function transform(raw: string, source: DocSource, sha: string) {
+function outputPath(page: DocPage, locale: Locale) {
+  const root = locale === "en" ? "src/content/docs/docs" : `src/content/docs/${locale}/docs`
+  return join(ROOT, root, `${page.to}.md`)
+}
+
+export function transform(raw: string, page: DocPage, locale: Locale, sha: string) {
+  const from = page.sources[locale]
   const lines = raw.split("\n")
 
   const heading = lines.findIndex((line) => line.startsWith("# "))
-  if (heading === -1) throw new Error(`${source.repo}/${source.from}: no H1 to use as the title`)
+  if (heading === -1) throw new Error(`${page.repo}/${from}: no H1 to use as the title`)
   const title = lines[heading].slice(2).trim()
 
   const body = lines
@@ -62,18 +68,21 @@ export function transform(raw: string, source: DocSource, sha: string) {
     // Quoted, because titles in these documents contain colons.
     `title: ${JSON.stringify(title)}`,
     "sidebar:",
-    `  order: ${source.order}`,
+    `  order: ${page.order}`,
     "---",
   ].join("\n")
 
-  const provenance = `*Synced from [\`${source.repo}@${sha.slice(0, 7)}\`](${GITHUB}/${source.repo}/blob/${sha}/${source.from}).*`
+  const provenance = `*Synced from [\`${page.repo}@${sha.slice(0, 7)}\`](${GITHUB}/${page.repo}/blob/${sha}/${from}).*`
 
-  return `${frontmatter}\n\n${convertAlerts(rewriteLinks(body, source, sha)).trim()}\n\n---\n\n${provenance}\n`
+  const rewritten = rewriteLinks(body, page, locale, sha)
+
+  return `${frontmatter}\n\n${convertAlerts(rewritten).trim()}\n\n---\n\n${provenance}\n`
 }
 
-// Both spellings occur in these documents:
+// Three spellings occur across the two languages:
 //   <p align="center"><a href="guide.en.md">English</a> | <a href="guide.zh.md">简体中文</a></p>
 //   **Language:** [English](release.en.md) | [中文](release.zh.md)
+//   **语言 / Language:** [中文](release.zh.md) | [English](release.en.md)
 function isLanguageLink(line: string) {
   if (!line.includes("English") || !line.includes("|")) return false
   return line.includes("中文")
@@ -85,8 +94,8 @@ function splitAnchor(target: string) {
   return [target.slice(0, hash), target.slice(hash)]
 }
 
-function rewriteLinks(body: string, source: DocSource, sha: string) {
-  const sourceDir = posix.dirname(source.from)
+function rewriteLinks(body: string, page: DocPage, locale: Locale, sha: string) {
+  const sourceDir = posix.dirname(page.sources[locale])
 
   return body.replace(/\]\(([^)\s]+)\)/g, (match, target: string) => {
     if (/^(https?:|mailto:|#)/.test(target)) return match
@@ -95,12 +104,10 @@ function rewriteLinks(body: string, source: DocSource, sha: string) {
     if (path === "") return match
 
     const resolved = posix.normalize(posix.join(sourceDir, path))
-    const published = sources.find(
-      (candidate) => candidate.repo === source.repo && candidate.from === resolved,
-    )
-    if (published) return `](/docs/${published.to}/${anchor})`
+    const route = routeFor(page.repo, locale, resolved)
+    if (route) return `](${route}${anchor})`
 
-    return `](${GITHUB}/${source.repo}/blob/${sha}/${resolved}${anchor})`
+    return `](${GITHUB}/${page.repo}/blob/${sha}/${resolved}${anchor})`
   })
 }
 
@@ -134,25 +141,29 @@ function convertAlerts(body: string) {
 
 const drifted: string[] = []
 
-for (const source of sources) {
-  const sha = await shaFor(source.repo)
-  const response = await fetch(`${RAW}/${source.repo}/${sha}/${source.from}`)
-  if (!response.ok) throw new Error(`${source.repo}/${source.from}: ${response.status}`)
+for (const page of pages) {
+  const sha = await shaFor(page.repo)
 
-  const output = transform(await response.text(), source, sha)
-  const target = join(OUT_ROOT, `${source.to}.md`)
-  const file = Bun.file(target)
-  const existing = (await file.exists()) ? await file.text() : ""
+  for (const locale of LOCALES) {
+    const from = page.sources[locale]
+    const response = await fetch(`${RAW}/${page.repo}/${sha}/${from}`)
+    if (!response.ok) throw new Error(`${page.repo}/${from}: ${response.status}`)
 
-  if (existing === output) continue
-  if (check) {
-    drifted.push(posix.relative(ROOT, target))
-    continue
+    const output = transform(await response.text(), page, locale, sha)
+    const target = outputPath(page, locale)
+    const file = Bun.file(target)
+    const existing = (await file.exists()) ? await file.text() : ""
+
+    if (existing === output) continue
+    if (check) {
+      drifted.push(posix.relative(ROOT, target))
+      continue
+    }
+
+    await mkdir(dirname(target), { recursive: true })
+    await Bun.write(target, output)
+    console.log(`wrote ${posix.relative(ROOT, target)}`)
   }
-
-  await mkdir(dirname(target), { recursive: true })
-  await Bun.write(target, output)
-  console.log(`wrote ${posix.relative(ROOT, target)}`)
 }
 
 if (drifted.length > 0) {

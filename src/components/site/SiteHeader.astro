@@ -1,21 +1,30 @@
 ---
 import MiaoMark from "./MiaoMark.astro"
+import { alternateFor, prefixFor, type Locale } from "../../i18n/routes"
 
+interface Props {
+  lang?: Locale
+}
+const { lang = "en" } = Astro.props
+
+const prefix = prefixFor(lang)
 const links = [
-  { href: "/miao", label: "miao" },
-  { href: "/mtty", label: "mtty" },
-  { href: "/docs/", label: "Docs" },
+  { href: `${prefix}/miao`, label: "miao" },
+  { href: `${prefix}/mtty`, label: "mtty" },
+  { href: `${prefix}/docs/`, label: lang === "en" ? "Docs" : "文档" },
 ]
 
 // Trailing slashes vary between the marketing routes and Starlight's, so
 // compare on a normalised path.
 const here = Astro.url.pathname.replace(/\/+$/, "") || "/"
 const isCurrent = (href: string) => here === href.replace(/\/+$/, "")
+
+const alternate = alternateFor(lang, Astro.url.pathname)
 ---
 
 <header class="site-header">
   <div class="wrap">
-    <a class="brand" href="/">
+    <a class="brand" href={prefix || "/"}>
       <MiaoMark size={24} />
       <span>mtty.dev</span>
     </a>
@@ -27,6 +36,9 @@ const isCurrent = (href: string) => here === href.replace(/\/+$/, "")
           </a>
         ))
       }
+      <a class="lang" href={alternate} hreflang={lang === "en" ? "zh-CN" : "en"}>
+        {lang === "en" ? "中文" : "English"}
+      </a>
     </nav>
   </div>
 </header>
@@ -64,6 +76,7 @@ const isCurrent = (href: string) => here === href.replace(/\/+$/, "")
 
   nav {
     display: flex;
+    align-items: center;
     gap: 22px;
     font-size: 0.925rem;
   }
@@ -80,5 +93,11 @@ const isCurrent = (href: string) => here === href.replace(/\/+$/, "")
   nav a[aria-current="page"] {
     color: var(--fg);
     font-weight: 600;
+  }
+
+  .lang {
+    padding-left: 22px;
+    border-left: 1px solid var(--border);
+    font-size: 0.875rem;
   }
 </style>

@@ -1,33 +1,51 @@
 ---
+import { prefixFor, type Locale } from "../../i18n/routes"
+
+interface Props {
+  lang?: Locale
+}
+const { lang = "en" } = Astro.props
+
+const prefix = prefixFor(lang)
 const year = new Date().getFullYear()
 
 const products = [
-  { href: "/miao", label: "miao — AI coding agent" },
-  { href: "/mtty", label: "mtty — terminal emulator" },
-  { href: "/docs/", label: "Documentation" },
+  { href: `${prefix}/miao`, label: lang === "en" ? "miao — AI coding agent" : "miao — AI 编程代理" },
+  { href: `${prefix}/mtty`, label: lang === "en" ? "mtty — terminal emulator" : "mtty — 终端模拟器" },
+  { href: `${prefix}/docs/`, label: lang === "en" ? "Documentation" : "文档" },
 ]
 
 const elsewhere = [
-  { href: "https://github.com/oxdingzg/miao", label: "miao on GitHub" },
-  { href: "https://github.com/oxdingzg/miao-term", label: "mtty on GitHub" },
+  { href: "https://github.com/oxdingzg/miao", label: lang === "en" ? "miao on GitHub" : "GitHub 上的 miao" },
+  { href: "https://github.com/oxdingzg/miao-term", label: lang === "en" ? "mtty on GitHub" : "GitHub 上的 mtty" },
 ]
 ---
 
 <footer class="site-footer">
   <div class="wrap">
     <div class="col">
-      <p class="head">Products</p>
+      <p class="head">{lang === "en" ? "Products" : "产品"}</p>
       {products.map((item) => <a href={item.href}>{item.label}</a>)}
     </div>
     <div class="col">
-      <p class="head">Source</p>
+      <p class="head">{lang === "en" ? "Source" : "源码"}</p>
       {elsewhere.map((item) => <a href={item.href}>{item.label}</a>)}
     </div>
     <div class="col note">
-      <p>
-        miao is an independent fork of <a href="https://github.com/anomalyco/opencode">opencode</a>,
-        which is MIT licensed. This site is not affiliated with or endorsed by that project.
-      </p>
+      {
+        lang === "en" ? (
+          <p>
+            miao is an independent fork of{" "}
+            <a href="https://github.com/anomalyco/opencode">opencode</a>, which is MIT
+            licensed. This site is not affiliated with or endorsed by that project.
+          </p>
+        ) : (
+          <p>
+            miao 是 <a href="https://github.com/anomalyco/opencode">opencode</a>{" "}
+            的独立分支，后者以 MIT 协议授权。本站与该上游项目无隶属关系，也未获其背书。
+          </p>
+        )
+      }
     </div>
   </div>
   <div class="wrap baseline">

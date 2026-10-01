@@ -1,0 +1,67 @@
+---
+import MarketingLayout from "../../layouts/MarketingLayout.astro"
+import MiaoMark from "../../components/site/MiaoMark.astro"
+import MttyMark from "../../components/site/MttyMark.astro"
+
+const products = [
+  {
+    href: "/zh/miao",
+    name: "miao",
+    kind: "AI 编程代理",
+    blurb:
+      "探索代码仓库、编辑代码、执行命令并自查结果 —— 用你自己选的模型，花费一目了然。",
+    meta: "TypeScript · MIT",
+    Mark: MiaoMark,
+  },
+  {
+    href: "/zh/mtty",
+    name: "mtty",
+    kind: "终端模拟器",
+    blurb:
+      "用 Rust 编写的快速、可嵌入的终端模拟器与引擎。GPU 渲染、跨平台，专为在窗格中运行代理而设计。",
+    meta: "Rust · Apache-2.0 · 开发预览",
+    Mark: MttyMark,
+  },
+]
+---
+
+<MarketingLayout
+  lang="zh"
+  title="mtty.dev — miao 与 mtty"
+  description="miao 是面向终端的开源 AI 编程代理。mtty 是用 Rust 编写的快速、可嵌入的终端模拟器与引擎。"
+>
+  <section class="hero wrap">
+    <h1>为终端而生的两个工具。</h1>
+    <p class="lede">
+      一个替你干活的代理，一个为运行它而造的终端。二者相互独立 ——
+      可以单独使用任意一个，也可以让它们互相通信。
+    </p>
+  </section>
+
+  <section class="wrap">
+    <ul class="cards">
+      {
+        products.map(({ href, name, kind, blurb, meta, Mark }) => (
+          <li>
+            <a href={href}>
+              <Mark size={36} />
+              <span class="kind">{kind}</span>
+              <span class="name">{name}</span>
+              <span class="blurb">{blurb}</span>
+              <span class="meta">{meta}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section class="wrap together">
+    <h2>配合更好，但互不依赖</h2>
+    <p>
+      mtty 给每个窗格一个身份，miao 上报自己正在做什么 —— 空闲、处理中、等待你输入，
+      还是失败。终端据此为窗格加上徽章并弹出通知，让你能同时盯住多个代理，
+      不必逐个窗口去读。终端从不依赖代理：没有任务上报时，它就只是一个终端。
+    </p>
+  </section>
+</MarketingLayout>

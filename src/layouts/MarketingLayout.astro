@@ -1,29 +1,39 @@
 ---
 import "../styles/tokens.css"
+import "../styles/marketing.css"
 import SiteHeader from "../components/site/SiteHeader.astro"
 import SiteFooter from "../components/site/SiteFooter.astro"
+import { alternateFor, type Locale } from "../i18n/routes"
 
 interface Props {
   title: string
   description: string
+  lang?: Locale
 }
-const { title, description } = Astro.props
+const { title, description, lang = "en" } = Astro.props
+
 const canonical = new URL(Astro.url.pathname, Astro.site)
+const alternate = new URL(alternateFor(lang, Astro.url.pathname), Astro.site)
+const htmlLang = lang === "en" ? "en" : "zh-CN"
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={htmlLang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang={htmlLang} href={canonical} />
+    <link rel="alternate" hreflang={lang === "en" ? "zh-CN" : "en"} href={alternate} />
+    <link rel="alternate" hreflang="x-default" href={lang === "en" ? canonical : alternate} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={lang === "en" ? "en_US" : "zh_CN"} />
     <script is:inline>
       // Mirror Starlight's stored preference so a reader who picks a theme in
       // the docs keeps it on the marketing pages. Runs before paint.
@@ -36,11 +46,11 @@ const canonical = new URL(Astro.url.pathname, Astro.site)
     </script>
   </head>
   <body>
-    <SiteHeader />
+    <SiteHeader lang={lang} />
     <main>
       <slot />
     </main>
-    <SiteFooter />
+    <SiteFooter lang={lang} />
   </body>
 </html>
 

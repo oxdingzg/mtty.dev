@@ -39,7 +39,7 @@ const features = [
       <MttyMark size={44} />
       <h1>mtty</h1>
     </div>
-    <p class="tagline">A fast, embeddable, cross-platform terminal emulator and engine, written in Rust.</p>
+    <p class="tagline warm">A fast, embeddable, cross-platform terminal emulator and engine, written in Rust.</p>
     <p class="lede">
       A terminal engine with no windowing or GPU code in it, and a full application built
       on top — tabs, splits, side panels, shell integration and a scriptable control
@@ -76,107 +76,3 @@ const features = [
     <a class="link" href="/docs/mtty/">Documentation</a>
   </section>
 </MarketingLayout>
-
-<style>
-  .hero {
-    padding: 88px 0 40px;
-    max-width: 760px;
-  }
-
-  .title {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-  }
-
-  h1 {
-    font-family: var(--font-mono);
-    font-size: clamp(2.2rem, 5vw, 3rem);
-    margin: 0;
-  }
-
-  .tagline {
-    color: var(--mtty-accent);
-    font-size: 1.1rem;
-    margin: 18px 0 12px;
-  }
-
-  .lede {
-    font-size: 1.075rem;
-    color: var(--fg-muted);
-    margin: 0;
-  }
-
-  h2 {
-    font-size: 1.3rem;
-    margin: 0 0 16px;
-  }
-
-  section + section {
-    margin-top: 56px;
-  }
-
-  .preview {
-    border: 1px solid var(--border);
-    border-left: 3px solid var(--mtty-warm);
-    border-radius: var(--radius);
-    background: var(--surface);
-    padding: 16px 18px;
-    color: var(--fg-muted);
-  }
-
-  .preview strong {
-    color: var(--fg);
-  }
-
-  .note {
-    color: var(--fg-faint);
-    font-size: 0.9rem;
-    margin: 12px 0 0;
-  }
-
-  .features {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 24px 32px;
-  }
-
-  .features h3 {
-    font-size: 1rem;
-    margin: 0 0 6px;
-  }
-
-  .features p {
-    color: var(--fg-muted);
-    font-size: 0.925rem;
-    margin: 0;
-  }
-
-  .cta {
-    display: flex;
-    align-items: center;
-    gap: 24px;
-    flex-wrap: wrap;
-  }
-
-  .button {
-    display: inline-block;
-    padding: 11px 20px;
-    border-radius: var(--radius);
-    background: var(--accent);
-    color: var(--accent-contrast);
-    font-weight: 600;
-    text-decoration: none;
-  }
-
-  .link {
-    color: var(--fg-muted);
-  }
-
-  .link:hover {
-    color: var(--fg);
-  }
-</style>

@@ -1,0 +1,201 @@
+/* Styles for the marketing pages.
+ *
+ * Loaded by MarketingLayout, which the Starlight documentation pages do not
+ * use, so the bare element selectors here (h1, h2, pre, code) never reach the
+ * docs and cannot fight Starlight's own typography.
+ */
+
+.hero {
+  padding: 88px 0 48px;
+  max-width: 780px;
+}
+
+.hero h1 {
+  margin: 0 0 20px;
+  font-size: clamp(2.1rem, 5vw, 3.05rem);
+}
+
+/* Product pages put the mark next to a monospace wordmark. */
+.title {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.title h1 {
+  font-family: var(--font-mono);
+  margin: 0;
+}
+
+.tagline {
+  color: var(--accent);
+  font-size: 1.1rem;
+  margin: 18px 0 12px;
+}
+
+.tagline.warm {
+  color: var(--mtty-accent);
+}
+
+.lede {
+  font-size: 1.075rem;
+  color: var(--fg-muted);
+  margin: 0;
+}
+
+h2 {
+  font-size: 1.3rem;
+  margin: 0 0 16px;
+}
+
+section + section {
+  margin-top: 64px;
+}
+
+pre {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  line-height: 1.7;
+  margin: 0 0 12px;
+}
+
+code {
+  font-family: var(--font-mono);
+}
+
+.note {
+  color: var(--fg-faint);
+  font-size: 0.9rem;
+  margin: 12px 0 0;
+}
+
+/* Product cards on the overview page. */
+.cards {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.cards a {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 100%;
+  padding: 28px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  text-decoration: none;
+  transition: border-color 120ms ease, transform 120ms ease;
+}
+
+.cards a:hover {
+  border-color: var(--border-strong);
+  transform: translateY(-2px);
+}
+
+.kind {
+  color: var(--fg-faint);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-top: 6px;
+}
+
+.name {
+  font-family: var(--font-mono);
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.blurb {
+  color: var(--fg-muted);
+}
+
+.meta {
+  color: var(--fg-faint);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  margin-top: auto;
+  padding-top: 12px;
+}
+
+.together {
+  max-width: 720px;
+  padding-top: 72px;
+}
+
+.together h2 {
+  margin-bottom: 12px;
+}
+
+.together p {
+  color: var(--fg-muted);
+  margin: 0;
+}
+
+.features {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px 32px;
+}
+
+.features h3 {
+  font-size: 1rem;
+  margin: 0 0 6px;
+}
+
+.features p {
+  color: var(--fg-muted);
+  font-size: 0.925rem;
+  margin: 0;
+}
+
+.preview {
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--mtty-warm);
+  border-radius: var(--radius);
+  background: var(--surface);
+  padding: 16px 18px;
+  color: var(--fg-muted);
+}
+
+.preview strong {
+  color: var(--fg);
+}
+
+.cta {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.button {
+  display: inline-block;
+  padding: 11px 20px;
+  border-radius: var(--radius);
+  background: var(--accent);
+  color: var(--accent-contrast);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.link {
+  color: var(--fg-muted);
+}
+
+.link:hover {
+  color: var(--fg);
+}

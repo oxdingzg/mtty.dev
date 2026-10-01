@@ -1,0 +1,80 @@
+---
+import MarketingLayout from "../../layouts/MarketingLayout.astro"
+import MiaoMark from "../../components/site/MiaoMark.astro"
+
+const features = [
+  {
+    title: "选择适合当前任务的模型",
+    body: "多个服务商共用一套界面，会话内即可切换模型，专用代理各自拥有自己的模型与权限。",
+  },
+  {
+    title: "让长任务持续推进",
+    body: "代理工作时你也能补充要求。它会在执行前落盘，并在安全的轮次边界并入，让你细化任务，而不是从头再来。",
+  },
+  {
+    title: "给协作独立的上下文",
+    body: "把有边界的任务委派给子代理，之后还能回到那个会话。代理可以在项目内列出其他会话并给它们发消息，受权限约束。",
+  },
+  {
+    title: "看清 token 花在哪里",
+    body: "逐轮用量、成本估算、首 token 耗时与提示缓存遥测。Context Epoch 在上下文变化时保持可缓存前缀仍然可复用。",
+  },
+  {
+    title: "留下可以继续的记录",
+    body: "持久化的提示接收与事件驱动的历史。会话可以列出、重开、分叉和导出，而不是把每个窗口当成一次性对话。",
+  },
+  {
+    title: "接入你自己的工具",
+    body: "本地与远程 MCP 服务器、自定义命令、技能与插件 —— 外加 HTTP 服务端和生成的客户端，方便在其上继续构建。",
+  },
+]
+---
+
+<MarketingLayout
+  lang="zh"
+  title="miao — 面向终端的 AI 编程代理"
+  description="miao 是开源 AI 编程代理，能探索代码仓库、编辑代码、执行命令并自查结果 —— 模型由你选择。"
+>
+  <section class="hero wrap">
+    <div class="title">
+      <MiaoMark size={44} />
+      <h1>miao</h1>
+    </div>
+    <p class="tagline">你的模型。你的工作流。更少的上下文浪费。</p>
+    <p class="lede">
+      为想把活真正干完、也想看清成本的开发者准备的开源 AI 编程代理。让它探索代码仓库、
+      编辑代码、执行命令并自查结果 —— 就在你的终端里。
+    </p>
+  </section>
+
+  <section class="wrap">
+    <h2>安装</h2>
+    <pre><code>curl -fsSL https://raw.githubusercontent.com/oxdingzg/miao/main/install | bash</code></pre>
+    <pre><code>miao providers login          # 连接模型服务商
+cd /path/to/project
+miao                          # 启动终端界面</code></pre>
+    <p class="note">
+      文档覆盖的平台是 macOS 与 Linux；Windows 也有构建版本。
+      <code>ctrl+p</code> 打开命令面板，<code>ctrl+x m</code> 选择模型。
+    </p>
+  </section>
+
+  <section class="wrap">
+    <h2>它关注什么</h2>
+    <ul class="features">
+      {
+        features.map((feature) => (
+          <li>
+            <h3>{feature.title}</h3>
+            <p>{feature.body}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section class="wrap cta">
+    <a class="button" href="/zh/docs/miao/">阅读文档</a>
+    <a class="link" href="https://github.com/oxdingzg/miao">GitHub 源码</a>
+  </section>
+</MarketingLayout>
