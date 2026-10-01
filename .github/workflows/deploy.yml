@@ -26,6 +26,21 @@ jobs:
 
       - run: bun install --frozen-lockfile
 
+      # Attribution is the only place "opencode" belongs in hand-written code.
+      # Every asset here is drawn from this repository's own source, so a hit
+      # outside the notice means an upstream file was copied in. src/content/
+      # is excluded on purpose: those pages are synced from the product
+      # repositories and name opencode throughout, legitimately.
+      - name: Guard against reused upstream assets
+        run: |
+          grep -rl opencode src/components src/pages src/layouts src/styles \
+            | grep -v 'SiteFooter.astro' > /tmp/hits || true
+          if [ -s /tmp/hits ]; then
+            echo "::error::opencode appears outside the attribution notice:"
+            cat /tmp/hits
+            exit 1
+          fi
+
       - run: bun run check
 
       - run: bun run build

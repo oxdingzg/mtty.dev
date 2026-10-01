@@ -1,0 +1,67 @@
+name: docs-drift
+
+# The documentation under src/content/ is copied out of the product repositories
+# by scripts/sync-docs.ts. Both products ship often, so the copy goes stale on
+# its own. This opens a tracking issue rather than failing a build, because a
+# stale page is not a reason to block a deploy.
+on:
+  schedule:
+    - cron: "17 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+
+      - run: bun install --frozen-lockfile
+
+      - id: drift
+        run: bun scripts/sync-docs.ts --check
+        continue-on-error: true
+
+      - if: steps.drift.outcome == 'failure'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = "Documentation has drifted from the product repositories"
+            const body = [
+              "`bun scripts/sync-docs.ts --check` reports that the committed pages no longer match upstream.",
+              "",
+              "Run `bun run sync:docs` locally and commit the result.",
+              "",
+              `[Run log](${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId})`,
+            ].join("\n")
+
+            // One issue, commented on weekly, rather than a new one every Monday.
+            const open = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: "open",
+              labels: "docs-drift",
+            })
+
+            if (open.data.length > 0) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: open.data[0].number,
+                body: `Still drifting as of ${new Date().toISOString().slice(0, 10)}.`,
+              })
+              return
+            }
+
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title,
+              body,
+              labels: ["docs-drift"],
+            })
