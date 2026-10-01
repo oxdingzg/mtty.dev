@@ -1,0 +1,937 @@
+---
+// The home page, in both languages. The copy for each language sits side by
+// side so a change to one is visibly a change to the other.
+import MarketingLayout from "../../layouts/MarketingLayout.astro"
+import CopyCommand from "../site/CopyCommand.astro"
+import MiaoMark from "../site/MiaoMark.astro"
+import MttyMark from "../site/MttyMark.astro"
+import { prefixFor, type Locale } from "../../i18n/routes"
+
+interface Props {
+  lang: Locale
+}
+const { lang } = Astro.props
+const prefix = prefixFor(lang)
+
+const INSTALL = "curl -fsSL https://mtty.dev/miao/install | bash"
+const RELEASES = "https://github.com/oxdingzg/miao-term/releases/latest"
+
+const copy = {
+  en: {
+    title: "mtty.dev — miao, an AI coding agent, and mtty, a terminal in Rust",
+    description:
+      "miao is an open-source AI coding agent for the terminal: your models, steerable long tasks, visible cost. mtty is a fast, embeddable, GPU-rendered terminal emulator written in Rust.",
+    kicker: "Two open-source tools for the terminal",
+    h1a: "An agent that does the work.",
+    h1b: "A terminal that keeps watch.",
+    lede: [
+      "<strong>miao</strong> reads a repository, edits code, runs commands and checks its own work — with the models you choose and a running tally of what each turn costs.",
+      "<strong>mtty</strong> is a GPU-rendered terminal written in Rust that knows when the agent in a pane is working, waiting on you, or done.",
+    ],
+    installHead: "Install miao",
+    installMeta: "macOS · Linux",
+    downloadHead: "Get mtty",
+    download: "Download the preview",
+    downloadMeta: "macOS · Linux · Windows — pre-release",
+    copyLabel: "Copy command",
+    shotMtty: "mtty with three session tabs, a session sidebar, and a coloured git log in the active pane.",
+    shotMiao: "miao, having listed every place in packages/core that spawns a subprocess, with its input box below.",
+    capMtty: "mtty, showing its own git history",
+    capMiao: "miao, answering a question about its own code",
+    productsLabel: "the products",
+    productsH: "Use either one. They are separate projects.",
+    miaoKind: "AI coding agent",
+    miaoH: "Your models. Your workflow. Less wasted context.",
+    miaoPoints: [
+      ["Steer a running task", "Add a requirement mid-task. It is saved first, then folded in at the next safe turn boundary."],
+      ["Delegate with its own context", "Hand scoped work to a subagent; sessions can find and message each other."],
+      ["See what every turn costs", "Tokens, estimated cost, time to first token and prompt-cache hits, per turn."],
+      ["Keep the record", "Sessions are durable: reopen, fork and export them instead of losing a window."],
+    ],
+    miaoMeta: "TypeScript · Rust accelerators · MIT",
+    miaoMore: "Explore miao",
+    mttyKind: "Terminal emulator",
+    mttyH: "A terminal engine, and the app built on it.",
+    mttyPoints: [
+      ["Rendered on the GPU", "A glyph-grid renderer on wgpu and glyphon; the hot path takes no locks and allocates nothing per frame."],
+      ["A workspace, not just a window", "Tabs, recursive splits, ⌘K Open Quickly, a details panel, a reader and editor."],
+      ["Aware of agents", "Pane badges, notifications, a sleep guard and a prompt queue driven by agent state."],
+      ["Embeddable", "The core owns PTY to screen and contains no windowing or GPU code."],
+    ],
+    mttyMeta: "Rust · Apache-2.0 · pre-release",
+    mttyMore: "Explore mtty",
+    togetherLabel: "better together",
+    togetherH: "Run four agents. Read none of their windows.",
+    togetherLede:
+      "Inside an mtty pane, miao reports its state over the terminal's control plane. mtty badges the pane, raises a notification when an agent needs you, keeps the machine awake while one is working, and sends your queued prompt the moment it goes idle.",
+    togetherFine:
+      "Neither needs the other. Outside mtty the report is a no-op; with no agent reporting, mtty is simply a terminal. mtty also ships state hooks for other agent CLIs.",
+    states: [
+      ["api", "processing", "Working through the todo list"],
+      ["web", "awaiting", "Asking permission to run a command"],
+      ["docs", "idle", "Done — your queued prompt goes next"],
+      ["migrate", "error", "The provider returned an error"],
+    ],
+    illus: "Illustration of the four states mtty understands",
+    flow: ["miao", "agent state", "mtty pane"],
+    honestLabel: "status",
+    honestH: "Early, moving fast, and plain about it.",
+    honest: [
+      ["Pre-1.0", "Both projects release often and change between versions. Release notes live on GitHub."],
+      ["Docs from the source", "The miao documentation here is synced from its repository, and every synced page names the commit it came from."],
+      ["Claims with caveats", "Benchmarks say what they measure. Features that are opt-in or experimental say so."],
+    ],
+    endH: "Start with one command.",
+    docs: "Read the docs",
+  },
+  zh: {
+    title: "mtty.dev — AI 编程代理 miao 与 Rust 终端 mtty",
+    description:
+      "miao 是在终端里运行的开源 AI 编程代理：模型由你选，长任务可中途调整，花费清清楚楚。mtty 是用 Rust 编写、GPU 渲染、可嵌入的终端模拟器。",
+    kicker: "两个面向终端的开源工具",
+    h1a: "一个替你干活的代理，",
+    h1b: "一个替你盯着的终端。",
+    lede: [
+      "<strong>miao</strong> 读仓库、改代码、跑命令、验证结果 —— 模型由你选，每一轮花了多少一目了然。",
+      "<strong>mtty</strong> 是用 Rust 编写、GPU 渲染的终端，它知道某个窗格里的代理正在干活、在等你确认，还是已经做完。",
+    ],
+    installHead: "安装 miao",
+    installMeta: "macOS · Linux",
+    downloadHead: "获取 mtty",
+    download: "下载预览版",
+    downloadMeta: "macOS · Linux · Windows —— 预发布",
+    copyLabel: "复制命令",
+    shotMtty: "mtty 打开了三个会话标签和一个会话侧栏，活动窗格里是一份带颜色的 git 日志。",
+    shotMiao: "miao 列出了 packages/core 中所有启动子进程的位置，下方是输入框。",
+    capMtty: "mtty，展示自己的提交历史",
+    capMiao: "miao，回答关于自身代码的问题",
+    productsLabel: "两个产品",
+    productsH: "任选其一，二者是独立的项目。",
+    miaoKind: "AI 编程代理",
+    miaoH: "模型由你选，工作持续推进，少浪费上下文。",
+    miaoPoints: [
+      ["运行中也能补充要求", "任务进行时追加约束：先持久化保存，再在下一个安全的轮次边界并入。"],
+      ["委派给独立上下文", "把范围明确的工作交给子代理；会话之间可以相互发现并发消息。"],
+      ["每一轮花了多少", "逐轮 token、估算费用、首 token 延迟与提示缓存命中。"],
+      ["工作记录留得住", "会话持久保存：可重新打开、分叉、导出，不随窗口消失。"],
+    ],
+    miaoMeta: "TypeScript · Rust 加速 · MIT",
+    miaoMore: "了解 miao",
+    mttyKind: "终端模拟器",
+    mttyH: "一个终端引擎，以及构建其上的应用。",
+    mttyPoints: [
+      ["GPU 渲染", "基于 wgpu 与 glyphon 的字形网格渲染；热路径不加锁、每帧零分配。"],
+      ["是工作台，不只是窗口", "标签、递归分屏、⌘K 快速打开、详情面板、阅读器与编辑器。"],
+      ["懂得代理", "窗格徽章、系统通知、防休眠与提示队列，都由代理状态驱动。"],
+      ["可嵌入", "内核负责从 PTY 到屏幕的全过程，不含任何窗口或 GPU 代码。"],
+    ],
+    mttyMeta: "Rust · Apache-2.0 · 预发布",
+    mttyMore: "了解 mtty",
+    togetherLabel: "配合使用",
+    togetherH: "同时跑四个代理，不用盯着任何一个窗口。",
+    togetherLede:
+      "在 mtty 的窗格里，miao 通过终端的控制面上报自己的状态。mtty 据此给窗格加上徽章，在代理需要你时弹出通知，在它工作时阻止电脑休眠，并在它空闲的那一刻发出你排队的提示。",
+    togetherFine:
+      "二者互不依赖。离开 mtty，上报就是空操作；没有代理上报时，mtty 就只是一个终端。mtty 也为其他代理 CLI 提供状态钩子。",
+    states: [
+      ["api", "processing", "正在推进待办清单"],
+      ["web", "awaiting", "请求执行命令的权限"],
+      ["docs", "idle", "已完成 —— 下一条排队提示即将发出"],
+      ["migrate", "error", "模型服务返回了错误"],
+    ],
+    illus: "示意：mtty 能识别的四种代理状态",
+    flow: ["miao", "代理状态", "mtty 窗格"],
+    honestLabel: "现状",
+    honestH: "还很早期，迭代很快，话说在明处。",
+    honest: [
+      ["1.0 之前", "两个项目都发布频繁，版本之间会有变化。发布说明在 GitHub 上。"],
+      ["文档出自源码", "本站的 miao 文档从其仓库同步而来，每一篇同步页面都注明来源提交。"],
+      ["说法带着边界", "基准测试写明测的是什么；可选或实验性的功能会直说。"],
+    ],
+    endH: "从一条命令开始。",
+    docs: "阅读文档",
+  },
+}[lang]
+---
+
+<MarketingLayout lang={lang} title={copy.title} description={copy.description}>
+  <section class="hero">
+    <div class="lattice" aria-hidden="true"></div>
+    <div class="glow g1" aria-hidden="true"></div>
+    <div class="glow g2" aria-hidden="true"></div>
+    <div class="wrap hero-grid">
+      <div class="hero-title">
+        <p class="label rise"><b>{copy.kicker}</b></p>
+        <h1 class="display h1 rise" style="--i:1">
+          {copy.h1a}<br /><em class="ramp">{copy.h1b}</em>
+        </h1>
+      </div>
+      <div class="hero-side">
+      <div class="hero-lede rise" style="--i:2">
+        {copy.lede.map((paragraph) => <p class="lede" set:html={paragraph} />)}
+      </div>
+      <div class="starts rise" style="--i:3">
+        <div class="start">
+          <p class="start-head">
+            <MiaoMark size={18} />
+            <span>{copy.installHead}</span>
+            <span class="start-meta">{copy.installMeta}</span>
+          </p>
+          <CopyCommand id="install-hero" command={INSTALL} label={copy.copyLabel} />
+        </div>
+        <div class="start">
+          <p class="start-head">
+            <MttyMark size={18} />
+            <span>{copy.downloadHead}</span>
+            <span class="start-meta">{copy.downloadMeta}</span>
+          </p>
+          <a class="btn dl" href={RELEASES}>
+            <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"
+              ><path
+                d="M8 2v8.5M4.5 7 8 10.5 11.5 7M3 13.5h10"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.6"
+                stroke-linecap="round"
+                stroke-linejoin="round"></path></svg
+            >
+            {copy.download}
+            <span class="arrow" aria-hidden="true">→</span>
+          </a>
+        </div>
+      </div>
+      </div>
+    </div>
+
+    <div class="wrap stage rise" style="--i:4">
+      <figure class="shot s-mtty">
+        <img
+          src="/shots/mtty.png"
+          width="1971"
+          height="950"
+          alt={copy.shotMtty}
+          fetchpriority="high"
+        />
+        <figcaption><span class="ink-mtty">●</span> {copy.capMtty}</figcaption>
+      </figure>
+      <figure class="shot s-miao">
+        <img src="/shots/miao.png" width="1199" height="1150" alt={copy.shotMiao} />
+        <figcaption><span class="ink-miao">●</span> {copy.capMiao}</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="wrap section" data-reveal>
+    <div class="section-head">
+      <p class="label"><b>01</b> {copy.productsLabel}</p>
+      <h2 class="display h2">{copy.productsH}</h2>
+    </div>
+    <div class="duo">
+      <a class="card c-miao" href={`${prefix}/miao`}>
+        <div class="card-top">
+          <MiaoMark size={40} />
+          <div>
+            <span class="card-name">miao</span>
+            <span class="card-kind">{copy.miaoKind}</span>
+          </div>
+        </div>
+        <h3 class="display h3">{copy.miaoH}</h3>
+        <dl class="points">
+          {
+            copy.miaoPoints.map(([term, detail]) => (
+              <div>
+                <dt>{term}</dt>
+                <dd>{detail}</dd>
+              </div>
+            ))
+          }
+        </dl>
+        <div class="card-foot">
+          <span class="card-meta">{copy.miaoMeta}</span>
+          <span class="more">{copy.miaoMore} <span class="arrow">→</span></span>
+        </div>
+      </a>
+      <a class="card c-mtty" href={`${prefix}/mtty`}>
+        <div class="card-top">
+          <MttyMark size={40} />
+          <div>
+            <span class="card-name">mtty</span>
+            <span class="card-kind">{copy.mttyKind}</span>
+          </div>
+        </div>
+        <h3 class="display h3">{copy.mttyH}</h3>
+        <dl class="points">
+          {
+            copy.mttyPoints.map(([term, detail]) => (
+              <div>
+                <dt>{term}</dt>
+                <dd>{detail}</dd>
+              </div>
+            ))
+          }
+        </dl>
+        <div class="card-foot">
+          <span class="card-meta">{copy.mttyMeta}</span>
+          <span class="more">{copy.mttyMore} <span class="arrow">→</span></span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <section class="wrap section together" data-reveal>
+    <div class="together-copy">
+      <p class="label"><b>02</b> {copy.togetherLabel}</p>
+      <h2 class="display h2">{copy.togetherH}</h2>
+      <p class="lede">{copy.togetherLede}</p>
+      <p class="fine">{copy.togetherFine}</p>
+    </div>
+    <div class="board panel" role="img" aria-label={copy.illus}>
+      <div class="board-bar" aria-hidden="true">
+        <MttyMark size={16} />
+        <span>mtty</span>
+      </div>
+      <ul class="panes" aria-hidden="true">
+        {
+          copy.states.map(([name, state, note]) => (
+            <li data-state={state}>
+              <span class="badge" />
+              <span class="pane-name">{name}</span>
+              <span class="pane-state">{state}</span>
+              <span class="pane-note">{note}</span>
+            </li>
+          ))
+        }
+      </ul>
+      <div class="wire" aria-hidden="true">
+        <span class="node n-miao">{copy.flow[0]}</span>
+        <span class="line"><span class="pulse"></span></span>
+        <span class="node">{copy.flow[1]}</span>
+        <span class="line"><span class="pulse"></span></span>
+        <span class="node n-mtty">{copy.flow[2]}</span>
+      </div>
+      <code class="board-cmd" aria-hidden="true"
+        >miaotty-cli state miao --state awaiting --pane $MIAOTTY_PANE_ID</code
+      >
+    </div>
+  </section>
+
+  <section class="wrap section" data-reveal>
+    <div class="section-head">
+      <p class="label"><b>03</b> {copy.honestLabel}</p>
+      <h2 class="display h2">{copy.honestH}</h2>
+    </div>
+    <ol class="honest">
+      {
+        copy.honest.map(([head, body], index) => (
+          <li>
+            <span class="n">0{index + 1}</span>
+            <h3>{head}</h3>
+            <p>{body}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <section class="wrap section end" data-reveal>
+    <h2 class="display h2">{copy.endH}</h2>
+    <CopyCommand id="install-end" command={INSTALL} label={copy.copyLabel} />
+    <div class="actions">
+      <a class="btn" href={`${prefix}/docs/`}>{copy.docs} <span class="arrow">→</span></a>
+      <a class="btn" href={RELEASES}>{copy.download} <span class="arrow">→</span></a>
+    </div>
+  </section>
+</MarketingLayout>
+
+<style>
+  .hero {
+    position: relative;
+    isolation: isolate;
+    overflow-x: clip;
+    padding-top: 96px;
+  }
+
+  .g1 {
+    width: 720px;
+    height: 520px;
+    left: -180px;
+    top: -200px;
+    background: var(--miao-1);
+  }
+
+  .g2 {
+    width: 680px;
+    height: 520px;
+    right: -220px;
+    top: 380px;
+    background: var(--mtty-accent);
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    gap: 48px 72px;
+    align-items: center;
+  }
+
+  .h1 {
+    margin-top: 6px;
+    max-width: 12ch;
+  }
+
+  /* Each Chinese clause stays on one line; a break inside a four-character
+     phrase reads as a mistake. */
+  :lang(zh-CN) .h1 {
+    max-width: none;
+    font-size: clamp(2rem, 4.3vw, 3.75rem);
+    white-space: nowrap;
+  }
+
+  .hero-lede {
+    display: grid;
+    gap: 18px;
+  }
+
+  .hero-lede .lede {
+    font-size: 1.06rem;
+  }
+
+  .starts {
+    display: grid;
+    gap: 18px;
+    margin-top: 32px;
+  }
+
+  .hero-side,
+  .start {
+    min-width: 0;
+  }
+
+  .start-head {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin: 0 0 10px;
+    font-size: 0.9rem;
+    font-weight: 550;
+  }
+
+  .start-meta {
+    margin-left: auto;
+    color: var(--fg-faint);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 400;
+  }
+
+  .dl {
+    width: 100%;
+    height: 50px;
+    justify-content: flex-start;
+    background: var(--surface);
+  }
+
+  .dl .arrow {
+    margin-left: auto;
+  }
+
+  /* Two real captures, overlapped: the terminal as the ground, the agent
+     sitting in front of it. */
+  .stage {
+    position: relative;
+    margin-top: 88px;
+    padding-bottom: 64px;
+  }
+
+  .s-mtty {
+    width: 80%;
+  }
+
+  .s-miao {
+    position: absolute;
+    right: var(--gutter);
+    bottom: 0;
+    width: 34%;
+  }
+
+  .s-miao img {
+    box-shadow: 0 50px 90px -30px rgb(0 0 0 / 0.95), 0 0 0 1px var(--border-strong);
+  }
+
+  :root[data-theme="light"] .s-miao img {
+    box-shadow: 0 40px 70px -34px rgb(40 30 10 / 0.45), 0 0 0 1px var(--border-strong);
+  }
+
+  .s-miao figcaption {
+    text-align: right;
+  }
+
+  /* --- Products --- */
+
+  .duo {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+  }
+
+  .card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    padding: 36px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    text-decoration: none;
+    transition: border-color 200ms ease, transform 200ms var(--ease);
+  }
+
+  .card::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto;
+    height: 2px;
+    background: var(--tone);
+    opacity: 0.8;
+  }
+
+  .card::after {
+    content: "";
+    position: absolute;
+    width: 360px;
+    height: 360px;
+    right: -160px;
+    top: -200px;
+    border-radius: 50%;
+    background: var(--tone);
+    filter: blur(80px);
+    opacity: 0.1;
+    transition: opacity 300ms ease;
+  }
+
+  .card:hover {
+    border-color: var(--border-strong);
+    transform: translateY(-3px);
+  }
+
+  .card:hover::after {
+    opacity: 0.2;
+  }
+
+  .c-miao {
+    --tone: var(--miao-ink);
+  }
+
+  .c-mtty {
+    --tone: var(--mtty-ink);
+  }
+
+  .card-top {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .card-top div {
+    display: grid;
+  }
+
+  .card-name {
+    font-family: var(--font-mono);
+    font-size: 1.25rem;
+    font-weight: 650;
+    letter-spacing: -0.02em;
+  }
+
+  .card-kind {
+    color: var(--tone);
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+  }
+
+  .card .h3 {
+    max-width: 18ch;
+  }
+
+  :lang(zh-CN) .card .h3 {
+    max-width: none;
+  }
+
+  .points {
+    display: grid;
+    gap: 0;
+    margin: 0;
+  }
+
+  .points div {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.4fr);
+    gap: 18px;
+    padding: 14px 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .points dt {
+    font-weight: 600;
+    font-size: 0.93rem;
+  }
+
+  .points dd {
+    margin: 0;
+    color: var(--fg-muted);
+    font-size: 0.91rem;
+  }
+
+  .card-foot {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .card-meta {
+    color: var(--fg-faint);
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+  }
+
+  /* --- Together --- */
+
+  .together {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 64px;
+    align-items: center;
+  }
+
+  .together-copy {
+    display: grid;
+    gap: 22px;
+  }
+
+  .together-copy .label {
+    margin: 0;
+  }
+
+  .board {
+    padding: 0;
+    overflow: hidden;
+    background: color-mix(in srgb, var(--mtty-tile) 55%, var(--surface));
+    border-color: var(--border-strong);
+  }
+
+  :root[data-theme="light"] .board {
+    background: #2b303b;
+    color: #e5e9f0;
+  }
+
+  .board-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    border-bottom: 1px solid rgb(255 255 255 / 0.07);
+    color: rgb(229 233 240 / 0.7);
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+  }
+
+  .panes {
+    list-style: none;
+    margin: 0;
+    padding: 8px;
+    display: grid;
+    gap: 4px;
+  }
+
+  .panes li {
+    display: grid;
+    grid-template-columns: 12px 76px 92px minmax(0, 1fr);
+    align-items: center;
+    gap: 12px;
+    padding: 12px 12px;
+    border-radius: 8px;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: #d8dee9;
+  }
+
+  .panes li[data-state="awaiting"] {
+    background: rgb(235 203 139 / 0.08);
+    box-shadow: inset 0 0 0 1px rgb(235 203 139 / 0.25);
+  }
+
+  .badge {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--c);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--c) 22%, transparent);
+  }
+
+  [data-state="processing"] {
+    --c: #88c0d0;
+  }
+
+  [data-state="awaiting"] {
+    --c: #ebcb8b;
+  }
+
+  [data-state="idle"] {
+    --c: #a3be8c;
+  }
+
+  [data-state="error"] {
+    --c: #bf616a;
+  }
+
+  [data-state="processing"] .badge {
+    animation: breathe 1.4s ease-in-out infinite;
+  }
+
+  [data-state="awaiting"] .badge {
+    animation: breathe 0.9s ease-in-out infinite;
+  }
+
+  @keyframes breathe {
+    50% {
+      box-shadow: 0 0 0 6px color-mix(in srgb, var(--c) 0%, transparent);
+    }
+  }
+
+  .pane-name {
+    color: #eceff4;
+    font-weight: 600;
+  }
+
+  .pane-state {
+    color: var(--c);
+  }
+
+  .pane-note {
+    color: rgb(216 222 233 / 0.6);
+    font-family: var(--font-sans);
+    font-size: 0.82rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .wire {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 12px 16px 0;
+    padding: 18px 0 4px;
+    border-top: 1px dashed rgb(255 255 255 / 0.1);
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    color: rgb(229 233 240 / 0.75);
+  }
+
+  .node {
+    padding: 4px 9px;
+    border: 1px solid rgb(255 255 255 / 0.14);
+    border-radius: 5px;
+    white-space: nowrap;
+  }
+
+  .n-miao {
+    color: var(--miao-2);
+    border-color: rgb(255 175 95 / 0.4);
+  }
+
+  .n-mtty {
+    color: var(--mtty-accent);
+    border-color: rgb(136 192 208 / 0.4);
+  }
+
+  .line {
+    position: relative;
+    flex: 1;
+    min-width: 12px;
+    height: 1px;
+    overflow: hidden;
+    background: rgb(255 255 255 / 0.16);
+  }
+
+  .pulse {
+    position: absolute;
+    top: 0;
+    left: -30%;
+    width: 30%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--miao-2), transparent);
+    animation: travel 2.4s linear infinite;
+  }
+
+  @keyframes travel {
+    to {
+      left: 100%;
+    }
+  }
+
+  .board-cmd {
+    display: block;
+    margin: 12px 16px 16px;
+    overflow-x: auto;
+    white-space: nowrap;
+    scrollbar-width: none;
+    color: rgb(216 222 233 / 0.5);
+    font-size: 0.72rem;
+  }
+
+  /* --- Status --- */
+
+  .honest {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border-top: 1px solid var(--border-strong);
+  }
+
+  .honest li {
+    padding: 26px 28px 8px 0;
+  }
+
+  .honest li + li {
+    padding-left: 28px;
+    border-left: 1px solid var(--border);
+  }
+
+  .honest .n {
+    color: var(--fg-faint);
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+  }
+
+  .honest h3 {
+    margin: 14px 0 8px;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 1.7rem;
+    line-height: 1.1;
+  }
+
+  .honest p {
+    margin: 0;
+    color: var(--fg-muted);
+  }
+
+  /* --- Closing --- */
+
+  .end {
+    display: grid;
+    justify-items: center;
+    gap: 28px;
+    text-align: center;
+  }
+
+  .end :global(.cmd) {
+    width: min(100%, 520px);
+    text-align: left;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .badge,
+    .pulse {
+      animation: none !important;
+    }
+  }
+
+  @media (max-width: 960px) {
+    .hero-grid,
+    .duo,
+    .together {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .together {
+      gap: 40px;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .hero {
+      padding-top: 56px;
+    }
+
+    .hero-grid {
+      gap: 28px;
+    }
+
+    .stage {
+      margin-top: 56px;
+      padding-bottom: 0;
+    }
+
+    .s-mtty {
+      width: 100%;
+    }
+
+    .s-mtty figcaption {
+      display: none;
+    }
+
+    .start-head {
+      flex-wrap: wrap;
+    }
+
+    .start-meta {
+      margin-left: 0;
+      flex-basis: 100%;
+    }
+
+    .s-miao {
+      position: relative;
+      right: auto;
+      width: 72%;
+      margin: -64px 0 0 auto;
+    }
+
+    .card {
+      padding: 26px 22px;
+    }
+
+    .points div {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 4px;
+    }
+
+    .panes li {
+      grid-template-columns: 10px 58px minmax(0, 1fr);
+      gap: 10px;
+    }
+
+    .pane-note {
+      grid-column: 2 / -1;
+      white-space: normal;
+    }
+
+    .wire {
+      font-size: 0.68rem;
+      gap: 6px;
+    }
+
+    .honest {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .honest li,
+    .honest li + li {
+      padding: 22px 0;
+      border-left: 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .honest li:first-child {
+      border-top: 0;
+    }
+  }
+</style>
