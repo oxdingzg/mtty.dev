@@ -1,5 +1,4 @@
 ---
-import MiaoMark from "./MiaoMark.astro"
 import { alternateFor, prefixFor, type Locale } from "../../i18n/routes"
 
 interface Props {
@@ -9,9 +8,9 @@ const { lang = "en" } = Astro.props
 
 const prefix = prefixFor(lang)
 const links = [
-  { href: `${prefix}/miao`, label: "miao" },
-  { href: `${prefix}/mtty`, label: "mtty" },
-  { href: `${prefix}/docs/`, label: lang === "en" ? "Docs" : "文档" },
+  { href: `${prefix}/miao`, label: "miao", tone: "miao" },
+  { href: `${prefix}/mtty`, label: "mtty", tone: "mtty" },
+  { href: `${prefix}/docs/`, label: lang === "en" ? "Docs" : "文档", tone: "" },
 ]
 
 // Trailing slashes vary between the marketing routes and Starlight's, so
@@ -23,81 +22,176 @@ const alternate = alternateFor(lang, Astro.url.pathname)
 ---
 
 <header class="site-header">
-  <div class="wrap">
-    <a class="brand" href={prefix || "/"}>
-      <MiaoMark size={24} />
-      <span>mtty.dev</span>
+  <div class="bar">
+    <a class="brand" href={prefix || "/"} aria-label="mtty.dev">
+      <span class="chev" aria-hidden="true">&gt;</span><span>mtty.dev</span><span
+        class="caret"
+        aria-hidden="true"></span>
     </a>
-    <nav>
+    <nav aria-label={lang === "en" ? "Primary" : "主导航"}>
       {
         links.map((link) => (
-          <a href={link.href} aria-current={isCurrent(link.href) ? "page" : undefined}>
+          <a
+            href={link.href}
+            data-tone={link.tone || undefined}
+            aria-current={isCurrent(link.href) ? "page" : undefined}
+          >
             {link.label}
           </a>
         ))
       }
-      <a class="lang" href={alternate} hreflang={lang === "en" ? "zh-CN" : "en"}>
-        {lang === "en" ? "中文" : "English"}
+      <a class="gh" href="https://github.com/oxdingzg" aria-label="GitHub">
+        <svg width="18" height="18" viewBox="0 0 16 16" aria-hidden="true"
+          ><path
+            fill="currentColor"
+            d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38v-1.33c-2.23.48-2.7-1.07-2.7-1.07-.36-.92-.89-1.17-.89-1.17-.73-.5.05-.49.05-.49.8.06 1.23.83 1.23.83.72 1.22 1.87.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.65-.89-3.65-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8Z"
+          ></path></svg
+        >
       </a>
+      <a class="lang" href={alternate} hreflang={lang === "en" ? "zh-CN" : "en"}>
+        {lang === "en" ? "中文" : "EN"}
+      </a>
+      <button
+        class="theme"
+        type="button"
+        data-theme-toggle
+        aria-label={lang === "en" ? "Switch light or dark theme" : "切换明暗主题"}
+      >
+        <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+          <circle cx="8" cy="8" r="6.25" fill="none" stroke="currentColor" stroke-width="1.5"
+          ></circle>
+          <path d="M8 1.75a6.25 6.25 0 0 1 0 12.5Z" fill="currentColor"></path>
+        </svg>
+      </button>
     </nav>
   </div>
 </header>
 
 <style>
   .site-header {
-    border-bottom: 1px solid var(--border);
-    background: color-mix(in srgb, var(--bg) 88%, transparent);
-    backdrop-filter: blur(8px);
     position: sticky;
     top: 0;
-    z-index: 10;
+    z-index: 20;
+    border-bottom: 1px solid var(--border);
+    background: color-mix(in srgb, var(--bg) 82%, transparent);
+    backdrop-filter: blur(12px) saturate(1.4);
   }
 
-  .wrap {
+  .bar {
     max-width: var(--maxw);
-    margin: 0 auto;
+    margin-inline: auto;
     padding: 0 var(--gutter);
-    height: 60px;
+    height: 56px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 24px;
+    gap: 16px;
   }
 
   .brand {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: 10px;
-    font-weight: 600;
-    letter-spacing: -0.01em;
+    gap: 7px;
     color: var(--fg);
     text-decoration: none;
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  .chev {
+    color: var(--mtty-ink);
+  }
+
+  .caret {
+    width: 0.55em;
+    height: 1.05em;
+    margin-left: 1px;
+    background: var(--miao-ink);
+    animation: blink 1.1s steps(1) infinite;
+  }
+
+  @keyframes blink {
+    50% {
+      opacity: 0;
+    }
   }
 
   nav {
     display: flex;
     align-items: center;
-    gap: 22px;
-    font-size: 0.925rem;
+    gap: 4px;
+    font-size: 0.9rem;
   }
 
-  nav a {
+  nav a,
+  .theme {
+    display: inline-flex;
+    align-items: center;
+    height: 32px;
+    padding: 0 10px;
+    border-radius: var(--radius);
     color: var(--fg-muted);
     text-decoration: none;
+    transition: color 120ms ease, background 120ms ease;
   }
 
-  nav a:hover {
+  nav a:hover,
+  .theme:hover {
     color: var(--fg);
+    background: var(--surface-raised);
+  }
+
+  nav a[data-tone] {
+    font-family: var(--font-mono);
+    font-size: 0.86rem;
   }
 
   nav a[aria-current="page"] {
     color: var(--fg);
-    font-weight: 600;
+  }
+
+  nav a[data-tone="miao"][aria-current="page"] {
+    color: var(--miao-ink);
+  }
+
+  nav a[data-tone="mtty"][aria-current="page"] {
+    color: var(--mtty-ink);
   }
 
   .lang {
-    padding-left: 22px;
-    border-left: 1px solid var(--border);
-    font-size: 0.875rem;
+    margin-left: 6px;
+    border-left: 1px solid var(--border) !important;
+    border-radius: 0 var(--radius) var(--radius) 0 !important;
+    font-size: 0.84rem;
+  }
+
+  .theme {
+    border: 0;
+    background: none;
+    cursor: pointer;
+    padding: 0 8px;
+  }
+
+  @media (max-width: 560px) {
+    .gh {
+      display: none !important;
+    }
+
+    nav a,
+    .theme {
+      padding: 0 7px;
+    }
+
+    .lang {
+      margin-left: 2px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .caret {
+      animation: none;
+    }
   }
 </style>

@@ -1,4 +1,8 @@
 ---
+import "@fontsource/instrument-serif/latin-400.css"
+import "@fontsource/instrument-serif/latin-400-italic.css"
+import "@fontsource-variable/instrument-sans/wght.css"
+import "@fontsource-variable/jetbrains-mono/wght.css"
 import "../styles/tokens.css"
 import "../styles/marketing.css"
 import SiteHeader from "../components/site/SiteHeader.astro"
@@ -35,6 +39,7 @@ const ogImage = new URL(`/og/${route === "" ? "home" : route}-${lang}.png`, Astr
     <link rel="alternate" hreflang={lang === "en" ? "zh-CN" : "en"} href={alternate} />
     <link rel="alternate" hreflang="x-default" href={lang === "en" ? canonical : alternate} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="theme-color" content="#0d0d0c" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
@@ -50,61 +55,25 @@ const ogImage = new URL(`/og/${route === "" ? "home" : route}-${lang}.png`, Astr
     <script is:inline>
       // Mirror Starlight's stored preference so a reader who picks a theme in
       // the docs keeps it on the marketing pages. Runs before paint.
-      const stored = localStorage.getItem("starlight-theme")
-      const preferred = window.matchMedia("(prefers-color-scheme: light)").matches
-        ? "light"
-        : "dark"
-      document.documentElement.dataset.theme =
-        stored === "light" || stored === "dark" ? stored : preferred
+      try {
+        const stored = localStorage.getItem("starlight-theme")
+        const preferred = window.matchMedia("(prefers-color-scheme: light)").matches
+          ? "light"
+          : "dark"
+        document.documentElement.dataset.theme =
+          stored === "light" || stored === "dark" ? stored : preferred
+      } catch {
+        document.documentElement.dataset.theme = "dark"
+      }
     </script>
   </head>
   <body>
+    <a class="skip" href="#main">{lang === "en" ? "Skip to content" : "跳到正文"}</a>
     <SiteHeader lang={lang} />
-    <main>
+    <main id="main">
       <slot />
     </main>
     <SiteFooter lang={lang} />
-    <script src="../scripts/reveal.ts"></script>
+    <script src="../scripts/site.ts"></script>
   </body>
 </html>
-
-<style is:global>
-  *,
-  *::before,
-  *::after {
-    box-sizing: border-box;
-  }
-
-  body {
-    margin: 0;
-    background: var(--bg);
-    color: var(--fg);
-    font-family: var(--font-sans);
-    line-height: 1.65;
-    -webkit-font-smoothing: antialiased;
-    /* The hero glow is wider than the text column. Clipping at the page edge
-       keeps it out of the horizontal scroll width without cutting a visible
-       edge into it, which clipping it to the column would. */
-    overflow-x: clip;
-  }
-
-  h1,
-  h2,
-  h3 {
-    line-height: 1.15;
-    letter-spacing: -0.02em;
-  }
-
-  a {
-    color: inherit;
-  }
-
-  /* margin-inline rather than `margin: 0 auto`: the shorthand also clears the
-     block margins, which silently cancelled the `section + section` spacing
-     below, and it ties on specificity with any per-section rule. */
-  .wrap {
-    max-width: var(--maxw);
-    margin-inline: auto;
-    padding: 0 var(--gutter);
-  }
-</style>

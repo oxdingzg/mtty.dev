@@ -1,66 +1,85 @@
 /* Brand tokens for mtty.dev.
  *
- * Two products share this site, so the chrome stays neutral and each product
- * brings its own palette. Both palettes are sampled from committed source
+ * Two products share this site, so the chrome stays a neutral warm ink and each
+ * product brings its own accent. Both accents are sampled from committed source
  * rather than invented:
  *
  *   miao — miao/install, the banner gradient (ANSI 210/209/215/221/226)
  *   mtty — miao-term/scripts/make-icon.py, the app icon (Nord0/Nord8/Nord13)
+ *
+ * Type: Instrument Serif for display, Instrument Sans for running text, and
+ * JetBrains Mono — the terminal's own default face (miao-term
+ * docs/config.example.toml) — for everything that is a command or a name.
+ * Chinese falls back to a serif for headings and the system sans for text, so
+ * the two scripts keep the same contrast between display and body.
  */
 
 :root {
-  /* miao — warm. Used for the cat mark and the wordmark gradient. */
   --miao-cat: #ff87af;
   --miao-1: #ff875f;
   --miao-2: #ffaf5f;
   --miao-3: #ffd75f;
   --miao-4: #ffff5f;
 
-  /* mtty — Nord. The icon draws a chevron in Nord8 on a Nord0 tile with a
-     Nord13 cursor block. */
   --mtty-tile: #2e3440;
   --mtty-accent: #88c0d0;
   --mtty-warm: #ebcb8b;
 
-  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, "Noto Sans SC", sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
-    "Liberation Mono", monospace;
+  --font-display: "Instrument Serif", "Songti SC", "Noto Serif SC", "Source Han Serif SC",
+    Georgia, serif;
+  --font-sans: "Instrument Sans Variable", ui-sans-serif, system-ui, -apple-system,
+    "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono Variable", ui-monospace, SFMono-Regular, Menlo, Consolas,
+    "PingFang SC", monospace;
 
-  --radius: 8px;
-  --radius-lg: 14px;
-  --maxw: 1120px;
+  --radius: 6px;
+  --radius-lg: 12px;
+  --maxw: 1200px;
   --gutter: 24px;
+
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
 /* Dark is the default: both products are terminal software. The marketing
    layout mirrors Starlight's stored preference onto data-theme so a reader who
-   picks a theme in the docs keeps it on the home page. */
+   picks a theme in the docs keeps it on the marketing pages. */
 :root,
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --bg: #101216;
-  --surface: #171a21;
-  --surface-raised: #1d212a;
-  --border: #262b35;
-  --border-strong: #353c4a;
-  --fg: #e7eaf0;
-  --fg-muted: #9ba4b3;
-  --fg-faint: #6d7686;
+  --bg: #0d0d0c;
+  --bg-tint: #11110f;
+  --surface: #151513;
+  --surface-raised: #1c1c19;
+  --border: #252420;
+  --border-strong: #3a3832;
+  --fg: #eeede7;
+  --fg-muted: #a6a49b;
+  --fg-faint: #75736b;
   --accent: var(--miao-2);
   --accent-contrast: #1a1207;
+  --miao-ink: var(--miao-2);
+  --mtty-ink: var(--mtty-accent);
+  --dot: rgb(255 255 255 / 0.07);
+  --shadow: 0 50px 100px -40px rgb(0 0 0 / 0.9), 0 0 0 1px rgb(255 255 255 / 0.06);
 }
 
 :root[data-theme="light"] {
   color-scheme: light;
-  --bg: #ffffff;
-  --surface: #f7f8fa;
-  --surface-raised: #eef0f4;
-  --border: #e2e5ea;
-  --border-strong: #cbd1da;
-  --fg: #14171d;
-  --fg-muted: #5a6372;
-  --fg-faint: #858e9d;
-  --accent: #d9741f;
+  --bg: #f5f4ef;
+  --bg-tint: #efede6;
+  --surface: #fbfaf7;
+  --surface-raised: #ffffff;
+  --border: #e1ded5;
+  --border-strong: #c9c5b9;
+  --fg: #161512;
+  --fg-muted: #57544c;
+  --fg-faint: #8a867b;
+  --accent: #c85a1c;
   --accent-contrast: #ffffff;
+  /* The banner colours are tuned for a dark terminal and wash out on paper, so
+     light mode inks them darker rather than switching hue. */
+  --miao-ink: #c2581c;
+  --mtty-ink: #3f7f92;
+  --dot: rgb(0 0 0 / 0.07);
+  --shadow: 0 40px 80px -40px rgb(40 30 10 / 0.35), 0 0 0 1px rgb(0 0 0 / 0.08);
 }

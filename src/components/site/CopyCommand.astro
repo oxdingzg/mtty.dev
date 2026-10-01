@@ -1,0 +1,96 @@
+---
+// One shell command with a copy button. The button stays hidden until the
+// script confirms the Clipboard API exists, so a page without JavaScript shows
+// a plain, selectable command rather than a dead control.
+interface Props {
+  id: string
+  command: string
+  tone?: "miao" | "mtty"
+  label?: string
+}
+const { id, command, tone = "miao", label = "Copy" } = Astro.props
+---
+
+<div class="cmd" data-tone={tone}>
+  <span class="prompt" aria-hidden="true">$</span>
+  <code id={id}>{command}</code>
+  <button type="button" data-copy={id} aria-label={label} hidden>
+    <svg class="i-copy" width="15" height="15" viewBox="0 0 16 16" aria-hidden="true"
+      ><rect x="5" y="5" width="9" height="9" rx="1.5" fill="none" stroke="currentColor"
+        stroke-width="1.4"></rect><path
+        d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.4"></path></svg
+    >
+    <svg class="i-done" width="15" height="15" viewBox="0 0 16 16" aria-hidden="true"
+      ><path d="m3 8.5 3 3 7-7" fill="none" stroke="currentColor" stroke-width="1.6"
+      ></path></svg
+    >
+  </button>
+</div>
+
+<style>
+  .cmd {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+    padding: 12px 10px 12px 16px;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius);
+    background: var(--surface);
+    font-family: var(--font-mono);
+    font-size: 0.84rem;
+  }
+
+  .prompt {
+    color: var(--miao-ink);
+    user-select: none;
+  }
+
+  [data-tone="mtty"] .prompt {
+    color: var(--mtty-ink);
+  }
+
+  code {
+    flex: 1;
+    min-width: 0;
+    overflow-x: auto;
+    white-space: nowrap;
+    scrollbar-width: none;
+    color: var(--fg);
+  }
+
+  button {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    border: 0;
+    border-radius: 4px;
+    background: transparent;
+    color: var(--fg-faint);
+    cursor: pointer;
+  }
+
+  button[hidden] {
+    display: none;
+  }
+
+  button:hover {
+    color: var(--fg);
+    background: var(--surface-raised);
+  }
+
+  .i-done,
+  button[data-state="copied"] .i-copy {
+    display: none;
+  }
+
+  button[data-state="copied"] .i-done {
+    display: block;
+    color: #8fd18f;
+  }
+</style>

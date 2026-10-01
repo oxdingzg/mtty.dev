@@ -7,33 +7,59 @@ interface Props {
 const { lang = "en" } = Astro.props
 
 const prefix = prefixFor(lang)
+const en = lang === "en"
 const year = new Date().getFullYear()
 
-const products = [
-  { href: `${prefix}/miao`, label: lang === "en" ? "miao — AI coding agent" : "miao — AI 编程代理" },
-  { href: `${prefix}/mtty`, label: lang === "en" ? "mtty — terminal emulator" : "mtty — 终端模拟器" },
-  { href: `${prefix}/docs/`, label: lang === "en" ? "Documentation" : "文档" },
-]
-
-const elsewhere = [
-  { href: "https://github.com/oxdingzg/miao", label: lang === "en" ? "miao on GitHub" : "GitHub 上的 miao" },
-  { href: "https://github.com/oxdingzg/miao-term", label: lang === "en" ? "mtty on GitHub" : "GitHub 上的 mtty" },
+const columns = [
+  {
+    head: "miao",
+    links: [
+      { href: `${prefix}/miao`, label: en ? "Overview" : "概览" },
+      { href: `${prefix}/docs/miao/guide/`, label: en ? "Guide" : "使用指南" },
+      {
+        href: `${prefix}/docs/miao/miao-vs-opencode/`,
+        label: en ? "Compared with opencode" : "与 opencode 对比",
+      },
+      { href: "https://github.com/oxdingzg/miao/releases", label: en ? "Releases" : "版本发布" },
+      { href: "https://github.com/oxdingzg/miao", label: "GitHub" },
+    ],
+  },
+  {
+    head: "mtty",
+    links: [
+      { href: `${prefix}/mtty`, label: en ? "Overview" : "概览" },
+      { href: `${prefix}/docs/mtty/`, label: en ? "Documentation" : "文档" },
+      {
+        href: "https://github.com/oxdingzg/miao-term/releases",
+        label: en ? "Downloads" : "下载",
+      },
+      { href: "https://github.com/oxdingzg/miao-term", label: "GitHub" },
+    ],
+  },
 ]
 ---
 
 <footer class="site-footer">
-  <div class="wrap">
-    <div class="col">
-      <p class="head">{lang === "en" ? "Products" : "产品"}</p>
-      {products.map((item) => <a href={item.href}>{item.label}</a>)}
+  <div class="inner">
+    <div class="sign">
+      <p class="mark"><span class="chev">&gt;</span> mtty.dev</p>
+      <p class="motto">
+        {en ? "An agent and a terminal, both open source." : "一个代理，一个终端，都是开源的。"}
+      </p>
     </div>
-    <div class="col">
-      <p class="head">{lang === "en" ? "Source" : "源码"}</p>
-      {elsewhere.map((item) => <a href={item.href}>{item.label}</a>)}
-    </div>
-    <div class="col note">
+    {
+      columns.map((column) => (
+        <div class="col">
+          <p class="head">{column.head}</p>
+          {column.links.map((item) => (
+            <a href={item.href}>{item.label}</a>
+          ))}
+        </div>
+      ))
+    }
+    <div class="note">
       {
-        lang === "en" ? (
+        en ? (
           <p>
             miao is an independent fork of{" "}
             <a href="https://github.com/anomalyco/opencode">opencode</a>, which is MIT
@@ -48,52 +74,60 @@ const elsewhere = [
       }
     </div>
   </div>
-  <div class="wrap baseline">
-    <span>© {year} mtty.dev</span>
+  <div class="inner">
+    <div class="baseline">
+      <span>© {year} mtty.dev</span>
+      <span>miao · MIT &nbsp;/&nbsp; mtty · Apache-2.0</span>
+    </div>
   </div>
 </footer>
 
 <style>
   .site-footer {
+    margin-top: 140px;
     border-top: 1px solid var(--border);
-    margin-top: 96px;
-    padding: 48px 0 32px;
+    background: var(--bg-tint);
+    padding: 56px 0 28px;
     font-size: 0.9rem;
   }
 
-  .wrap {
+  .inner {
     max-width: var(--maxw);
-    margin: 0 auto;
+    margin-inline: auto;
     padding: 0 var(--gutter);
-    display: flex;
-    gap: 48px;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr 1.6fr;
+    gap: 40px;
+  }
+
+  .mark {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-weight: 600;
+    color: var(--fg);
+  }
+
+  .chev {
+    color: var(--mtty-ink);
+  }
+
+  .motto {
+    margin: 10px 0 0;
+    color: var(--fg-faint);
+    max-width: 24ch;
   }
 
   .col {
     display: flex;
     flex-direction: column;
     gap: 8px;
-    min-width: 180px;
-  }
-
-  .note {
-    flex: 1 1 320px;
-    max-width: 420px;
-    color: var(--fg-faint);
-    line-height: 1.6;
-  }
-
-  .note p {
-    margin: 0;
   }
 
   .head {
     margin: 0 0 4px;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
     color: var(--fg-faint);
-    font-size: 0.78rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
   }
 
   a {
@@ -105,9 +139,39 @@ const elsewhere = [
     color: var(--fg);
   }
 
-  .baseline {
-    margin-top: 40px;
+  .note p {
+    margin: 0;
     color: var(--fg-faint);
-    display: block;
+    line-height: 1.6;
+  }
+
+  .note a {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .baseline {
+    grid-column: 1 / -1;
+    margin-top: 48px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+    color: var(--fg-faint);
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+  }
+
+  @media (max-width: 860px) {
+    .inner {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .sign,
+    .note {
+      grid-column: 1 / -1;
+    }
   }
 </style>
