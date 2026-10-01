@@ -7,6 +7,22 @@ Source for **[mtty.dev](https://mtty.dev)**, the site that documents two product
 | **miao** | An open-source AI coding agent for the terminal | [oxdingzg/miao](https://github.com/oxdingzg/miao) |
 | **mtty** | A fast, embeddable, cross-platform terminal emulator written in Rust | [oxdingzg/miao-term](https://github.com/oxdingzg/miao-term) |
 
+The two are separate projects; each works without the other. Inside an mtty pane, miao
+reports its state (working, waiting, done, error) to mtty, which badges the pane, notifies
+when an agent needs you and sends a queued prompt when it goes idle. The home page's
+"better together" section and both product pages describe this.
+
+| Route | What |
+| --- | --- |
+| [`/`](https://mtty.dev/) · [`/zh/`](https://mtty.dev/zh/) | Home: both products |
+| [`/miao`](https://mtty.dev/miao) · [`/mtty`](https://mtty.dev/mtty) | Product pages |
+| [`/docs/miao`](https://mtty.dev/docs/miao) · [`/docs/mtty`](https://mtty.dev/docs/mtty) | Documentation |
+| `/miao/install` | 302 to miao's install script (see `public/_redirects`) |
+
+[oxdingzg/miaotty](https://github.com/oxdingzg/miaotty) was a personal, temporary macOS
+prototype of the terminal (a Ghostty fork). It is not documented here; its README points to
+mtty.
+
 ## Layout
 
 Marketing pages are hand-written Astro. Each page lives once, in both languages, in
