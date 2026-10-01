@@ -175,6 +175,10 @@ const copy = {
         </p>
         <p class="pick-blurb">{copy.miaoBlurb}</p>
         <CopyCommand id="install-hero" command={INSTALL} label={copy.copyLabel} />
+        <figure class="shot s-miao">
+          <img src="/shots/miao.png" width="1199" height="1150" alt={copy.shotMiao} />
+          <figcaption><span class="ink-miao">●</span> {copy.capMiao}</figcaption>
+        </figure>
       </div>
       <div class="pick">
         <p class="pick-head">
@@ -197,25 +201,19 @@ const copy = {
           {copy.download}
           <span class="arrow" aria-hidden="true">→</span>
         </a>
+        <figure class="shot s-mtty">
+          <img
+            src="/shots/mtty.png"
+            width="1971"
+            height="950"
+            alt={copy.shotMtty}
+            fetchpriority="high"
+          />
+          <figcaption><span class="ink-mtty">●</span> {copy.capMtty}</figcaption>
+        </figure>
       </div>
     </div>
 
-    <div class="wrap stage rise" style="--i:4">
-      <figure class="shot s-mtty">
-        <img
-          src="/shots/mtty.png"
-          width="1971"
-          height="950"
-          alt={copy.shotMtty}
-          fetchpriority="high"
-        />
-        <figcaption><span class="ink-mtty">●</span> {copy.capMtty}</figcaption>
-      </figure>
-      <figure class="shot s-miao">
-        <img src="/shots/miao.png" width="1199" height="1150" alt={copy.shotMiao} />
-        <figcaption><span class="ink-miao">●</span> {copy.capMiao}</figcaption>
-      </figure>
-    </div>
   </section>
 
   <section class="wrap section" data-reveal>
@@ -404,7 +402,7 @@ const copy = {
 
   .pick {
     display: grid;
-    grid-template-rows: auto 1fr auto;
+    grid-template-rows: auto 1fr auto auto;
     gap: 12px;
     min-width: 0;
     padding-top: 20px;
@@ -458,35 +456,24 @@ const copy = {
     margin-left: auto;
   }
 
-  /* Two real captures, overlapped: the terminal as the ground, the agent
-     sitting in front of it. */
-  .stage {
-    position: relative;
-    margin-top: 72px;
-    padding-bottom: 56px;
+  /* Each product shows its own capture under its action, in one frame shape
+     so the two columns end level; the crop keeps each app's working area
+     (mtty's sidebar and terminal, miao's answer and prompt). */
+  .pick .shot {
+    margin-top: 28px;
   }
 
-  .s-mtty {
-    width: 80%;
+  .pick .shot img {
+    aspect-ratio: 5 / 4;
+    object-fit: cover;
   }
 
-  .s-miao {
-    position: absolute;
-    right: var(--gutter);
-    bottom: 0;
-    width: 34%;
+  .s-mtty img {
+    object-position: left top;
   }
 
   .s-miao img {
-    box-shadow: 0 50px 90px -30px rgb(0 0 0 / 0.95), 0 0 0 1px var(--border-strong);
-  }
-
-  :root[data-theme="light"] .s-miao img {
-    box-shadow: 0 40px 70px -34px rgb(40 30 10 / 0.45), 0 0 0 1px var(--border-strong);
-  }
-
-  .s-miao figcaption {
-    text-align: right;
+    object-position: center 30%;
   }
 
   /* --- Products --- */
@@ -896,27 +883,6 @@ const copy = {
       grid-template-columns: minmax(0, 1fr);
       gap: 32px;
       margin-top: 36px;
-    }
-
-    .stage {
-      margin-top: 56px;
-      padding-bottom: 0;
-    }
-
-    .s-mtty {
-      width: 100%;
-    }
-
-    .s-mtty figcaption {
-      display: none;
-    }
-
-
-    .s-miao {
-      position: relative;
-      right: auto;
-      width: 72%;
-      margin: -64px 0 0 auto;
     }
 
     .card {
