@@ -1,0 +1,773 @@
+---
+// The miao product page, in both languages. Claims follow the miao README and
+// its comparison document: opt-in and experimental features say so, and the
+// benchmarks carry the same caveats they carry upstream.
+import MarketingLayout from "../../layouts/MarketingLayout.astro"
+import CopyCommand from "../site/CopyCommand.astro"
+import MiaoMark from "../site/MiaoMark.astro"
+import { prefixFor, type Locale } from "../../i18n/routes"
+
+interface Props {
+  lang: Locale
+}
+const { lang } = Astro.props
+const prefix = prefixFor(lang)
+
+const INSTALL = "curl -fsSL https://mtty.dev/miao/install | bash"
+const REPO = "https://github.com/oxdingzg/miao"
+
+// Recorded same-machine release-build medians for isolated operations, from
+// the miao README. Each row's bars are scaled to its own TypeScript baseline,
+// so the bar length reads as the speedup rather than the absolute time.
+const bench = [
+  { op: { en: "Edit fuzzy match, 12k lines", zh: "编辑模糊匹配，12k 行" }, ts: 0.76, rs: 0.39, unit: "ms" },
+  { op: { en: "Patch Unicode normalization, 20k lines", zh: "补丁 Unicode 规范化，20k 行" }, ts: 13.06, rs: 5.21, unit: "ms" },
+  { op: { en: "Git status, 10 files", zh: "Git status，10 个文件" }, ts: 12.3, rs: 1.0, unit: "ms" },
+]
+
+const copy = {
+  en: {
+    title: "miao — an open-source AI coding agent for the terminal",
+    description:
+      "miao is an open-source AI coding agent: use the models you choose, steer long tasks while they run, delegate to subagents, and see the tokens and cost of every turn.",
+    kind: "AI coding agent",
+    h1a: "Your models. Your workflow.",
+    h1b: "Less wasted context.",
+    lede: "An open-source AI coding agent for developers who want to get real work done — and understand what it costs. Let it explore a repository, edit code, run commands and check its work, in your terminal.",
+    sub: "miao focuses on the engineering around the model: context efficiency, durable sessions, collaboration, and control over long-running work.",
+    copyLabel: "Copy command",
+    platforms: "macOS and Linux · Windows builds exist · MIT",
+    guide: "Read the guide",
+    source: "Source",
+    shot: "miao, having listed every place in packages/core that spawns a subprocess, with its input box below.",
+    cap: "Build agent · a question about the code, answered with a table of call sites",
+    steerLabel: "steer, don't restart",
+    steerH: "Add a requirement while it works.",
+    steerBody: [
+      "A new input is saved before execution is scheduled, then brought into the conversation at the next safe provider-turn boundary. The current tool call is not interrupted, and nothing is lost if you type faster than it thinks.",
+      "Explicitly queued inputs wait until the work would otherwise go idle — and promoting any new input resets the agent's turn allowance.",
+    ],
+    t1: "Find the cause of this failing test, fix it, run the relevant checks, and explain the diff.",
+    tWork: "working",
+    t2: "Preserve the public API and avoid new runtime dependencies.",
+    tSteer: "steer · saved, folds in at the next turn boundary",
+    tQueue: "queue · waits until the session would go idle",
+    t3: "Then open a draft PR description.",
+    whyLabel: "why miao",
+    whyH: "The engineering around the model.",
+    why: [
+      ["Choose the model that fits the work", "Several providers in one interface, model switching within a session, and specialist agents with their own models and permissions. Pick for reasoning quality, speed or price without rebuilding your workflow around one vendor."],
+      ["Give collaboration its own context", "Delegate a scoped task to a specialist subagent and continue that session later. With list_sessions and send_message, agents discover and message other sessions in the same project, subject to permissions."],
+      ["See where tokens and money go", "Per-turn usage, estimated cost, time to first token and prompt-cache telemetry. Context Epochs keep an immutable system-context baseline and admit changes chronologically, so cache prefixes stay reusable."],
+      ["Keep a record you can continue", "Durable prompt admission and an event-backed history. List, reopen, fork and export sessions. Large tool results are bounded in context, with the full output kept in a temporary file when available."],
+    ],
+    costNote: "Cost estimates use configured model rates; your provider's bill remains authoritative. Durable history does not mean automatic recovery after a crash — unfinished provider work needs an explicit resume.",
+    dailyLabel: "everyday engineering",
+    dailyH: "What it does on a normal day.",
+    dailyHead: ["What you need", "What miao provides"],
+    daily: [
+      ["Understand an unfamiliar repository", "File reading, search, project instructions, skills and specialist subagents"],
+      ["Implement and verify a change", "File edits and patches, shell commands, optional LSP diagnostics and formatting"],
+      ["Compare models without changing tools", "In-session model selection, provider configuration, per-agent models and reasoning variants where supported"],
+      ["Work through a larger task", "Todos, mid-task input, durable sessions and an opt-in autonomous continuation loop"],
+      ["Connect your own tools", "Local and remote MCP servers, custom commands, skills and plugins"],
+      ["Review and reuse work", "Diffs, session forks, history export and permission prompts"],
+      ["Integrate with another application", "HTTP server, browser UI, CLI automation, and generated clients in the workspace"],
+    ],
+    loopLabel: "longer tasks, with limits",
+    loopH: "Let it keep going, inside a budget.",
+    loopBody: "The autonomous loop is opt-in. It continues while todos remain open, guarded by an iteration cap and stall detection. A cost budget stops scheduling further provider turns once the estimated session cost reaches the threshold.",
+    loopFine: "The budget is not a hard cap on a provider bill or on a turn already in flight. Put this in .miao/miao.jsonc for one project, or ~/.config/miao/miao.jsonc for all of them.",
+    benchLabel: "measured",
+    benchH: "Rust where the CPU work is.",
+    benchBody: "miao includes Rust accelerators, benchmarked against this repository's earlier TypeScript implementation. Recorded on one machine, release builds, medians.",
+    benchFine: "Component benchmarks — not end-to-end task speedups, and not a comparison with any current upstream release. Native edit and patch belong to the compatibility tool path; in-process Git is a prototype and not the default.",
+    statusLabel: "status",
+    statusH: "Pre-1.0, and specific about it.",
+    statusHead: ["Capability", "Availability"],
+    status: [
+      ["Durable sessions, prompt admission, Context Epochs, project-local session messaging", "Implemented", "ok"],
+      ["Autonomous continuation, cost budgets, pruning and compaction tuning", "Opt-in", "opt"],
+      ["Code Mode", "Experimental", ""],
+      ["Native edit/patch and the kernel sandbox", "Compatibility runtime", ""],
+      ["Generated clients and the embedded host", "Evolving API", ""],
+    ],
+    startLabel: "quick start",
+    startH: "Three commands to a first session.",
+    startFine: "Inside the TUI, <kbd>ctrl+p</kbd> opens the command palette and <kbd>ctrl+x m</kbd> picks a model. <code>miao models</code> lists what is available.",
+    c1: "choose a provider, connect an account or API key",
+    c2: "start the terminal UI",
+    c3: "one-shot, without the TUI",
+    c4: "the browser interface",
+    c5: "update the release binary",
+    endH: "Bring your own model. Keep your terminal.",
+    docs: "Documentation",
+    releases: "Releases",
+  },
+  zh: {
+    title: "miao — 在终端里运行的开源 AI 编程代理",
+    description:
+      "miao 是开源 AI 编程代理：模型由你选，长任务运行中也能补充要求，可委派子代理，每一轮的 token 与费用都看得见。",
+    kind: "AI 编程代理",
+    h1a: "模型由你选，工作持续推进，",
+    h1b: "少浪费上下文。",
+    lede: "miao 是一个开源 AI 编程代理，让你在终端里完成真实工程任务，也看清任务消耗了多少时间和费用。使用你选择的模型，让代理理解仓库、修改代码、执行命令并验证结果。",
+    sub: "miao 把重点放在模型周围的工程能力上：上下文效率、持久化会话、代理协作，以及长任务的执行控制。",
+    copyLabel: "复制命令",
+    platforms: "macOS 与 Linux · Windows 已有构建 · MIT",
+    guide: "阅读使用指南",
+    source: "源码",
+    shot: "miao 列出了 packages/core 中所有启动子进程的位置，下方是输入框。",
+    cap: "Build 代理 · 回答关于代码的问题，用表格列出调用位置",
+    steerLabel: "中途调整，不必重来",
+    steerH: "它在干活时，你仍然可以补充要求。",
+    steerBody: [
+      "新输入会先持久化保存，再调度执行，在下一个安全的模型轮次边界带入会话。当前的工具调用不会被打断，你打字比它思考还快也不会丢。",
+      "显式排队的输入会等到当前工作即将空闲时再处理；任何新输入被采纳后，代理的轮次额度都会重置。",
+    ],
+    t1: "找到这个测试失败的原因，修复它，运行相关检查，并解释代码差异。",
+    tWork: "进行中",
+    t2: "保持公共 API 不变，不引入新的运行时依赖。",
+    tSteer: "steer · 已保存，在下一个轮次边界并入",
+    tQueue: "queue · 等会话即将空闲时再处理",
+    t3: "然后写一份草稿 PR 描述。",
+    whyLabel: "为什么选择 miao",
+    whyH: "功夫花在模型周围。",
+    why: [
+      ["按任务选择模型", "在同一个界面连接多个供应商，随时切换会话模型，也可以为专门的代理设置各自的模型和权限。按推理能力、响应速度或价格做选择，不必围着某一家重建工作流。"],
+      ["专项工作交给独立上下文", "把范围明确的任务委派给子代理，之后还能继续同一个子会话。借助 list_sessions 和 send_message，代理能在权限约束下发现并联系同项目的其他会话。"],
+      ["看清 token 和费用花在哪里", "逐轮用量、估算费用、首 token 延迟和提示缓存遥测。Context Epoch 保持系统上下文基线不变、把变化按时间顺序引入，帮助复用缓存前缀。"],
+      ["工作记录可以继续", "持久化输入与事件记录保存会话：可查看、重新打开、分叉和导出。过大的工具输出在上下文中受到限制，完整内容在可用时保留到临时文件。"],
+    ],
+    costNote: "费用按配置的模型费率估算，实际扣费以供应商账单为准。保存历史不代表崩溃后自动续跑：未完成的模型执行需要显式恢复。",
+    dailyLabel: "日常工程",
+    dailyH: "平常的一天，它能做什么。",
+    dailyHead: ["你要完成的事", "miao 提供的能力"],
+    daily: [
+      ["理解陌生仓库", "文件读取、搜索、项目指令、技能、专项子代理"],
+      ["实现功能并验证", "文件编辑与补丁、Shell 命令、可选 LSP 诊断和格式化"],
+      ["比较模型而不换工具", "会话内模型切换、自定义供应商、按代理配置模型、受支持模型的推理档位"],
+      ["推进较大的任务", "待办、中途补充要求、持久化会话、可选自治续跑"],
+      ["接入自己的工具", "本地与远程 MCP、自定义命令、技能、插件"],
+      ["检查并复用工作成果", "差异查看、会话分叉、历史导出、权限确认"],
+      ["接入其他应用", "HTTP 服务、浏览器界面、CLI 自动化、工作区内生成的客户端"],
+    ],
+    loopLabel: "长任务，有边界",
+    loopH: "让它继续推进 —— 在预算之内。",
+    loopBody: "自治续跑需要手动开启。只要还有未完成的待办，它就继续，并受迭代上限和停滞检测保护。会话估算费用达到阈值后，费用预算会停止调度新的模型轮次。",
+    loopFine: "预算不是供应商账单的硬上限，也不会中止已经发出的那一轮。项目级配置放在 .miao/miao.jsonc，全局配置放在 ~/.config/miao/miao.jsonc。",
+    benchLabel: "实测",
+    benchH: "CPU 密集的地方用 Rust。",
+    benchBody: "miao 内置 Rust 加速模块，并与本仓库早先的 TypeScript 实现做对比。同一台机器、release 构建、取中位数。",
+    benchFine: "这些是组件基准，不代表端到端任务提速，也不是与上游当前版本的比较。原生编辑/补丁属于兼容工具路径；进程内 Git 仍是原型，默认不启用。",
+    statusLabel: "现状",
+    statusH: "1.0 之前，哪些能用说清楚。",
+    statusHead: ["能力", "可用性"],
+    status: [
+      ["持久化会话、输入接收、Context Epoch、项目内会话消息", "已实现", "ok"],
+      ["自治续跑、费用预算、输出裁剪与压缩调优", "可选开启", "opt"],
+      ["Code Mode", "实验性", ""],
+      ["原生编辑/补丁与内核沙箱", "兼容运行时", ""],
+      ["生成的客户端与嵌入式宿主", "API 仍在演进", ""],
+    ],
+    startLabel: "快速开始",
+    startH: "三条命令，开始第一个会话。",
+    startFine: "在 TUI 内用 <kbd>ctrl+p</kbd> 打开命令面板，用 <kbd>ctrl+x m</kbd> 选择模型。<code>miao models</code> 可以列出可用模型。",
+    c1: "选择供应商，连接账户或 API Key",
+    c2: "启动终端界面",
+    c3: "一次性执行，不进 TUI",
+    c4: "打开浏览器界面",
+    c5: "更新正式版",
+    endH: "模型自己选，终端照旧用。",
+    docs: "文档",
+    releases: "版本发布",
+  },
+}[lang]
+
+---
+
+<MarketingLayout lang={lang} title={copy.title} description={copy.description}>
+  <section class="hero">
+    <div class="lattice" aria-hidden="true"></div>
+    <div class="glow g1" aria-hidden="true"></div>
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <p class="label miao rise"><MiaoMark size={18} /><b>miao</b> {copy.kind}</p>
+        <h1 class="display h1 rise" style="--i:1">
+          {copy.h1a}<br /><em class="ramp">{copy.h1b}</em>
+        </h1>
+        <p class="lede rise" style="--i:2">{copy.lede}</p>
+        <p class="sub rise" style="--i:2">{copy.sub}</p>
+        <div class="install rise" style="--i:3">
+          <CopyCommand id="install-miao" command={INSTALL} label={copy.copyLabel} />
+          <p class="fine">{copy.platforms}</p>
+        </div>
+        <div class="actions rise" style="--i:3">
+          <a class="btn solid" href={`${prefix}/docs/miao/guide/`}
+            >{copy.guide} <span class="arrow">→</span></a
+          >
+          <a class="btn" href={REPO}>{copy.source} <span class="arrow">↗</span></a>
+        </div>
+      </div>
+      <figure class="shot hero-shot rise" style="--i:4">
+        <img src="/shots/miao.png" width="1199" height="1150" alt={copy.shot} fetchpriority="high" />
+        <figcaption>{copy.cap}</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="wrap section steer" data-reveal>
+    <div class="steer-copy">
+      <p class="label"><b>01</b> {copy.steerLabel}</p>
+      <h2 class="display h2">{copy.steerH}</h2>
+      {copy.steerBody.map((paragraph) => <p class="lede">{paragraph}</p>)}
+    </div>
+    <ol class="transcript panel" aria-label={copy.steerLabel}>
+      <li class="msg">
+        <span class="who">›</span>
+        <p>{copy.t1}</p>
+      </li>
+      <li class="work" aria-hidden="true">
+        <span class="spin"></span>
+        <span>{copy.tWork}</span>
+        <span class="tools">read · grep · edit · bash</span>
+      </li>
+      <li class="msg steered">
+        <span class="who">›</span>
+        <div>
+          <p>{copy.t2}</p>
+          <span class="chip s">{copy.tSteer}</span>
+        </div>
+      </li>
+      <li class="msg queued">
+        <span class="who">›</span>
+        <div>
+          <p>{copy.t3}</p>
+          <span class="chip q">{copy.tQueue}</span>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <section class="wrap section" data-reveal>
+    <div class="section-head">
+      <p class="label"><b>02</b> {copy.whyLabel}</p>
+      <h2 class="display h2">{copy.whyH}</h2>
+    </div>
+    <ol class="why">
+      {
+        copy.why.map(([head, body], index) => (
+          <li>
+            <span class="n">0{index + 1}</span>
+            <h3>{head}</h3>
+            <p>{body}</p>
+          </li>
+        ))
+      }
+    </ol>
+    <p class="fine note">{copy.costNote}</p>
+  </section>
+
+  <section class="wrap section split" data-reveal>
+    <div class="section-head sticky">
+      <p class="label"><b>03</b> {copy.dailyLabel}</p>
+      <h2 class="display h2">{copy.dailyH}</h2>
+    </div>
+    <table class="spec">
+      <thead>
+        <tr><th>{copy.dailyHead[0]}</th><td>{copy.dailyHead[1]}</td></tr>
+      </thead>
+      <tbody>
+        {
+          copy.daily.map(([need, provides]) => (
+            <tr>
+              <th>{need}</th>
+              <td>{provides}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </section>
+
+  <section class="wrap section loop" data-reveal>
+    <div>
+      <p class="label"><b>04</b> {copy.loopLabel}</p>
+      <h2 class="display h2">{copy.loopH}</h2>
+      <p class="lede">{copy.loopBody}</p>
+      <p class="fine">{copy.loopFine}</p>
+    </div>
+    <pre class="codeblock"><code><span class="c">// .miao/miao.jsonc</span>
+{"{"}
+  <span class="k">"loop"</span>: {"{"} <span class="k">"enabled"</span>: <span class="s">true</span>, <span class="k">"max_iterations"</span>: <span class="s">25</span> {"}"},
+  <span class="k">"cost"</span>: {"{"} <span class="k">"budget_usd"</span>: <span class="s">5</span> {"}"},
+  <span class="k">"compaction"</span>: {"{"} <span class="k">"prune"</span>: <span class="s">true</span> {"}"},
+{"}"}</code></pre>
+  </section>
+
+  <section class="wrap section" data-reveal>
+    <div class="section-head">
+      <p class="label"><b>05</b> {copy.benchLabel}</p>
+      <h2 class="display h2">{copy.benchH}</h2>
+      <p class="lede">{copy.benchBody}</p>
+    </div>
+    <div class="bench">
+      {
+        bench.map((row) => (
+          <div class="bench-row">
+            <p class="bench-op">
+              {row.op[lang]}
+              <span class="x">{(row.ts / row.rs).toFixed(1)}×</span>
+            </p>
+            <div class="bars">
+              <span class="bar ts" style="--w:100%">
+                <i>TypeScript</i>
+                <b>{row.ts} {row.unit}</b>
+              </span>
+              <span class="bar rs" style={`--w:${(row.rs / row.ts) * 100}%`}>
+                <i>Rust</i>
+                <b>{row.rs.toFixed(2)} {row.unit}</b>
+              </span>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+    <p class="fine note">{copy.benchFine}</p>
+  </section>
+
+  <section class="wrap section split" data-reveal>
+    <div class="section-head sticky">
+      <p class="label"><b>06</b> {copy.statusLabel}</p>
+      <h2 class="display h2">{copy.statusH}</h2>
+    </div>
+    <table class="spec">
+      <thead>
+        <tr><th>{copy.statusHead[0]}</th><td>{copy.statusHead[1]}</td></tr>
+      </thead>
+      <tbody>
+        {
+          copy.status.map(([capability, availability, tone]) => (
+            <tr>
+              <th class="cap">{capability}</th>
+              <td><span class:list={["tag", tone]}>{availability}</span></td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </section>
+
+  <section class="wrap section start" data-reveal>
+    <div class="section-head">
+      <p class="label"><b>07</b> {copy.startLabel}</p>
+      <h2 class="display h2">{copy.startH}</h2>
+    </div>
+    <pre class="codeblock"><code><span class="p">$ </span>curl -fsSL https://mtty.dev/miao/install | bash
+<span class="p">$ </span>miao providers login   <span class="c"># {copy.c1}</span>
+<span class="p">$ </span>cd /path/to/project
+<span class="p">$ </span>miao                   <span class="c"># {copy.c2}</span>
+
+<span class="c"># {copy.c3}</span>
+<span class="p">$ </span>miao run "Explain this repository's architecture"
+<span class="p">$ </span>miao web               <span class="c"># {copy.c4}</span>
+<span class="p">$ </span>miao upgrade           <span class="c"># {copy.c5}</span></code></pre>
+    <p class="fine" set:html={copy.startFine} />
+  </section>
+
+  <section class="wrap section end" data-reveal>
+    <MiaoMark size={44} />
+    <h2 class="display h2">{copy.endH}</h2>
+    <div class="actions">
+      <a class="btn solid" href={`${prefix}/docs/miao/`}>{copy.docs} <span class="arrow">→</span></a>
+      <a class="btn" href={`${REPO}/releases`}>{copy.releases} <span class="arrow">↗</span></a>
+    </div>
+  </section>
+</MarketingLayout>
+
+<style>
+  .hero {
+    position: relative;
+    isolation: isolate;
+    overflow-x: clip;
+    padding-top: 88px;
+  }
+
+  .g1 {
+    width: 760px;
+    height: 560px;
+    left: -200px;
+    top: -220px;
+    background: var(--miao-1);
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    gap: 64px;
+    align-items: center;
+  }
+
+  .hero-copy {
+    min-width: 0;
+  }
+
+  .h1 {
+    font-size: clamp(2.7rem, 5.6vw, 4.9rem);
+  }
+
+  :lang(zh-CN) .h1 {
+    font-size: clamp(2.3rem, 4.6vw, 3.9rem);
+  }
+
+  .hero-copy .lede {
+    margin-top: 30px;
+  }
+
+  .sub {
+    margin: 14px 0 0;
+    max-width: 60ch;
+    color: var(--fg-faint);
+  }
+
+  .install {
+    margin-top: 32px;
+  }
+
+  .install .fine {
+    margin: 10px 0 0;
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+  }
+
+  .hero-copy .actions {
+    margin-top: 28px;
+  }
+
+  .hero-shot img {
+    box-shadow: 0 60px 120px -40px rgb(0 0 0 / 0.95), 0 0 0 1px var(--border-strong);
+  }
+
+  :root[data-theme="light"] .hero-shot img {
+    box-shadow: 0 40px 80px -36px rgb(40 30 10 / 0.45), 0 0 0 1px var(--border-strong);
+  }
+
+  /* --- Steer --- */
+
+  .steer {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 64px;
+    align-items: center;
+  }
+
+  .steer-copy {
+    display: grid;
+    gap: 20px;
+  }
+
+  .steer-copy .label {
+    margin: 0;
+  }
+
+  .transcript {
+    list-style: none;
+    margin: 0;
+    padding: 12px;
+    display: grid;
+    gap: 6px;
+    font-size: 0.93rem;
+  }
+
+  .transcript li {
+    display: grid;
+    grid-template-columns: 18px minmax(0, 1fr);
+    gap: 10px;
+    padding: 14px 14px;
+    border-radius: 8px;
+  }
+
+  .transcript p {
+    margin: 0;
+  }
+
+  .who {
+    color: var(--miao-ink);
+    font-family: var(--font-mono);
+    font-weight: 700;
+  }
+
+  .msg {
+    background: var(--surface-raised);
+  }
+
+  .work {
+    grid-template-columns: 18px auto minmax(0, 1fr) !important;
+    align-items: center;
+    color: var(--fg-faint);
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+  }
+
+  .tools {
+    justify-self: end;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .spin {
+    width: 10px;
+    height: 10px;
+    margin-left: 3px;
+    border: 1.5px solid var(--border-strong);
+    border-top-color: var(--miao-ink);
+    border-radius: 50%;
+    animation: spin 0.9s linear infinite;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .steered {
+    box-shadow: inset 2px 0 0 var(--miao-ink);
+  }
+
+  .queued {
+    opacity: 0.75;
+    box-shadow: inset 2px 0 0 var(--border-strong);
+  }
+
+  .chip {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+  }
+
+  .chip.s {
+    color: var(--miao-ink);
+    background: color-mix(in srgb, var(--miao-ink) 12%, transparent);
+  }
+
+  .chip.q {
+    color: var(--fg-muted);
+    background: var(--surface);
+    border: 1px solid var(--border);
+  }
+
+  /* --- Why --- */
+
+  .why {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 56px;
+  }
+
+  .why li {
+    display: grid;
+    align-content: start;
+    grid-template-columns: 44px minmax(0, 1fr);
+    padding: 30px 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .why .n {
+    grid-row: span 2;
+    color: var(--miao-ink);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    padding-top: 8px;
+  }
+
+  .why h3 {
+    margin: 0 0 10px;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 1.75rem;
+    line-height: 1.1;
+  }
+
+  .why p {
+    margin: 0;
+    color: var(--fg-muted);
+  }
+
+  .note {
+    margin-top: 28px;
+    max-width: 80ch;
+  }
+
+  /* --- Two-column sections with a sticky heading --- */
+
+  .split {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: 64px;
+    align-items: start;
+  }
+
+  .sticky {
+    position: sticky;
+    top: 96px;
+    margin-bottom: 0;
+  }
+
+  .cap {
+    font-weight: 500 !important;
+    width: 70% !important;
+  }
+
+  /* --- Loop --- */
+
+  .loop {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 64px;
+    align-items: center;
+  }
+
+  .loop .lede {
+    margin-top: 22px;
+  }
+
+  .loop .fine {
+    margin-top: 14px;
+  }
+
+  .loop .codeblock {
+    font-size: 0.9rem;
+    padding: 28px;
+  }
+
+  /* --- Bench --- */
+
+  .bench {
+    display: grid;
+    gap: 34px;
+  }
+
+  .bench-op {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    margin: 0 0 12px;
+    font-weight: 550;
+  }
+
+  .x {
+    color: var(--miao-ink);
+    font-family: var(--font-mono);
+    font-weight: 600;
+  }
+
+  .bars {
+    display: grid;
+    gap: 6px;
+  }
+
+  .bar {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    min-width: 112px;
+    width: var(--w);
+    height: 32px;
+    padding: 0 12px;
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+  }
+
+  .bar i {
+    font-style: normal;
+  }
+
+  .bar.ts {
+    background: var(--surface-raised);
+    border: 1px solid var(--border);
+    color: var(--fg-muted);
+  }
+
+  .bar.rs {
+    background: linear-gradient(90deg, var(--miao-1), var(--miao-2));
+    color: #1a1207;
+    font-weight: 600;
+  }
+
+  /* --- Start --- */
+
+  .start .codeblock {
+    font-size: 0.88rem;
+    padding: 26px 28px;
+  }
+
+  .start .fine {
+    margin-top: 16px;
+  }
+
+  .end {
+    display: grid;
+    justify-items: center;
+    gap: 26px;
+    text-align: center;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .spin {
+      animation: none;
+    }
+  }
+
+  @media (max-width: 960px) {
+    .hero-grid,
+    .steer,
+    .split,
+    .loop {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 40px;
+    }
+
+    .sticky {
+      position: static;
+    }
+
+    .hero-shot {
+      max-width: 640px;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .hero {
+      padding-top: 52px;
+    }
+
+    .why {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .why h3 {
+      font-size: 1.5rem;
+    }
+
+    .work .tools {
+      display: none;
+    }
+
+    .start .codeblock,
+    .loop .codeblock {
+      font-size: 0.78rem;
+      padding: 20px;
+    }
+  }
+</style>
