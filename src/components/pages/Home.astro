@@ -157,50 +157,51 @@ const copy = {
     <div class="lattice" aria-hidden="true"></div>
     <div class="glow g1" aria-hidden="true"></div>
     <div class="glow g2" aria-hidden="true"></div>
-    <div class="wrap hero-head">
-      <p class="label rise"><b>{copy.kicker}</b></p>
-      <h1 class="display h1 rise" style="--i:1">
-        <span class="hl">{copy.h1a}</span>
-        <em class="hl accent">{copy.h1b}</em>
-      </h1>
-    </div>
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <p class="label rise"><b>{copy.kicker}</b></p>
+        <h1 class="display h1 rise" style="--i:1">
+          <span class="hl">{copy.h1a}</span>
+          <em class="hl accent">{copy.h1b}</em>
+        </h1>
 
-    <div class="wrap pair rise" style="--i:2">
-      <div class="pick">
-        <p class="pick-head">
-          <MiaoMark size={20} />
-          <b>miao</b>
-          <span class="pick-kind">{copy.miaoKind}</span>
-          <span class="pick-meta">{copy.installMeta}</span>
-        </p>
-        <p class="pick-blurb">{copy.miaoBlurb}</p>
-        <CopyCommand id="install-hero" command={INSTALL} label={copy.copyLabel} />
-        <figure class="shot s-miao">
-          <img src="/shots/miao.png" width="1199" height="1150" alt={copy.shotMiao} />
-          <figcaption><span class="ink-miao">●</span> {copy.capMiao}</figcaption>
-        </figure>
+        <div class="picks rise" style="--i:2">
+          <div class="pick">
+            <p class="pick-head">
+              <MiaoMark size={20} />
+              <b>miao</b>
+              <span class="pick-kind">{copy.miaoKind}</span>
+              <span class="pick-meta">{copy.installMeta}</span>
+            </p>
+            <p class="pick-blurb">{copy.miaoBlurb}</p>
+            <CopyCommand id="install-hero" command={INSTALL} label={copy.copyLabel} />
+          </div>
+          <div class="pick">
+            <p class="pick-head">
+              <MttyMark size={20} />
+              <b>mtty</b>
+              <span class="pick-kind">{copy.mttyKind}</span>
+              <span class="pick-meta">{copy.downloadMeta}</span>
+            </p>
+            <p class="pick-blurb">{copy.mttyBlurb}</p>
+            <a class="btn dl" href={RELEASES}>
+              <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"
+                ><path
+                  d="M8 2v8.5M4.5 7 8 10.5 11.5 7M3 13.5h10"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"></path></svg
+              >
+              {copy.download}
+              <span class="arrow" aria-hidden="true">→</span>
+            </a>
+          </div>
+        </div>
       </div>
-      <div class="pick">
-        <p class="pick-head">
-          <MttyMark size={20} />
-          <b>mtty</b>
-          <span class="pick-kind">{copy.mttyKind}</span>
-          <span class="pick-meta">{copy.downloadMeta}</span>
-        </p>
-        <p class="pick-blurb">{copy.mttyBlurb}</p>
-        <a class="btn dl" href={RELEASES}>
-          <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"
-            ><path
-              d="M8 2v8.5M4.5 7 8 10.5 11.5 7M3 13.5h10"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.6"
-              stroke-linecap="round"
-              stroke-linejoin="round"></path></svg
-          >
-          {copy.download}
-          <span class="arrow" aria-hidden="true">→</span>
-        </a>
+
+      <div class="hero-shots rise" style="--i:3">
         <figure class="shot s-mtty">
           <img
             src="/shots/mtty.png"
@@ -211,9 +212,12 @@ const copy = {
           />
           <figcaption><span class="ink-mtty">●</span> {copy.capMtty}</figcaption>
         </figure>
+        <figure class="shot s-miao">
+          <img src="/shots/miao.png" width="1199" height="1150" alt={copy.shotMiao} />
+          <figcaption><span class="ink-miao">●</span> {copy.capMiao}</figcaption>
+        </figure>
       </div>
     </div>
-
   </section>
 
   <section class="wrap section" data-reveal>
@@ -343,7 +347,7 @@ const copy = {
     position: relative;
     isolation: isolate;
     overflow-x: clip;
-    padding-top: 88px;
+    padding-top: 56px;
   }
 
   .g1 {
@@ -362,14 +366,21 @@ const copy = {
     background: var(--mtty-accent);
   }
 
-  .hero-head {
-    max-width: var(--maxw);
+  /* Copy and actions on the left, the two real captures on the right: the
+     first screen says what each tool is, how to get it, and what it looks
+     like. */
+  .hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.08fr);
+    gap: 56px;
+    align-items: center;
+    padding-bottom: 8px;
   }
 
   .h1 {
     margin-top: 4px;
-    font-size: clamp(2.5rem, 4.5vw, 4.15rem);
-    line-height: 1.06;
+    font-size: clamp(2.1rem, 3.1vw, 3rem);
+    line-height: 1.1;
     letter-spacing: -0.012em;
   }
 
@@ -377,35 +388,22 @@ const copy = {
     display: block;
   }
 
-  /* One sentence per line on wide screens; the break between the two
-     sentences is the composition, so neither may wrap on its own. */
-  @media (min-width: 900px) {
-    .h1 .hl {
-      white-space: nowrap;
-    }
-  }
-
   :lang(zh-CN) .h1 {
-    font-size: clamp(2rem, 4.4vw, 3.9rem);
-    line-height: 1.22;
-    white-space: nowrap;
+    font-size: clamp(1.9rem, 2.9vw, 2.7rem);
+    line-height: 1.28;
   }
 
-  /* Two products, two columns, one baseline: name, a sentence, then the one
-     action that gets you each. */
-  .pair {
+  .picks {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0 48px;
-    margin-top: 56px;
+    gap: 28px;
+    margin-top: 36px;
   }
 
   .pick {
     display: grid;
-    grid-template-rows: auto 1fr auto auto;
-    gap: 12px;
+    gap: 10px;
     min-width: 0;
-    padding-top: 20px;
+    padding-top: 18px;
     border-top: 1px solid var(--border-strong);
   }
 
@@ -436,15 +434,13 @@ const copy = {
   }
 
   .pick-blurb {
-    margin: 0 0 8px;
-    max-width: 52ch;
+    margin: 0 0 4px;
     color: var(--fg-muted);
-    font-size: 1.02rem;
-    line-height: 1.6;
+    font-size: 0.98rem;
+    line-height: 1.55;
   }
 
-  /* Same height as the install command beside it, so the two actions sit on
-     one line. */
+  /* Same height as the install command, so the two actions match. */
   .dl {
     width: 100%;
     height: 56px;
@@ -456,24 +452,36 @@ const copy = {
     margin-left: auto;
   }
 
-  /* Each product shows its own capture under its action, in one frame shape
-     so the two columns end level; the crop keeps each app's working area
-     (mtty's sidebar and terminal, miao's answer and prompt). */
-  .pick .shot {
-    margin-top: 28px;
+  /* The two captures at one scale: miao's window (1199 px wide, 60.8% of
+     mtty's 1971) floats over the empty lower third of mtty's terminal, below
+     the git log. Margins in % are of the width, so the
+     composition holds at every size. */
+  .hero-shots {
+    display: flow-root;
+    min-width: 0;
   }
 
-  .pick .shot img {
-    aspect-ratio: 5 / 4;
-    object-fit: cover;
+  .s-mtty figcaption {
+    max-width: 36%;
   }
 
-  .s-mtty img {
-    object-position: left top;
+  .s-miao {
+    position: relative;
+    z-index: 1;
+    width: 60.8%;
+    margin: -16% 0 0 auto;
   }
 
   .s-miao img {
-    object-position: center 30%;
+    box-shadow: 0 40px 80px -30px rgb(0 0 0 / 0.85), 0 0 0 1px var(--border-strong);
+  }
+
+  :root[data-theme="light"] .s-miao img {
+    box-shadow: 0 34px 64px -30px rgb(40 30 10 / 0.45), 0 0 0 1px var(--border-strong);
+  }
+
+  .s-miao figcaption {
+    text-align: right;
   }
 
   /* --- Products --- */
@@ -856,6 +864,11 @@ const copy = {
   }
 
   @media (max-width: 960px) {
+    .hero-grid {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 40px;
+    }
+
     .duo,
     .together {
       grid-template-columns: minmax(0, 1fr);
@@ -879,10 +892,8 @@ const copy = {
       font-size: clamp(1.7rem, 8vw, 2.3rem);
     }
 
-    .pair {
-      grid-template-columns: minmax(0, 1fr);
-      gap: 32px;
-      margin-top: 36px;
+    .picks {
+      margin-top: 28px;
     }
 
     .card {
