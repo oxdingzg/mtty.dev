@@ -1,0 +1,9 @@
+# A branded install URL. The README already tells people to pipe the raw GitHub
+# script into a shell; this makes the documented command
+#
+#   curl -fsSL https://mtty.dev/miao/install | bash
+#
+# so it survives the installer moving. Cloudflare does not normalise the path,
+# hence both spellings. Parsed by Workers, not served as an asset.
+/miao/install   https://raw.githubusercontent.com/oxdingzg/miao/main/install   302
+/miao/install/  https://raw.githubusercontent.com/oxdingzg/miao/main/install   302
