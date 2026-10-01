@@ -1,0 +1,187 @@
+---
+import MarketingLayout from "../layouts/MarketingLayout.astro"
+import MiaoMark from "../components/site/MiaoMark.astro"
+
+const features = [
+  {
+    title: "Choose the model that fits the work",
+    body: "Several providers behind one interface, model switching inside a session, and specialist agents with their own model and permissions.",
+  },
+  {
+    title: "Keep long tasks moving",
+    body: "Add a requirement while the agent is working. It is saved before execution and folded in at a safe turn boundary, so you refine the task instead of starting over.",
+  },
+  {
+    title: "Give collaboration its own context",
+    body: "Delegate a scoped task to a subagent and pick that session up later. Agents can list and message other sessions in the project, subject to permissions.",
+  },
+  {
+    title: "See where the tokens go",
+    body: "Per-turn usage, estimated cost, time to first token and prompt-cache telemetry. Context Epochs keep the cacheable prefix reusable as the context changes.",
+  },
+  {
+    title: "Keep a record you can continue",
+    body: "Durable prompt admission and an event-backed history. List, reopen, fork and export sessions instead of treating each window as a disposable chat.",
+  },
+  {
+    title: "Connect your own tools",
+    body: "Local and remote MCP servers, custom commands, skills and plugins — plus an HTTP server and generated clients for building on top.",
+  },
+]
+---
+
+<MarketingLayout
+  title="miao — an AI coding agent for the terminal"
+  description="miao is an open-source AI coding agent that explores a repository, edits code, runs commands and checks its own work — with the models you choose."
+>
+  <section class="hero wrap">
+    <div class="title">
+      <MiaoMark size={44} />
+      <h1>miao</h1>
+    </div>
+    <p class="tagline">Your models. Your workflow. Less wasted context.</p>
+    <p class="lede">
+      An open-source AI coding agent for developers who want to get real work done — and
+      understand what it costs. Let it explore a repository, edit code, run commands and
+      check its own work, in your terminal.
+    </p>
+  </section>
+
+  <section class="wrap">
+    <h2>Install</h2>
+    <pre><code>curl -fsSL https://raw.githubusercontent.com/oxdingzg/miao/main/install | bash</code></pre>
+    <pre><code>miao providers login          # connect a provider
+cd /path/to/project
+miao                          # start the terminal UI</code></pre>
+    <p class="note">
+      macOS and Linux are the documented platforms; Windows builds exist.
+      <code>ctrl+p</code> opens the command palette, <code>ctrl+x m</code> selects a model.
+    </p>
+  </section>
+
+  <section class="wrap">
+    <h2>What it focuses on</h2>
+    <ul class="features">
+      {
+        features.map((feature) => (
+          <li>
+            <h3>{feature.title}</h3>
+            <p>{feature.body}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section class="wrap cta">
+    <a class="button" href="/docs/miao/">Read the documentation</a>
+    <a class="link" href="https://github.com/oxdingzg/miao">Source on GitHub</a>
+  </section>
+</MarketingLayout>
+
+<style>
+  .hero {
+    padding: 88px 0 48px;
+    max-width: 760px;
+  }
+
+  .title {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  h1 {
+    font-family: var(--font-mono);
+    font-size: clamp(2.2rem, 5vw, 3rem);
+    margin: 0;
+  }
+
+  .tagline {
+    color: var(--accent);
+    font-size: 1.1rem;
+    margin: 18px 0 12px;
+  }
+
+  .lede {
+    font-size: 1.075rem;
+    color: var(--fg-muted);
+    margin: 0;
+  }
+
+  h2 {
+    font-size: 1.3rem;
+    margin: 0 0 16px;
+  }
+
+  section + section {
+    margin-top: 64px;
+  }
+
+  pre {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    overflow-x: auto;
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    line-height: 1.7;
+    margin: 0 0 12px;
+  }
+
+  code {
+    font-family: var(--font-mono);
+  }
+
+  .note {
+    color: var(--fg-faint);
+    font-size: 0.9rem;
+    margin: 0;
+  }
+
+  .features {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px 32px;
+  }
+
+  .features h3 {
+    font-size: 1rem;
+    margin: 0 0 6px;
+  }
+
+  .features p {
+    color: var(--fg-muted);
+    font-size: 0.925rem;
+    margin: 0;
+  }
+
+  .cta {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .button {
+    display: inline-block;
+    padding: 11px 20px;
+    border-radius: var(--radius);
+    background: var(--accent);
+    color: var(--accent-contrast);
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .link {
+    color: var(--fg-muted);
+  }
+
+  .link:hover {
+    color: var(--fg);
+  }
+</style>

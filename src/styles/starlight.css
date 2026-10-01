@@ -1,3 +1,21 @@
-/* Brand tokens are defined in tokens.css and mapped onto Starlight's accent
-   variables here, so the documentation chrome and the marketing pages share one
-   palette. Filled in with the brand assets. */
+/* Map the brand tokens onto Starlight's theme variables so the documentation
+   chrome and the marketing pages read as one site. Only the accent and the type
+   stack are overridden — Starlight's own greys are already tuned for contrast,
+   and replacing them wholesale would break that. */
+
+:root {
+  --sl-font: var(--font-sans);
+  --sl-font-mono: var(--font-mono);
+}
+
+:root[data-theme="dark"] {
+  --sl-color-accent-low: #3d2408;
+  --sl-color-accent: var(--miao-1);
+  --sl-color-accent-high: var(--miao-3);
+}
+
+:root[data-theme="light"] {
+  --sl-color-accent-low: #fde8d3;
+  --sl-color-accent: #c2641a;
+  --sl-color-accent-high: #8a4410;
+}

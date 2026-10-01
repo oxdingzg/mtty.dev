@@ -1,24 +1,154 @@
 ---
-// Placeholder home. The real marketing page replaces this once the brand assets
-// are in place; it exists now to prove that the marketing root and Starlight's
-// nested /docs mount coexist on one build.
+import MarketingLayout from "../layouts/MarketingLayout.astro"
+import MiaoMark from "../components/site/MiaoMark.astro"
+import MttyMark from "../components/site/MttyMark.astro"
+
+const products = [
+  {
+    href: "/miao",
+    name: "miao",
+    kind: "AI coding agent",
+    blurb:
+      "Explores a repository, edits code, runs commands and checks its own work — with the models you choose and a clear view of what they cost.",
+    meta: "TypeScript · MIT",
+    Mark: MiaoMark,
+  },
+  {
+    href: "/mtty",
+    name: "mtty",
+    kind: "Terminal emulator",
+    blurb:
+      "A fast, embeddable terminal emulator and engine written in Rust. GPU-rendered, cross-platform, and built to host an agent inside a pane.",
+    meta: "Rust · Apache-2.0 · development preview",
+    Mark: MttyMark,
+  },
+]
 ---
 
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>mtty.dev</title>
-    <meta
-      name="description"
-      content="miao — an AI coding agent for the terminal. mtty — a fast, embeddable terminal emulator written in Rust."
-    />
-  </head>
-  <body>
-    <h1>mtty.dev</h1>
-    <p><a href="/miao">miao</a> — an AI coding agent for the terminal.</p>
-    <p><a href="/mtty">mtty</a> — a fast, embeddable terminal emulator written in Rust.</p>
-    <p><a href="/docs/">Documentation</a></p>
-  </body>
-</html>
+<MarketingLayout
+  title="mtty.dev — miao and mtty"
+  description="miao is an open-source AI coding agent for the terminal. mtty is a fast, embeddable terminal emulator and engine written in Rust."
+>
+  <section class="hero wrap">
+    <h1>Two tools for the terminal.</h1>
+    <p class="lede">
+      An agent that does the work, and a terminal built to run it. They are independent
+      projects — use either on its own, or let them talk to each other.
+    </p>
+  </section>
+
+  <section class="wrap">
+    <ul class="cards">
+      {
+        products.map(({ href, name, kind, blurb, meta, Mark }) => (
+          <li>
+            <a href={href}>
+              <Mark size={36} />
+              <span class="kind">{kind}</span>
+              <span class="name">{name}</span>
+              <span class="blurb">{blurb}</span>
+              <span class="meta">{meta}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section class="wrap together">
+    <h2>Better together, not dependent</h2>
+    <p>
+      mtty gives every pane an identity, and miao reports what it is doing — idle,
+      processing, waiting on you, or failed. The terminal badges the pane and raises a
+      notification, so you can watch several agents at once without reading every
+      window. The terminal never needs the agent: with nothing reporting in, it is
+      simply a terminal.
+    </p>
+  </section>
+</MarketingLayout>
+
+<style>
+  .hero {
+    padding: 96px 0 56px;
+    max-width: 780px;
+  }
+
+  h1 {
+    font-size: clamp(2.1rem, 5vw, 3.1rem);
+    margin: 0 0 20px;
+  }
+
+  .lede {
+    font-size: 1.125rem;
+    color: var(--fg-muted);
+    margin: 0;
+  }
+
+  .cards {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+  }
+
+  .cards a {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    height: 100%;
+    padding: 28px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    text-decoration: none;
+    transition: border-color 120ms ease, transform 120ms ease;
+  }
+
+  .cards a:hover {
+    border-color: var(--border-strong);
+    transform: translateY(-2px);
+  }
+
+  .kind {
+    color: var(--fg-faint);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-top: 6px;
+  }
+
+  .name {
+    font-family: var(--font-mono);
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+
+  .blurb {
+    color: var(--fg-muted);
+  }
+
+  .meta {
+    color: var(--fg-faint);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    margin-top: auto;
+    padding-top: 12px;
+  }
+
+  .together {
+    max-width: 720px;
+    padding-top: 72px;
+  }
+
+  .together h2 {
+    font-size: 1.4rem;
+    margin: 0 0 12px;
+  }
+
+  .together p {
+    color: var(--fg-muted);
+    margin: 0;
+  }
+</style>

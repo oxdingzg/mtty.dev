@@ -1,0 +1,95 @@
+---
+const year = new Date().getFullYear()
+
+const products = [
+  { href: "/miao", label: "miao — AI coding agent" },
+  { href: "/mtty", label: "mtty — terminal emulator" },
+  { href: "/docs/", label: "Documentation" },
+]
+
+const elsewhere = [
+  { href: "https://github.com/oxdingzg/miao", label: "miao on GitHub" },
+  { href: "https://github.com/oxdingzg/miao-term", label: "mtty on GitHub" },
+]
+---
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="col">
+      <p class="head">Products</p>
+      {products.map((item) => <a href={item.href}>{item.label}</a>)}
+    </div>
+    <div class="col">
+      <p class="head">Source</p>
+      {elsewhere.map((item) => <a href={item.href}>{item.label}</a>)}
+    </div>
+    <div class="col note">
+      <p>
+        miao is an independent fork of <a href="https://github.com/anomalyco/opencode">opencode</a>,
+        which is MIT licensed. This site is not affiliated with or endorsed by that project.
+      </p>
+    </div>
+  </div>
+  <div class="wrap baseline">
+    <span>© {year} mtty.dev</span>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--border);
+    margin-top: 96px;
+    padding: 48px 0 32px;
+    font-size: 0.9rem;
+  }
+
+  .wrap {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+    display: flex;
+    gap: 48px;
+    flex-wrap: wrap;
+  }
+
+  .col {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 180px;
+  }
+
+  .note {
+    flex: 1 1 320px;
+    max-width: 420px;
+    color: var(--fg-faint);
+    line-height: 1.6;
+  }
+
+  .note p {
+    margin: 0;
+  }
+
+  .head {
+    margin: 0 0 4px;
+    color: var(--fg-faint);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  a {
+    color: var(--fg-muted);
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: var(--fg);
+  }
+
+  .baseline {
+    margin-top: 40px;
+    color: var(--fg-faint);
+    display: block;
+  }
+</style>

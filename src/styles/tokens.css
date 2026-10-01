@@ -1,0 +1,66 @@
+/* Brand tokens for mtty.dev.
+ *
+ * Two products share this site, so the chrome stays neutral and each product
+ * brings its own palette. Both palettes are sampled from committed source
+ * rather than invented:
+ *
+ *   miao — miao/install, the banner gradient (ANSI 210/209/215/221/226)
+ *   mtty — miao-term/scripts/make-icon.py, the app icon (Nord0/Nord8/Nord13)
+ */
+
+:root {
+  /* miao — warm. Used for the cat mark and the wordmark gradient. */
+  --miao-cat: #ff87af;
+  --miao-1: #ff875f;
+  --miao-2: #ffaf5f;
+  --miao-3: #ffd75f;
+  --miao-4: #ffff5f;
+
+  /* mtty — Nord. The icon draws a chevron in Nord8 on a Nord0 tile with a
+     Nord13 cursor block. */
+  --mtty-tile: #2e3440;
+  --mtty-accent: #88c0d0;
+  --mtty-warm: #ebcb8b;
+
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "Noto Sans SC", sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+    "Liberation Mono", monospace;
+
+  --radius: 8px;
+  --radius-lg: 14px;
+  --maxw: 1120px;
+  --gutter: 24px;
+}
+
+/* Dark is the default: both products are terminal software. The marketing
+   layout mirrors Starlight's stored preference onto data-theme so a reader who
+   picks a theme in the docs keeps it on the home page. */
+:root,
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #101216;
+  --surface: #171a21;
+  --surface-raised: #1d212a;
+  --border: #262b35;
+  --border-strong: #353c4a;
+  --fg: #e7eaf0;
+  --fg-muted: #9ba4b3;
+  --fg-faint: #6d7686;
+  --accent: var(--miao-2);
+  --accent-contrast: #1a1207;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg: #ffffff;
+  --surface: #f7f8fa;
+  --surface-raised: #eef0f4;
+  --border: #e2e5ea;
+  --border-strong: #cbd1da;
+  --fg: #14171d;
+  --fg-muted: #5a6372;
+  --fg-faint: #858e9d;
+  --accent: #d9741f;
+  --accent-contrast: #ffffff;
+}

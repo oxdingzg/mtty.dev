@@ -1,0 +1,24 @@
+---
+// miao's mark: the cat head from the installer banner, drawn as geometry. The
+// fill is the banner's own warm ramp (ANSI 209 -> 226), so the site and the
+// installer show the same colours.
+interface Props {
+  size?: number
+}
+const { size = 32 } = Astro.props
+---
+
+<svg width={size} height={size} viewBox="0 0 32 32" aria-hidden="true">
+  <defs>
+    <linearGradient id="miao-ramp" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="var(--miao-1)" />
+      <stop offset="0.55" stop-color="var(--miao-3)" />
+      <stop offset="1" stop-color="var(--miao-4)" />
+    </linearGradient>
+  </defs>
+  <path fill="url(#miao-ramp)" d="M3.6 14.2 8.6 3l5.4 10.2z" />
+  <path fill="url(#miao-ramp)" d="M18 13.2 23.4 3l5 11.2z" />
+  <circle cx="16" cy="19" r="11" fill="url(#miao-ramp)" />
+  <circle cx="12" cy="17.5" r="2.8" fill="var(--bg)" />
+  <circle cx="20" cy="17.5" r="2.8" fill="var(--bg)" />
+</svg>

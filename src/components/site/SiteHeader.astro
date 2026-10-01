@@ -1,0 +1,84 @@
+---
+import MiaoMark from "./MiaoMark.astro"
+
+const links = [
+  { href: "/miao", label: "miao" },
+  { href: "/mtty", label: "mtty" },
+  { href: "/docs/", label: "Docs" },
+]
+
+// Trailing slashes vary between the marketing routes and Starlight's, so
+// compare on a normalised path.
+const here = Astro.url.pathname.replace(/\/+$/, "") || "/"
+const isCurrent = (href: string) => here === href.replace(/\/+$/, "")
+---
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="/">
+      <MiaoMark size={24} />
+      <span>mtty.dev</span>
+    </a>
+    <nav>
+      {
+        links.map((link) => (
+          <a href={link.href} aria-current={isCurrent(link.href) ? "page" : undefined}>
+            {link.label}
+          </a>
+        ))
+      }
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    border-bottom: 1px solid var(--border);
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(8px);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  .wrap {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--fg);
+    text-decoration: none;
+  }
+
+  nav {
+    display: flex;
+    gap: 22px;
+    font-size: 0.925rem;
+  }
+
+  nav a {
+    color: var(--fg-muted);
+    text-decoration: none;
+  }
+
+  nav a:hover {
+    color: var(--fg);
+  }
+
+  nav a[aria-current="page"] {
+    color: var(--fg);
+    font-weight: 600;
+  }
+</style>
