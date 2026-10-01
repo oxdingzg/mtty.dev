@@ -1,0 +1,267 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://mtty.dev/miao/theme.json",
+  "title": "miao TUI theme",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "defs": {
+      "type": "object",
+      "description": "Named colors referenced from theme",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "theme": {
+      "type": "object",
+      "properties": {
+        "primary": {
+          "$ref": "#/definitions/color"
+        },
+        "secondary": {
+          "$ref": "#/definitions/color"
+        },
+        "accent": {
+          "$ref": "#/definitions/color"
+        },
+        "error": {
+          "$ref": "#/definitions/color"
+        },
+        "warning": {
+          "$ref": "#/definitions/color"
+        },
+        "success": {
+          "$ref": "#/definitions/color"
+        },
+        "info": {
+          "$ref": "#/definitions/color"
+        },
+        "text": {
+          "$ref": "#/definitions/color"
+        },
+        "textMuted": {
+          "$ref": "#/definitions/color"
+        },
+        "selectedListItemText": {
+          "$ref": "#/definitions/color"
+        },
+        "background": {
+          "$ref": "#/definitions/color"
+        },
+        "backgroundPanel": {
+          "$ref": "#/definitions/color"
+        },
+        "backgroundElement": {
+          "$ref": "#/definitions/color"
+        },
+        "backgroundMenu": {
+          "$ref": "#/definitions/color"
+        },
+        "border": {
+          "$ref": "#/definitions/color"
+        },
+        "borderActive": {
+          "$ref": "#/definitions/color"
+        },
+        "borderSubtle": {
+          "$ref": "#/definitions/color"
+        },
+        "diffAdded": {
+          "$ref": "#/definitions/color"
+        },
+        "diffRemoved": {
+          "$ref": "#/definitions/color"
+        },
+        "diffContext": {
+          "$ref": "#/definitions/color"
+        },
+        "diffHunkHeader": {
+          "$ref": "#/definitions/color"
+        },
+        "diffHighlightAdded": {
+          "$ref": "#/definitions/color"
+        },
+        "diffHighlightRemoved": {
+          "$ref": "#/definitions/color"
+        },
+        "diffAddedBg": {
+          "$ref": "#/definitions/color"
+        },
+        "diffRemovedBg": {
+          "$ref": "#/definitions/color"
+        },
+        "diffContextBg": {
+          "$ref": "#/definitions/color"
+        },
+        "diffLineNumber": {
+          "$ref": "#/definitions/color"
+        },
+        "diffAddedLineNumberBg": {
+          "$ref": "#/definitions/color"
+        },
+        "diffRemovedLineNumberBg": {
+          "$ref": "#/definitions/color"
+        },
+        "markdownText": {
+          "$ref": "#/definitions/color"
+        },
+        "markdownHeading": {
+          "$ref": "#/definitions/color"
+        },
+        "markdownLink": {
+          "$ref": "#/definitions/color"
+        },
+        "markdownLinkText": {
+          "$ref": "#/definitions/color"
+        },
+        "markdownCode": {
+          "$ref": "#/definitions/color"
+        },
+        "markdownBlockQuote": {
+          "$ref": "#/definitions/color"
+        },
+        "markdownEmph": {
+          "$ref": "#/definitions/color"
+        },
+        "markdownStrong": {
+          "$ref": "#/definitions/color"
+        },
+        "markdownHorizontalRule": {
+          "$ref": "#/definitions/color"
+        },
+        "markdownListItem": {
+          "$ref": "#/definitions/color"
+        },
+        "markdownListEnumeration": {
+          "$ref": "#/definitions/color"
+        },
+        "markdownImage": {
+          "$ref": "#/definitions/color"
+        },
+        "markdownImageText": {
+          "$ref": "#/definitions/color"
+        },
+        "markdownCodeBlock": {
+          "$ref": "#/definitions/color"
+        },
+        "syntaxComment": {
+          "$ref": "#/definitions/color"
+        },
+        "syntaxKeyword": {
+          "$ref": "#/definitions/color"
+        },
+        "syntaxFunction": {
+          "$ref": "#/definitions/color"
+        },
+        "syntaxVariable": {
+          "$ref": "#/definitions/color"
+        },
+        "syntaxString": {
+          "$ref": "#/definitions/color"
+        },
+        "syntaxNumber": {
+          "$ref": "#/definitions/color"
+        },
+        "syntaxType": {
+          "$ref": "#/definitions/color"
+        },
+        "syntaxOperator": {
+          "$ref": "#/definitions/color"
+        },
+        "syntaxPunctuation": {
+          "$ref": "#/definitions/color"
+        },
+        "thinkingOpacity": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      },
+      "required": [
+        "primary",
+        "secondary",
+        "accent",
+        "error",
+        "warning",
+        "success",
+        "info",
+        "text",
+        "textMuted",
+        "background",
+        "backgroundPanel",
+        "backgroundElement",
+        "border",
+        "borderActive",
+        "borderSubtle",
+        "diffAdded",
+        "diffRemoved",
+        "diffContext",
+        "diffHunkHeader",
+        "diffHighlightAdded",
+        "diffHighlightRemoved",
+        "diffAddedBg",
+        "diffRemovedBg",
+        "diffContextBg",
+        "diffLineNumber",
+        "diffAddedLineNumberBg",
+        "diffRemovedLineNumberBg",
+        "markdownText",
+        "markdownHeading",
+        "markdownLink",
+        "markdownLinkText",
+        "markdownCode",
+        "markdownBlockQuote",
+        "markdownEmph",
+        "markdownStrong",
+        "markdownHorizontalRule",
+        "markdownListItem",
+        "markdownListEnumeration",
+        "markdownImage",
+        "markdownImageText",
+        "markdownCodeBlock",
+        "syntaxComment",
+        "syntaxKeyword",
+        "syntaxFunction",
+        "syntaxVariable",
+        "syntaxString",
+        "syntaxNumber",
+        "syntaxType",
+        "syntaxOperator",
+        "syntaxPunctuation"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "theme"
+  ],
+  "additionalProperties": false,
+  "definitions": {
+    "color": {
+      "anyOf": [
+        {
+          "type": "string",
+          "description": "Hex color (#rrggbb or #rrggbbaa), a defs name, or another theme key"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "dark": {
+              "type": "string"
+            },
+            "light": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "dark",
+            "light"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    }
+  }
+}

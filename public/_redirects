@@ -7,3 +7,7 @@
 # hence both spellings. Parsed by Workers, not served as an asset.
 /miao/install   https://raw.githubusercontent.com/oxdingzg/miao/main/install   302
 /miao/install/  https://raw.githubusercontent.com/oxdingzg/miao/main/install   302
+
+# Where miao's desktop app and crash screen send feedback.
+/miao/feedback   https://github.com/oxdingzg/miao/issues   302
+/miao/feedback/  https://github.com/oxdingzg/miao/issues   302
