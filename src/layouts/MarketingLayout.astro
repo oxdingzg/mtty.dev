@@ -64,6 +64,7 @@ const ogImage = new URL(`/og/${route === "" ? "home" : route}-${lang}.png`, Astr
       <slot />
     </main>
     <SiteFooter lang={lang} />
+    <script src="../scripts/reveal.ts"></script>
   </body>
 </html>
 
@@ -81,6 +82,10 @@ const ogImage = new URL(`/og/${route === "" ? "home" : route}-${lang}.png`, Astr
     font-family: var(--font-sans);
     line-height: 1.65;
     -webkit-font-smoothing: antialiased;
+    /* The hero glow is wider than the text column. Clipping at the page edge
+       keeps it out of the horizontal scroll width without cutting a visible
+       edge into it, which clipping it to the column would. */
+    overflow-x: clip;
   }
 
   h1,
@@ -94,9 +99,12 @@ const ogImage = new URL(`/og/${route === "" ? "home" : route}-${lang}.png`, Astr
     color: inherit;
   }
 
+  /* margin-inline rather than `margin: 0 auto`: the shorthand also clears the
+     block margins, which silently cancelled the `section + section` spacing
+     below, and it ties on specificity with any per-section rule. */
   .wrap {
     max-width: var(--maxw);
-    margin: 0 auto;
+    margin-inline: auto;
     padding: 0 var(--gutter);
   }
 </style>

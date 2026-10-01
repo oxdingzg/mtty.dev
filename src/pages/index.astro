@@ -29,15 +29,33 @@ const products = [
   title="mtty.dev — miao and mtty"
   description="miao is an open-source AI coding agent for the terminal. mtty is a fast, embeddable terminal emulator and engine written in Rust."
 >
-  <section class="hero wrap">
+  <section class="hero">
+    <div class="hero-glow" aria-hidden="true"></div>
+    <p class="eyebrow">Open source · MIT &amp; Apache-2.0</p>
     <h1>Two tools for the terminal.</h1>
     <p class="lede">
       An agent that does the work, and a terminal built to run it. They are independent
       projects — use either on its own, or let them talk to each other.
     </p>
+    <div class="cta">
+      <a class="button" href="/docs/">Read the docs</a>
+      <code class="install">curl -fsSL https://mtty.dev/miao/install | bash</code>
+    </div>
   </section>
 
-  <section class="wrap">
+  <section class="wrap" data-reveal>
+    <figure class="shot">
+      <img
+        src="/shots/mtty.png"
+        width="1971"
+        height="950"
+        alt="mtty with three session tabs, a session sidebar, and a coloured git log in the active pane."
+      />
+      <figcaption>mtty, showing its own git history.</figcaption>
+    </figure>
+  </section>
+
+  <section class="wrap" data-reveal>
     <ul class="cards">
       {
         products.map(({ href, name, kind, blurb, meta, Mark }) => (
@@ -55,14 +73,29 @@ const products = [
     </ul>
   </section>
 
-  <section class="wrap together">
-    <h2>Better together, not dependent</h2>
-    <p>
-      mtty gives every pane an identity, and miao reports what it is doing — idle,
-      processing, waiting on you, or failed. The terminal badges the pane and raises a
-      notification, so you can watch several agents at once without reading every
-      window. The terminal never needs the agent: with nothing reporting in, it is
-      simply a terminal.
-    </p>
+  <section class="wrap together" data-reveal>
+    <div>
+      <h2>Better together, not dependent</h2>
+      <p>
+        mtty gives every pane an identity, and miao reports what it is doing — idle,
+        processing, waiting on you, or failed. The terminal badges the pane and raises a
+        notification, so you can watch several agents at once without reading every
+        window. The terminal never needs the agent: with nothing reporting in, it is
+        simply a terminal.
+      </p>
+    </div>
+    <div class="pair" aria-hidden="true">
+      <div class="pair-line">
+        <MiaoMark size={38} />
+        <span class="wire"></span>
+        <MttyMark size={38} />
+      </div>
+      <div class="states">
+        <span>idle</span>
+        <span>processing</span>
+        <span>awaiting</span>
+        <span>error</span>
+      </div>
+    </div>
   </section>
 </MarketingLayout>
