@@ -189,17 +189,20 @@ const copy = {
   <section class="hero">
     <div class="lattice" aria-hidden="true"></div>
     <div class="glow g1" aria-hidden="true"></div>
-    <div class="wrap hero-grid">
+    <div class="wrap">
+      <p class="label mtty rise"><MttyMark size={18} /><b>mtty</b> {copy.kind}</p>
+      <h1 class="display h1 rise" style="--i:1">
+        <span class="hl">{copy.h1a}</span>
+        <em class="hl accent mtty">{copy.h1b}</em>
+      </h1>
+    </div>
+    <div class="wrap hero-grid rise" style="--i:2">
       <div>
-        <p class="label mtty rise"><MttyMark size={18} /><b>mtty</b> {copy.kind}</p>
-        <h1 class="display h1 rise" style="--i:1">
-          {copy.h1a}<br /><em class="ink-mtty">{copy.h1b}</em>
-        </h1>
+        <p class="lede">{copy.lede}</p>
+        <p class="fine naming" set:html={copy.naming} />
       </div>
       <div class="hero-side">
-        <p class="lede rise" style="--i:2">{copy.lede}</p>
-        <p class="fine naming rise" style="--i:2" set:html={copy.naming} />
-        <div class="actions rise" style="--i:3">
+        <div class="actions">
           <a class="btn solid" href={RELEASES}>
             <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"
               ><path
@@ -214,7 +217,7 @@ const copy = {
           </a>
           <a class="btn" href={REPO}>{copy.build} <span class="arrow">↗</span></a>
         </div>
-        <ul class="pkgs rise" style="--i:3">
+        <ul class="pkgs">
           {
             copy.pkgs.map(([os, formats]) => (
               <li>
@@ -401,11 +404,24 @@ const copy = {
     background: var(--mtty-accent);
   }
 
+  /* Under the headline: what it is on the left, how to get it on the right,
+     both hung from the same rule. */
   .hero-grid {
     display: grid;
     grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
-    gap: 40px 72px;
-    align-items: end;
+    gap: 28px 64px;
+    margin-top: 48px;
+  }
+
+  .hero-grid > div {
+    padding-top: 24px;
+    border-top: 1px solid var(--border-strong);
+  }
+
+  @media (min-width: 961px) {
+    .h1 .hl {
+      white-space: nowrap;
+    }
   }
 
   .hero-side {
@@ -413,11 +429,16 @@ const copy = {
   }
 
   .h1 {
-    font-size: clamp(2.7rem, 6vw, 5.2rem);
+    font-size: clamp(2.4rem, 4.5vw, 4.2rem);
+  }
+
+  .h1 .hl {
+    display: block;
   }
 
   :lang(zh-CN) .h1 {
-    font-size: clamp(2.4rem, 5vw, 4.2rem);
+    font-size: clamp(2rem, 3.8vw, 3.5rem);
+    line-height: 1.22;
   }
 
   .naming {
@@ -425,7 +446,7 @@ const copy = {
   }
 
   .hero-side .actions {
-    margin-top: 28px;
+    margin-top: 4px;
   }
 
   .pkgs {
@@ -447,7 +468,7 @@ const copy = {
   }
 
   .hero-shot {
-    margin-top: 72px;
+    margin-top: 64px;
   }
 
   .preview {
@@ -868,6 +889,11 @@ const copy = {
   }
 
   @media (max-width: 960px) {
+    .hero-grid > .hero-side {
+      padding-top: 0;
+      border-top: 0;
+    }
+
     .hero-grid,
     .engine,
     .agents,

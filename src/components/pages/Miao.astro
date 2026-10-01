@@ -194,7 +194,8 @@ const copy = {
       <div class="hero-copy">
         <p class="label miao rise"><MiaoMark size={18} /><b>miao</b> {copy.kind}</p>
         <h1 class="display h1 rise" style="--i:1">
-          {copy.h1a}<br /><em class="ramp">{copy.h1b}</em>
+          <span class="hl">{copy.h1a}</span>
+          <em class="hl accent">{copy.h1b}</em>
         </h1>
         <p class="lede rise" style="--i:2">{copy.lede}</p>
         <p class="sub rise" style="--i:2">{copy.sub}</p>
@@ -413,11 +414,24 @@ const copy = {
   }
 
   .h1 {
-    font-size: clamp(2.7rem, 5.6vw, 4.9rem);
+    font-size: clamp(2.3rem, 3.95vw, 3.7rem);
+  }
+
+  /* Sized so "Your models. Your workflow." holds one line in its column:
+     two sentences, two lines, the same rhythm as the home page. */
+  @media (min-width: 961px) {
+    .h1 .hl {
+      white-space: nowrap;
+    }
+  }
+
+  .h1 .hl {
+    display: block;
   }
 
   :lang(zh-CN) .h1 {
-    font-size: clamp(2.3rem, 4.6vw, 3.9rem);
+    font-size: clamp(1.9rem, 2.9vw, 2.75rem);
+    line-height: 1.22;
   }
 
   .hero-copy .lede {
