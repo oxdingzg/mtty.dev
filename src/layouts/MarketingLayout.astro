@@ -15,6 +15,12 @@ const { title, description, lang = "en" } = Astro.props
 const canonical = new URL(Astro.url.pathname, Astro.site)
 const alternate = new URL(alternateFor(lang, Astro.url.pathname), Astro.site)
 const htmlLang = lang === "en" ? "en" : "zh-CN"
+
+// scripts/og.ts names a card after the route it belongs to, so the image is
+// derived here rather than passed in: "/" is home, "/miao/" is miao, and the
+// locale picks the suffix. Adding a marketing page means adding a card.
+const route = Astro.url.pathname.replace(/^\/zh(?=\/|$)/, "").replace(/\//g, "")
+const ogImage = new URL(`/og/${route === "" ? "home" : route}-${lang}.png`, Astro.site)
 ---
 
 <!doctype html>
@@ -34,6 +40,13 @@ const htmlLang = lang === "en" ? "en" : "zh-CN"
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonical} />
     <meta property="og:locale" content={lang === "en" ? "en_US" : "zh_CN"} />
+    <meta property="og:site_name" content="mtty.dev" />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={title} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={ogImage} />
     <script is:inline>
       // Mirror Starlight's stored preference so a reader who picks a theme in
       // the docs keeps it on the marketing pages. Runs before paint.
