@@ -26,7 +26,13 @@ export default defineConfig({
         zh: { label: "简体中文", lang: "zh-CN" },
       },
       social: [{ icon: "github", label: "GitHub", href: "https://github.com/oxdingzg" }],
-      customCss: ["./src/styles/tokens.css", "./src/styles/starlight.css"],
+      customCss: [
+        "@fontsource/instrument-serif/latin-400.css",
+        "@fontsource-variable/instrument-sans/wght.css",
+        "@fontsource-variable/jetbrains-mono/wght.css",
+        "./src/styles/tokens.css",
+        "./src/styles/starlight.css",
+      ],
       sidebar: [
         {
           label: "miao",

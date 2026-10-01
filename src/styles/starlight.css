@@ -1,7 +1,7 @@
 /* Map the brand tokens onto Starlight's theme variables so the documentation
-   chrome and the marketing pages read as one site. Only the accent and the type
-   stack are overridden — Starlight's own greys are already tuned for contrast,
-   and replacing them wholesale would break that. */
+   chrome and the marketing pages read as one site. The accent, the type stack
+   and the page ground are overridden; Starlight's own grey ramp stays, because
+   it is tuned for contrast across its components. */
 
 :root {
   --sl-font: var(--font-sans);
@@ -11,11 +11,33 @@
 :root[data-theme="dark"] {
   --sl-color-accent-low: #3d2408;
   --sl-color-accent: var(--miao-1);
-  --sl-color-accent-high: var(--miao-3);
+  --sl-color-accent-high: var(--miao-2);
+  --sl-color-black: var(--bg);
+  --sl-color-bg-nav: var(--bg);
+  --sl-color-bg-sidebar: var(--bg);
+  --sl-color-hairline: var(--border);
+  --sl-color-hairline-light: var(--border-strong);
 }
 
 :root[data-theme="light"] {
   --sl-color-accent-low: #fde8d3;
   --sl-color-accent: #c2641a;
   --sl-color-accent-high: #8a4410;
+}
+
+/* The page title in the marketing pages' display face. Section headings stay
+   in the text face, where long technical headings read better. */
+.content-panel h1#_top {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(2.2rem, 4vw, 3rem);
+  letter-spacing: -0.01em;
+  line-height: 1.08;
+}
+
+/* Starlight's site title, set like the marketing header's wordmark. */
+.site-title {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  letter-spacing: -0.02em;
 }
