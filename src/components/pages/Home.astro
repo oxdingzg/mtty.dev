@@ -24,15 +24,15 @@ const copy = {
     kicker: "Two open-source tools for the terminal",
     h1a: "An agent that does the work.",
     h1b: "A terminal that keeps watch.",
-    lede: [
-      "<strong>miao</strong> reads a repository, edits code, runs commands and checks its own work — with the models you choose and a running tally of what each turn costs.",
-      "<strong>mtty</strong> is a GPU-rendered terminal written in Rust that knows when the agent in a pane is working, waiting on you, or done.",
-    ],
+    miaoBlurb:
+      "Reads a repository, edits code, runs commands and checks its own work — with the models you choose and a running tally of what each turn costs.",
+    mttyBlurb:
+      "A GPU-rendered terminal written in Rust that knows when the agent in a pane is working, waiting on you, or done.",
     installHead: "Install miao",
     installMeta: "macOS · Linux",
     downloadHead: "Get mtty",
     download: "Download the preview",
-    downloadMeta: "macOS · Linux · Windows — pre-release",
+    downloadMeta: "macOS · Linux · Windows · preview",
     copyLabel: "Copy command",
     shotMtty: "mtty with three session tabs, a session sidebar, and a coloured git log in the active pane.",
     shotMiao: "miao, having listed every place in packages/core that spawns a subprocess, with its input box below.",
@@ -91,15 +91,13 @@ const copy = {
     kicker: "两个面向终端的开源工具",
     h1a: "一个替你干活的代理，",
     h1b: "一个替你盯着的终端。",
-    lede: [
-      "<strong>miao</strong> 读仓库、改代码、跑命令、验证结果 —— 模型由你选，每一轮花了多少一目了然。",
-      "<strong>mtty</strong> 是用 Rust 编写、GPU 渲染的终端，它知道某个窗格里的代理正在干活、在等你确认，还是已经做完。",
-    ],
+    miaoBlurb: "读仓库、改代码、跑命令、验证结果 —— 模型由你选，每一轮花了多少一目了然。",
+    mttyBlurb: "用 Rust 编写、GPU 渲染的终端，它知道某个窗格里的代理正在干活、在等你确认，还是已经做完。",
     installHead: "安装 miao",
     installMeta: "macOS · Linux",
     downloadHead: "获取 mtty",
     download: "下载预览版",
-    downloadMeta: "macOS · Linux · Windows —— 预发布",
+    downloadMeta: "macOS · Linux · Windows · 预览版",
     copyLabel: "复制命令",
     shotMtty: "mtty 打开了三个会话标签和一个会话侧栏，活动窗格里是一份带颜色的 git 日志。",
     shotMiao: "miao 列出了 packages/core 中所有启动子进程的位置，下方是输入框。",
@@ -159,47 +157,46 @@ const copy = {
     <div class="lattice" aria-hidden="true"></div>
     <div class="glow g1" aria-hidden="true"></div>
     <div class="glow g2" aria-hidden="true"></div>
-    <div class="wrap hero-grid">
-      <div class="hero-title">
-        <p class="label rise"><b>{copy.kicker}</b></p>
-        <h1 class="display h1 rise" style="--i:1">
-          {copy.h1a}<br /><em class="ramp">{copy.h1b}</em>
-        </h1>
+    <div class="wrap hero-head">
+      <p class="label rise"><b>{copy.kicker}</b></p>
+      <h1 class="display h1 rise" style="--i:1">
+        <span class="hl">{copy.h1a}</span>
+        <em class="hl accent">{copy.h1b}</em>
+      </h1>
+    </div>
+
+    <div class="wrap pair rise" style="--i:2">
+      <div class="pick">
+        <p class="pick-head">
+          <MiaoMark size={20} />
+          <b>miao</b>
+          <span class="pick-kind">{copy.miaoKind}</span>
+          <span class="pick-meta">{copy.installMeta}</span>
+        </p>
+        <p class="pick-blurb">{copy.miaoBlurb}</p>
+        <CopyCommand id="install-hero" command={INSTALL} label={copy.copyLabel} />
       </div>
-      <div class="hero-side">
-      <div class="hero-lede rise" style="--i:2">
-        {copy.lede.map((paragraph) => <p class="lede" set:html={paragraph} />)}
-      </div>
-      <div class="starts rise" style="--i:3">
-        <div class="start">
-          <p class="start-head">
-            <MiaoMark size={18} />
-            <span>{copy.installHead}</span>
-            <span class="start-meta">{copy.installMeta}</span>
-          </p>
-          <CopyCommand id="install-hero" command={INSTALL} label={copy.copyLabel} />
-        </div>
-        <div class="start">
-          <p class="start-head">
-            <MttyMark size={18} />
-            <span>{copy.downloadHead}</span>
-            <span class="start-meta">{copy.downloadMeta}</span>
-          </p>
-          <a class="btn dl" href={RELEASES}>
-            <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"
-              ><path
-                d="M8 2v8.5M4.5 7 8 10.5 11.5 7M3 13.5h10"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.6"
-                stroke-linecap="round"
-                stroke-linejoin="round"></path></svg
-            >
-            {copy.download}
-            <span class="arrow" aria-hidden="true">→</span>
-          </a>
-        </div>
-      </div>
+      <div class="pick">
+        <p class="pick-head">
+          <MttyMark size={20} />
+          <b>mtty</b>
+          <span class="pick-kind">{copy.mttyKind}</span>
+          <span class="pick-meta">{copy.downloadMeta}</span>
+        </p>
+        <p class="pick-blurb">{copy.mttyBlurb}</p>
+        <a class="btn dl" href={RELEASES}>
+          <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"
+            ><path
+              d="M8 2v8.5M4.5 7 8 10.5 11.5 7M3 13.5h10"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.6"
+              stroke-linecap="round"
+              stroke-linejoin="round"></path></svg
+          >
+          {copy.download}
+          <span class="arrow" aria-hidden="true">→</span>
+        </a>
       </div>
     </div>
 
@@ -348,7 +345,7 @@ const copy = {
     position: relative;
     isolation: isolate;
     overflow-x: clip;
-    padding-top: 96px;
+    padding-top: 88px;
   }
 
   .g1 {
@@ -367,66 +364,92 @@ const copy = {
     background: var(--mtty-accent);
   }
 
-  .hero-grid {
-    display: grid;
-    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
-    gap: 48px 72px;
-    align-items: center;
+  .hero-head {
+    max-width: var(--maxw);
   }
 
   .h1 {
-    margin-top: 6px;
-    max-width: 12ch;
+    margin-top: 4px;
+    font-size: clamp(2.5rem, 4.5vw, 4.15rem);
+    line-height: 1.06;
+    letter-spacing: -0.012em;
   }
 
-  /* Each Chinese clause stays on one line; a break inside a four-character
-     phrase reads as a mistake. */
+  .h1 .hl {
+    display: block;
+  }
+
+  /* One sentence per line on wide screens; the break between the two
+     sentences is the composition, so neither may wrap on its own. */
+  @media (min-width: 900px) {
+    .h1 .hl {
+      white-space: nowrap;
+    }
+  }
+
   :lang(zh-CN) .h1 {
-    max-width: none;
-    font-size: clamp(2rem, 4.3vw, 3.75rem);
+    font-size: clamp(2rem, 4.4vw, 3.9rem);
+    line-height: 1.22;
     white-space: nowrap;
   }
 
-  .hero-lede {
+  /* Two products, two columns, one baseline: name, a sentence, then the one
+     action that gets you each. */
+  .pair {
     display: grid;
-    gap: 18px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 48px;
+    margin-top: 56px;
   }
 
-  .hero-lede .lede {
-    font-size: 1.06rem;
-  }
-
-  .starts {
+  .pick {
     display: grid;
-    gap: 18px;
-    margin-top: 32px;
-  }
-
-  .hero-side,
-  .start {
+    grid-template-rows: auto 1fr auto;
+    gap: 12px;
     min-width: 0;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-strong);
   }
 
-  .start-head {
+  .pick-head {
     display: flex;
     align-items: center;
-    gap: 9px;
-    margin: 0 0 10px;
-    font-size: 0.9rem;
-    font-weight: 550;
+    flex-wrap: wrap;
+    gap: 6px 10px;
+    margin: 0;
+    font-size: 0.92rem;
   }
 
-  .start-meta {
+  .pick-head b {
+    font-family: var(--font-mono);
+    font-weight: 650;
+    letter-spacing: -0.02em;
+  }
+
+  .pick-kind {
+    color: var(--fg-muted);
+  }
+
+  .pick-meta {
     margin-left: auto;
     color: var(--fg-faint);
     font-family: var(--font-mono);
     font-size: 0.72rem;
-    font-weight: 400;
   }
 
+  .pick-blurb {
+    margin: 0 0 8px;
+    max-width: 52ch;
+    color: var(--fg-muted);
+    font-size: 1.02rem;
+    line-height: 1.6;
+  }
+
+  /* Same height as the install command beside it, so the two actions sit on
+     one line. */
   .dl {
     width: 100%;
-    height: 50px;
+    height: 56px;
     justify-content: flex-start;
     background: var(--surface);
   }
@@ -439,8 +462,8 @@ const copy = {
      sitting in front of it. */
   .stage {
     position: relative;
-    margin-top: 88px;
-    padding-bottom: 64px;
+    margin-top: 72px;
+    padding-bottom: 56px;
   }
 
   .s-mtty {
@@ -552,7 +575,7 @@ const copy = {
   }
 
   .card .h3 {
-    max-width: 18ch;
+    max-width: 24ch;
   }
 
   :lang(zh-CN) .card .h3 {
@@ -846,7 +869,6 @@ const copy = {
   }
 
   @media (max-width: 960px) {
-    .hero-grid,
     .duo,
     .together {
       grid-template-columns: minmax(0, 1fr);
@@ -862,8 +884,18 @@ const copy = {
       padding-top: 56px;
     }
 
-    .hero-grid {
-      gap: 28px;
+    .h1 {
+      font-size: clamp(2.3rem, 10vw, 2.9rem);
+    }
+
+    :lang(zh-CN) .h1 {
+      font-size: clamp(1.7rem, 8vw, 2.3rem);
+    }
+
+    .pair {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 32px;
+      margin-top: 36px;
     }
 
     .stage {
@@ -879,14 +911,6 @@ const copy = {
       display: none;
     }
 
-    .start-head {
-      flex-wrap: wrap;
-    }
-
-    .start-meta {
-      margin-left: 0;
-      flex-basis: 100%;
-    }
 
     .s-miao {
       position: relative;
