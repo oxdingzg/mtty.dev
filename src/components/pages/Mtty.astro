@@ -1,0 +1,948 @@
+---
+// The mtty product page, in both languages. Claims follow the miao-term README,
+// docs/PERFORMANCE.md and docs/INSTALL.md. The application ships as `miaotty`
+// from the miao-term repository; mtty is this site's short name for it.
+import MarketingLayout from "../../layouts/MarketingLayout.astro"
+import MttyMark from "../site/MttyMark.astro"
+import { prefixFor, type Locale } from "../../i18n/routes"
+
+interface Props {
+  lang: Locale
+}
+const { lang } = Astro.props
+const prefix = prefixFor(lang)
+
+const REPO = "https://github.com/oxdingzg/miao-term"
+const RELEASES = `${REPO}/releases/latest`
+
+const copy = {
+  en: {
+    title: "mtty — a fast, embeddable terminal emulator written in Rust",
+    description:
+      "mtty is a fast, embeddable, cross-platform terminal emulator and engine written in Rust: GPU rendering on wgpu, tabs and splits, agent-aware panes and a scriptable control plane.",
+    kind: "Terminal emulator",
+    h1a: "A fast, embeddable terminal,",
+    h1b: "written in Rust.",
+    lede: "A terminal engine that owns the path from PTY to screen, and a full application built on it — tabs, splits, side panels, shell integration and a scriptable control plane.",
+    naming: "The application ships as <code>miaotty</code>; the source lives in <code>miao-term</code>.",
+    download: "Download the preview",
+    build: "Build from source",
+    pkgs: [
+      ["macOS", "Apple silicon · Intel"],
+      ["Linux", ".deb · AppImage · tar"],
+      ["Windows", "MSI · zip"],
+    ],
+    shot: "mtty with three session tabs, a session sidebar, and a coloured git log in the active pane.",
+    cap: "Three session tabs, the session sidebar, and the repository's own git log",
+    preview: "<strong>Pre-release.</strong> The API is not stable yet. macOS is the primary platform; Windows is built, tested and driven on real hardware; Linux builds and passes tests in CI. Apple notarization and Windows MSI signing are still pending.",
+    engineLabel: "engine first",
+    engineH: "The engine and the app are separate on purpose.",
+    engineBody: "Dependencies point inward only — host, then renderer, then core — and the core has no windowing or GPU code, so it can be embedded in something else. The app is the engine's first consumer, not its owner.",
+    hot: "The hot path takes no locks and allocates nothing per frame.",
+    layers: [
+      ["host", "miao-term-widget", "winit + wgpu render loop; composites egui chrome in the same frame"],
+      ["render", "miao-term-render", "wgpu + glyphon glyph grid; quad and image pipelines"],
+      ["core", "miao-term-core", "PTY, VT parsing, grid and scrollback, selection, search, OSC, input encoding"],
+    ],
+    beside: ["graphics", "config", "mtp", "ui"],
+    besideLabel: "alongside",
+    perfLabel: "measured",
+    perfH: "Budgets enforced in CI.",
+    perfBody: "Every metric has an absolute budget with generous headroom: an order-of-magnitude regression fails the build, runner jitter does not.",
+    perfHead: ["Metric", "Budget", "Baseline"],
+    perf: [
+      ["VT parse throughput", "≥ 25 MB/s", "73 MB/s"],
+      ["Screen snapshot, 30 rows", "≤ 2 ms", "0.012 ms"],
+      ["Row build per frame", "≤ 4 ms", "0.12 ms"],
+      ["Palette rank, 10k entries", "≤ 100 ms", "2.0 ms"],
+    ],
+    perfFine: "Baselines are release builds on an M-series Mac. Frame time and key-to-glyph latency need a real window and GPU, so they are measured by hand rather than gated.",
+    wsLabel: "the workspace",
+    wsH: "More than a window with a prompt in it.",
+    ws: [
+      ["Tabs and splits", "A recursive split tree with draggable dividers. Tabs can be marked and grouped, and both survive a restart.", "⌘D  ⇧⌘D"],
+      ["Open Quickly", "One palette over tabs, agents, files, recents, content-search hits and commands.", "⌘K"],
+      ["Details panel", "Info, Agent, Outline, Git, Files, Ports and Queue, beside the terminal.", "⌥⌘D"],
+      ["Reader and editor", "Line numbers, jump-to-line, an opt-in minimal vim mode, and CommonMark with built-in Mermaid subsets.", "⌘-open"],
+      ["Inline graphics", "Sixel, Kitty and iTerm2 images drawn in the grid; they scroll with the content and clip to the pane.", "on by default"],
+      ["Real terminal behaviour", "VT via alacritty_terminal, CJK layout with system font fallback, find with highlighting, the kitty keyboard protocol.", "⌘F"],
+      ["Brings your config", "Imports ghostty and alacritty settings on first run. zsh integration arrives through a ZDOTDIR shim; your dotfiles are never modified.", "config.toml"],
+      ["Remote files over ssh", "View and edit a remote file through the pane's ssh ControlMaster connection, with a zero-install terminfo bootstrap.", "ssh"],
+    ],
+    agentLabel: "built for agents",
+    agentH: "It knows what the agent in each pane is doing.",
+    agentBody: "Agents report idle, processing, awaiting or error. mtty turns that into a badge on the tab, a system notification when one needs you, a sleep guard while one is working, and a prompt queue that sends the next message once the pane goes idle.",
+    agentPoints: [
+      ["miao", "Reports its state from a built-in integration. Nothing to wire up."],
+      ["Other agent CLIs", "mtty detects them, installs a state hook script and copies the snippet for you to add. Your agent's config is never edited for you."],
+      ["Composer", "A multi-line prompt editor that sends to the focused pane.", "⌘⇧E"],
+    ],
+    mtpLabel: "scriptable",
+    mtpH: "A control plane other programs can drive.",
+    mtpBody: "MTP speaks newline-delimited JSON over a per-user socket created with owner-only permissions — a named pipe on Windows. Every response carries a state revision; clients can block until it moves, or subscribe to an event stream instead of polling.",
+    mtpFine: "Serving it over TCP requires a token, and a capability allowlist can restrict what is accepted. The control plane runs commands in your shell, so treat the token as a secret.",
+    keysLabel: "keyboard",
+    keysH: "Shortcuts",
+    keys: [
+      ["⌘T", "New tab"],
+      ["⌘D / ⇧⌘D", "Split right / down"],
+      ["⌘K", "Open Quickly"],
+      ["⌘F", "Find"],
+      ["⌥⌘D", "Details panel"],
+      ["⌘⇧E", "Composer"],
+      ["⌘⇧T", "Quick Terminal"],
+      ["⌘⇧Z", "Reopen closed tab"],
+      ["⌘,", "Settings"],
+    ],
+    keysFine: "⌘ on macOS; the equivalent primary modifier elsewhere.",
+    endH: "Try the preview.",
+    srcLabel: "or build it",
+    docs: "Documentation",
+  },
+  zh: {
+    title: "mtty — 用 Rust 编写的快速、可嵌入的终端模拟器",
+    description:
+      "mtty 是用 Rust 编写的快速、可嵌入、跨平台的终端模拟器与引擎：基于 wgpu 的 GPU 渲染、标签与分屏、懂代理的窗格，以及可脚本化的控制面。",
+    kind: "终端模拟器",
+    h1a: "快速、可嵌入的终端，",
+    h1b: "用 Rust 编写。",
+    lede: "一个负责从 PTY 到屏幕全过程的终端引擎，以及构建其上的完整应用 —— 标签、分屏、侧边面板、shell 集成和可脚本化的控制面。",
+    naming: "应用以 <code>miaotty</code> 的名字发布，源码在 <code>miao-term</code> 仓库。",
+    download: "下载预览版",
+    build: "从源码构建",
+    pkgs: [
+      ["macOS", "Apple 芯片 · Intel"],
+      ["Linux", ".deb · AppImage · tar"],
+      ["Windows", "MSI · zip"],
+    ],
+    shot: "mtty 打开了三个会话标签和一个会话侧栏，活动窗格里是一份带颜色的 git 日志。",
+    cap: "三个会话标签、会话侧栏，以及仓库自己的 git 日志",
+    preview: "<strong>预发布。</strong>API 尚未稳定。macOS 是主要平台；Windows 已在真实硬件上构建、测试并驱动；Linux 在 CI 中构建并通过测试。Apple 公证与 Windows MSI 签名尚未完成。",
+    engineLabel: "引擎优先",
+    engineH: "引擎与应用，刻意分开。",
+    engineBody: "依赖只向内指：宿主 → 渲染 → 内核。内核不含任何窗口或 GPU 代码，因此可以嵌入别的程序。应用是引擎的第一个使用者，而不是它的主人。",
+    hot: "热路径不加锁，每帧零分配。",
+    layers: [
+      ["host", "miao-term-widget", "winit + wgpu 渲染循环，在同一帧合成 egui 界面"],
+      ["render", "miao-term-render", "wgpu + glyphon 字形网格，四边形与图像管线"],
+      ["core", "miao-term-core", "PTY、VT 解析、网格与回滚、选择、搜索、OSC、输入编码"],
+    ],
+    beside: ["graphics", "config", "mtp", "ui"],
+    besideLabel: "并列模块",
+    perfLabel: "实测",
+    perfH: "性能预算，由 CI 把关。",
+    perfBody: "每项指标都有留足余量的绝对预算：数量级的退化会让构建失败，运行器抖动不会。",
+    perfHead: ["指标", "预算", "基线"],
+    perf: [
+      ["VT 解析吞吐", "≥ 25 MB/s", "73 MB/s"],
+      ["屏幕快照，30 行", "≤ 2 ms", "0.012 ms"],
+      ["每帧行构建", "≤ 4 ms", "0.12 ms"],
+      ["命令面板排序，1 万条", "≤ 100 ms", "2.0 ms"],
+    ],
+    perfFine: "基线为 M 系列 Mac 上的 release 构建。帧时间与按键到字形的延迟需要真实窗口和 GPU，因此手动测量，不作为 CI 门槛。",
+    wsLabel: "工作台",
+    wsH: "不只是一个带提示符的窗口。",
+    ws: [
+      ["标签与分屏", "递归分屏树，分隔条可拖动。标签可以加标记、分组，重启后依然保留。", "⌘D  ⇧⌘D"],
+      ["快速打开", "一个面板覆盖标签、代理、文件、最近项目、内容搜索结果和命令。", "⌘K"],
+      ["详情面板", "信息、代理、大纲、Git、文件、端口、队列，就在终端旁边。", "⌥⌘D"],
+      ["阅读器与编辑器", "行号、跳转到行、可选的极简 vim 模式，以及内置 Mermaid 子集的 CommonMark 渲染。", "⌘-打开"],
+      ["内联图像", "Sixel、Kitty、iTerm2 图像直接画进网格，随内容滚动、按窗格裁剪。", "默认开启"],
+      ["真正的终端行为", "基于 alacritty_terminal 的 VT、CJK 排版与系统字体回退、带高亮的查找、kitty 键盘协议。", "⌘F"],
+      ["沿用你的配置", "首次运行自动导入 ghostty 和 alacritty 的设置。zsh 集成经由 ZDOTDIR 垫片完成，绝不修改你的 dotfiles。", "config.toml"],
+      ["通过 ssh 编辑远程文件", "借助窗格的 ssh ControlMaster 连接查看和编辑远程文件，terminfo 零安装引导。", "ssh"],
+    ],
+    agentLabel: "为代理而造",
+    agentH: "它知道每个窗格里的代理在做什么。",
+    agentBody: "代理上报 idle、processing、awaiting 或 error 四种状态。mtty 把它变成标签上的徽章、代理需要你时的系统通知、代理工作时的防休眠，以及在窗格空闲后自动发送下一条消息的提示队列。",
+    agentPoints: [
+      ["miao", "通过内置集成上报状态，无需任何配置。"],
+      ["其他代理 CLI", "mtty 能识别它们，安装状态钩子脚本，并复制好需要你自己添加的配置片段。绝不替你改动代理的配置。"],
+      ["Composer", "多行提示编辑器，发送到当前窗格。", "⌘⇧E"],
+    ],
+    mtpLabel: "可脚本化",
+    mtpH: "一个其他程序也能驱动的控制面。",
+    mtpBody: "MTP 通过仅属主可访问的每用户套接字（Windows 上为命名管道）收发按行分隔的 JSON。每个响应都带状态版本号；客户端可以阻塞等待它变化，或订阅事件流，而不必轮询。",
+    mtpFine: "通过 TCP 提供服务必须设置令牌，还可以用能力白名单限制可接受的请求。控制面会在你的 shell 中执行命令，请妥善保管令牌。",
+    keysLabel: "键盘",
+    keysH: "快捷键",
+    keys: [
+      ["⌘T", "新标签"],
+      ["⌘D / ⇧⌘D", "向右 / 向下分屏"],
+      ["⌘K", "快速打开"],
+      ["⌘F", "查找"],
+      ["⌥⌘D", "详情面板"],
+      ["⌘⇧E", "Composer"],
+      ["⌘⇧T", "Quick Terminal"],
+      ["⌘⇧Z", "重新打开关闭的标签"],
+      ["⌘,", "设置"],
+    ],
+    keysFine: "macOS 上为 ⌘，其他平台使用对应的主修饰键。",
+    endH: "试试预览版。",
+    srcLabel: "或者自己构建",
+    docs: "文档",
+  },
+}[lang]
+---
+
+<MarketingLayout lang={lang} title={copy.title} description={copy.description}>
+  <section class="hero">
+    <div class="lattice" aria-hidden="true"></div>
+    <div class="glow g1" aria-hidden="true"></div>
+    <div class="wrap hero-grid">
+      <div>
+        <p class="label mtty rise"><MttyMark size={18} /><b>mtty</b> {copy.kind}</p>
+        <h1 class="display h1 rise" style="--i:1">
+          {copy.h1a}<br /><em class="ink-mtty">{copy.h1b}</em>
+        </h1>
+      </div>
+      <div class="hero-side">
+        <p class="lede rise" style="--i:2">{copy.lede}</p>
+        <p class="fine naming rise" style="--i:2" set:html={copy.naming} />
+        <div class="actions rise" style="--i:3">
+          <a class="btn solid" href={RELEASES}>
+            <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"
+              ><path
+                d="M8 2v8.5M4.5 7 8 10.5 11.5 7M3 13.5h10"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.6"
+                stroke-linecap="round"
+                stroke-linejoin="round"></path></svg
+            >
+            {copy.download}
+          </a>
+          <a class="btn" href={REPO}>{copy.build} <span class="arrow">↗</span></a>
+        </div>
+        <ul class="pkgs rise" style="--i:3">
+          {
+            copy.pkgs.map(([os, formats]) => (
+              <li>
+                <b>{os}</b>
+                <span>{formats}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+    <div class="wrap">
+      <figure class="shot hero-shot rise" style="--i:4">
+        <img src="/shots/mtty.png" width="1971" height="950" alt={copy.shot} fetchpriority="high" />
+        <figcaption>{copy.cap}</figcaption>
+      </figure>
+      <div class="callout preview">
+        <span class="pip" aria-hidden="true"></span>
+        <p set:html={copy.preview} />
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap section engine" data-reveal>
+    <div class="engine-copy">
+      <p class="label"><b>01</b> {copy.engineLabel}</p>
+      <h2 class="display h2">{copy.engineH}</h2>
+      <p class="lede">{copy.engineBody}</p>
+      <p class="hot">
+        <span class="path" aria-hidden="true"
+          ><span>pty</span><i>→</i><span>vt</span><i>→</i><span>grid</span><i>→</i><span
+            >renderer</span
+          ></span
+        >
+        {copy.hot}
+      </p>
+    </div>
+    <div class="stack">
+      {
+        copy.layers.map(([tier, crate, role]) => (
+          <div class="layer" data-tier={tier}>
+            <span class="tier">{tier}</span>
+            <code class="crate">{crate}</code>
+            <span class="role">{role}</span>
+          </div>
+        ))
+      }
+      <div class="beside">
+        <span class="tier">{copy.besideLabel}</span>
+        {copy.beside.map((name) => <code>miao-term-{name}</code>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap section perf" data-reveal>
+    <div class="section-head">
+      <p class="label"><b>02</b> {copy.perfLabel}</p>
+      <h2 class="display h2">{copy.perfH}</h2>
+      <p class="lede">{copy.perfBody}</p>
+    </div>
+    <div class="meters">
+      {
+        copy.perf.map(([metric, budget, baseline]) => (
+          <div class="meter">
+            <p class="metric">{metric}</p>
+            <p class="baseline">{baseline}</p>
+            <p class="budget">
+              <span>{copy.perfHead[1]}</span> {budget}
+            </p>
+          </div>
+        ))
+      }
+    </div>
+    <p class="fine note">{copy.perfFine}</p>
+  </section>
+
+  <section class="wrap section" data-reveal>
+    <div class="section-head">
+      <p class="label"><b>03</b> {copy.wsLabel}</p>
+      <h2 class="display h2">{copy.wsH}</h2>
+    </div>
+    <ul class="ws">
+      {
+        copy.ws.map(([head, body, hint]) => (
+          <li>
+            <div class="ws-top">
+              <h3>{head}</h3>
+              <kbd>{hint}</kbd>
+            </div>
+            <p>{body}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section class="wrap section agents" data-reveal>
+    <div class="agents-copy">
+      <p class="label"><b>04</b> {copy.agentLabel}</p>
+      <h2 class="display h2">{copy.agentH}</h2>
+      <p class="lede">{copy.agentBody}</p>
+    </div>
+    <div class="agents-side">
+      <div class="statebar" aria-hidden="true">
+        <span data-state="idle">idle</span>
+        <span data-state="processing">processing</span>
+        <span data-state="awaiting">awaiting</span>
+        <span data-state="error">error</span>
+      </div>
+      <dl class="agent-points">
+        {
+          copy.agentPoints.map(([term, detail, key]) => (
+            <div>
+              <dt>
+                {term} {key && <kbd>{key}</kbd>}
+              </dt>
+              <dd>{detail}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </section>
+
+  <section class="wrap section mtp" data-reveal>
+    <div>
+      <p class="label"><b>05</b> {copy.mtpLabel}</p>
+      <h2 class="display h2">{copy.mtpH}</h2>
+      <p class="lede">{copy.mtpBody}</p>
+      <p class="fine">{copy.mtpFine}</p>
+    </div>
+    <pre class="codeblock mtty"><code><span class="p">$ </span>miaotty-cli pane list
+<span class="p">$ </span>miaotty-cli pane run --pane ID --data "cargo test"
+<span class="p">$ </span>miaotty-cli events --topic agent.state
+<span class="p">$ </span>miaotty-cli wait --since 42
+<span class="p">$ </span>miaotty-cli view ./README.md
+<span class="p">$ </span>miaotty-cli file read --path /etc/hosts   <span class="c"># ≤ 2 MB</span></code></pre>
+  </section>
+
+  <section class="wrap section keys" data-reveal>
+    <div class="section-head">
+      <p class="label"><b>06</b> {copy.keysLabel}</p>
+      <h2 class="display h3">{copy.keysH}</h2>
+    </div>
+    <dl class="keygrid">
+      {
+        copy.keys.map(([key, action]) => (
+          <div>
+            <dt><kbd>{key}</kbd></dt>
+            <dd>{action}</dd>
+          </div>
+        ))
+      }
+    </dl>
+    <p class="fine note">{copy.keysFine}</p>
+  </section>
+
+  <section class="wrap section end" data-reveal>
+    <MttyMark size={44} />
+    <h2 class="display h2">{copy.endH}</h2>
+    <div class="actions">
+      <a class="btn solid" href={RELEASES}>{copy.download} <span class="arrow">→</span></a>
+      <a class="btn" href={`${prefix}/docs/mtty/`}>{copy.docs} <span class="arrow">→</span></a>
+    </div>
+    <p class="fine src">{copy.srcLabel}</p>
+    <pre class="codeblock mtty"><code><span class="p">$ </span>git clone https://github.com/oxdingzg/miao-term.git && cd miao-term
+<span class="p">$ </span>cargo run --release -p miaotty-app</code></pre>
+  </section>
+</MarketingLayout>
+
+<style>
+  .hero {
+    position: relative;
+    isolation: isolate;
+    overflow-x: clip;
+    padding-top: 88px;
+  }
+
+  .g1 {
+    width: 760px;
+    height: 560px;
+    right: -200px;
+    top: -240px;
+    background: var(--mtty-accent);
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    gap: 40px 72px;
+    align-items: end;
+  }
+
+  .hero-side {
+    min-width: 0;
+  }
+
+  .h1 {
+    font-size: clamp(2.7rem, 6vw, 5.2rem);
+  }
+
+  :lang(zh-CN) .h1 {
+    font-size: clamp(2.4rem, 5vw, 4.2rem);
+  }
+
+  .naming {
+    margin: 14px 0 0;
+  }
+
+  .hero-side .actions {
+    margin-top: 28px;
+  }
+
+  .pkgs {
+    list-style: none;
+    margin: 22px 0 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 22px;
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    color: var(--fg-faint);
+  }
+
+  .pkgs b {
+    color: var(--fg-muted);
+    font-weight: 500;
+    margin-right: 6px;
+  }
+
+  .hero-shot {
+    margin-top: 72px;
+  }
+
+  .preview {
+    margin-top: 28px;
+    max-width: 860px;
+  }
+
+  .preview p {
+    margin: 0;
+  }
+
+  /* --- Engine --- */
+
+  .engine {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 64px;
+    align-items: center;
+  }
+
+  .engine-copy {
+    display: grid;
+    gap: 22px;
+  }
+
+  .engine-copy .label {
+    margin: 0;
+  }
+
+  .hot {
+    margin: 6px 0 0;
+    display: grid;
+    gap: 10px;
+    color: var(--fg);
+    font-weight: 550;
+  }
+
+  .path {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    font-weight: 400;
+  }
+
+  .path span {
+    padding: 3px 9px;
+    border: 1px solid color-mix(in srgb, var(--mtty-ink) 45%, transparent);
+    border-radius: 4px;
+    color: var(--mtty-ink);
+  }
+
+  .path i {
+    font-style: normal;
+    color: var(--fg-faint);
+  }
+
+  .stack {
+    display: grid;
+    gap: 8px;
+  }
+
+  .layer {
+    display: grid;
+    grid-template-columns: 64px minmax(0, 1fr);
+    gap: 4px 16px;
+    padding: 18px 20px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+  }
+
+  .layer[data-tier="host"] {
+    margin-right: 0;
+  }
+
+  .layer[data-tier="render"] {
+    margin-inline: 16px;
+  }
+
+  .layer[data-tier="core"] {
+    margin-inline: 32px;
+    border-color: color-mix(in srgb, var(--mtty-ink) 50%, transparent);
+    background: color-mix(in srgb, var(--mtty-ink) 7%, var(--surface));
+  }
+
+  .tier {
+    grid-row: span 2;
+    color: var(--fg-faint);
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    padding-top: 3px;
+  }
+
+  .layer[data-tier="core"] .tier {
+    color: var(--mtty-ink);
+  }
+
+  .crate {
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+
+  .role {
+    color: var(--fg-muted);
+    font-size: 0.88rem;
+  }
+
+  .beside {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+    padding: 14px 20px;
+    border: 1px dashed var(--border-strong);
+    border-radius: var(--radius-lg);
+  }
+
+  .beside .tier {
+    margin-right: 6px;
+    padding: 0;
+  }
+
+  .beside code {
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: var(--surface-raised);
+    font-size: 0.76rem;
+    color: var(--fg-muted);
+  }
+
+  /* --- Perf --- */
+
+  .meters {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    border-top: 1px solid var(--border-strong);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .meter {
+    padding: 26px 24px 26px 0;
+  }
+
+  .meter + .meter {
+    padding-left: 24px;
+    border-left: 1px solid var(--border);
+  }
+
+  .meter p {
+    margin: 0;
+  }
+
+  .metric {
+    color: var(--fg-muted);
+    font-size: 0.9rem;
+  }
+
+  .baseline {
+    margin-top: 14px !important;
+    font-family: var(--font-display);
+    font-size: clamp(2.4rem, 4vw, 3.4rem);
+    line-height: 1;
+    color: var(--mtty-ink);
+  }
+
+  .budget {
+    margin-top: 14px !important;
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    color: var(--fg-faint);
+  }
+
+  .budget span {
+    margin-right: 6px;
+  }
+
+  .note {
+    margin-top: 22px;
+    max-width: 80ch;
+  }
+
+  /* --- Workspace --- */
+
+  .ws {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--border);
+  }
+
+  .ws li {
+    padding: 24px 22px 26px;
+    background: var(--surface);
+    transition: background 160ms ease;
+  }
+
+  .ws li:hover {
+    background: var(--surface-raised);
+  }
+
+  .ws-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .ws h3 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  .ws kbd {
+    font-size: 0.68rem;
+    color: var(--fg-faint);
+  }
+
+  .ws p {
+    margin: 0;
+    color: var(--fg-muted);
+    font-size: 0.9rem;
+  }
+
+  /* --- Agents --- */
+
+  .agents {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 64px;
+    align-items: start;
+  }
+
+  .agents-copy {
+    display: grid;
+    gap: 22px;
+  }
+
+  .agents-copy .label {
+    margin: 0;
+  }
+
+  .statebar {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 6px;
+    margin-bottom: 18px;
+  }
+
+  .statebar span {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    color: var(--c);
+  }
+
+  .statebar span::before {
+    content: "";
+    flex: none;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--c);
+  }
+
+  [data-state="processing"] {
+    --c: #88c0d0;
+  }
+
+  [data-state="awaiting"] {
+    --c: #ebcb8b;
+  }
+
+  [data-state="idle"] {
+    --c: #a3be8c;
+  }
+
+  [data-state="error"] {
+    --c: #d08770;
+  }
+
+  :root[data-theme="light"] [data-state="processing"] {
+    --c: #3f7f92;
+  }
+
+  :root[data-theme="light"] [data-state="awaiting"] {
+    --c: #9a6b0c;
+  }
+
+  :root[data-theme="light"] [data-state="idle"] {
+    --c: #4f7a35;
+  }
+
+  :root[data-theme="light"] [data-state="error"] {
+    --c: #b24a3a;
+  }
+
+  .agent-points {
+    margin: 0;
+  }
+
+  .agent-points div {
+    padding: 18px 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .agent-points dt {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+
+  .agent-points dd {
+    margin: 6px 0 0;
+    color: var(--fg-muted);
+  }
+
+  /* --- MTP --- */
+
+  .mtp {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 64px;
+    align-items: center;
+  }
+
+  .mtp .lede {
+    margin-top: 22px;
+  }
+
+  .mtp .fine {
+    margin-top: 14px;
+  }
+
+  .mtp .codeblock {
+    padding: 26px 28px;
+  }
+
+  /* --- Keys --- */
+
+  .keys .section-head {
+    margin-bottom: 28px;
+  }
+
+  .keygrid {
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0 40px;
+  }
+
+  .keygrid div {
+    display: grid;
+    grid-template-columns: 96px minmax(0, 1fr);
+    align-items: center;
+    gap: 16px;
+    padding: 14px 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .keygrid dd {
+    margin: 0;
+    color: var(--fg-muted);
+  }
+
+  .end {
+    display: grid;
+    justify-items: center;
+    gap: 26px;
+    text-align: center;
+  }
+
+  .end .src {
+    margin: 10px 0 -12px;
+    font-family: var(--font-mono);
+  }
+
+  .end .codeblock {
+    max-width: 100%;
+    text-align: left;
+  }
+
+  @media (max-width: 1080px) {
+    .ws {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .meters {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .meter:nth-child(3) {
+      padding-left: 0;
+      border-left: 0;
+    }
+
+    .meter:nth-child(n + 3) {
+      border-top: 1px solid var(--border);
+    }
+  }
+
+  @media (max-width: 960px) {
+    .hero-grid,
+    .engine,
+    .agents,
+    .mtp {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 40px;
+    }
+
+    .keygrid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 720px) {
+    .hero {
+      padding-top: 52px;
+    }
+
+    .hero-grid {
+      gap: 28px;
+    }
+
+    .hero-shot {
+      margin-top: 48px;
+    }
+
+    .ws {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .layer[data-tier="render"] {
+      margin-inline: 8px;
+    }
+
+    .layer[data-tier="core"] {
+      margin-inline: 16px;
+    }
+
+    .layer {
+      grid-template-columns: minmax(0, 1fr);
+      padding: 16px;
+    }
+
+    .tier {
+      grid-row: auto;
+    }
+
+    .statebar {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .keygrid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .mtp .codeblock,
+    .end .codeblock {
+      font-size: 0.74rem;
+      padding: 18px;
+    }
+
+    .meter {
+      padding-right: 12px;
+    }
+
+    .meter + .meter {
+      padding-left: 12px;
+    }
+
+    .meter:nth-child(odd) {
+      padding-left: 0;
+    }
+
+    .metric {
+      min-height: 2.9em;
+    }
+  }
+</style>
