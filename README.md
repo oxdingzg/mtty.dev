@@ -9,8 +9,15 @@ Source for **[mtty.dev](https://mtty.dev)**, the site that documents two product
 
 ## Layout
 
-Marketing pages are hand-written Astro routes in `src/pages/`; the documentation is
-rendered by Starlight from `src/content/docs/`.
+Marketing pages are hand-written Astro. Each page lives once, in both languages, in
+`src/components/pages/` (`Home`, `Miao`, `Mtty`), with the English and Chinese copy side
+by side; the routes in `src/pages/` and `src/pages/zh/` are one-line wrappers that pick
+the language. The documentation is rendered by Starlight from `src/content/docs/`.
+
+Brand tokens and the type stack are in `src/styles/tokens.css`, shared by the marketing
+pages, the Starlight theme and the social cards. Fonts are self-hosted through
+`@fontsource` (Instrument Serif, Instrument Sans, JetBrains Mono), so no page depends on
+a third-party font CDN.
 
 The documentation content lives one level deeper than usual — `src/content/docs/docs/**`
 rather than `src/content/docs/**`. Starlight's `base` option is project-wide, so setting
@@ -35,3 +42,5 @@ Run from the repository root:
 | `bun run build` | Production build to `./dist/` |
 | `bun run preview` | Serve the built output locally |
 | `bun run check` | Type-check `.astro` and content files |
+| `bun run sync:docs` | Re-sync the miao documentation from its repository |
+| `bun run og` | Re-render the social preview cards in `public/og/` |
