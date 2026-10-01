@@ -1,7 +1,7 @@
 ---
 // The mtty product page, in both languages. Claims follow the miao-term README,
-// docs/PERFORMANCE.md and docs/INSTALL.md. The application ships as `miaotty`
-// from the miao-term repository; mtty is this site's short name for it.
+// docs/PERFORMANCE.md and docs/INSTALL.md. The application ships as `mtty`
+// from the miao-term repository.
 import MarketingLayout from "../../layouts/MarketingLayout.astro"
 import MttyMark from "../site/MttyMark.astro"
 import { prefixFor, type Locale } from "../../i18n/routes"
@@ -24,7 +24,7 @@ const copy = {
     h1a: "A fast, embeddable terminal,",
     h1b: "written in Rust.",
     lede: "A terminal engine that owns the path from PTY to screen, and a full application built on it — tabs, splits, side panels, shell integration and a scriptable control plane.",
-    naming: "The application ships as <code>miaotty</code>; the source lives in <code>miao-term</code>.",
+    naming: "The application ships as <code>mtty</code> (called <code>miaotty</code> up to v0.0.5); the source lives in <code>miao-term</code>.",
     download: "Download the preview",
     build: "Build from source",
     pkgs: [
@@ -107,7 +107,7 @@ const copy = {
     h1a: "快速、可嵌入的终端，",
     h1b: "用 Rust 编写。",
     lede: "一个负责从 PTY 到屏幕全过程的终端引擎，以及构建其上的完整应用 —— 标签、分屏、侧边面板、shell 集成和可脚本化的控制面。",
-    naming: "应用以 <code>miaotty</code> 的名字发布，源码在 <code>miao-term</code> 仓库。",
+    naming: "应用以 <code>mtty</code> 的名字发布（v0.0.5 及之前名为 <code>miaotty</code>），源码在 <code>miao-term</code> 仓库。",
     download: "下载预览版",
     build: "从源码构建",
     pkgs: [
@@ -346,12 +346,12 @@ const copy = {
       <p class="lede">{copy.mtpBody}</p>
       <p class="fine">{copy.mtpFine}</p>
     </div>
-    <pre class="codeblock mtty"><code><span class="p">$ </span>miaotty-cli pane list
-<span class="p">$ </span>miaotty-cli pane run --pane ID --data "cargo test"
-<span class="p">$ </span>miaotty-cli events --topic agent.state
-<span class="p">$ </span>miaotty-cli wait --since 42
-<span class="p">$ </span>miaotty-cli view ./README.md
-<span class="p">$ </span>miaotty-cli file read --path /etc/hosts   <span class="c"># ≤ 2 MB</span></code></pre>
+    <pre class="codeblock mtty"><code><span class="p">$ </span>mtty-cli pane list
+<span class="p">$ </span>mtty-cli pane run --pane ID --data "cargo test"
+<span class="p">$ </span>mtty-cli events --topic agent.state
+<span class="p">$ </span>mtty-cli wait --since 42
+<span class="p">$ </span>mtty-cli view ./README.md
+<span class="p">$ </span>mtty-cli file read --path /etc/hosts   <span class="c"># ≤ 2 MB</span></code></pre>
   </section>
 
   <section class="wrap section keys" data-reveal>
@@ -381,7 +381,7 @@ const copy = {
     </div>
     <p class="fine src">{copy.srcLabel}</p>
     <pre class="codeblock mtty"><code><span class="p">$ </span>git clone https://github.com/oxdingzg/miao-term.git && cd miao-term
-<span class="p">$ </span>cargo run --release -p miaotty-app</code></pre>
+<span class="p">$ </span>cargo run --release -p mtty-app</code></pre>
   </section>
 </MarketingLayout>
 

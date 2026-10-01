@@ -3,7 +3,7 @@ title: mtty
 description: Documentation for mtty, a terminal emulator and engine written in Rust.
 ---
 
-mtty is a terminal emulator and engine written in Rust: an engine library (`miao-term-core`) that owns the path from the PTY to the screen with no windowing or GPU code, plus a full application built on top of it. The application ships as **`miaotty`**, alongside the **`miaotty-cli`** control client; the source lives in the [`miao-term`](https://github.com/oxdingzg/miao-term) repository.
+mtty is a terminal emulator and engine written in Rust: an engine library (`miao-term-core`) that owns the path from the PTY to the screen with no windowing or GPU code, plus a full application built on top of it. The application ships as **`mtty`**, alongside the **`mtty-cli`** control client (both were called `miaotty` up to v0.0.5, and an existing `~/.config/miaotty` is copied on first start); the source lives in the [`miao-term`](https://github.com/oxdingzg/miao-term) repository.
 
 :::caution[Pre-release]
 The API is not stable yet. macOS is the primary platform; Windows is built and tested on real hardware; Linux builds and passes tests in CI. Apple notarization and Windows MSI signing are still pending.
@@ -15,9 +15,9 @@ Pre-release packages are published on [GitHub Releases](https://github.com/oxdin
 
 | Platform | Packages |
 | --- | --- |
-| macOS | zip containing `miaotty.app`, for Apple silicon and Intel |
-| Linux | `.deb`, AppImage and tar, containing `miaotty` and `miaotty-cli` |
-| Windows | MSI and zip, containing `miaotty.exe` and `miaotty-cli.exe` |
+| macOS | zip containing `mtty.app`, for Apple silicon and Intel |
+| Linux | `.deb`, AppImage and tar, containing `mtty` and `mtty-cli` |
+| Windows | MSI and zip, containing `mtty.exe` and `mtty-cli.exe` |
 
 Each package has a minisign `.sig` signature; the public key is published with the release.
 
@@ -28,14 +28,14 @@ Requires the Rust stable toolchain (MSRV 1.80) and a GPU driver supporting Metal
 ```sh
 git clone https://github.com/oxdingzg/miao-term.git
 cd miao-term
-cargo run --release -p miaotty-app
+cargo run --release -p mtty-app
 ```
 
 The first build compiles `wgpu` and `glyphon` and may take a few minutes.
 
 ## Configuration
 
-miaotty reads `~/.config/miaotty/config.toml` (or `$XDG_CONFIG_HOME/miaotty/config.toml`). Every key is optional. If no miaotty config exists, ghostty's `config` and alacritty's `alacritty.toml` are imported automatically.
+mtty reads `~/.config/mtty/config.toml` (or `$XDG_CONFIG_HOME/mtty/config.toml`). Every key is optional. If no mtty config exists, ghostty's `config` and alacritty's `alacritty.toml` are imported automatically.
 
 ## More documentation
 

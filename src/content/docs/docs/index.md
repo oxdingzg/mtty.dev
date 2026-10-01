@@ -15,6 +15,6 @@ An open-source AI coding agent for the terminal: your models, steerable long tas
 
 ## mtty
 
-A fast, embeddable, cross-platform terminal emulator and engine written in Rust. The application ships as `miaotty`.
+A fast, embeddable, cross-platform terminal emulator and engine written in Rust. The application ships as `mtty`.
 
 - [Overview](/docs/mtty/) — status, downloads, building from source, and where the rest of the documentation lives
