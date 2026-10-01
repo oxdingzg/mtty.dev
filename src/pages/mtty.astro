@@ -34,7 +34,8 @@ const features = [
   title="mtty — a fast, embeddable terminal emulator in Rust"
   description="mtty is a fast, embeddable, cross-platform terminal emulator and engine written in Rust, rendered on the GPU with wgpu."
 >
-  <section class="hero wrap">
+  <section class="hero">
+    <div class="hero-glow cool" aria-hidden="true"></div>
     <div class="title">
       <MttyMark size={44} />
       <h1>mtty</h1>
@@ -45,6 +46,18 @@ const features = [
       on top — tabs, splits, side panels, shell integration and a scriptable control
       plane.
     </p>
+  </section>
+
+  <section class="wrap" data-reveal>
+    <figure class="shot">
+      <img
+        src="/shots/mtty.png"
+        width="1971"
+        height="950"
+        alt="mtty with three session tabs, a session sidebar, and a coloured git log in the active pane."
+      />
+      <figcaption>mtty, showing its own git history.</figcaption>
+    </figure>
   </section>
 
   <section class="wrap">

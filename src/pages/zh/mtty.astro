@@ -35,7 +35,8 @@ const features = [
   title="mtty — 用 Rust 编写的快速可嵌入终端模拟器"
   description="mtty 是用 Rust 编写的快速、可嵌入、跨平台终端模拟器与引擎，使用 wgpu 在 GPU 上渲染。"
 >
-  <section class="hero wrap">
+  <section class="hero">
+    <div class="hero-glow cool" aria-hidden="true"></div>
     <div class="title">
       <MttyMark size={44} />
       <h1>mtty</h1>
@@ -45,6 +46,18 @@ const features = [
       一个不含窗口与 GPU 代码的终端引擎，以及构建其上的完整应用 ——
       标签页、分屏、侧栏、shell 集成与可脚本化的控制面。
     </p>
+  </section>
+
+  <section class="wrap" data-reveal>
+    <figure class="shot">
+      <img
+        src="/shots/mtty.png"
+        width="1971"
+        height="950"
+        alt="mtty 打开了三个会话标签和一个会话侧栏，活动窗格里是一份带颜色的 git 日志。"
+      />
+      <figcaption>mtty，展示自己的提交历史。</figcaption>
+    </figure>
   </section>
 
   <section class="wrap">

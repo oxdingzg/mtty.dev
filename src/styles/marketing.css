@@ -32,12 +32,17 @@
      is still opaque where the element ends, which draws a visible edge. */
   background: radial-gradient(
     ellipse closest-side at center,
-    color-mix(in srgb, var(--miao-2) 34%, transparent),
+    color-mix(in srgb, var(--glow-color, var(--miao-2)) 34%, transparent),
     transparent
   );
   filter: blur(40px);
   pointer-events: none;
   z-index: -1;
+}
+
+/* The terminal's own accent, so each product page carries its own colour. */
+.hero-glow.cool {
+  --glow-color: var(--mtty-accent);
 }
 
 /* The same wash reads much stronger against white, so light themes get less of
@@ -354,6 +359,13 @@ code {
   color: var(--fg-faint);
   font-size: 0.875rem;
   text-align: center;
+}
+
+/* The agent capture is nearly square. At the full column width it would push
+   everything below it off the first screen, so it is capped and centred. */
+.shot.narrow img {
+  max-width: 880px;
+  margin-inline: auto;
 }
 
 /* Scroll reveal, driven by src/scripts/reveal.ts.

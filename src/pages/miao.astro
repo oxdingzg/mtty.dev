@@ -34,7 +34,8 @@ const features = [
   title="miao — an AI coding agent for the terminal"
   description="miao is an open-source AI coding agent that explores a repository, edits code, runs commands and checks its own work — with the models you choose."
 >
-  <section class="hero wrap">
+  <section class="hero">
+    <div class="hero-glow" aria-hidden="true"></div>
     <div class="title">
       <MiaoMark size={44} />
       <h1>miao</h1>
@@ -45,6 +46,18 @@ const features = [
       understand what it costs. Let it explore a repository, edit code, run commands and
       check its own work, in your terminal.
     </p>
+  </section>
+
+  <section class="wrap" data-reveal>
+    <figure class="shot narrow">
+      <img
+        src="/shots/miao.png"
+        width="1595"
+        height="1245"
+        alt="mtty running miao, which has listed every place packages/core spawns a subprocess."
+      />
+      <figcaption>miao, asked where packages/core spawns a subprocess.</figcaption>
+    </figure>
   </section>
 
   <section class="wrap">
