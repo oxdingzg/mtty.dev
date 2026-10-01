@@ -364,7 +364,7 @@ code {
 /* The agent capture is nearly square. At the full column width it would push
    everything below it off the first screen, so it is capped and centred. */
 .shot.narrow img {
-  max-width: 880px;
+  max-width: 780px;
   margin-inline: auto;
 }
 
