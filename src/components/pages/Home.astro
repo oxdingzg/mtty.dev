@@ -203,22 +203,20 @@ const copy = {
 
       <div class="hero-shots rise" style="--i:3">
         <figure class="shot s-miao">
-          <img
-            src="/shots/miao.png"
-            width="1199"
-            height="1150"
-            alt={copy.shotMiao}
-            fetchpriority="high"
-          />
+          <img src="/shots/miao.png" width="1199" height="1150" alt={copy.shotMiao} />
           <figcaption><span class="ink-miao">●</span> {copy.capMiao}</figcaption>
         </figure>
+        <figure class="shot s-mtty">
+          <img
+            src="/shots/mtty.png"
+            width="1910"
+            height="920"
+            alt={copy.shotMtty}
+            fetchpriority="high"
+          />
+          <figcaption><span class="ink-mtty">●</span> {copy.capMtty}</figcaption>
+        </figure>
       </div>
-    </div>
-    <div class="wrap hero-wide rise" style="--i:4">
-      <figure class="shot s-mtty">
-        <img src="/shots/mtty.png" width="1910" height="920" alt={copy.shotMtty} />
-        <figcaption><span class="ink-mtty">●</span> {copy.capMtty}</figcaption>
-      </figure>
     </div>
   </section>
 
@@ -454,15 +452,31 @@ const copy = {
     margin-left: auto;
   }
 
-  /* miao's square capture sits beside the copy; mtty's wide capture spans
-     the page below them, so the hero is balanced rather than stacked on the
-     right. */
+  /* The two captures at one scale: miao's window (1199 px wide, 62.8% of
+     mtty's 1910) stands at the top right, its caption above it; mtty's wide
+     window lies across the bottom, over miao's lower part. Margins in % are
+     of the width, so the composition holds at every size. */
   .hero-shots {
+    display: flow-root;
     min-width: 0;
   }
 
-  .hero-wide {
-    margin-top: 64px;
+  .s-miao {
+    display: flex;
+    flex-direction: column-reverse;
+    width: 62.8%;
+    margin-left: auto;
+  }
+
+  .s-miao figcaption {
+    margin-top: 0;
+    margin-bottom: 12px;
+  }
+
+  .s-mtty {
+    position: relative;
+    z-index: 1;
+    margin-top: -24%;
   }
 
   .s-mtty img,
@@ -477,12 +491,6 @@ const copy = {
 
   .s-miao figcaption {
     text-align: right;
-  }
-
-  @media (max-width: 720px) {
-    .hero-wide {
-      margin-top: 40px;
-    }
   }
 
   /* --- Products --- */
