@@ -73,6 +73,12 @@ const copy = {
       ["Review and reuse work", "Diffs, session forks, history export and permission prompts"],
       ["Integrate with another application", "HTTP server, browser UI, CLI automation, and generated clients in the workspace"],
     ],
+    screensLabel: "the app",
+    screensH: "The agent, running in a terminal you already use.",
+    screens: [
+      ["/shots/miao-home.png", "One command, a full agent", "miao's TUI with its own input box; run it inside mtty and the pane reports the agent's state."],
+      ["/shots/miao-providers.png", "Bring your own provider", "OpenAI, Anthropic, GitHub Copilot, Google or a local endpoint; your keys stay on your machine."],
+    ],
     loopLabel: "longer tasks, with limits",
     loopH: "Let it keep going, inside a budget.",
     loopBody: "The autonomous loop is opt-in. It continues while todos remain open, guarded by an iteration cap and stall detection. A cost budget stops scheduling further provider turns once the estimated session cost reaches the threshold.",
@@ -150,6 +156,12 @@ const copy = {
       ["接入自己的工具", "本地与远程 MCP、自定义命令、技能、插件"],
       ["检查并复用工作成果", "差异查看、会话分叉、历史导出、权限确认"],
       ["接入其他应用", "HTTP 服务、浏览器界面、CLI 自动化、工作区内生成的客户端"],
+    ],
+    screensLabel: "界面",
+    screensH: "代理，跑在你已经用的终端里。",
+    screens: [
+      ["/shots/miao-home.png", "一条命令，一个完整代理", "miao 的 TUI 与输入框；在 mtty 里运行，窗格会上报代理状态。"],
+      ["/shots/miao-providers.png", "自带模型服务商", "OpenAI、Anthropic、GitHub Copilot、Google 或本地端点；密钥只留在你自己的机器上。"],
     ],
     loopLabel: "长任务，有边界",
     loopH: "让它继续推进 —— 在预算之内。",
@@ -290,9 +302,29 @@ const copy = {
     </table>
   </section>
 
+  <section class="wrap section" data-reveal>
+    <div class="section-head">
+      <p class="label"><b>04</b> {copy.screensLabel}</p>
+      <h2 class="display h2">{copy.screensH}</h2>
+    </div>
+    <div class="mgallery">
+      {
+        copy.screens.map(([src, head, body]) => (
+          <figure class="mcard">
+            <img src={src} width="1100" height="720" loading="lazy" alt={body} />
+            <figcaption>
+              <b>{head}</b>
+              <span>{body}</span>
+            </figcaption>
+          </figure>
+        ))
+      }
+    </div>
+  </section>
+
   <section class="wrap section loop" data-reveal>
     <div>
-      <p class="label"><b>04</b> {copy.loopLabel}</p>
+      <p class="label"><b>05</b> {copy.loopLabel}</p>
       <h2 class="display h2">{copy.loopH}</h2>
       <p class="lede">{copy.loopBody}</p>
       <p class="fine">{copy.loopFine}</p>
@@ -307,7 +339,7 @@ const copy = {
 
   <section class="wrap section" data-reveal>
     <div class="section-head">
-      <p class="label"><b>05</b> {copy.benchLabel}</p>
+      <p class="label"><b>06</b> {copy.benchLabel}</p>
       <h2 class="display h2">{copy.benchH}</h2>
       <p class="lede">{copy.benchBody}</p>
     </div>
@@ -338,7 +370,7 @@ const copy = {
 
   <section class="wrap section split" data-reveal>
     <div class="section-head sticky">
-      <p class="label"><b>06</b> {copy.statusLabel}</p>
+      <p class="label"><b>07</b> {copy.statusLabel}</p>
       <h2 class="display h2">{copy.statusH}</h2>
     </div>
     <table class="spec">
@@ -360,7 +392,7 @@ const copy = {
 
   <section class="wrap section start" data-reveal>
     <div class="section-head">
-      <p class="label"><b>07</b> {copy.startLabel}</p>
+      <p class="label"><b>08</b> {copy.startLabel}</p>
       <h2 class="display h2">{copy.startH}</h2>
     </div>
     <pre class="codeblock"><code><span class="p">$ </span>curl -fsSL https://mtty.dev/miao/install | bash        <span class="c"># macOS / Linux</span>
@@ -735,6 +767,61 @@ const copy = {
     justify-items: center;
     gap: 26px;
     text-align: center;
+  }
+
+  /* --- In pictures --- */
+
+  .mgallery {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+  }
+
+  .mcard {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    transition: border-color 200ms ease, transform 200ms var(--ease);
+  }
+
+  .mcard:hover {
+    border-color: var(--border-strong);
+    transform: translateY(-3px);
+  }
+
+  .mcard img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-bottom: 1px solid var(--border);
+    background: var(--mtty-tile);
+  }
+
+  .mcard figcaption {
+    display: grid;
+    gap: 6px;
+    padding: 18px 20px 20px;
+  }
+
+  .mcard b {
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  .mcard span {
+    color: var(--fg-muted);
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 720px) {
+    .mgallery {
+      grid-template-columns: minmax(0, 1fr);
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {

@@ -73,6 +73,13 @@ const copy = {
     ],
     illus: "Illustration of the four states mtty understands",
     flow: ["miao", "agent state", "mtty pane"],
+    shotsLabel: "in pictures",
+    shotsH: "Terminals, editor and agents in one window.",
+    shots: [
+      ["/shots/mtty-workspace.png", "Tabs that report their agent", "Each tab is badged idle, processing or awaiting as the agent inside reports its state."],
+      ["/shots/mtty-editor.png", "Editor and live preview", "Open a Markdown file and its preview follows your typing; Mermaid renders in the pane."],
+      ["/shots/mtty-splits.png", "Recursive splits", "A git log and a running server side by side; the layout returns after a restart."],
+    ],
     honestLabel: "status",
     honestH: "Early, moving fast, and plain about it.",
     honest: [
@@ -138,6 +145,13 @@ const copy = {
     ],
     illus: "示意：mtty 能识别的四种代理状态",
     flow: ["miao", "代理状态", "mtty 窗格"],
+    shotsLabel: "看图",
+    shotsH: "终端、编辑器与代理，同在一个窗口。",
+    shots: [
+      ["/shots/mtty-workspace.png", "会上报代理状态的标签", "标签里的代理上报状态后，标签会标注 idle、processing 或 awaiting。"],
+      ["/shots/mtty-editor.png", "编辑器与实时预览", "打开 Markdown 文件，预览随输入更新；Mermaid 直接在窗格中渲染。"],
+      ["/shots/mtty-splits.png", "递归分屏", "git 日志与运行中的服务并排；重启后布局自动恢复。"],
+    ],
     honestLabel: "现状",
     honestH: "还很早期，迭代很快，话说在明处。",
     honest: [
@@ -316,9 +330,29 @@ const copy = {
     </div>
   </section>
 
+  <section class="wrap section shots" data-reveal>
+    <div class="section-head">
+      <p class="label"><b>03</b> {copy.shotsLabel}</p>
+      <h2 class="display h2">{copy.shotsH}</h2>
+    </div>
+    <div class="shotgrid">
+      {
+        copy.shots.map(([src, head, body]) => (
+          <figure class="scard">
+            <img src={src} width="1100" height="720" loading="lazy" alt={body} />
+            <figcaption>
+              <b>{head}</b>
+              <span>{body}</span>
+            </figcaption>
+          </figure>
+        ))
+      }
+    </div>
+  </section>
+
   <section class="wrap section" data-reveal>
     <div class="section-head">
-      <p class="label"><b>03</b> {copy.honestLabel}</p>
+      <p class="label"><b>04</b> {copy.honestLabel}</p>
       <h2 class="display h2">{copy.honestH}</h2>
     </div>
     <ol class="honest">
@@ -899,6 +933,62 @@ const copy = {
   .end :global(.cmd) {
     width: min(100%, 520px);
     text-align: left;
+  }
+
+  /* --- In pictures --- */
+
+  .shotgrid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+  }
+
+  .scard {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    transition: border-color 200ms ease, transform 200ms var(--ease);
+  }
+
+  .scard:hover {
+    border-color: var(--border-strong);
+    transform: translateY(-3px);
+  }
+
+  .scard img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-bottom: 1px solid var(--border);
+    background: var(--mtty-tile);
+  }
+
+  .scard figcaption {
+    display: grid;
+    gap: 6px;
+    padding: 16px 18px 18px;
+  }
+
+  .scard b {
+    font-family: var(--font-sans);
+    font-size: 0.97rem;
+    font-weight: 600;
+  }
+
+  .scard span {
+    color: var(--fg-muted);
+    font-size: 0.88rem;
+    line-height: 1.55;
+  }
+
+  @media (max-width: 960px) {
+    .shotgrid {
+      grid-template-columns: minmax(0, 1fr);
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {

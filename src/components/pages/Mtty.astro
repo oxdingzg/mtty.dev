@@ -78,6 +78,17 @@ const copy = {
       ["Brings your config", "Imports ghostty and alacritty settings on first run. zsh integration arrives through a ZDOTDIR shim; your dotfiles are never modified.", "config.toml"],
       ["Remote files over ssh", "View and edit a remote file through the pane's ssh ControlMaster connection, with a zero-install terminfo bootstrap.", "ssh"],
     ],
+    screensLabel: "the screens",
+    screensH: "Every feature, seen in the real app.",
+    screensBody:
+      "Captures from the packaged build: tabs that report their agent's state, an editor with a Markdown preview, recursive splits, the command palette, and an opt-in vim mode with syntax-tree folding.",
+    screens: [
+      ["/shots/mtty-workspace.png", "Tabs that know their agent", "Three tabs, each badged idle, processing or awaiting, with the repository's own git log in the active pane and the details panel beside it."],
+      ["/shots/mtty-editor.png", "Editor and live preview", "A Markdown file in the editor with its preview to the right; built-in Mermaid subsets render in the pane."],
+      ["/shots/mtty-splits.png", "Recursive splits", "A git log and a long-running server side by side in one tab; layouts survive a restart."],
+      ["/shots/mtty-palette.png", "Command palette", "Fuzzy-find any action, file or content hit; the same palette drives new tabs and splits."],
+      ["/shots/mtty-vim.png", "Vim and folds", "An opt-in vim mode in the editor and syntax-tree folding, marked in the gutter."],
+    ],
     agentLabel: "built for agents",
     agentH: "It knows what the agent in each pane is doing.",
     agentBody: "Agents report idle, processing, awaiting or error. mtty turns that into a badge on the tab, a system notification when one needs you, a sleep guard while one is working, and a prompt queue that sends the next message once the pane goes idle.",
@@ -169,6 +180,17 @@ const copy = {
       ["真正的终端行为", "基于 alacritty_terminal 的 VT、CJK 排版与系统字体回退、带高亮的查找、kitty 键盘协议。", "⌘F"],
       ["沿用你的配置", "首次运行自动导入 ghostty 和 alacritty 的设置。zsh 集成经由 ZDOTDIR 垫片完成，绝不修改你的 dotfiles。", "config.toml"],
       ["通过 ssh 编辑远程文件", "借助窗格的 ssh ControlMaster 连接查看和编辑远程文件，terminfo 零安装引导。", "ssh"],
+    ],
+    screensLabel: "界面",
+    screensH: "每个功能，都在真实应用里。",
+    screensBody:
+      "以下截图来自打包构建:上报代理状态的标签、带 Markdown 预览的编辑器、递归分屏、命令面板,以及可选的 vim 模式与语法树折叠。",
+    screens: [
+      ["/shots/mtty-workspace.png", "知道代理状态的标签", "三个标签,分别标注 idle、processing、awaiting;活动窗格里是仓库自己的 git 日志,右侧是详情面板。"],
+      ["/shots/mtty-editor.png", "编辑器与实时预览", "Markdown 文件在编辑器中打开,右侧是随输入更新的预览;内置的 Mermaid 子集直接在窗格中渲染。"],
+      ["/shots/mtty-splits.png", "递归分屏", "同一个标签里,git 日志与一个长时间运行的服务并排;布局重启后依然保留。"],
+      ["/shots/mtty-palette.png", "命令面板", "模糊查找任意命令、文件或内容命中;新建标签与分屏也走同一个面板。"],
+      ["/shots/mtty-vim.png", "vim 与折叠", "编辑器中可选的 vim 模式,以及由语法树驱动的折叠,在行号栏标记。"],
     ],
     agentLabel: "为代理而造",
     agentH: "它知道每个窗格里的代理在做什么。",
@@ -353,9 +375,30 @@ const copy = {
     </ul>
   </section>
 
+  <section class="wrap section screens" data-reveal>
+    <div class="section-head">
+      <p class="label"><b>04</b> {copy.screensLabel}</p>
+      <h2 class="display h2">{copy.screensH}</h2>
+      <p class="lede">{copy.screensBody}</p>
+    </div>
+    <div class="gallery">
+      {
+        copy.screens.map(([src, head, body]) => (
+          <figure class="gcard">
+            <img src={src} width="1100" height="720" loading="lazy" alt={body} />
+            <figcaption>
+              <b>{head}</b>
+              <span>{body}</span>
+            </figcaption>
+          </figure>
+        ))
+      }
+    </div>
+  </section>
+
   <section class="wrap section agents" data-reveal>
     <div class="agents-copy">
-      <p class="label"><b>04</b> {copy.agentLabel}</p>
+      <p class="label"><b>05</b> {copy.agentLabel}</p>
       <h2 class="display h2">{copy.agentH}</h2>
       <p class="lede">{copy.agentBody}</p>
     </div>
@@ -383,7 +426,7 @@ const copy = {
 
   <section class="wrap section mtp" data-reveal>
     <div>
-      <p class="label"><b>05</b> {copy.mtpLabel}</p>
+      <p class="label"><b>06</b> {copy.mtpLabel}</p>
       <h2 class="display h2">{copy.mtpH}</h2>
       <p class="lede">{copy.mtpBody}</p>
       <p class="fine">{copy.mtpFine}</p>
@@ -398,7 +441,7 @@ const copy = {
 
   <section class="wrap section keys" data-reveal>
     <div class="section-head">
-      <p class="label"><b>06</b> {copy.keysLabel}</p>
+      <p class="label"><b>07</b> {copy.keysLabel}</p>
       <h2 class="display h3">{copy.keysH}</h2>
     </div>
     <dl class="keygrid">
@@ -927,6 +970,70 @@ const copy = {
   .end .codeblock {
     max-width: 100%;
     text-align: left;
+  }
+
+  /* --- Screens gallery --- */
+
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+  }
+
+  .gcard {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    transition: border-color 200ms ease, transform 200ms var(--ease);
+  }
+
+  .gcard:hover {
+    border-color: var(--border-strong);
+    transform: translateY(-3px);
+  }
+
+  .gcard:first-child {
+    grid-column: 1 / -1;
+  }
+
+  .gcard img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-bottom: 1px solid var(--border);
+    background: var(--mtty-tile);
+  }
+
+  .gcard figcaption {
+    display: grid;
+    gap: 6px;
+    padding: 18px 20px 20px;
+  }
+
+  .gcard b {
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  .gcard span {
+    color: var(--fg-muted);
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 900px) {
+    .gallery {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .gcard:first-child {
+      grid-column: auto;
+    }
   }
 
   @media (max-width: 1080px) {
