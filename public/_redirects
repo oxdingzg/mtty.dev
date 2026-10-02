@@ -11,3 +11,5 @@
 # Where miao's desktop app and crash screen send feedback.
 /miao/feedback   https://github.com/oxdingzg/miao/issues   302
 /miao/feedback/  https://github.com/oxdingzg/miao/issues   302
+# Windows: irm https://mtty.dev/miao/install.ps1 | iex
+/miao/install.ps1   https://raw.githubusercontent.com/oxdingzg/miao/main/install.ps1   302

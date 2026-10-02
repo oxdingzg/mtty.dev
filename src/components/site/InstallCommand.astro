@@ -1,0 +1,87 @@
+---
+// The miao install command for the visitor's platform: the bash installer on
+// macOS and Linux, the PowerShell installer on Windows. Without JavaScript both
+// commands are listed with a caption each; site.ts turns them into two tabs and
+// selects the visitor's platform.
+import CopyCommand from "./CopyCommand.astro"
+
+interface Props {
+  id: string
+  label?: string
+}
+const { id, label = "Copy" } = Astro.props
+
+export const UNIX = "curl -fsSL https://mtty.dev/miao/install | bash"
+export const WINDOWS = "irm https://mtty.dev/miao/install.ps1 | iex"
+---
+
+<div class="install" data-install>
+  <div class="tabs" role="tablist" aria-label="Platform" hidden>
+    <button type="button" role="tab" data-os="unix" aria-selected="true">macOS / Linux</button>
+    <button type="button" role="tab" data-os="windows" aria-selected="false">Windows</button>
+  </div>
+  <div class="panel" data-os-panel="unix">
+    <p class="caption">macOS / Linux</p>
+    <CopyCommand id={`${id}-unix`} command={UNIX} label={label} />
+  </div>
+  <div class="panel" data-os-panel="windows">
+    <p class="caption">Windows (PowerShell)</p>
+    <CopyCommand id={`${id}-windows`} command={WINDOWS} prompt="PS>" label={label} />
+  </div>
+</div>
+
+<style>
+  .install {
+    display: grid;
+    gap: 8px;
+    min-width: 0;
+  }
+
+  .tabs {
+    display: flex;
+    gap: 4px;
+  }
+
+  .tabs[hidden],
+  .panel[hidden] {
+    display: none;
+  }
+
+  .tabs button {
+    padding: 3px 10px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    background: transparent;
+    color: var(--fg-faint);
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    cursor: pointer;
+  }
+
+  .tabs button:hover {
+    color: var(--fg);
+  }
+
+  .tabs button[aria-selected="true"] {
+    border-color: var(--border-strong);
+    background: var(--surface);
+    color: var(--fg);
+  }
+
+  .panel {
+    display: grid;
+    gap: 6px;
+    min-width: 0;
+  }
+
+  .caption {
+    margin: 0;
+    color: var(--fg-faint);
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+  }
+
+  [data-install][data-ready] .caption {
+    display: none;
+  }
+</style>

@@ -3,7 +3,7 @@
 // its comparison document: opt-in and experimental features say so, and the
 // benchmarks carry the same caveats they carry upstream.
 import MarketingLayout from "../../layouts/MarketingLayout.astro"
-import CopyCommand from "../site/CopyCommand.astro"
+import InstallCommand from "../site/InstallCommand.astro"
 import MiaoMark from "../site/MiaoMark.astro"
 import { prefixFor, type Locale } from "../../i18n/routes"
 
@@ -13,7 +13,6 @@ interface Props {
 const { lang } = Astro.props
 const prefix = prefixFor(lang)
 
-const INSTALL = "curl -fsSL https://mtty.dev/miao/install | bash"
 const REPO = "https://github.com/oxdingzg/miao"
 
 // Recorded same-machine release-build medians for isolated operations, from
@@ -200,7 +199,7 @@ const copy = {
         <p class="lede rise" style="--i:2">{copy.lede}</p>
         <p class="sub rise" style="--i:2">{copy.sub}</p>
         <div class="install rise" style="--i:3">
-          <CopyCommand id="install-miao" command={INSTALL} label={copy.copyLabel} />
+          <InstallCommand id="install-miao" label={copy.copyLabel} />
           <p class="fine">{copy.platforms}</p>
         </div>
         <div class="actions rise" style="--i:3">
@@ -364,7 +363,8 @@ const copy = {
       <p class="label"><b>07</b> {copy.startLabel}</p>
       <h2 class="display h2">{copy.startH}</h2>
     </div>
-    <pre class="codeblock"><code><span class="p">$ </span>curl -fsSL https://mtty.dev/miao/install | bash
+    <pre class="codeblock"><code><span class="p">$ </span>curl -fsSL https://mtty.dev/miao/install | bash        <span class="c"># macOS / Linux</span>
+<span class="p">PS> </span>irm https://mtty.dev/miao/install.ps1 | iex        <span class="c"># Windows</span>
 <span class="p">$ </span>miao providers login   <span class="c"># {copy.c1}</span>
 <span class="p">$ </span>cd /path/to/project
 <span class="p">$ </span>miao                   <span class="c"># {copy.c2}</span>

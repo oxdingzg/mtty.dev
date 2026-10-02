@@ -49,6 +49,26 @@ for (const button of document.querySelectorAll<HTMLButtonElement>("[data-copy]")
   })
 }
 
+// Install commands: show one platform at a time, starting with the visitor's.
+// Without this script both commands stay listed with their captions.
+const windows = /win/i.test(
+  (navigator as Navigator & { userAgentData?: { platform?: string } }).userAgentData?.platform ??
+    navigator.platform ??
+    navigator.userAgent,
+)
+for (const install of document.querySelectorAll<HTMLElement>("[data-install]")) {
+  const tabs = install.querySelectorAll<HTMLButtonElement>("[data-os]")
+  const select = (os: string) => {
+    for (const tab of tabs) tab.setAttribute("aria-selected", String(tab.dataset.os === os))
+    for (const panel of install.querySelectorAll<HTMLElement>("[data-os-panel]"))
+      panel.hidden = panel.dataset.osPanel !== os
+  }
+  for (const tab of tabs) tab.addEventListener("click", () => select(tab.dataset.os ?? "unix"))
+  install.querySelector<HTMLElement>("[role=tablist]")?.removeAttribute("hidden")
+  install.dataset.ready = ""
+  select(windows ? "windows" : "unix")
+}
+
 // The theme switch writes the same key Starlight uses, so the choice carries
 // into the documentation and back.
 for (const button of document.querySelectorAll<HTMLButtonElement>("[data-theme-toggle]")) {

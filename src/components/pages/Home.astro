@@ -2,7 +2,7 @@
 // The home page, in both languages. The copy for each language sits side by
 // side so a change to one is visibly a change to the other.
 import MarketingLayout from "../../layouts/MarketingLayout.astro"
-import CopyCommand from "../site/CopyCommand.astro"
+import InstallCommand from "../site/InstallCommand.astro"
 import MiaoMark from "../site/MiaoMark.astro"
 import MttyMark from "../site/MttyMark.astro"
 import { prefixFor, type Locale } from "../../i18n/routes"
@@ -13,7 +13,6 @@ interface Props {
 const { lang } = Astro.props
 const prefix = prefixFor(lang)
 
-const INSTALL = "curl -fsSL https://mtty.dev/miao/install | bash"
 const RELEASES = "https://github.com/oxdingzg/miao-term/releases/latest"
 
 const copy = {
@@ -29,7 +28,7 @@ const copy = {
     mttyBlurb:
       "An AI-native terminal and editor in Rust: terminals, files, remote hosts and agents in one window — and it knows when an agent is working, waiting on you, or done.",
     installHead: "Install miao",
-    installMeta: "macOS · Linux",
+    installMeta: "macOS · Linux · Windows",
     downloadHead: "Get mtty",
     download: "Download the preview",
     downloadMeta: "macOS · Linux · Windows · preview",
@@ -94,7 +93,7 @@ const copy = {
     miaoBlurb: "读仓库、改代码、跑命令、验证结果 —— 模型由你选，每一轮花了多少一目了然。",
     mttyBlurb: "用 Rust 编写的 AI 原生终端与编辑器：终端、文件、远程主机和代理同在一个窗口——它还知道代理正在干活、在等你确认，还是已经做完。",
     installHead: "安装 miao",
-    installMeta: "macOS · Linux",
+    installMeta: "macOS · Linux · Windows",
     downloadHead: "获取 mtty",
     download: "下载预览版",
     downloadMeta: "macOS · Linux · Windows · 预览版",
@@ -174,7 +173,7 @@ const copy = {
               <span class="pick-meta">{copy.installMeta}</span>
             </p>
             <p class="pick-blurb">{copy.miaoBlurb}</p>
-            <CopyCommand id="install-hero" command={INSTALL} label={copy.copyLabel} />
+            <InstallCommand id="install-hero" label={copy.copyLabel} />
           </div>
           <div class="pick">
             <p class="pick-head">
@@ -337,7 +336,7 @@ const copy = {
 
   <section class="wrap section end" data-reveal>
     <h2 class="display h2">{copy.endH}</h2>
-    <CopyCommand id="install-end" command={INSTALL} label={copy.copyLabel} />
+    <InstallCommand id="install-end" label={copy.copyLabel} />
     <div class="actions">
       <a class="btn" href={`${prefix}/docs/`}>{copy.docs} <span class="arrow">→</span></a>
       <a class="btn" href={RELEASES}>{copy.download} <span class="arrow">→</span></a>
