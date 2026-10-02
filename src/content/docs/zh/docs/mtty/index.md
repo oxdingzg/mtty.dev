@@ -1,12 +1,12 @@
 ---
 title: mtty
-description: mtty 的文档，它是一个用 Rust 编写的终端模拟器与引擎。
+description: mtty 的文档，它是一个用 Rust 编写的 AI 原生终端与编辑器。
 ---
 
-mtty 是用 Rust 编写的终端模拟器与引擎：一个负责从 PTY 到屏幕全过程、不含任何窗口或 GPU 代码的引擎库（`miao-term-core`），加上构建其上的完整应用。应用以 **`mtty`** 的名字发布，并附带控制客户端 **`mtty-cli`**（v0.0.5 及之前二者名为 `miaotty`，首次启动会复制已有的 `~/.config/miaotty`）；源码在 [`miao-term`](https://github.com/oxdingzg/miao-term) 仓库。
+mtty 是用 Rust 编写的 AI 原生终端与编辑器，本地与远程同样顺手。它立在三根支柱上：带远程运维能力的 GPU 渲染终端（主机库、SFTP、端口转发、跳板机、命令片段），编辑器（目前是内置的查看与编辑，原生编辑器窗格正在开发），以及能看到每个 AI 编程代理在做什么、并为它排队任务的代理工作台。底层是不含界面代码的引擎：`miao-term-core` 负责从 PTY 到屏幕的全过程，`miao-term-editor` 是编辑内核。应用以 **`mtty`** 的名字发布，并附带控制客户端 **`mtty-cli`**（v0.0.5 及之前二者名为 `miaotty`，首次启动会复制已有的 `~/.config/miaotty`）；源码在 [`miao-term`](https://github.com/oxdingzg/miao-term) 仓库。
 
 :::caution[预发布]
-API 尚未稳定。macOS 是主要平台；Windows 已在真实硬件上构建并测试；Linux 在 CI 中构建并通过测试。Apple 公证与 Windows MSI 签名尚未完成。
+API 尚未稳定。macOS 是主要平台；Windows 与 Linux 已构建、测试，并在真实桌面上验收。Apple 公证与 Windows MSI 签名尚未完成。
 :::
 
 ## 下载

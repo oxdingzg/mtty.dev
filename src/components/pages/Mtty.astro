@@ -17,13 +17,13 @@ const RELEASES = `${REPO}/releases/latest`
 
 const copy = {
   en: {
-    title: "mtty — a fast, embeddable terminal emulator written in Rust",
+    title: "mtty — an AI-native terminal and editor, written in Rust",
     description:
-      "mtty is a fast, embeddable, cross-platform terminal emulator and engine written in Rust: GPU rendering on wgpu, tabs and splits, agent-aware panes and a scriptable control plane.",
-    kind: "Terminal emulator",
-    h1a: "A fast, embeddable terminal,",
-    h1b: "written in Rust.",
-    lede: "A terminal engine that owns the path from PTY to screen, and a full application built on it — tabs, splits, side panels, shell integration and a scriptable control plane.",
+      "mtty is an AI-native terminal and editor for local and remote work, written in Rust: GPU-rendered terminals, remote hosts, files and your AI coding agents in one fast native window.",
+    kind: "Terminal · editor · agents",
+    h1a: "An AI-native terminal and editor,",
+    h1b: "for local and remote work.",
+    lede: "Terminals, files, remote hosts and your AI coding agents in one fast, native window — the same tabs and splits for all of them. Written in Rust, GPU-rendered, held to a performance gate. No account, no forced cloud: mtty hosts the agents you choose and never calls a model itself.",
     naming: "The application ships as <code>mtty</code> (called <code>miaotty</code> up to v0.0.5); the source lives in <code>miao-term</code>.",
     download: "Download the preview",
     build: "Build from source",
@@ -34,7 +34,16 @@ const copy = {
     ],
     shot: "mtty with three session tabs, a session sidebar, and a coloured git log in the active pane.",
     cap: "Three session tabs, the session sidebar, and the repository's own git log",
-    preview: "<strong>Pre-release.</strong> The API is not stable yet. macOS is the primary platform; Windows is built, tested and driven on real hardware; Linux builds and passes tests in CI. Apple notarization and Windows MSI signing are still pending.",
+    preview: "<strong>Pre-release.</strong> The API is not stable yet. macOS is the primary platform; Windows and Linux are built, tested and checked on real desktops. Apple notarization and Windows MSI signing are still pending.",
+    pillarsLabel: "three pillars",
+    pillarsH: "One window for the terminal, the editor and the agents.",
+    pillarsToday: "Today",
+    pillarsNext: "Next",
+    pillars: [
+      ["Terminal and remote", "Absorbs Termius and PuTTY", "GPU-rendered terminal, tabs and splits, session restore. Host library, keys, SFTP and FTP, port forwarding, jump hosts, snippets and broadcast input, over your own OpenSSH.", "Serial, Telnet and raw TCP sessions, .ppk keys; a Rust-native SSH stack is under consideration."],
+      ["Editor", "A first-class editor, not a side feature", "A built-in viewer and editor with Markdown and Mermaid preview. The editing core — rope buffer, multi-cursor, undo, search — is done and gated at 100 MB.", "An editor pane beside your terminals: tree-sitter highlighting, LSP, large files at full speed."],
+      ["Agent workspace", "Absorbs Superset, AI-native", "State from Claude Code, Codex, OpenCode and miao; badges and notifications when one needs you; a prompt queue; a git worktree per task with diff review; a scriptable control plane.", "Agents' edits reviewed inline as undoable diffs, an ACP client, and selections, diagnostics or terminal output sent to an agent in one step."],
+    ],
     engineLabel: "engine first",
     engineH: "The engine and the app are separate on purpose.",
     engineBody: "Dependencies point inward only — host, then renderer, then core — and the core has no windowing or GPU code, so it can be embedded in something else. The app is the engine's first consumer, not its owner.",
@@ -61,9 +70,9 @@ const copy = {
     wsH: "More than a window with a prompt in it.",
     ws: [
       ["Tabs and splits", "A recursive split tree with draggable dividers. Tabs can be marked and grouped, and both survive a restart.", "⌘D  ⇧⌘D"],
-      ["Open Quickly", "One palette over tabs, agents, files, recents, content-search hits and commands.", "⌘K"],
+      ["Open Quickly", "One palette over tabs, agents, snippets, hosts, files in the current folder, recent files and commands.", "⌘K"],
       ["Details panel", "Info, Agent, Outline, Git, Files, Ports and Queue, beside the terminal.", "⌥⌘D"],
-      ["Reader and editor", "Line numbers, jump-to-line, an opt-in minimal vim mode, and CommonMark with built-in Mermaid subsets.", "⌘-open"],
+      ["Reader and editor", "Line numbers, an opt-in minimal vim mode, Edit in Tab with your own editor, and CommonMark with built-in Mermaid subsets.", "⌘-open"],
       ["Inline graphics", "Sixel, Kitty and iTerm2 images drawn in the grid; they scroll with the content and clip to the pane.", "on by default"],
       ["Real terminal behaviour", "VT via alacritty_terminal, CJK layout with system font fallback, find with highlighting, the kitty keyboard protocol.", "⌘F"],
       ["Brings your config", "Imports ghostty and alacritty settings on first run. zsh integration arrives through a ZDOTDIR shim; your dotfiles are never modified.", "config.toml"],
@@ -100,13 +109,13 @@ const copy = {
     docs: "Documentation",
   },
   zh: {
-    title: "mtty — 用 Rust 编写的快速、可嵌入的终端模拟器",
+    title: "mtty — 用 Rust 编写的 AI 原生终端与编辑器",
     description:
-      "mtty 是用 Rust 编写的快速、可嵌入、跨平台的终端模拟器与引擎：基于 wgpu 的 GPU 渲染、标签与分屏、懂代理的窗格，以及可脚本化的控制面。",
-    kind: "终端模拟器",
-    h1a: "快速、可嵌入的终端，",
-    h1b: "用 Rust 编写。",
-    lede: "一个负责从 PTY 到屏幕全过程的终端引擎，以及构建其上的完整应用 —— 标签、分屏、侧边面板、shell 集成和可脚本化的控制面。",
+      "mtty 是用 Rust 编写的 AI 原生终端与编辑器，本地与远程同样顺手：GPU 渲染的终端、远程主机、文件与你的 AI 编程代理，同在一个快速的原生窗口里。",
+    kind: "终端 · 编辑器 · 代理",
+    h1a: "AI 原生的终端与编辑器，",
+    h1b: "本地与远程同样顺手。",
+    lede: "终端、文件、远程主机和你的 AI 编程代理，放进同一个快速的原生窗口，共用同一套标签与分屏。用 Rust 编写，GPU 渲染，由性能门把关。不需要账号，不强制上云：mtty 托管你选择的代理，自己从不调用模型。",
     naming: "应用以 <code>mtty</code> 的名字发布（v0.0.5 及之前名为 <code>miaotty</code>），源码在 <code>miao-term</code> 仓库。",
     download: "下载预览版",
     build: "从源码构建",
@@ -117,7 +126,16 @@ const copy = {
     ],
     shot: "mtty 打开了三个会话标签和一个会话侧栏，活动窗格里是一份带颜色的 git 日志。",
     cap: "三个会话标签、会话侧栏，以及仓库自己的 git 日志",
-    preview: "<strong>预发布。</strong>API 尚未稳定。macOS 是主要平台；Windows 已在真实硬件上构建、测试并驱动；Linux 在 CI 中构建并通过测试。Apple 公证与 Windows MSI 签名尚未完成。",
+    preview: "<strong>预发布。</strong>API 尚未稳定。macOS 是主要平台；Windows 与 Linux 已构建、测试，并在真实桌面上验收。Apple 公证与 Windows MSI 签名尚未完成。",
+    pillarsLabel: "三根支柱",
+    pillarsH: "终端、编辑器与代理，同在一个窗口。",
+    pillarsToday: "现在",
+    pillarsNext: "接下来",
+    pillars: [
+      ["终端与远程", "吸收 Termius 与 PuTTY", "GPU 渲染的终端、标签与分屏、会话恢复。主机库、密钥、SFTP 与 FTP、端口转发、跳板机、命令片段与广播输入，经由你自己的 OpenSSH。", "串口、Telnet 与原始 TCP 会话，.ppk 密钥；正在评估 Rust 原生的 SSH 实现。"],
+      ["编辑器", "一流的编辑器，而非附属功能", "内置查看与编辑，带 Markdown 与 Mermaid 预览。编辑内核——rope 缓冲区、多光标、撤销、搜索——已完成，并在 100 MB 文件上设有性能门。", "与终端并列的编辑器窗格：tree-sitter 高亮、LSP，大文件也全速。"],
+      ["代理工作台", "吸收 Superset，AI 原生", "来自 Claude Code、Codex、OpenCode 与 miao 的状态；需要你时的徽章与通知；提示队列；每个任务一个 git worktree 并审阅 diff；可脚本化的控制面。", "代理的修改以可撤销的 diff 在行内审阅、ACP 客户端，一步把选区、诊断或终端输出交给代理。"],
+    ],
     engineLabel: "引擎优先",
     engineH: "引擎与应用，刻意分开。",
     engineBody: "依赖只向内指：宿主 → 渲染 → 内核。内核不含任何窗口或 GPU 代码，因此可以嵌入别的程序。应用是引擎的第一个使用者，而不是它的主人。",
@@ -144,9 +162,9 @@ const copy = {
     wsH: "不只是一个带提示符的窗口。",
     ws: [
       ["标签与分屏", "递归分屏树，分隔条可拖动。标签可以加标记、分组，重启后依然保留。", "⌘D  ⇧⌘D"],
-      ["快速打开", "一个面板覆盖标签、代理、文件、最近项目、内容搜索结果和命令。", "⌘K"],
+      ["快速打开", "一个面板覆盖标签、代理、命令片段、主机、当前目录的文件、最近文件和命令。", "⌘K"],
       ["详情面板", "信息、代理、大纲、Git、文件、端口、队列，就在终端旁边。", "⌥⌘D"],
-      ["阅读器与编辑器", "行号、跳转到行、可选的极简 vim 模式，以及内置 Mermaid 子集的 CommonMark 渲染。", "⌘-打开"],
+      ["阅读器与编辑器", "行号、可选的极简 vim 模式、用你自己的编辑器「在标签中编辑」，以及内置 Mermaid 子集的 CommonMark 渲染。", "⌘-打开"],
       ["内联图像", "Sixel、Kitty、iTerm2 图像直接画进网格，随内容滚动、按窗格裁剪。", "默认开启"],
       ["真正的终端行为", "基于 alacritty_terminal 的 VT、CJK 排版与系统字体回退、带高亮的查找、kitty 键盘协议。", "⌘F"],
       ["沿用你的配置", "首次运行自动导入 ghostty 和 alacritty 的设置。zsh 集成经由 ZDOTDIR 垫片完成，绝不修改你的 dotfiles。", "config.toml"],
@@ -239,6 +257,27 @@ const copy = {
         <p set:html={copy.preview} />
       </div>
     </div>
+  </section>
+
+  <section class="wrap section" data-reveal>
+    <div class="section-head">
+      <p class="label"><b>00</b> {copy.pillarsLabel}</p>
+      <h2 class="display h2">{copy.pillarsH}</h2>
+    </div>
+    <ul class="ws pillars">
+      {
+        copy.pillars.map(([head, from, today, next]) => (
+          <li>
+            <div class="ws-top">
+              <h3>{head}</h3>
+              <kbd>{from}</kbd>
+            </div>
+            <p><strong>{copy.pillarsToday}.</strong> {today}</p>
+            <p><strong>{copy.pillarsNext}.</strong> {next}</p>
+          </li>
+        ))
+      }
+    </ul>
   </section>
 
   <section class="wrap section engine" data-reveal>
@@ -705,6 +744,27 @@ const copy = {
     font-size: 0.9rem;
   }
 
+  .ws.pillars {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .ws.pillars p + p {
+    margin-top: 10px;
+  }
+
+  .ws.pillars .ws-top {
+    flex-wrap: wrap;
+  }
+
+  .ws.pillars kbd {
+    white-space: normal;
+  }
+
+  .ws.pillars strong {
+    color: var(--fg);
+    font-weight: 600;
+  }
+
   /* --- Agents --- */
 
   .agents {
@@ -872,6 +932,10 @@ const copy = {
   @media (max-width: 1080px) {
     .ws {
       grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .ws.pillars {
+      grid-template-columns: minmax(0, 1fr);
     }
 
     .meters {

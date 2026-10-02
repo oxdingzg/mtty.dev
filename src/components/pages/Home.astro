@@ -18,16 +18,16 @@ const RELEASES = "https://github.com/oxdingzg/miao-term/releases/latest"
 
 const copy = {
   en: {
-    title: "mtty.dev — miao, an AI coding agent, and mtty, a terminal in Rust",
+    title: "mtty.dev — miao, an AI coding agent, and mtty, an AI-native terminal and editor",
     description:
-      "miao is an open-source AI coding agent for the terminal: your models, steerable long tasks, visible cost. mtty is a fast, embeddable, GPU-rendered terminal emulator written in Rust.",
+      "miao is an open-source AI coding agent for the terminal: your models, steerable long tasks, visible cost. mtty is an AI-native terminal and editor for local and remote work, written in Rust.",
     kicker: "Two open-source tools for the terminal",
     h1a: "An agent that does the work.",
     h1b: "A terminal that keeps watch.",
     miaoBlurb:
       "Reads a repository, edits code, runs commands and checks its own work — with the models you choose and a running tally of what each turn costs.",
     mttyBlurb:
-      "A GPU-rendered terminal written in Rust that knows when the agent in a pane is working, waiting on you, or done.",
+      "An AI-native terminal and editor in Rust: terminals, files, remote hosts and agents in one window — and it knows when an agent is working, waiting on you, or done.",
     installHead: "Install miao",
     installMeta: "macOS · Linux",
     downloadHead: "Get mtty",
@@ -50,13 +50,13 @@ const copy = {
     ],
     miaoMeta: "TypeScript · Rust accelerators · MIT",
     miaoMore: "Explore miao",
-    mttyKind: "Terminal emulator",
-    mttyH: "A terminal engine, and the app built on it.",
+    mttyKind: "Terminal · editor · agents",
+    mttyH: "Terminal, editor and agents in one native window.",
     mttyPoints: [
       ["Rendered on the GPU", "A glyph-grid renderer on wgpu and glyphon; the hot path takes no locks and allocates nothing per frame."],
-      ["A workspace, not just a window", "Tabs, recursive splits, ⌘K Open Quickly, a details panel, a reader and editor."],
+      ["A workspace, not just a window", "Tabs, recursive splits, ⌘K Open Quickly, a details panel, a reader and editor; an editor pane is on the way."],
       ["Aware of agents", "Pane badges, notifications, a sleep guard and a prompt queue driven by agent state."],
-      ["Embeddable", "The core owns PTY to screen and contains no windowing or GPU code."],
+      ["Remote hosts like local folders", "A host library, keys, SFTP, port forwarding, jump hosts and snippets over your own OpenSSH."],
     ],
     mttyMeta: "Rust · Apache-2.0 · pre-release",
     mttyMore: "Explore mtty",
@@ -85,14 +85,14 @@ const copy = {
     docs: "Read the docs",
   },
   zh: {
-    title: "mtty.dev — AI 编程代理 miao 与 Rust 终端 mtty",
+    title: "mtty.dev — AI 编程代理 miao 与 AI 原生终端编辑器 mtty",
     description:
-      "miao 是在终端里运行的开源 AI 编程代理：模型由你选，长任务可中途调整，花费清清楚楚。mtty 是用 Rust 编写、GPU 渲染、可嵌入的终端模拟器。",
+      "miao 是在终端里运行的开源 AI 编程代理：模型由你选，长任务可中途调整，花费清清楚楚。mtty 是用 Rust 编写的 AI 原生终端与编辑器，本地与远程同样顺手。",
     kicker: "两个面向终端的开源工具",
     h1a: "一个替你干活的代理，",
     h1b: "一个替你盯着的终端。",
     miaoBlurb: "读仓库、改代码、跑命令、验证结果 —— 模型由你选，每一轮花了多少一目了然。",
-    mttyBlurb: "用 Rust 编写、GPU 渲染的终端，它知道某个窗格里的代理正在干活、在等你确认，还是已经做完。",
+    mttyBlurb: "用 Rust 编写的 AI 原生终端与编辑器：终端、文件、远程主机和代理同在一个窗口——它还知道代理正在干活、在等你确认，还是已经做完。",
     installHead: "安装 miao",
     installMeta: "macOS · Linux",
     downloadHead: "获取 mtty",
@@ -115,13 +115,13 @@ const copy = {
     ],
     miaoMeta: "TypeScript · Rust 加速 · MIT",
     miaoMore: "了解 miao",
-    mttyKind: "终端模拟器",
-    mttyH: "一个终端引擎，以及构建其上的应用。",
+    mttyKind: "终端 · 编辑器 · 代理",
+    mttyH: "终端、编辑器与代理，同在一个原生窗口。",
     mttyPoints: [
       ["GPU 渲染", "基于 wgpu 与 glyphon 的字形网格渲染；热路径不加锁、每帧零分配。"],
-      ["是工作台，不只是窗口", "标签、递归分屏、⌘K 快速打开、详情面板、阅读器与编辑器。"],
+      ["是工作台，不只是窗口", "标签、递归分屏、⌘K 快速打开、详情面板、阅读器与编辑器；编辑器窗格即将到来。"],
       ["懂得代理", "窗格徽章、系统通知、防休眠与提示队列，都由代理状态驱动。"],
-      ["可嵌入", "内核负责从 PTY 到屏幕的全过程，不含任何窗口或 GPU 代码。"],
+      ["远程主机像本地目录", "主机库、密钥、SFTP、端口转发、跳板机与命令片段，经由你自己的 OpenSSH。"],
     ],
     mttyMeta: "Rust · Apache-2.0 · 预发布",
     mttyMore: "了解 mtty",
