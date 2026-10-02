@@ -202,21 +202,23 @@ const copy = {
       </div>
 
       <div class="hero-shots rise" style="--i:3">
-        <figure class="shot s-mtty">
+        <figure class="shot s-miao">
           <img
-            src="/shots/mtty.png"
-            width="1910"
-            height="920"
-            alt={copy.shotMtty}
+            src="/shots/miao.png"
+            width="1199"
+            height="1150"
+            alt={copy.shotMiao}
             fetchpriority="high"
           />
-          <figcaption><span class="ink-mtty">●</span> {copy.capMtty}</figcaption>
-        </figure>
-        <figure class="shot s-miao">
-          <img src="/shots/miao.png" width="1199" height="1150" alt={copy.shotMiao} />
           <figcaption><span class="ink-miao">●</span> {copy.capMiao}</figcaption>
         </figure>
       </div>
+    </div>
+    <div class="wrap hero-wide rise" style="--i:4">
+      <figure class="shot s-mtty">
+        <img src="/shots/mtty.png" width="1910" height="920" alt={copy.shotMtty} />
+        <figcaption><span class="ink-mtty">●</span> {copy.capMtty}</figcaption>
+      </figure>
     </div>
   </section>
 
@@ -452,36 +454,35 @@ const copy = {
     margin-left: auto;
   }
 
-  /* The two captures at one scale: miao's window (1199 px wide, 62.8% of
-     mtty's 1910) floats over the empty lower third of mtty's terminal, below
-     the git log. Margins in % are of the width, so the
-     composition holds at every size. */
+  /* miao's square capture sits beside the copy; mtty's wide capture spans
+     the page below them, so the hero is balanced rather than stacked on the
+     right. */
   .hero-shots {
-    display: flow-root;
     min-width: 0;
   }
 
-  .s-mtty figcaption {
-    max-width: 36%;
+  .hero-wide {
+    margin-top: 64px;
   }
 
-  .s-miao {
-    position: relative;
-    z-index: 1;
-    width: 62.8%;
-    margin: -16% 0 0 auto;
-  }
-
+  .s-mtty img,
   .s-miao img {
     box-shadow: 0 40px 80px -30px rgb(0 0 0 / 0.85), 0 0 0 1px var(--border-strong);
   }
 
+  :root[data-theme="light"] .s-mtty img,
   :root[data-theme="light"] .s-miao img {
     box-shadow: 0 34px 64px -30px rgb(40 30 10 / 0.45), 0 0 0 1px var(--border-strong);
   }
 
   .s-miao figcaption {
     text-align: right;
+  }
+
+  @media (max-width: 720px) {
+    .hero-wide {
+      margin-top: 40px;
+    }
   }
 
   /* --- Products --- */
