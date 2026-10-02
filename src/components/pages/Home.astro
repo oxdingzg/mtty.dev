@@ -214,6 +214,9 @@ const copy = {
             alt={copy.shotMtty}
             fetchpriority="high"
           />
+          <div class="reflection" aria-hidden="true">
+            <img src="/shots/mtty.png" width="1910" height="920" alt="" />
+          </div>
           <figcaption><span class="ink-mtty">●</span> {copy.capMtty}</figcaption>
         </figure>
       </div>
@@ -453,15 +456,18 @@ const copy = {
   }
 
   /* The two captures at one scale: miao's window (1199 px wide, 62.8% of
-     mtty's 1910) stands at the top right, its caption above it; mtty's wide
-     window lies across the bottom, over miao's lower part. Margins in % are
-     of the width, so the composition holds at every size. */
+     mtty's 1910) stands at the top right, in front and shown whole, its
+     caption above it; mtty's wide window lies behind it across the bottom,
+     mirrored below as a fading reflection. Margins in % are of the width,
+     so the composition holds at every size. */
   .hero-shots {
     display: flow-root;
     min-width: 0;
   }
 
   .s-miao {
+    position: relative;
+    z-index: 2;
     display: flex;
     flex-direction: column-reverse;
     width: 62.8%;
@@ -476,16 +482,43 @@ const copy = {
   .s-mtty {
     position: relative;
     z-index: 1;
-    margin-top: -24%;
+    margin-top: -16%;
   }
 
-  .s-mtty img,
-  .s-miao img {
+  /* The same capture flipped under itself and faded out: the floor the two
+     windows stand on. Only a band of it shows (16% of the width, about a
+     third of the image), so it never pushes the page down by a whole image.
+     The mask is in the image's own coordinates, before the flip: opaque at
+     its bottom edge, which the flip puts right under the capture. */
+  .reflection {
+    position: relative;
+    height: 0;
+    padding-bottom: 14%;
+    margin-top: 6px;
+    overflow: hidden;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .shot .reflection img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    transform: scaleY(-1);
+    box-shadow: none;
+    opacity: 0.22;
+    mask-image: linear-gradient(to top, rgb(0 0 0 / 0.75), transparent 28%);
+    -webkit-mask-image: linear-gradient(to top, rgb(0 0 0 / 0.75), transparent 28%);
+  }
+
+  .s-mtty > img,
+  .s-miao > img {
     box-shadow: 0 40px 80px -30px rgb(0 0 0 / 0.85), 0 0 0 1px var(--border-strong);
   }
 
-  :root[data-theme="light"] .s-mtty img,
-  :root[data-theme="light"] .s-miao img {
+  :root[data-theme="light"] .s-mtty > img,
+  :root[data-theme="light"] .s-miao > img {
     box-shadow: 0 34px 64px -30px rgb(40 30 10 / 0.45), 0 0 0 1px var(--border-strong);
   }
 
