@@ -34,7 +34,7 @@ const copy = {
     download: "Download the preview",
     downloadMeta: "macOS · Linux · Windows · preview",
     copyLabel: "Copy command",
-    shotMtty: "mtty with three session tabs, a session sidebar, and a coloured git log in the active pane.",
+    shotMtty: "mtty with a full-height session sidebar of three tabs, the details panel, and a coloured git log in the active pane.",
     shotMiao: "miao, having listed every place in packages/core that spawns a subprocess, with its input box below.",
     capMtty: "mtty, showing its own git history",
     capMiao: "miao, answering a question about its own code",
@@ -99,7 +99,7 @@ const copy = {
     download: "下载预览版",
     downloadMeta: "macOS · Linux · Windows · 预览版",
     copyLabel: "复制命令",
-    shotMtty: "mtty 打开了三个会话标签和一个会话侧栏，活动窗格里是一份带颜色的 git 日志。",
+    shotMtty: "mtty 的全高会话侧栏里有三个标签，右侧是详情面板，活动窗格里是一份带颜色的 git 日志。",
     shotMiao: "miao 列出了 packages/core 中所有启动子进程的位置，下方是输入框。",
     capMtty: "mtty，展示自己的提交历史",
     capMiao: "miao，回答关于自身代码的问题",
@@ -205,8 +205,8 @@ const copy = {
         <figure class="shot s-mtty">
           <img
             src="/shots/mtty.png"
-            width="1971"
-            height="950"
+            width="1910"
+            height="920"
             alt={copy.shotMtty}
             fetchpriority="high"
           />
@@ -452,8 +452,8 @@ const copy = {
     margin-left: auto;
   }
 
-  /* The two captures at one scale: miao's window (1199 px wide, 60.8% of
-     mtty's 1971) floats over the empty lower third of mtty's terminal, below
+  /* The two captures at one scale: miao's window (1199 px wide, 62.8% of
+     mtty's 1910) floats over the empty lower third of mtty's terminal, below
      the git log. Margins in % are of the width, so the
      composition holds at every size. */
   .hero-shots {
@@ -468,7 +468,7 @@ const copy = {
   .s-miao {
     position: relative;
     z-index: 1;
-    width: 60.8%;
+    width: 62.8%;
     margin: -16% 0 0 auto;
   }
 
