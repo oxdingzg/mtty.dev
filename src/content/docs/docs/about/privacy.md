@@ -105,12 +105,32 @@ self-upgrade.
 | Remote chat bridges (WeChat, QQ) | Opt-in, and they talk to those platforms' servers |
 | Session sharing | Removed; there is no backend for it |
 
+## What neither collects
+
+Worth stating positively, because it is the part people assume is happening:
+
+- **No accounts.** Neither product asks you to sign in, and neither has a
+  server to sign in to.
+- **No usage history leaves your machine** — not which features you use, not
+  which commands you run, not which files you open.
+- **No crash reports**, unless you write one yourself.
+- **No advertising, tracking or fingerprinting**, in either product or on this
+  site.
+
 ## This website
 
 The documentation and marketing pages here are static. There is no analytics
 script, no tracking pixel, no advertising or consent code, and no resource
 loaded from a third-party origin — the typefaces are served from this domain.
 The only outbound links on a page are the ones you can see.
+
+Two things worth checking rather than assuming:
+
+- **No cookies.** The site sets none, not even a preference cookie; the theme
+  you pick is stored in your browser's `localStorage` and never sent anywhere.
+- **Search runs in your browser.** The documentation index ships with the site
+  as static files, so a search query is answered locally and does not leave the
+  page.
 
 One thing to be plain about: the site is served through Cloudflare, which sees
 what any host or CDN sees — the IP address and user agent of the request.
@@ -121,3 +141,7 @@ Questions, or something here that does not match what you observe: write to
 <contact@mtty.dev>, or open an issue on
 [mtty](https://github.com/oxdingzg/miao-term/issues) or
 [miao](https://github.com/oxdingzg/miao/issues).
+
+*Last updated: 2026-10-03. This page describes code, so it changes when that
+code does — the review dates for individual claims are in
+[the licence and dependency policy](https://github.com/oxdingzg/miao-term/blob/main/docs/decisions/0006-license-policy.md).*
