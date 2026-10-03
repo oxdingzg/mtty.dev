@@ -29,6 +29,7 @@ Windows MSI 签名尚未完成。
 | [`mtty-cli` 控制面](/zh/docs/mtty/cli/) | 用脚本或另一个程序驱动正在运行的宿主 |
 | [视图规则](/zh/docs/mtty/view-rules/) | 由 `views.json` 决定窗格标题、图标与徽章 |
 | [排障](/zh/docs/mtty/troubleshooting/) | 构建失败、配置路径、shell 集成、`mtty-cli` 连不上 |
+| [安全](/zh/docs/mtty/security/) | 这里什么算漏洞 —— 控制面、令牌与私钥 —— 以及如何报告 |
 
 ## 获取
 

@@ -8,7 +8,7 @@ sidebar:
 
 | 要求 | 说明 |
 |---|---|
-| Rust | **stable** 工具链，锁定于 [`rust-toolchain.toml`](https://github.com/oxdingzg/miao-term/blob/cdb41fd8b67e6f26a77973019cb544ece8b99c4b/rust-toolchain.toml);MSRV 1.80 |
+| Rust | **stable** 工具链，锁定于 [`rust-toolchain.toml`](https://github.com/oxdingzg/miao-term/blob/52a0984c52daec23794e58a35be42232d758f7b1/rust-toolchain.toml);MSRV 1.80 |
 | GPU | 支持 Metal(macOS)、Vulkan(Linux)或 DX12(Windows)的驱动 |
 | Linux | 常见的 `winit`/`wgpu` 系统库(X11 或 Wayland 开发包) |
 
@@ -95,7 +95,7 @@ keep-sessions-on-quit = true
 | agent 钩子 | 已安装的钩子脚本与 miao 的集成读取 `MIAOTTY_PANE_ID` / `MIAOTTY_CLI`，这些变量仍然导出，因此它们会继续上报状态;新安装的钩子使用 `MTTY_*` 名字 |
 | macOS 通知 | 更名改变了 bundle ID,macOS 会重新询问通知权限 |
 
-完整对照见[应用身份与迁移](https://github.com/oxdingzg/miao-term/blob/cdb41fd8b67e6f26a77973019cb544ece8b99c4b/docs/APP-IDENTITY.zh-CN.md)。
+完整对照见[应用身份与迁移](https://github.com/oxdingzg/miao-term/blob/52a0984c52daec23794e58a35be42232d758f7b1/docs/APP-IDENTITY.zh-CN.md)。
 
 ## 编辑器没有补全、诊断或悬停提示
 
@@ -110,10 +110,10 @@ keep-sessions-on-quit = true
 ## 这里没有我遇到的问题
 
 其余文档在仓库里:[安装](/zh/docs/mtty/install/)、[视图规则](/zh/docs/mtty/view-rules/)，以及带注释的
-[`config.example.toml`](https://github.com/oxdingzg/miao-term/blob/cdb41fd8b67e6f26a77973019cb544ece8b99c4b/docs/config.example.toml)。其他问题请在
+[`config.example.toml`](https://github.com/oxdingzg/miao-term/blob/52a0984c52daec23794e58a35be42232d758f7b1/docs/config.example.toml)。其他问题请在
 [oxdingzg/miao-term](https://github.com/oxdingzg/miao-term/issues) 开 issue，或写信到
 <contact@mtty.dev>。
 
 ---
 
-*Synced from [`oxdingzg/miao-term@cdb41fd`](https://github.com/oxdingzg/miao-term/blob/cdb41fd8b67e6f26a77973019cb544ece8b99c4b/docs/TROUBLESHOOTING.zh-CN.md).*
+*Synced from [`oxdingzg/miao-term@52a0984`](https://github.com/oxdingzg/miao-term/blob/52a0984c52daec23794e58a35be42232d758f7b1/docs/TROUBLESHOOTING.zh-CN.md).*

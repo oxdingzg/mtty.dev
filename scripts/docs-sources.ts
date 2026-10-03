@@ -90,6 +90,12 @@ export const pages: DocPage[] = [
     order: 6,
     sources: { en: "docs/VIEW-RULES.md", zh: "docs/VIEW-RULES.zh-CN.md" },
   },
+  {
+    repo: "oxdingzg/miao-term",
+    to: "mtty/security",
+    order: 7,
+    sources: { en: "SECURITY.md", zh: "SECURITY.zh-CN.md" },
+  },
 ]
 
 /** The site route a published page owns, or null when it stays on GitHub. */

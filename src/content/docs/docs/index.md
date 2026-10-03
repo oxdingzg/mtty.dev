@@ -25,6 +25,7 @@ macOS · Linux `.deb`/AppImage · Windows MSI · pre-release
 | [Keyboard shortcuts](/docs/mtty/shortcuts/) | The window, the terminal and the editor pane |
 | [View rules](/docs/mtty/view-rules/) | Pane titles, icons and badges from `views.json` |
 | [Troubleshooting](/docs/mtty/troubleshooting/) | Build failures, config paths, shell integration, `mtty-cli` |
+| [Security](/docs/mtty/security/) | The control plane's boundary, and how to report a vulnerability |
 
 ## miao — an AI coding agent for the terminal
 

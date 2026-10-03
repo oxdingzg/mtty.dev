@@ -23,6 +23,7 @@ macOS · Linux `.deb`/AppImage · Windows MSI · 预发布
 | [快捷键](/zh/docs/mtty/shortcuts/) | 窗口、终端与编辑器窗格 |
 | [视图规则](/zh/docs/mtty/view-rules/) | 由 `views.json` 决定窗格标题、图标与徽章 |
 | [排障](/zh/docs/mtty/troubleshooting/) | 构建失败、配置路径、shell 集成、`mtty-cli` |
+| [安全](/zh/docs/mtty/security/) | 控制面的边界，以及如何报告漏洞 |
 
 ## miao —— 面向终端的 AI 编程代理
 

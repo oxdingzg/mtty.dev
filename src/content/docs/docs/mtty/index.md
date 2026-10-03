@@ -34,6 +34,7 @@ signing are still pending.
 | [The `mtty-cli` control plane](/docs/mtty/cli/) | Drive a running host from a script or another program |
 | [View rules](/docs/mtty/view-rules/) | Pane titles, icons and badges, from `views.json` |
 | [Troubleshooting](/docs/mtty/troubleshooting/) | Build failures, config paths, shell integration, connecting `mtty-cli` |
+| [Security](/docs/mtty/security/) | What counts as a vulnerability here — the control plane, tokens and private keys — and how to report one |
 
 ## Getting it
 
