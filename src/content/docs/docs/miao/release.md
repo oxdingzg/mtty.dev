@@ -54,4 +54,4 @@ sidebar:
 
 ---
 
-*Synced from [`oxdingzg/miao@cd6d4e9`](https://github.com/oxdingzg/miao/blob/cd6d4e96b383ff45c2f1212fd2ac67131cd68fa8/docs/release.en.md).*
+*Synced from [`oxdingzg/miao@c2816c1`](https://github.com/oxdingzg/miao/blob/c2816c13f3a5c62e9696373b7b734a54c4c2b8df/docs/release.en.md).*
