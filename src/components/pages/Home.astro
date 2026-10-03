@@ -5,6 +5,7 @@ import MarketingLayout from "../../layouts/MarketingLayout.astro"
 import InstallCommand from "../site/InstallCommand.astro"
 import MiaoMark from "../site/MiaoMark.astro"
 import MttyMark from "../site/MttyMark.astro"
+import ShowcaseWindow from "../site/ShowcaseWindow.astro"
 import { prefixFor, type Locale } from "../../i18n/routes"
 
 interface Props {
@@ -223,26 +224,16 @@ const copy = {
       </div>
 
       <div class="hero-shots rise" style="--i:3">
-        <figure class="shot s-miao">
-          <a href="/shots/miao.png" target="_blank" rel="noopener noreferrer" aria-label={lang === "zh" ? "查看 miao 完整截图" : "View the full miao screenshot"}>
-            <img src="/shots/miao.png" width="2400" height="1413" alt={copy.shotMiao} />
-          </a>
-          <figcaption>
-            <span class="window-brand"><MiaoMark size={15} /><b>miao</b></span>
-            <span class="window-kind">{copy.miaoKind}</span>
-            <span class="window-note">{lang === "zh" ? "示例会话" : "Example session"}</span>
-          </figcaption>
-        </figure>
-        <figure class="shot s-mtty">
-          <a href="/shots/mtty.png" target="_blank" rel="noopener noreferrer" aria-label={lang === "zh" ? "查看 mtty 完整截图" : "View the full mtty screenshot"}>
-            <img src="/shots/mtty.png" width="2400" height="1538" alt={copy.shotMtty} loading="lazy" />
-          </a>
-          <figcaption>
-            <span class="window-brand"><MttyMark size={15} /><b>mtty</b></span>
-            <span class="window-kind">{copy.mttyKind}</span>
-            <span class="window-note" aria-hidden="true">↗</span>
-          </figcaption>
-        </figure>
+        <ShowcaseWindow product="miao" kind={copy.miaoKind} lang={lang} slides={[
+          { src: "/shots/miao.png", label: lang === "zh" ? "任务、代码改动与会话状态 · 示例会话" : "Tasks, code changes and session status · Example session", alt: copy.shotMiao, width: 2400, height: 1413 },
+          { src: "/shots/miao-providers.png", label: lang === "zh" ? "连接你选择的模型服务" : "Connect your choice of model provider", alt: lang === "zh" ? "miao 模型服务选择面板" : "miao model provider selection", width: 2400, height: 1413 },
+          { src: "/shots/miao-home.png", label: lang === "zh" ? "从一个提示开始" : "Start with a prompt", alt: lang === "zh" ? "miao 启动界面和提示输入框" : "miao start screen and prompt input", width: 2400, height: 1413 },
+        ]} />
+        <ShowcaseWindow product="mtty" kind={copy.mttyKind} lang={lang} slides={[
+          { src: "/shots/mtty.png", label: lang === "zh" ? "编辑器、预览、终端与 Agent 状态" : "Editor, preview, terminal and agent state", alt: copy.shotMtty, width: 2400, height: 1538 },
+          { src: "/shots/mtty-editor.png", label: lang === "zh" ? "Markdown 与 Mermaid 实时预览" : "Live Markdown and Mermaid preview", alt: lang === "zh" ? "mtty Markdown 编辑器和实时预览" : "mtty Markdown editor with live preview", width: 1100, height: 720 },
+          { src: "/shots/mtty-splits.png", label: lang === "zh" ? "并排查看终端与运行中的服务" : "Terminals and running services side by side", alt: lang === "zh" ? "mtty 递归分屏终端" : "mtty split terminals", width: 1100, height: 720 },
+        ]} />
       </div>
     </div>
   </section>
@@ -497,14 +488,14 @@ const copy = {
     margin-left: auto;
   }
 
-  /* A pair of offset windows, with both complete captures in the first screen. */
+  /* A pair of aligned windows, with both complete captures in the first screen. */
   .hero-shots {
     position: relative;
     display: grid;
     gap: 20px;
     min-width: 0;
     width: 100%;
-    max-width: calc((100svh - 240px) / 1.23);
+    max-width: calc((100svh - 280px) / 1.25);
     justify-self: end;
     isolation: isolate;
   }
@@ -519,84 +510,6 @@ const copy = {
       radial-gradient(ellipse at 25% 80%, color-mix(in srgb, var(--mtty-accent) 16%, transparent), transparent 65%);
     filter: blur(32px);
     pointer-events: none;
-  }
-
-  .s-miao,
-  .s-mtty {
-    display: flex;
-    flex-direction: column-reverse;
-    width: 94%;
-    margin: 0;
-    padding: 0 5px 5px;
-    border: 1px solid var(--border-strong);
-    border-radius: 14px;
-    background: var(--surface);
-    box-shadow: 0 24px 44px -22px rgb(0 0 0 / 0.35), 0 3px 10px -4px rgb(0 0 0 / 0.12);
-    transition: transform 220ms var(--ease), box-shadow 220ms var(--ease);
-  }
-
-  .s-miao {
-    justify-self: end;
-    transform: rotate(1deg);
-  }
-
-  .s-mtty {
-    justify-self: start;
-    transform: rotate(-1deg);
-  }
-
-  .hero-shots .shot:hover,
-  .hero-shots .shot:focus-within {
-    transform: rotate(0deg) translateY(-3px);
-    box-shadow: 0 30px 52px -22px rgb(0 0 0 / 0.4);
-  }
-
-  .hero-shots a {
-    display: block;
-    overflow: hidden;
-    border-radius: 9px;
-    cursor: zoom-in;
-  }
-
-  .hero-shots a:focus-visible {
-    outline: 2px solid var(--mtty-accent);
-    outline-offset: 2px;
-  }
-
-  .hero-shots img {
-    border-radius: 0;
-    box-shadow: none;
-  }
-
-  .hero-shots figcaption {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    height: 36px;
-    margin: 0;
-    padding: 0 8px;
-    text-align: left;
-    font-family: var(--font-sans);
-    font-size: 0.72rem;
-  }
-
-  .window-brand {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    color: var(--fg);
-    font-family: var(--font-mono);
-  }
-
-  .window-kind {
-    color: var(--fg-muted);
-  }
-
-  .window-note {
-    margin-left: auto;
-    color: var(--fg-faint);
-    font-size: 0.65rem;
-    white-space: nowrap;
   }
 
   /* --- Products --- */
@@ -1033,9 +946,6 @@ const copy = {
       animation: none !important;
     }
 
-    .hero-shots .shot {
-      transition: none;
-    }
   }
 
   @media (max-width: 960px) {
