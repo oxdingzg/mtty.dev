@@ -5,7 +5,7 @@ sidebar:
 ---
 
 mtty (formerly miaotty) is the native winit/wgpu application.
-There is one GUI executable and one CLI. See [identity and migration](https://github.com/oxdingzg/miao-term/blob/52a0984c52daec23794e58a35be42232d758f7b1/docs/APP-IDENTITY.md).
+There is one GUI executable and one CLI. See [identity and migration](https://github.com/oxdingzg/miao-term/blob/1f9cb378cab3d9f0a3995971a05be22f5917fd05/docs/APP-IDENTITY.md).
 
 ## From source
 
@@ -34,7 +34,7 @@ The installed app uses the macOS system menu bar; a bare binary uses an in-windo
 
 ## Release packages
 
-[release.yml](https://github.com/oxdingzg/miao-term/blob/52a0984c52daec23794e58a35be42232d758f7b1/.github/workflows/release.yml) requires Apple Silicon macOS,
+[release.yml](https://github.com/oxdingzg/miao-term/blob/1f9cb378cab3d9f0a3995971a05be22f5917fd05/.github/workflows/release.yml) requires Apple Silicon macOS,
 Intel macOS, Linux and Windows runner builds. A `v*` tag publishes a release;
 manual dispatch rehearses packaging without publishing.
 
@@ -43,8 +43,16 @@ manual dispatch rehearses packaging without publishing.
 - Windows: zip and MSI, containing `mtty.exe` and `mtty-cli.exe`.
 
 Apple Developer ID signing/notarization, Windows MSI signing and minisign
-artifact signatures use the optional secrets described in [RELEASE.md](https://github.com/oxdingzg/miao-term/blob/52a0984c52daec23794e58a35be42232d758f7b1/docs/RELEASE.md).
+artifact signatures use the optional secrets described in [RELEASE.md](https://github.com/oxdingzg/miao-term/blob/1f9cb378cab3d9f0a3995971a05be22f5917fd05/docs/RELEASE.md).
 `dist-workspace.toml` remains a cargo-dist scaffold, not the active release pipeline.
+
+The current Windows MSI and the executables in the Windows ZIP have no Authenticode
+publisher signature. The release also provides detached minisign `.sig` files and a
+public key; these let you verify downloaded artifacts separately, but Windows does not
+use them as Authenticode signatures. In release `v0.1.2`, the Windows MSI signing step
+was skipped because no signing certificate was configured. See the [shared Windows
+download guidance](/docs/about/windows-downloads/) for SmartScreen prompts and the
+difference between these signature types.
 
 ## Configuration and links
 
@@ -62,4 +70,4 @@ identity remains unchanged.
 
 ---
 
-*Synced from [`oxdingzg/miao-term@52a0984`](https://github.com/oxdingzg/miao-term/blob/52a0984c52daec23794e58a35be42232d758f7b1/docs/INSTALL.md).*
+*Synced from [`oxdingzg/miao-term@1f9cb37`](https://github.com/oxdingzg/miao-term/blob/1f9cb378cab3d9f0a3995971a05be22f5917fd05/docs/INSTALL.md).*
