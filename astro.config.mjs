@@ -44,6 +44,11 @@ export default defineConfig({
           translations: { zh: "mtty" },
           items: [{ autogenerate: { directory: "docs/mtty" } }],
         },
+        {
+          label: "About",
+          translations: { zh: "关于" },
+          items: [{ autogenerate: { directory: "docs/about" } }],
+        },
       ],
     }),
   ],

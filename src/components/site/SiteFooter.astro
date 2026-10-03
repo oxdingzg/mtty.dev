@@ -42,6 +42,13 @@ const columns = [
       { href: "https://github.com/oxdingzg/miao-term", label: "GitHub" },
     ],
   },
+  {
+    head: en ? "legal" : "法律",
+    links: [
+      { href: `${prefix}/docs/about/privacy/`, label: en ? "Privacy" : "隐私" },
+      { href: `${prefix}/docs/about/license/`, label: en ? "License" : "许可" },
+    ],
+  },
 ]
 ---
 
@@ -108,7 +115,7 @@ const columns = [
     margin-inline: auto;
     padding: 0 var(--gutter);
     display: grid;
-    grid-template-columns: 1.4fr 1fr 1fr 1.35fr;
+    grid-template-columns: 1.2fr 0.85fr 0.85fr 0.75fr 1.3fr;
     gap: 40px;
   }
 
@@ -180,12 +187,24 @@ const columns = [
     font-size: 0.76rem;
   }
 
-  @media (max-width: 860px) {
+  /* Five columns need room; below that, the link columns pair up and the brand
+     and contact blocks take a full row each. */
+  @media (max-width: 1040px) {
+    .inner {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 32px;
+    }
+
+    .sign {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (max-width: 720px) {
     .inner {
       grid-template-columns: 1fr 1fr;
     }
 
-    .sign,
     .contact {
       grid-column: 1 / -1;
     }

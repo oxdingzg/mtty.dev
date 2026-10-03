@@ -1,0 +1,123 @@
+---
+title: Privacy
+description: What mtty and miao send, what they never send, and what this website collects.
+---
+
+Two products, two different answers about the network. This page states both,
+and names the code or the setting behind every claim, so you can check it.
+
+## In short
+
+- **Neither product contains analytics, telemetry or usage reporting.**
+- **mtty makes no request on its own.** Its update check runs only when you ask
+  for it.
+- **miao checks for updates by default**, one second after its interface starts.
+  It can be told not to.
+- Apart from those update checks, **neither project sends anything to a server
+  this project runs**.
+- **This website has no analytics**, loads nothing from a third party, and
+  serves its own fonts.
+
+## mtty
+
+### Nothing is reported
+
+There is no telemetry, analytics or crash-reporting code in the repository. There
+is also no HTTP client library in the dependency tree at all — every outbound
+request mtty makes is a `curl` subprocess it starts itself, which is what makes
+the rest of this list short enough to enumerate.
+
+### The update check
+
+mtty contacts nothing at startup. The check runs from the menu's **Check for
+Updates**, and from the retry button in the update dialog after a failure. It is
+one request:
+
+```sh
+curl -fsSL --max-time 8 <update-check-url>
+```
+
+The URL defaults to this project's own release manifest on GitHub, and the only
+thing the request reveals is what any download of a file reveals to the host
+serving it. A downloaded artifact is checked against the `sha256` the manifest
+declares, and against a minisign signature too when `update-pubkey` is set. If
+you point `update-check-url` at nothing, nothing is ever fetched. See
+[configuration](/docs/mtty/config/).
+
+### Connections you start yourself
+
+Everything else that leaves the machine is a connection you asked for, to a host
+you named:
+
+| What | When |
+|---|---|
+| SSH, SFTP, FTP, port forwarding | When you connect to a host |
+| The MTP control plane | A **per-user local socket** with owner-only permissions, or a named pipe on Windows |
+| MTP over TCP | Only if you set `remote-listen`, and it **refuses to start without `MTTY_MTP_TOKEN`** |
+| Host and snippet sync | Only if you set `sync-dir`; the default is unset |
+
+One exception worth knowing, because it is not obvious: the Markdown preview is
+built with remote image support, so **a document you open that references an
+image by URL will fetch that image**.
+
+## miao
+
+### Nothing is reported
+
+No analytics or usage-reporting SDK is present. What the interface shows you —
+token counts, estimated cost, time to first token, prompt-cache hits — is
+computed locally and never uploaded. That is "telemetry" in the product's own
+vocabulary, and it means a panel in your terminal, not a transmission.
+
+Two things are wired up but off:
+
+- **OpenTelemetry export** does nothing unless you set
+  `OTEL_EXPORTER_OTLP_ENDPOINT` yourself.
+- **Error reporting** is compiled in only when a Sentry DSN is supplied at build
+  time. The releases published here are built without one, so nothing is
+  reported. If that ever changes, this page changes with it.
+
+### The update check runs by default
+
+This is the one thing miao does on its own. One second after the interface
+starts, and not blocking it, miao checks whether a newer release exists — and by
+default it then installs it in the background; the running process keeps the old
+build and offers a restart to apply it. Depending on how you installed miao, the
+request goes to `github.com/oxdingzg/miao`, `api.github.com`, the npm registry,
+or Homebrew's formula index.
+
+Turn it off in `miao.jsonc`:
+
+```jsonc
+{ "autoupdate": false }
+```
+
+or with `MIAO_DISABLE_AUTOUPDATE=1`. Preview and development builds never
+self-upgrade.
+
+### What else goes out
+
+| What | Default |
+|---|---|
+| The models.dev catalog (model names, pricing, limits) | Fetched in the background and cached for 12 hours; a snapshot is bundled for offline use |
+| Model provider APIs | Only the providers **you** configure |
+| The HTTP server and browser interface | Opt-in; `miao serve` |
+| Remote chat bridges (WeChat, QQ) | Opt-in, and they talk to those platforms' servers |
+| Session sharing | Removed; there is no backend for it |
+
+## This website
+
+The documentation and marketing pages here are static. There is no analytics
+script, no tracking pixel, no advertising or consent code, and no resource
+loaded from a third-party origin — the typefaces are served from this domain.
+The only outbound links on a page are the ones you can see.
+
+One thing to be plain about: the site is served through Cloudflare, which sees
+what any host or CDN sees — the IP address and user agent of the request.
+
+## Contact
+
+Questions, or something here that does not match what you observe: write to
+<contact@mtty.dev>, or open an issue on
+[mtty](https://github.com/oxdingzg/miao-term/issues) or
+[miao](https://github.com/oxdingzg/miao/issues).
