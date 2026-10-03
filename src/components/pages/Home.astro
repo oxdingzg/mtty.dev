@@ -179,11 +179,11 @@ const copy = {
     <div class="wrap hero-grid">
       <div class="hero-copy">
         <div class="hero-heading">
-        <p class="label rise"><b>{copy.kicker}</b></p>
-        <h1 class="display h1 rise" style="--i:1">
-          <span class="hl">{copy.h1a}</span>
-          <em class="hl accent">{copy.h1b}</em>
-        </h1>
+          <p class="label rise"><b>{copy.kicker}</b></p>
+          <h1 class="display h1 rise" style="--i:1">
+            <span class="hl">{copy.h1a}</span>
+            <em class="hl accent">{copy.h1b}</em>
+          </h1>
         </div>
 
         <div class="picks rise" style="--i:2">
@@ -405,23 +405,13 @@ const copy = {
     background: var(--mtty-accent);
   }
 
-  /* Keep the introduction compact so both full workspaces get the page width. */
+  /* Keep the introduction, actions and both workspaces together above the fold. */
   .hero-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: 40px;
-    padding-bottom: 8px;
-  }
-
-  .hero-copy {
-    display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1.08fr);
-    column-gap: 56px;
-    align-items: start;
-  }
-
-  .hero-copy > .picks {
-    margin-top: 0;
+    gap: 48px;
+    align-items: center;
+    padding-bottom: 8px;
   }
 
   .h1 {
@@ -499,11 +489,14 @@ const copy = {
     margin-left: auto;
   }
 
-  /* Full-size, separate captures: neither sidebar is hidden by another image. */
+  /* Scale both complete captures to the available first-screen height. */
   .hero-shots {
     display: grid;
-    gap: 36px;
+    gap: 22px;
     min-width: 0;
+    width: 100%;
+    max-width: calc((100svh - 230px) / 1.23);
+    justify-self: end;
   }
 
   .s-miao,
@@ -530,7 +523,7 @@ const copy = {
   }
 
   .hero-shots figcaption {
-    margin: 0 0 14px;
+    margin: 0 0 8px;
     text-align: left;
   }
 
@@ -970,10 +963,14 @@ const copy = {
   }
 
   @media (max-width: 960px) {
-    .hero-grid,
-    .hero-copy {
+    .hero-grid {
       grid-template-columns: minmax(0, 1fr);
-      gap: 40px;
+      gap: 32px;
+    }
+
+    .hero-shots {
+      max-width: 640px;
+      justify-self: center;
     }
 
 
