@@ -2,11 +2,11 @@
 import MiaoMark from './MiaoMark.astro'
 import MttyMark from './MttyMark.astro'
 interface Slide { src: string; label: string; alt: string; width: number; height: number }
-interface Props { product: 'miao' | 'mtty'; kind: string; lang: string; slides: Slide[] }
-const { product, kind, lang, slides } = Astro.props
+interface Props { product: 'miao' | 'mtty'; kind: string; lang: string; slides: Slide[]; embedded?: boolean }
+const { product, kind, lang, slides, embedded = false } = Astro.props
 const zh = lang === 'zh'
 ---
-<figure class="showcase-window" data-showcase data-interval={product === 'miao' ? 6500 : 7500} aria-label={`${product} ${zh ? '功能展示' : 'feature showcase'}`}>
+<figure class="showcase-window" data-embedded={embedded ? '' : undefined} data-showcase data-interval={product === 'miao' ? 6500 : 7500} aria-label={`${product} ${zh ? '功能展示' : 'feature showcase'}`}>
   <figcaption class="window-header">
     <span class="window-brand">
       {product === 'miao' ? <MiaoMark size={15} /> : <MttyMark size={15} />}<b>{product}</b>
@@ -37,7 +37,7 @@ const zh = lang === 'zh'
   .window-brand { display: inline-flex; align-items: center; gap: 6px; color: var(--fg); font-family: var(--font-mono); }
   .window-kind { color: var(--fg-muted); }
   .playback { margin-left: auto; }
-  .window-stage { position: relative; aspect-ratio: 8 / 5; overflow: hidden; border-radius: 9px; background: #111312; }
+  .window-stage { position: relative; aspect-ratio: var(--showcase-aspect-ratio, 8 / 5); overflow: hidden; border-radius: 9px; background: #111312; }
   .window-slide { position: absolute; inset: 0; display: block; opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 450ms ease, visibility 450ms; cursor: zoom-in; }
   .window-slide[data-active] { opacity: 1; visibility: visible; pointer-events: auto; }
   .window-slide img { display: block; width: 100%; height: 100%; object-fit: contain; }
@@ -51,6 +51,10 @@ const zh = lang === 'zh'
   .slide-dot { width: 16px; }
   .slide-dot span { width: 5px; height: 5px; border-radius: 50%; background: var(--fg-faint); opacity: .4; transition: width 200ms, opacity 200ms; }
   .slide-dot[aria-current] span { width: 12px; border-radius: 4px; opacity: 1; background: var(--mtty-ink); }
+  .showcase-window[data-embedded] { position: relative; padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; }
+  [data-embedded] .window-header { position: absolute; bottom: 0; right: 4px; z-index: 1; height: 32px; padding: 0; }
+  [data-embedded] .window-brand, [data-embedded] .window-kind { display: none; }
+  [data-embedded] .window-footer { height: 32px; padding-right: 34px; }
   [hidden] { display: none !important; }
   @media (prefers-reduced-motion: reduce) { .window-slide, .slide-dot span { transition: none; } }
 </style>

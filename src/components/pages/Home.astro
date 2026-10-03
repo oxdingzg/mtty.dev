@@ -6,6 +6,7 @@ import InstallCommand from "../site/InstallCommand.astro"
 import MiaoMark from "../site/MiaoMark.astro"
 import MttyMark from "../site/MttyMark.astro"
 import ShowcaseWindow from "../site/ShowcaseWindow.astro"
+import ProductShowcase from "../site/ProductShowcase.astro"
 import { prefixFor, type Locale } from "../../i18n/routes"
 
 interface Props {
@@ -21,7 +22,7 @@ const copy = {
     title: "mtty.dev — miao, an AI coding agent, and mtty, an AI-native terminal and editor",
     description:
       "miao is an open-source AI coding agent for the terminal: your models, steerable long tasks, visible cost. mtty is an AI-native terminal and editor for local and remote work, written in Rust.",
-    kicker: "Two open-source tools for the terminal",
+    kicker: "Open-source tools for agent-powered development",
     h1a: "An agent that does the work.",
     h1b: "A terminal that keeps watch.",
     miaoBlurb:
@@ -98,7 +99,7 @@ const copy = {
     title: "mtty.dev — AI 编程代理 miao 与 AI 原生终端编辑器 mtty",
     description:
       "miao 是在终端里运行的开源 AI 编程代理：模型由你选，长任务可中途调整，花费清清楚楚。mtty 是用 Rust 编写的 AI 原生终端与编辑器，本地与远程同样顺手。",
-    kicker: "两个面向终端的开源工具",
+    kicker: "面向代理驱动开发的开源工具",
     h1a: "一个替你干活的代理，",
     h1b: "一个替你盯着的终端。",
     miaoBlurb: "读仓库、改代码、跑命令、验证结果 —— 模型由你选，每一轮花了多少一目了然。",
@@ -224,16 +225,18 @@ const copy = {
       </div>
 
       <div class="hero-shots rise" style="--i:3">
-        <ShowcaseWindow product="miao" kind={copy.miaoKind} lang={lang} slides={[
-          { src: "/shots/miao.png", label: lang === "zh" ? "任务、代码改动与会话状态 · 示例会话" : "Tasks, code changes and session status · Example session", alt: copy.shotMiao, width: 2400, height: 1413 },
-          { src: "/shots/miao-providers.png", label: lang === "zh" ? "连接你选择的模型服务" : "Connect your choice of model provider", alt: lang === "zh" ? "miao 模型服务选择面板" : "miao model provider selection", width: 2400, height: 1413 },
-          { src: "/shots/miao-home.png", label: lang === "zh" ? "从一个提示开始" : "Start with a prompt", alt: lang === "zh" ? "miao 启动界面和提示输入框" : "miao start screen and prompt input", width: 2400, height: 1413 },
-        ]} />
-        <ShowcaseWindow product="mtty" kind={copy.mttyKind} lang={lang} slides={[
-          { src: "/shots/mtty.png", label: lang === "zh" ? "编辑器、预览、终端与 Agent 状态" : "Editor, preview, terminal and agent state", alt: copy.shotMtty, width: 2400, height: 1538 },
-          { src: "/shots/mtty-editor.png", label: lang === "zh" ? "Markdown 与 Mermaid 实时预览" : "Live Markdown and Mermaid preview", alt: lang === "zh" ? "mtty Markdown 编辑器和实时预览" : "mtty Markdown editor with live preview", width: 1100, height: 720 },
-          { src: "/shots/mtty-splits.png", label: lang === "zh" ? "并排查看终端与运行中的服务" : "Terminals and running services side by side", alt: lang === "zh" ? "mtty 递归分屏终端" : "mtty split terminals", width: 1100, height: 720 },
-        ]} />
+        <ProductShowcase lang={lang} miaoKind={copy.miaoKind} mttyKind={copy.mttyKind}>
+          <ShowcaseWindow slot="miao" embedded product="miao" kind={copy.miaoKind} lang={lang} slides={[
+            { src: "/shots/miao.png", label: lang === "zh" ? "任务、代码改动与会话状态 · 示例会话" : "Tasks, code changes and session status · Example session", alt: copy.shotMiao, width: 2400, height: 1413 },
+            { src: "/shots/miao-providers.png", label: lang === "zh" ? "连接你选择的模型服务" : "Connect your choice of model provider", alt: lang === "zh" ? "miao 模型服务选择面板" : "miao model provider selection", width: 2400, height: 1413 },
+            { src: "/shots/miao-home.png", label: lang === "zh" ? "从一个提示开始" : "Start with a prompt", alt: lang === "zh" ? "miao 启动界面和提示输入框" : "miao start screen and prompt input", width: 2400, height: 1413 },
+          ]} />
+          <ShowcaseWindow slot="mtty" embedded product="mtty" kind={copy.mttyKind} lang={lang} slides={[
+            { src: "/shots/mtty.png", label: lang === "zh" ? "编辑器、预览、终端与 Agent 状态" : "Editor, preview, terminal and agent state", alt: copy.shotMtty, width: 2400, height: 1538 },
+            { src: "/shots/mtty-editor.png", label: lang === "zh" ? "Markdown 与 Mermaid 实时预览" : "Live Markdown and Mermaid preview", alt: lang === "zh" ? "mtty Markdown 编辑器和实时预览" : "mtty Markdown editor with live preview", width: 1100, height: 720 },
+            { src: "/shots/mtty-splits.png", label: lang === "zh" ? "并排查看终端与运行中的服务" : "Terminals and running services side by side", alt: lang === "zh" ? "mtty 递归分屏终端" : "mtty split terminals", width: 1100, height: 720 },
+          ]} />
+        </ProductShowcase>
       </div>
     </div>
   </section>
@@ -495,8 +498,7 @@ const copy = {
     gap: 20px;
     min-width: 0;
     width: 100%;
-    max-width: calc((100svh - 280px) / 1.25);
-    justify-self: end;
+    justify-self: stretch;
     isolation: isolate;
   }
 

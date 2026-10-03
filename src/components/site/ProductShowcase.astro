@@ -1,0 +1,87 @@
+---
+import MiaoMark from './MiaoMark.astro'
+import MttyMark from './MttyMark.astro'
+
+interface Props { lang: string; miaoKind: string; mttyKind: string }
+const { lang, miaoKind, mttyKind } = Astro.props
+const products = [
+  { name: 'miao', kind: miaoKind },
+  { name: 'mtty', kind: mttyKind },
+]
+---
+
+<div class="product-showcase" data-product-showcase>
+  <div class="product-tabs" role="tablist" aria-label={lang === 'zh' ? '产品展示' : 'Product showcase'}>
+    {products.map((product, index) => (
+      <button
+        class="product-tab"
+        id={`showcase-tab-${product.name}`}
+        role="tab"
+        aria-selected={index === 0 ? 'true' : 'false'}
+        aria-controls={`showcase-panel-${product.name}`}
+        tabindex={index === 0 ? 0 : -1}
+      >
+        {product.name === 'miao' ? <MiaoMark size={18} /> : <MttyMark size={18} />}
+        <span class="tab-copy"><b>{product.name}</b><span>{product.kind}</span></span>
+      </button>
+    ))}
+  </div>
+  {products.map((product, index) => (
+    <div
+      class="product-panel"
+      id={`showcase-panel-${product.name}`}
+      role="tabpanel"
+      aria-labelledby={`showcase-tab-${product.name}`}
+      hidden={index > 0}
+    >
+      <slot name={product.name} />
+    </div>
+  ))}
+</div>
+
+<style>
+  .product-showcase { min-width: 0; padding: 0 5px 5px; border: 1px solid var(--border-strong); border-radius: 14px; background: var(--surface); box-shadow: 0 24px 44px -22px rgb(0 0 0 / .35), 0 3px 10px -4px rgb(0 0 0 / .12); }
+  .product-tabs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; padding: 6px 0; }
+  .product-tab { display: flex; align-items: center; gap: 10px; min-width: 0; padding: 10px 12px; border: 1px solid transparent; border-radius: 8px; background: transparent; color: var(--fg-muted); text-align: left; cursor: pointer; }
+  .product-tab:hover { background: var(--surface-raised); color: var(--fg); }
+  .product-tab[aria-selected="true"] { border-color: var(--border); background: var(--surface-raised); color: var(--fg); }
+  .product-tab[aria-selected="true"] b { color: var(--miao-ink); }
+  .product-tab[aria-selected="true"]#showcase-tab-mtty b { color: var(--mtty-ink); }
+  .product-tab:focus-visible { outline: 2px solid var(--mtty-accent); outline-offset: -2px; }
+  .tab-copy { display: grid; gap: 2px; min-width: 0; }
+  .tab-copy b { font-family: var(--font-mono); font-size: .85rem; }
+  .tab-copy > span { color: var(--fg-muted); font-family: var(--font-sans); font-size: .7rem; line-height: 1.4; }
+  .product-panel { --showcase-aspect-ratio: 1100 / 720; }
+  [hidden] { display: none !important; }
+  @media (max-width: 420px) { .product-tab { gap: 7px; padding: 8px; } .tab-copy > span { font-size: .65rem; } }
+</style>
+
+<script>
+  for (const root of document.querySelectorAll<HTMLElement>('[data-product-showcase]')) {
+    const tabs = [...root.querySelectorAll<HTMLButtonElement>('[role="tab"]')]
+    const panels = [...root.querySelectorAll<HTMLElement>('[role="tabpanel"]')]
+    const select = (index: number) => {
+      tabs.forEach((tab, i) => {
+        tab.setAttribute('aria-selected', String(i === index))
+        tab.tabIndex = i === index ? 0 : -1
+        panels[i].hidden = i !== index
+      })
+    }
+    tabs.forEach((tab, index) => {
+      tab.addEventListener('click', () => select(index))
+      tab.addEventListener('keydown', (event) => {
+        let next: number
+        switch (event.key) {
+          case 'ArrowLeft': next = (index + tabs.length - 1) % tabs.length; break
+          case 'ArrowRight': next = (index + 1) % tabs.length; break
+          case 'Home': next = 0; break
+          case 'End': next = tabs.length - 1; break
+          default: return
+        }
+        event.preventDefault()
+        select(next)
+        tabs[next].focus()
+      })
+    })
+  }
+</script>
