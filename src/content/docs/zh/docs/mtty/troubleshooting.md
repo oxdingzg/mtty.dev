@@ -8,7 +8,7 @@ sidebar:
 
 | 要求 | 说明 |
 |---|---|
-| Rust | **stable** 工具链，锁定于 [`rust-toolchain.toml`](https://github.com/oxdingzg/miao-term/blob/4270da6190eb766c24011cd998d5c4d7ac755291/rust-toolchain.toml);MSRV 1.80 |
+| Rust | **stable** 工具链，锁定于 [`rust-toolchain.toml`](https://github.com/oxdingzg/miao-term/blob/044b60840b5754758c8b55d86a4f5f6b8719fc43/rust-toolchain.toml);MSRV 1.80 |
 | GPU | 支持 Metal(macOS)、Vulkan(Linux)或 DX12(Windows)的驱动 |
 | Linux | 常见的 `winit`/`wgpu` 系统库(X11 或 Wayland 开发包) |
 
@@ -62,11 +62,13 @@ Windows 上的 PowerShell 由 CI 运行)。
 
 ## 恢复会话后，之前运行的东西没回来
 
-恢复重放的是**布局**，并启动新的 shell;正在运行的进程不会被保留。若要在重启后保留 shell:
+更新、*重启 mtty(保留运行中的程序)* 和崩溃都不会结束正在运行的程序:每个 shell 运行在 PTY 宿主中(`pty-host`,默认开启),重启后的 mtty 会重新接上。普通退出会结束它们,除非设置:
 
 ```toml
-pty-host = true      # 实验性
+keep-sessions-on-quit = true
 ```
+
+`pty-host = false` 时打开的 pane,以及 SSH、串口、Telnet、TCP 标签,会重新开始:布局和内容会恢复,进程不会。
 
 ## `mtty-cli` 连不上
 
@@ -93,7 +95,7 @@ pty-host = true      # 实验性
 | agent 钩子 | 已安装的钩子脚本与 miao 的集成读取 `MIAOTTY_PANE_ID` / `MIAOTTY_CLI`，这些变量仍然导出，因此它们会继续上报状态;新安装的钩子使用 `MTTY_*` 名字 |
 | macOS 通知 | 更名改变了 bundle ID,macOS 会重新询问通知权限 |
 
-完整对照见[应用身份与迁移](https://github.com/oxdingzg/miao-term/blob/4270da6190eb766c24011cd998d5c4d7ac755291/docs/APP-IDENTITY.zh-CN.md)。
+完整对照见[应用身份与迁移](https://github.com/oxdingzg/miao-term/blob/044b60840b5754758c8b55d86a4f5f6b8719fc43/docs/APP-IDENTITY.zh-CN.md)。
 
 ## 编辑器没有补全、诊断或悬停提示
 
@@ -108,10 +110,10 @@ pty-host = true      # 实验性
 ## 这里没有我遇到的问题
 
 其余文档在仓库里:[安装](/zh/docs/mtty/install/)、[视图规则](/zh/docs/mtty/view-rules/)，以及带注释的
-[`config.example.toml`](https://github.com/oxdingzg/miao-term/blob/4270da6190eb766c24011cd998d5c4d7ac755291/docs/config.example.toml)。其他问题请在
+[`config.example.toml`](https://github.com/oxdingzg/miao-term/blob/044b60840b5754758c8b55d86a4f5f6b8719fc43/docs/config.example.toml)。其他问题请在
 [oxdingzg/miao-term](https://github.com/oxdingzg/miao-term/issues) 开 issue，或写信到
 <contact@mtty.dev>。
 
 ---
 
-*Synced from [`oxdingzg/miao-term@4270da6`](https://github.com/oxdingzg/miao-term/blob/4270da6190eb766c24011cd998d5c4d7ac755291/docs/TROUBLESHOOTING.zh-CN.md).*
+*Synced from [`oxdingzg/miao-term@044b608`](https://github.com/oxdingzg/miao-term/blob/044b60840b5754758c8b55d86a4f5f6b8719fc43/docs/TROUBLESHOOTING.zh-CN.md).*

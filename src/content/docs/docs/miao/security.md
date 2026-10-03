@@ -1,85 +1,84 @@
 ---
-title: Security
-description: miao's threat model, what is out of scope, and how to report a vulnerability.
+title: "Security"
 sidebar:
-  order: 8
+  order: 4
 ---
 
-The full policy is [`SECURITY.md`](https://github.com/oxdingzg/miao/blob/main/SECURITY.md)
-in the repository. This page summarises it.
+## Before you report
 
-:::danger[AI-generated reports are not accepted]
-We do not accept AI generated security reports. We receive a large number of
-these and we absolutely do not have the resources to review them all. If you
-submit one that will be an automatic ban from the project.
-:::
+This is a small project. It has had no security report yet, so there is no queue
+to join and no backlog to fight through. Two things are asked of a report, and
+neither is about volume:
 
-## Threat model
+- **Reproduce it.** Say what you did, what you expected, what happened instead,
+  and on which version. A report someone can follow is a report someone can fix.
+- **Send it because you checked, not because a tool said so.** Scanner output
+  pasted in unreviewed, or a report written by a model that nobody ran, is not
+  yet a report. If a model drafted it, verify the claim against the code
+  yourself and send what you verified.
 
-miao is an AI-powered coding assistant that runs locally on your machine. It
-provides an agent system with access to powerful tools, including shell
-execution, file operations and web access.
+A report that does this gets read properly. One that does not may be closed with
+a pointer back to this section.
+
+## Threat Model
+
+### Overview
+
+Miao is an AI-powered coding assistant that runs locally on your machine. It provides an agent system with access to powerful tools including shell execution, file operations, and web access.
 
 ### Sandboxing
 
-**By default, the agent is not sandboxed.** The permission system is a UX
-feature: it helps you stay aware of what the agent is doing, by prompting for
-confirmation before it runs a command or writes a file. It is **not** designed
-to provide security isolation. If you need true isolation, run miao inside a
-Docker container or a VM.
+By default, Miao does **not** sandbox the agent. The permission system exists as a UX feature to help users stay aware of what actions the agent is taking - it prompts for confirmation before executing commands, writing files, etc. However, it is not designed to provide security isolation.
 
-**There is also an opt-in kernel sandbox**, which upstream's policy predates.
-The V2 `bash` tool can run each command under the operating system's sandbox —
-seatbelt on macOS, Landlock on Linux; Windows has no backend. It is off unless
-you enable it:
+There is also an **opt-in kernel sandbox** for the V2 `bash` tool, which is off unless enabled. It builds a seatbelt profile for `sandbox-exec` on macOS and applies Landlock on Linux; `miao-sandbox` reports no backend on Windows.
 
 ```jsonc
 { "sandbox": { "mode": "workspace-write", "network": true } }
 ```
 
-Two details belong on a page about security rather than only in the guide:
+`MIAO_SANDBOX=1` and `MIAO_SANDBOX_DENY_NETWORK=1` override the configuration. Three properties of it belong in a threat model:
 
-- **It fails open.** If a sandbox is requested but no backend is available,
-  `on_unavailable` defaults to `"warn"` and the command runs **unsandboxed**.
-  Set it to `"fail"` if you would rather the command be refused.
-- `workspace-write` restricts writes, not reads. Network is allowed unless you
-  deny it.
+- **It is off unless the user turns it on.** `mode` defaults to `"off"`.
+- **It fails open.** If a sandbox is requested but no backend is available, `on_unavailable` defaults to `"warn"` and the command runs **unsandboxed**. Set it to `"fail"` to refuse instead.
+- **`workspace-write` restricts writes, not reads.** Writes are limited to the active Location, the command's working directory, temp directories, `writable_roots` and paths approved after a blocked write (the command is then rerun with the directory added). Network is allowed unless denied.
 
-See [kernel-level sandbox](/docs/miao/guide/) in the guide, and the
-[availability matrix](/docs/miao/miao-vs-opencode/) for platform limits.
+If you need true isolation, run Miao inside a Docker container or VM.
 
-:::caution[The upstream policy lags the code here]
-`SECURITY.md` still states that miao has no sandbox. The guide and
-[`crates/miao-sandbox`](https://github.com/oxdingzg/miao/tree/main/crates/miao-sandbox)
-say otherwise. This page follows the code; the policy file needs updating.
-:::
+### Server Mode
 
-### Server mode
+Server mode is opt-in: it starts with `miao serve`, or `miao remote` for the chat bridges, and is not running otherwise.
 
-Server mode is opt-in. When you enable it, set `MIAO_SERVER_PASSWORD` to require
-HTTP Basic Auth; without it the server runs unauthenticated, with a warning.
-Securing the server is the end user's responsibility, and any functionality it
-provides is not a vulnerability.
+The service listens on **127.0.0.1 only** and does not advertise itself over mDNS, so it is reachable from this machine rather than from the network.
 
-## Out of scope
+Authentication is HTTP Basic Auth, turned on by setting `MIAO_SERVER_PASSWORD`. Without it the service still starts, and says so itself:
 
-| Category | Rationale |
-|---|---|
-| Server access when opted in | If you enable server mode, API access is expected behaviour |
-| Sandbox escapes from the permission system | That system is not a sandbox — see [Sandboxing](#sandboxing) above |
-| LLM provider data handling | Data sent to your configured provider is governed by their policies |
-| MCP server behaviour | External MCP servers you configure are outside our trust boundary |
-| Malicious config files | You control your own config; modifying it is not an attack vector |
+> MIAO_SERVER_PASSWORD 没有设置，本机其它进程可以不经鉴权访问 127.0.0.1 上的服务
 
-## Reporting a vulnerability
+That is the exposure to weigh: not a remote attacker, but any other process on your machine. An unauthenticated instance is local-only by construction; set the password when local-only is not good enough. Because the service is opt-in and loopback-bound by design, its behaviour in that configuration is not a vulnerability.
 
-Use the GitHub Security Advisory
-["Report a Vulnerability"](https://github.com/oxdingzg/miao/security/advisories/new)
-tab.
+### Out of Scope
 
-The team replies with the next steps. After the first reply they keep you
-informed of progress towards a fix and a full announcement, and may ask for
-more information.
+| Category                        | Rationale                                                                |
+| ------------------------------- | ------------------------------------------------------------------------ |
+| **Server access when opted-in** | If you enable server mode, API access is expected behavior               |
+| **Permission-system escapes**   | That system is not a sandbox (see above). The kernel sandbox is separate |
+| **Requested sandbox gap**       | Documented: `on_unavailable` defaults to `"warn"`. Set it to `"fail"`    |
+| **LLM provider data handling**  | Data sent to your configured LLM provider is governed by their policies  |
+| **MCP server behavior**         | External MCP servers you configure are outside our trust boundary        |
+| **Malicious config files**      | Users control their own config; modifying it is not an attack vector     |
 
-If you do not receive an acknowledgement within **6 business days**, follow up
-on the advisory thread.
+---
+
+# Reporting Security Issues
+
+We appreciate your efforts to responsibly disclose your findings, and will make every effort to acknowledge your contributions.
+
+To report a security issue, please use the GitHub Security Advisory ["Report a Vulnerability"](https://github.com/oxdingzg/miao/security/advisories/new) tab.
+
+You will get a reply saying what happens next, and after that, how the fix is
+going. There is no security team here and no guaranteed response time: if you
+have heard nothing after a week, follow up on the same thread.
+
+---
+
+*Synced from [`oxdingzg/miao@c2816c1`](https://github.com/oxdingzg/miao/blob/c2816c13f3a5c62e9696373b7b734a54c4c2b8df/SECURITY.md).*

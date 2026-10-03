@@ -21,7 +21,7 @@ elsewhere in the documentation live in this directory too.
 Up to v0.0.5 the application was called `miaotty`. On first start,
 `$XDG_CONFIG_HOME/miaotty` is copied to `$XDG_CONFIG_HOME/mtty` when the latter
 does not exist, and the old directory is kept so an older build still works.
-See [identity and migration](https://github.com/oxdingzg/miao-term/blob/4270da6190eb766c24011cd998d5c4d7ac755291/docs/APP-IDENTITY.md).
+See [identity and migration](https://github.com/oxdingzg/miao-term/blob/044b60840b5754758c8b55d86a4f5f6b8719fc43/docs/APP-IDENTITY.md).
 
 ## A minimal configuration
 
@@ -54,7 +54,9 @@ If no mtty configuration exists, ghostty's `config` and alacritty's
 | `notifications` | `true` | A system notification when an agent needs attention |
 | `prevent-sleep` | `true` | Keep the machine awake while an agent is processing |
 | `restore-scrollback` | `true` | Save terminals' contents at quit and show them on relaunch |
-| `pty-host` | `false` | Keep shells running across restarts (Unix, experimental) |
+| `pty-host` | `true` | Run each shell in a PTY host, so updates, relaunches and crashes do not end what runs in the panes |
+| `keep-sessions-on-quit` | `false` | Quitting also keeps programs running for the next launch (tmux-like) |
+| `detached-timeout` | `"24h"` | How long a kept program waits for mtty: `90s`, `30m`, `24h`, `7d` or seconds |
 | `quick-terminal-hotkey` | — | System-wide Quick Terminal toggle, e.g. `cmd+shift+t` |
 | `editor-vim` | `false` | Minimal vim mode in the built-in editor |
 | `editor` | — | The command "Edit in Tab" runs, e.g. `code --wait` |
@@ -63,7 +65,7 @@ If no mtty configuration exists, ghostty's `config` and alacritty's
 | `remote-listen` | — | Serve the MTP control plane over TCP, e.g. `127.0.0.1:7273` (needs `MTTY_MTP_TOKEN`) |
 | `language` | — | UI language, `en` or `zh`; `$LANG` is read as well |
 | `update-pubkey` | — | minisign public key; enables signature checks |
-| `update-check-url` | — | Update manifest URL, see below |
+| `update-check-url` | the project's own manifest | Where an update check looks; see below |
 | `theme` | — | A built-in named theme, overridden by an explicit `[colors]` |
 
 ### Badges
@@ -118,11 +120,29 @@ drives a transcript window. `command` is a string split at spaces, or a list.
 
 ### Update checks
 
+**Nothing is fetched until you ask.** mtty makes no request at startup; the
+check runs from the menu's *Check for Updates*, and from the retry button in
+the update dialog after a failure. When it runs, it is a single plain `curl`:
+
+```sh
+curl -fsSL --max-time 8 <update-check-url>
+```
+
+`update-check-url` already points at the project's own release manifest, so
+this key is only for pointing it somewhere else — a mirror, or an internal
+host:
+
 ```toml
-# update-pubkey = "RW…"            # minisign public key; enables signature checks
 # update-check-url = "https://example.com/mtty/latest.json"
 #   JSON manifest: {"version":"0.2.0","artifacts":{"macos-aarch64":{"url":"…","sha256":"…"}}}
 #   A plain document whose first line is the version also works.
+```
+
+A downloaded artifact is verified against the `sha256` the manifest declares.
+Set `update-pubkey` to a minisign public key to require a signature as well:
+
+```toml
+# update-pubkey = "RW…"
 ```
 
 ## Shell integration
@@ -150,9 +170,9 @@ directory. See [view rules](/docs/mtty/view-rules/).
 
 ## Full reference
 
-[`config.example.toml`](https://github.com/oxdingzg/miao-term/blob/4270da6190eb766c24011cd998d5c4d7ac755291/docs/config.example.toml) is the annotated reference: every
+[`config.example.toml`](https://github.com/oxdingzg/miao-term/blob/044b60840b5754758c8b55d86a4f5f6b8719fc43/docs/config.example.toml) is the annotated reference: every
 key above, with its default, in one file.
 
 ---
 
-*Synced from [`oxdingzg/miao-term@4270da6`](https://github.com/oxdingzg/miao-term/blob/4270da6190eb766c24011cd998d5c4d7ac755291/docs/CONFIG.md).*
+*Synced from [`oxdingzg/miao-term@044b608`](https://github.com/oxdingzg/miao-term/blob/044b60840b5754758c8b55d86a4f5f6b8719fc43/docs/CONFIG.md).*

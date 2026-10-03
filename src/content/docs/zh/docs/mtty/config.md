@@ -18,7 +18,7 @@ mtty 的配置项全部可选。只有一行的文件就是一份合法配置，
 
 v0.0.5 及之前应用名为 `miaotty`。首次启动时，若 `$XDG_CONFIG_HOME/mtty` 不存在，会把
 `$XDG_CONFIG_HOME/miaotty` 复制过去，并保留旧目录，使更早的版本仍可使用。见
-[应用身份与迁移](https://github.com/oxdingzg/miao-term/blob/4270da6190eb766c24011cd998d5c4d7ac755291/docs/APP-IDENTITY.zh-CN.md)。
+[应用身份与迁移](https://github.com/oxdingzg/miao-term/blob/044b60840b5754758c8b55d86a4f5f6b8719fc43/docs/APP-IDENTITY.zh-CN.md)。
 
 ## 最小配置
 
@@ -50,7 +50,9 @@ palette    = ["#3b4252", "#bf616a", "#a3be8c", "#ebcb8b",
 | `notifications` | `true` | agent 需要你时发系统通知 |
 | `prevent-sleep` | `true` | agent 工作时保持系统不休眠 |
 | `restore-scrollback` | `true` | 退出时保存终端内容，重启后显示 |
-| `pty-host` | `false` | 重启后保留 shell 进程(Unix，实验性) |
+| `pty-host` | `true` | 每个 shell 运行在 PTY 宿主中,更新、重启或崩溃都不会结束 pane 里正在运行的程序 |
+| `keep-sessions-on-quit` | `false` | 退出时程序也继续运行,下次启动时接回(类似 tmux) |
+| `detached-timeout` | `"24h"` | 程序等待 mtty 的时长:`90s`、`30m`、`24h`、`7d` 或秒数 |
 | `quick-terminal-hotkey` | — | 全局快速终端热键，如 `cmd+shift+t` |
 | `editor-vim` | `false` | 内置编辑器启用极简 vim 模式 |
 | `editor` | — | 「在标签中编辑」执行的命令，如 `code --wait` |
@@ -59,7 +61,7 @@ palette    = ["#3b4252", "#bf616a", "#a3be8c", "#ebcb8b",
 | `remote-listen` | — | 用 TCP 暴露 MTP 控制面，如 `127.0.0.1:7273`(需 `MTTY_MTP_TOKEN`) |
 | `language` | — | 界面语言，`en` 或 `zh`;也会读取 `$LANG` |
 | `update-pubkey` | — | minisign 公钥;启用签名校验 |
-| `update-check-url` | — | 更新清单地址，见下文 |
+| `update-check-url` | 项目自己的清单 | 更新检查去哪里取；见下文 |
 | `theme` | — | 内置命名主题，会被显式的 `[colors]` 覆盖 |
 
 ### 标签徽章
@@ -112,11 +114,26 @@ error = true
 
 ### 更新检查
 
+**你不主动查，它就一个请求都不发。** mtty 启动时不做任何请求;检查由菜单里的「Check for Updates」
+发起，以及更新对话框在失败后提供的重试按钮。发起时就是一条普通的 `curl`:
+
+```sh
+curl -fsSL --max-time 8 <update-check-url>
+```
+
+`update-check-url` 已经指向项目自己的发布清单，所以这个键只用于改到别处 —— 镜像站或内部主机:
+
 ```toml
-# update-pubkey = "RW…"            # minisign 公钥;启用签名校验
 # update-check-url = "https://example.com/mtty/latest.json"
 #   JSON 清单: {"version":"0.2.0","artifacts":{"macos-aarch64":{"url":"…","sha256":"…"}}}
 #   首行为版本号的纯文本文件同样可用。
+```
+
+下载下来的产物会与清单里声明的 `sha256` 核对。把 `update-pubkey` 设为 minisign 公钥可以额外要求
+签名校验:
+
+```toml
+# update-pubkey = "RW…"
 ```
 
 ## Shell 集成
@@ -140,8 +157,8 @@ fish 3.7、PowerShell 7.5;Windows 上的 PowerShell 由 CI 运行)。
 
 ## 完整参考
 
-[`config.example.toml`](https://github.com/oxdingzg/miao-term/blob/4270da6190eb766c24011cd998d5c4d7ac755291/docs/config.example.toml) 是带注释的完整参考:上面每个键及其默认值都在一个文件里。
+[`config.example.toml`](https://github.com/oxdingzg/miao-term/blob/044b60840b5754758c8b55d86a4f5f6b8719fc43/docs/config.example.toml) 是带注释的完整参考:上面每个键及其默认值都在一个文件里。
 
 ---
 
-*Synced from [`oxdingzg/miao-term@4270da6`](https://github.com/oxdingzg/miao-term/blob/4270da6190eb766c24011cd998d5c4d7ac755291/docs/CONFIG.zh-CN.md).*
+*Synced from [`oxdingzg/miao-term@044b608`](https://github.com/oxdingzg/miao-term/blob/044b60840b5754758c8b55d86a4f5f6b8719fc43/docs/CONFIG.zh-CN.md).*

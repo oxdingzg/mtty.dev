@@ -8,7 +8,7 @@ sidebar:
 
 | Requirement | Detail |
 |---|---|
-| Rust | The **stable** toolchain, pinned in [`rust-toolchain.toml`](https://github.com/oxdingzg/miao-term/blob/4270da6190eb766c24011cd998d5c4d7ac755291/rust-toolchain.toml); MSRV 1.80 |
+| Rust | The **stable** toolchain, pinned in [`rust-toolchain.toml`](https://github.com/oxdingzg/miao-term/blob/044b60840b5754758c8b55d86a4f5f6b8719fc43/rust-toolchain.toml); MSRV 1.80 |
 | GPU | A driver supporting Metal (macOS), Vulkan (Linux) or DX12 (Windows) |
 | Linux | The usual `winit`/`wgpu` system libraries (X11 or Wayland development packages) |
 
@@ -70,12 +70,17 @@ PowerShell in CI.
 
 ## Restoring a session does not bring back what was running
 
-Restoring replays the **layout** and starts new shells; running processes are
-not preserved. To keep shells alive across a restart, set:
+Programs keep running through an update, *Relaunch, Keeping Programs
+Running* and a crash: each shell runs in a PTY host (`pty-host`, on by
+default) and the relaunched mtty reattaches it. An ordinary quit ends them
+unless you set:
 
 ```toml
-pty-host = true      # experimental
+keep-sessions-on-quit = true
 ```
+
+Panes opened while `pty-host = false`, and SSH, serial, Telnet and TCP tabs,
+start afresh: their layout and contents come back, the processes do not.
 
 ## `mtty-cli` cannot connect
 
@@ -104,7 +109,7 @@ the existing control socket, rather than starting a second process. Use
 | Agent hooks | Installed hook scripts and miao's integration read `MIAOTTY_PANE_ID` / `MIAOTTY_CLI`, which are still exported, so they keep reporting state; newly installed hooks use the `MTTY_*` names |
 | Notifications on macOS | The rename changed the bundle ID, so macOS asks for notification permission again |
 
-See [identity and migration](https://github.com/oxdingzg/miao-term/blob/4270da6190eb766c24011cd998d5c4d7ac755291/docs/APP-IDENTITY.md) for the full table.
+See [identity and migration](https://github.com/oxdingzg/miao-term/blob/044b60840b5754758c8b55d86a4f5f6b8719fc43/docs/APP-IDENTITY.md) for the full table.
 
 ## The editor has no completions, diagnostics or hover
 
@@ -123,10 +128,10 @@ An explicit `[lsp] enabled = false` disables the lot. See
 
 The rest of the documentation is in the repository: [installation](/docs/mtty/install/),
 [view rules](/docs/mtty/view-rules/), and the annotated
-[`config.example.toml`](https://github.com/oxdingzg/miao-term/blob/4270da6190eb766c24011cd998d5c4d7ac755291/docs/config.example.toml). For anything else, open an issue
+[`config.example.toml`](https://github.com/oxdingzg/miao-term/blob/044b60840b5754758c8b55d86a4f5f6b8719fc43/docs/config.example.toml). For anything else, open an issue
 on [oxdingzg/miao-term](https://github.com/oxdingzg/miao-term/issues), or write
 to <contact@mtty.dev>.
 
 ---
 
-*Synced from [`oxdingzg/miao-term@4270da6`](https://github.com/oxdingzg/miao-term/blob/4270da6190eb766c24011cd998d5c4d7ac755291/docs/TROUBLESHOOTING.md).*
+*Synced from [`oxdingzg/miao-term@044b608`](https://github.com/oxdingzg/miao-term/blob/044b60840b5754758c8b55d86a4f5f6b8719fc43/docs/TROUBLESHOOTING.md).*

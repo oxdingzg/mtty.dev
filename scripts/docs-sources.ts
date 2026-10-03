@@ -41,6 +41,17 @@ export const pages: DocPage[] = [
     },
   },
 
+  // The security policy is published verbatim rather than summarised. A
+  // hand-written summary of it drifted from the code once already — it still
+  // claimed miao had no sandbox after crates/miao-sandbox landed — and a
+  // security document is the worst place for that to go unnoticed.
+  {
+    repo: "oxdingzg/miao",
+    to: "miao/security",
+    order: 4,
+    sources: { en: "SECURITY.md", zh: "SECURITY.zh.md" },
+  },
+
   // miao-term names its bilingual pairs `X.md` / `X.zh-CN.md`, so each page
   // states both paths rather than the sync assuming one convention.
   {
