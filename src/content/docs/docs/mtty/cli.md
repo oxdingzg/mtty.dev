@@ -111,4 +111,4 @@ MTP is newline-delimited JSON over the socket, so a client does not need
 
 ---
 
-*Synced from [`oxdingzg/miao-term@044b608`](https://github.com/oxdingzg/miao-term/blob/044b60840b5754758c8b55d86a4f5f6b8719fc43/docs/CLI.md).*
+*Synced from [`oxdingzg/miao-term@cdb41fd`](https://github.com/oxdingzg/miao-term/blob/cdb41fd8b67e6f26a77973019cb544ece8b99c4b/docs/CLI.md).*
