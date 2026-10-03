@@ -35,6 +35,12 @@ const copy = {
     shot: "mtty example workspace with three sessions, a Markdown editor, live Mermaid preview, a split terminal and the Agent state panel.",
     cap: "The full-height session sidebar, the details panel, and the repository's own git log",
     preview: "<strong>Pre-release.</strong> The API is not stable yet. macOS is the primary platform; Windows and Linux are built, tested and checked on real desktops. Apple notarization and Windows MSI signing are still pending.",
+    glanceLabel: "at a glance",
+    glance: [
+      ["Terminal and remote", "GPU-rendered tabs and splits, a host library, SFTP, port forwarding and jump hosts, over your own OpenSSH."],
+      ["Editor", "A built-in viewer and editor with Markdown and Mermaid preview, held to a 100 MB performance gate."],
+      ["Agent workspace", "Claude Code, Codex, OpenCode and miao report idle, processing, awaiting or error — a tab badge, a notification and a prompt queue."],
+    ],
     pillarsLabel: "three pillars",
     pillarsH: "One window for the terminal, the editor and the agents.",
     pillarsToday: "Today",
@@ -143,6 +149,12 @@ const copy = {
     shot: "mtty 示例工作区：三个会话、Markdown 编辑器、实时 Mermaid 预览、分屏终端和 Agent 状态面板。",
     cap: "全高会话侧栏、详情面板，以及仓库自己的 git 日志",
     preview: "<strong>预发布。</strong>API 尚未稳定。macOS 是主要平台；Windows 与 Linux 已构建、测试，并在真实桌面上验收。Apple 公证与 Windows MSI 签名尚未完成。",
+    glanceLabel: "一眼看懂",
+    glance: [
+      ["终端与远程", "GPU 渲染的标签与分屏，主机库、SFTP、端口转发与跳板机，走你自己的 OpenSSH。"],
+      ["编辑器", "内置查看与编辑器，Markdown 与 Mermaid 实时预览，在 100 MB 文件上设有性能门。"],
+      ["代理工作台", "Claude Code、Codex、OpenCode 与 miao 上报四种状态，变成标签徽章、通知与提示队列。"],
+    ],
     pillarsLabel: "三根支柱",
     pillarsH: "终端、编辑器与代理，同在一个窗口。",
     pillarsToday: "现在",
@@ -239,20 +251,16 @@ const copy = {
   <section class="hero">
     <div class="lattice" aria-hidden="true"></div>
     <div class="glow g1" aria-hidden="true"></div>
-    <div class="wrap">
-      <p class="label mtty rise"><MttyMark size={18} /><b>mtty</b> {copy.kind}</p>
-      <h1 class="display h1 rise" style="--i:1">
-        <span class="hl">{copy.h1a}</span>
-        <em class="hl accent mtty">{copy.h1b}</em>
-      </h1>
-    </div>
-    <div class="wrap hero-grid rise" style="--i:2">
-      <div>
-        <p class="lede">{copy.lede}</p>
-        <p class="fine naming" set:html={copy.naming} />
-      </div>
-      <div class="hero-side">
-        <div class="actions">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <p class="label mtty rise"><MttyMark size={18} /><b>mtty</b> {copy.kind}</p>
+        <h1 class="display h1 rise" style="--i:1">
+          <span class="hl">{copy.h1a}</span>
+          <em class="hl accent mtty">{copy.h1b}</em>
+        </h1>
+        <p class="lede rise" style="--i:2">{copy.lede}</p>
+        <p class="fine naming rise" style="--i:2" set:html={copy.naming} />
+        <div class="actions rise" style="--i:3">
           <a class="btn solid" href={RELEASES}>
             <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"
               ><path
@@ -267,7 +275,7 @@ const copy = {
           </a>
           <a class="btn" href={REPO}>{copy.build} <span class="arrow">↗</span></a>
         </div>
-        <ul class="pkgs">
+        <ul class="pkgs rise" style="--i:3">
           {
             copy.pkgs.map(([os, formats]) => (
               <li>
@@ -277,17 +285,27 @@ const copy = {
             ))
           }
         </ul>
+        <div class="callout preview rise" style="--i:3">
+          <span class="pip" aria-hidden="true"></span>
+          <p set:html={copy.preview} />
+        </div>
       </div>
-    </div>
-    <div class="wrap">
       <figure class="shot hero-shot rise" style="--i:4">
         <img src="/shots/mtty.png" width="2400" height="1538" alt={copy.shot} fetchpriority="high" />
         <figcaption>{copy.cap}</figcaption>
       </figure>
-      <div class="callout preview">
-        <span class="pip" aria-hidden="true"></span>
-        <p set:html={copy.preview} />
-      </div>
+    </div>
+    <div class="wrap">
+      <dl class="glance rise" style="--i:5" aria-label={copy.glanceLabel}>
+        {
+          copy.glance.map(([head, body]) => (
+            <div>
+              <dt>{head}</dt>
+              <dd>{body}</dd>
+            </div>
+          ))
+        }
+      </dl>
     </div>
   </section>
 
@@ -496,18 +514,23 @@ const copy = {
     background: var(--mtty-accent);
   }
 
-  /* Under the headline: what it is on the left, how to get it on the right,
-     both hung from the same rule. */
+  /* Two columns, as on the miao page: what it is on the left, what it looks
+     like on the right, so both land in the first screen. */
   .hero-grid {
     display: grid;
     grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
-    gap: 28px 64px;
-    margin-top: 48px;
+    gap: 56px;
+    align-items: center;
   }
 
-  .hero-grid > div {
-    padding-top: 24px;
-    border-top: 1px solid var(--border-strong);
+  .hero-copy {
+    min-width: 0;
+  }
+
+  /* Sized so "An AI-native terminal and editor," holds one line in its column
+     — 10.96em at the widest, against a 587px column at 1440px. */
+  .h1 {
+    font-size: clamp(2.2rem, 3.55vw, 3.2rem);
   }
 
   @media (min-width: 961px) {
@@ -516,34 +539,30 @@ const copy = {
     }
   }
 
-  .hero-side {
-    min-width: 0;
-  }
-
-  .h1 {
-    font-size: clamp(2.4rem, 4.5vw, 4.2rem);
-  }
-
   .h1 .hl {
     display: block;
   }
 
   :lang(zh-CN) .h1 {
-    font-size: clamp(2rem, 3.8vw, 3.5rem);
+    font-size: clamp(1.9rem, 3.55vw, 3.2rem);
     line-height: 1.22;
+  }
+
+  .hero-copy .lede {
+    margin-top: 30px;
   }
 
   .naming {
     margin: 14px 0 0;
   }
 
-  .hero-side .actions {
-    margin-top: 4px;
+  .hero-copy .actions {
+    margin-top: 28px;
   }
 
   .pkgs {
     list-style: none;
-    margin: 22px 0 0;
+    margin: 20px 0 0;
     padding: 0;
     display: flex;
     flex-wrap: wrap;
@@ -559,17 +578,58 @@ const copy = {
     margin-right: 6px;
   }
 
-  .hero-shot {
-    margin-top: 64px;
+  /* The same lifted frame the miao hero uses, so the two product pages read as
+     one site. */
+  .hero-shot img {
+    box-shadow:
+      0 60px 120px -40px rgb(0 0 0 / 0.95),
+      0 0 0 1px var(--border-strong);
+  }
+
+  :root[data-theme="light"] .hero-shot img {
+    box-shadow:
+      0 40px 80px -36px rgb(40 30 10 / 0.45),
+      0 0 0 1px var(--border-strong);
   }
 
   .preview {
-    margin-top: 28px;
-    max-width: 860px;
+    margin-top: 20px;
   }
 
   .preview p {
     margin: 0;
+  }
+
+  /* Three short capability lines under the columns: the first screen should say
+     what the product is, not only what it looks like. */
+  .glance {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1px;
+    margin: 56px 0 0;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--border);
+  }
+
+  .glance div {
+    padding: 20px 22px 22px;
+    background: var(--surface);
+  }
+
+  .glance dt {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.02em;
+    color: var(--mtty-ink);
+  }
+
+  .glance dd {
+    margin: 8px 0 0;
+    color: var(--fg-muted);
+    font-size: 0.9rem;
+    line-height: 1.6;
   }
 
   /* --- Engine --- */
@@ -1070,17 +1130,16 @@ const copy = {
   }
 
   @media (max-width: 960px) {
-    .hero-grid > .hero-side {
-      padding-top: 0;
-      border-top: 0;
-    }
-
     .hero-grid,
     .engine,
     .agents,
     .mtp {
       grid-template-columns: minmax(0, 1fr);
       gap: 40px;
+    }
+
+    .glance {
+      grid-template-columns: minmax(0, 1fr);
     }
 
     .keygrid {
@@ -1097,8 +1156,8 @@ const copy = {
       gap: 28px;
     }
 
-    .hero-shot {
-      margin-top: 48px;
+    .glance {
+      margin-top: 36px;
     }
 
     .ws {
