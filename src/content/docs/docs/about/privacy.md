@@ -3,8 +3,13 @@ title: Privacy
 description: What mtty and miao send, what they never send, and what this website collects.
 ---
 
-Two products, two different answers about the network. This page states both,
-and names the code or the setting behind every claim, so you can check it.
+Most privacy pages ask you to take the vendor's word, because there is no
+alternative to taking it. These two products are open source, so there is: every
+claim on this page is a claim about code you can read, and most of them can be
+settled in a minute without reading any of it.
+
+The two products answer differently about the network, so they are set out
+separately below.
 
 ## In short
 
@@ -22,10 +27,12 @@ and names the code or the setting behind every claim, so you can check it.
 
 ### Nothing is reported
 
-There is no telemetry, analytics or crash-reporting code in the repository. There
-is also no HTTP client library in the dependency tree at all — every outbound
-request mtty makes is a `curl` subprocess it starts itself, which is what makes
-the rest of this list short enough to enumerate.
+There is no telemetry, analytics or crash-reporting code in the repository, and
+nothing in it opens a connection on its own. The update check shells out to
+`curl`; the one HTTP client in the dependency tree serves the Markdown preview's
+remote images, noted below. Everything else is a connection you ask for. That
+narrowness is what makes the rest of this section short enough to enumerate —
+and, since the whole app is open source, short enough to check.
 
 ### The update check
 
@@ -134,6 +141,44 @@ Two things worth checking rather than assuming:
 
 One thing to be plain about: the site is served through Cloudflare, which sees
 what any host or CDN sees — the IP address and user agent of the request.
+
+## Check it yourself
+
+These are the commands behind the claims above. The first two run in a clone of
+`miao-term`; the last two need nothing but a terminal.
+
+**Is there anything in mtty that reports on you?**
+
+```sh
+cargo tree -e normal --prefix none | awk '{print $1}' | sort -u \
+  | grep -iE 'posthog|mixpanel|amplitude|sentry|datadog|telemetry|crashpad'
+```
+
+Nothing. **Is there an HTTP client at all?**
+
+```sh
+cargo tree -e normal --prefix none | awk '{print $1}' | sort -u \
+  | grep -xE 'ureq|reqwest|hyper|isahc|curl|surf|minreq|attohttpc'
+```
+
+One line: `ureq`, which the Markdown preview uses for remote images — the
+exception noted above, found by this command rather than left out of it. The
+update check does not use it; that is a `curl` subprocess, in `check_updates` in
+[`crates/term-widget/src/lib.rs`](https://github.com/oxdingzg/miao-term/blob/main/crates/term-widget/src/lib.rs).
+
+**Does this website track you?**
+
+```sh
+curl -s https://mtty.dev/ | grep -ciE 'beacon\.min\.js|cloudflareinsights|googletagmanager|gtag\(|plausible|umami'
+curl -sI https://mtty.dev/ | grep -ci set-cookie
+```
+
+Both print `0`. If you would rather read than run, this site's source is public
+as well: [oxdingzg/mtty.dev](https://github.com/oxdingzg/mtty.dev).
+
+**And the check that needs no trust at all.** The application is open source, so
+you can build the binary yourself and watch what it opens. Nothing here asks to
+be believed: publishing the code is what makes that unnecessary.
 
 ## Contact
 

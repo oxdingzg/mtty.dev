@@ -3,8 +3,11 @@ title: 隐私
 description: mtty 和 miao 会发送什么、绝不发送什么，以及本站会收集什么。
 ---
 
-两个产品，对网络这件事有两种不同的答案。本页把两边都直说，并且为每一条结论标明它依据的代码或设置，
-方便你自己核对。
+大多数隐私页只能请读者相信厂商，因为除此之外别无他法。这两个产品是**开源的**，所以有别的办法:
+本页每一条结论，都是关于**你能读到的代码**的结论 —— 而其中大多数甚至不需要你真的去读代码，一分钟
+就能验完。
+
+两个产品对网络的回答不同，因此下面分开写。
 
 ## 一句话
 
@@ -18,8 +21,9 @@ description: mtty 和 miao 会发送什么、绝不发送什么，以及本站�
 
 ### 没有任何上报
 
-仓库里没有遥测、分析或崩溃上报代码。依赖树里**根本没有 HTTP 客户端库** —— mtty 发出的每一个对外
-请求都是它自己启动的 `curl` 子进程。正因为如此，下面这份清单才能被完整列举出来。
+仓库里没有遥测、分析或崩溃上报代码，也没有任何会自行发起连接的代码。更新检查是调用 `curl` 子进程;
+依赖树里那一个 HTTP 客户端服务于下文的 Markdown 远程图片。其余一切都是你自己发起的连接。正因为
+如此，下面这份清单才能被完整列举出来 —— 而由于整个应用是开源的，**它也能被你逐条核对**。
 
 ### 更新检查
 
@@ -109,6 +113,42 @@ minisign 签名。把 `update-check-url` 指向空，就永远不会有任何抓
 
 有一点要说清楚:本站经由 Cloudflare 提供服务，因此 Cloudflare 会看到任何主机或 CDN 都会看到的
 东西 —— 请求的 IP 地址与 User-Agent。
+
+## 自己验
+
+这些就是上面那些结论背后的命令。前两条在 `miao-term` 的克隆里跑;后两条只要有终端就行。
+
+**mtty 里有没有会替你做上报的东西?**
+
+```sh
+cargo tree -e normal --prefix none | awk '{print $1}' | sort -u \
+  | grep -iE 'posthog|mixpanel|amplitude|sentry|datadog|telemetry|crashpad'
+```
+
+没有。**那有没有 HTTP 客户端?**
+
+```sh
+cargo tree -e normal --prefix none | awk '{print $1}' | sort -u \
+  | grep -xE 'ureq|reqwest|hyper|isahc|curl|surf|minreq|attohttpc'
+```
+
+一行:`ureq` —— 就是上文提到的那个例外，由 Markdown 预览用来取远程图片。**这个例外是被这条命令
+找出来的，不是被藏起来的。**更新检查不用它:那是 `curl` 子进程，在
+[`crates/term-widget/src/lib.rs`](https://github.com/oxdingzg/miao-term/blob/main/crates/term-widget/src/lib.rs)
+的 `check_updates` 里。
+
+**本站会追踪你吗?**
+
+```sh
+curl -s https://mtty.dev/ | grep -ciE 'beacon\.min\.js|cloudflareinsights|googletagmanager|gtag\(|plausible|umami'
+curl -sI https://mtty.dev/ | grep -ci set-cookie
+```
+
+两条都输出 `0`。如果你更愿意读而不是跑:本站的源码同样是公开的
+[oxdingzg/mtty.dev](https://github.com/oxdingzg/mtty.dev)。
+
+**以及一条完全不需要信任的检查。** 应用是开源的，你可以自己编译二进制，然后看它究竟打开了什么连接。
+这里没有任何东西需要你相信 —— 公开代码的意义，正是让这份信任不必被索取。
 
 ## 联系
 
