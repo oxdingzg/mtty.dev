@@ -50,4 +50,4 @@ curl -fsSL https://mtty.dev/miao/install | bash
 Each project takes issues on GitHub:
 [mtty](https://github.com/oxdingzg/miao-term/issues) ·
 [miao](https://github.com/oxdingzg/miao/issues). For anything else, write to
-<dingzg@mtty.dev>.
+<contact@mtty.dev>.

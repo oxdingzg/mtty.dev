@@ -18,7 +18,7 @@ mtty 的配置项全部可选。只有一行的文件就是一份合法配置，
 
 v0.0.5 及之前应用名为 `miaotty`。首次启动时，若 `$XDG_CONFIG_HOME/mtty` 不存在，会把
 `$XDG_CONFIG_HOME/miaotty` 复制过去，并保留旧目录，使更早的版本仍可使用。见
-[应用身份与迁移](https://github.com/oxdingzg/miao-term/blob/d0cc48a50d5057b0d0558c2d6cb5671311c1775b/docs/APP-IDENTITY.zh-CN.md)。
+[应用身份与迁移](https://github.com/oxdingzg/miao-term/blob/4270da6190eb766c24011cd998d5c4d7ac755291/docs/APP-IDENTITY.zh-CN.md)。
 
 ## 最小配置
 
@@ -140,8 +140,8 @@ fish 3.7、PowerShell 7.5;Windows 上的 PowerShell 由 CI 运行)。
 
 ## 完整参考
 
-[`config.example.toml`](https://github.com/oxdingzg/miao-term/blob/d0cc48a50d5057b0d0558c2d6cb5671311c1775b/docs/config.example.toml) 是带注释的完整参考:上面每个键及其默认值都在一个文件里。
+[`config.example.toml`](https://github.com/oxdingzg/miao-term/blob/4270da6190eb766c24011cd998d5c4d7ac755291/docs/config.example.toml) 是带注释的完整参考:上面每个键及其默认值都在一个文件里。
 
 ---
 
-*Synced from [`oxdingzg/miao-term@d0cc48a`](https://github.com/oxdingzg/miao-term/blob/d0cc48a50d5057b0d0558c2d6cb5671311c1775b/docs/CONFIG.zh-CN.md).*
+*Synced from [`oxdingzg/miao-term@4270da6`](https://github.com/oxdingzg/miao-term/blob/4270da6190eb766c24011cd998d5c4d7ac755291/docs/CONFIG.zh-CN.md).*

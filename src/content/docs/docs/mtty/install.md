@@ -5,7 +5,7 @@ sidebar:
 ---
 
 mtty (formerly miaotty) is the native winit/wgpu application.
-There is one GUI executable and one CLI. See [identity and migration](https://github.com/oxdingzg/miao-term/blob/d0cc48a50d5057b0d0558c2d6cb5671311c1775b/docs/APP-IDENTITY.md).
+There is one GUI executable and one CLI. See [identity and migration](https://github.com/oxdingzg/miao-term/blob/4270da6190eb766c24011cd998d5c4d7ac755291/docs/APP-IDENTITY.md).
 
 ## From source
 
@@ -34,7 +34,7 @@ The installed app uses the macOS system menu bar; a bare binary uses an in-windo
 
 ## Release packages
 
-[release.yml](https://github.com/oxdingzg/miao-term/blob/d0cc48a50d5057b0d0558c2d6cb5671311c1775b/.github/workflows/release.yml) requires Apple Silicon macOS,
+[release.yml](https://github.com/oxdingzg/miao-term/blob/4270da6190eb766c24011cd998d5c4d7ac755291/.github/workflows/release.yml) requires Apple Silicon macOS,
 Intel macOS, Linux and Windows runner builds. A `v*` tag publishes a release;
 manual dispatch rehearses packaging without publishing.
 
@@ -43,7 +43,7 @@ manual dispatch rehearses packaging without publishing.
 - Windows: zip and MSI, containing `mtty.exe` and `mtty-cli.exe`.
 
 Apple Developer ID signing/notarization, Windows MSI signing and minisign
-artifact signatures use the optional secrets described in [RELEASE.md](https://github.com/oxdingzg/miao-term/blob/d0cc48a50d5057b0d0558c2d6cb5671311c1775b/docs/RELEASE.md).
+artifact signatures use the optional secrets described in [RELEASE.md](https://github.com/oxdingzg/miao-term/blob/4270da6190eb766c24011cd998d5c4d7ac755291/docs/RELEASE.md).
 `dist-workspace.toml` remains a cargo-dist scaffold, not the active release pipeline.
 
 ## Configuration and links
@@ -62,4 +62,4 @@ identity remains unchanged.
 
 ---
 
-*Synced from [`oxdingzg/miao-term@d0cc48a`](https://github.com/oxdingzg/miao-term/blob/d0cc48a50d5057b0d0558c2d6cb5671311c1775b/docs/INSTALL.md).*
+*Synced from [`oxdingzg/miao-term@4270da6`](https://github.com/oxdingzg/miao-term/blob/4270da6190eb766c24011cd998d5c4d7ac755291/docs/INSTALL.md).*

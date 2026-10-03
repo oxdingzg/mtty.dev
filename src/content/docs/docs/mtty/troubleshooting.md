@@ -8,7 +8,7 @@ sidebar:
 
 | Requirement | Detail |
 |---|---|
-| Rust | The **stable** toolchain, pinned in [`rust-toolchain.toml`](https://github.com/oxdingzg/miao-term/blob/d0cc48a50d5057b0d0558c2d6cb5671311c1775b/rust-toolchain.toml); MSRV 1.80 |
+| Rust | The **stable** toolchain, pinned in [`rust-toolchain.toml`](https://github.com/oxdingzg/miao-term/blob/4270da6190eb766c24011cd998d5c4d7ac755291/rust-toolchain.toml); MSRV 1.80 |
 | GPU | A driver supporting Metal (macOS), Vulkan (Linux) or DX12 (Windows) |
 | Linux | The usual `winit`/`wgpu` system libraries (X11 or Wayland development packages) |
 
@@ -74,7 +74,7 @@ Restoring replays the **layout** and starts new shells; running processes are
 not preserved. To keep shells alive across a restart, set:
 
 ```toml
-pty-host = true      # Unix, experimental
+pty-host = true      # experimental
 ```
 
 ## `mtty-cli` cannot connect
@@ -104,7 +104,7 @@ the existing control socket, rather than starting a second process. Use
 | Agent hooks | Installed hook scripts and miao's integration read `MIAOTTY_PANE_ID` / `MIAOTTY_CLI`, which are still exported, so they keep reporting state; newly installed hooks use the `MTTY_*` names |
 | Notifications on macOS | The rename changed the bundle ID, so macOS asks for notification permission again |
 
-See [identity and migration](https://github.com/oxdingzg/miao-term/blob/d0cc48a50d5057b0d0558c2d6cb5671311c1775b/docs/APP-IDENTITY.md) for the full table.
+See [identity and migration](https://github.com/oxdingzg/miao-term/blob/4270da6190eb766c24011cd998d5c4d7ac755291/docs/APP-IDENTITY.md) for the full table.
 
 ## The editor has no completions, diagnostics or hover
 
@@ -123,10 +123,10 @@ An explicit `[lsp] enabled = false` disables the lot. See
 
 The rest of the documentation is in the repository: [installation](/docs/mtty/install/),
 [view rules](/docs/mtty/view-rules/), and the annotated
-[`config.example.toml`](https://github.com/oxdingzg/miao-term/blob/d0cc48a50d5057b0d0558c2d6cb5671311c1775b/docs/config.example.toml). For anything else, open an issue
+[`config.example.toml`](https://github.com/oxdingzg/miao-term/blob/4270da6190eb766c24011cd998d5c4d7ac755291/docs/config.example.toml). For anything else, open an issue
 on [oxdingzg/miao-term](https://github.com/oxdingzg/miao-term/issues), or write
-to <dingzg@mtty.dev>.
+to <contact@mtty.dev>.
 
 ---
 
-*Synced from [`oxdingzg/miao-term@d0cc48a`](https://github.com/oxdingzg/miao-term/blob/d0cc48a50d5057b0d0558c2d6cb5671311c1775b/docs/TROUBLESHOOTING.md).*
+*Synced from [`oxdingzg/miao-term@4270da6`](https://github.com/oxdingzg/miao-term/blob/4270da6190eb766c24011cd998d5c4d7ac755291/docs/TROUBLESHOOTING.md).*

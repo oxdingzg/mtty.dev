@@ -8,7 +8,7 @@ sidebar:
 
 | 要求 | 说明 |
 |---|---|
-| Rust | **stable** 工具链，锁定于 [`rust-toolchain.toml`](https://github.com/oxdingzg/miao-term/blob/d0cc48a50d5057b0d0558c2d6cb5671311c1775b/rust-toolchain.toml);MSRV 1.80 |
+| Rust | **stable** 工具链，锁定于 [`rust-toolchain.toml`](https://github.com/oxdingzg/miao-term/blob/4270da6190eb766c24011cd998d5c4d7ac755291/rust-toolchain.toml);MSRV 1.80 |
 | GPU | 支持 Metal(macOS)、Vulkan(Linux)或 DX12(Windows)的驱动 |
 | Linux | 常见的 `winit`/`wgpu` 系统库(X11 或 Wayland 开发包) |
 
@@ -65,7 +65,7 @@ Windows 上的 PowerShell 由 CI 运行)。
 恢复重放的是**布局**，并启动新的 shell;正在运行的进程不会被保留。若要在重启后保留 shell:
 
 ```toml
-pty-host = true      # Unix，实验性
+pty-host = true      # 实验性
 ```
 
 ## `mtty-cli` 连不上
@@ -93,7 +93,7 @@ pty-host = true      # Unix，实验性
 | agent 钩子 | 已安装的钩子脚本与 miao 的集成读取 `MIAOTTY_PANE_ID` / `MIAOTTY_CLI`，这些变量仍然导出，因此它们会继续上报状态;新安装的钩子使用 `MTTY_*` 名字 |
 | macOS 通知 | 更名改变了 bundle ID,macOS 会重新询问通知权限 |
 
-完整对照见[应用身份与迁移](https://github.com/oxdingzg/miao-term/blob/d0cc48a50d5057b0d0558c2d6cb5671311c1775b/docs/APP-IDENTITY.zh-CN.md)。
+完整对照见[应用身份与迁移](https://github.com/oxdingzg/miao-term/blob/4270da6190eb766c24011cd998d5c4d7ac755291/docs/APP-IDENTITY.zh-CN.md)。
 
 ## 编辑器没有补全、诊断或悬停提示
 
@@ -108,10 +108,10 @@ pty-host = true      # Unix，实验性
 ## 这里没有我遇到的问题
 
 其余文档在仓库里:[安装](/zh/docs/mtty/install/)、[视图规则](/zh/docs/mtty/view-rules/)，以及带注释的
-[`config.example.toml`](https://github.com/oxdingzg/miao-term/blob/d0cc48a50d5057b0d0558c2d6cb5671311c1775b/docs/config.example.toml)。其他问题请在
+[`config.example.toml`](https://github.com/oxdingzg/miao-term/blob/4270da6190eb766c24011cd998d5c4d7ac755291/docs/config.example.toml)。其他问题请在
 [oxdingzg/miao-term](https://github.com/oxdingzg/miao-term/issues) 开 issue，或写信到
-<dingzg@mtty.dev>。
+<contact@mtty.dev>。
 
 ---
 
-*Synced from [`oxdingzg/miao-term@d0cc48a`](https://github.com/oxdingzg/miao-term/blob/d0cc48a50d5057b0d0558c2d6cb5671311c1775b/docs/TROUBLESHOOTING.zh-CN.md).*
+*Synced from [`oxdingzg/miao-term@4270da6`](https://github.com/oxdingzg/miao-term/blob/4270da6190eb766c24011cd998d5c4d7ac755291/docs/TROUBLESHOOTING.zh-CN.md).*

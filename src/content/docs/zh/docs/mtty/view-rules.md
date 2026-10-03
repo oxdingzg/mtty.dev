@@ -5,7 +5,7 @@ sidebar:
 ---
 
 一个 pane 的标签标题、图标与徽章由 *View 规则引擎* 从上下文推导
-(设计见 [ADR 0007](https://github.com/oxdingzg/miao-term/blob/d0cc48a50d5057b0d0558c2d6cb5671311c1775b/docs/decisions/0007-view-rule-engine.zh-CN.md))。规则存放于
+(设计见 [ADR 0007](https://github.com/oxdingzg/miao-term/blob/4270da6190eb766c24011cd998d5c4d7ac755291/docs/decisions/0007-view-rule-engine.zh-CN.md))。规则存放于
 `~/.config/mtty/views.json`(JSON)。文件修改后 mtty 会自动重新加载,下一次有操作时
 几秒内生效;应用内的规则编辑器尚未提供。
 
@@ -59,4 +59,4 @@ emoji、再到纯色圆点。内置名称:
 
 ---
 
-*Synced from [`oxdingzg/miao-term@d0cc48a`](https://github.com/oxdingzg/miao-term/blob/d0cc48a50d5057b0d0558c2d6cb5671311c1775b/docs/VIEW-RULES.zh-CN.md).*
+*Synced from [`oxdingzg/miao-term@4270da6`](https://github.com/oxdingzg/miao-term/blob/4270da6190eb766c24011cd998d5c4d7ac755291/docs/VIEW-RULES.zh-CN.md).*
