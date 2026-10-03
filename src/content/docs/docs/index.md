@@ -1,20 +1,53 @@
 ---
 title: Documentation
-description: User-facing documentation for miao and mtty, synced from their repositories.
+description: User documentation for mtty, an AI-native terminal and editor, and miao, an AI coding agent.
 ---
 
-This site publishes the user-facing documentation for both products. The miao pages are synced from its repository by `bun run sync:docs` and name the commit they came from, so a page and the code it describes can always be compared.
+Two open-source tools, documented here. The pages under each product are synced
+from its repository by `bun run sync:docs` and name the commit they came from,
+so a page and the code it describes can always be compared.
 
-## miao
+## mtty — an AI-native terminal and editor
 
-An open-source AI coding agent for the terminal: your models, steerable long tasks, and visible cost.
+A terminal, an editor and an agent workspace in one native window, written in
+Rust. GPU-rendered, held to a performance gate, and aware of what the agent in
+each pane is doing.
 
-- [Guide](/docs/miao/guide/) — install it, connect a provider, configure permissions, MCP and LSP, and troubleshoot
-- [Versioning and release](/docs/miao/release/) — how versions are numbered, built and published
-- [miao compared with opencode](/docs/miao/miao-vs-opencode/) — where the fork's work has gone, with measurements and availability
+[Download the preview](https://github.com/oxdingzg/miao-term/releases/latest) ·
+macOS · Linux `.deb`/AppImage · Windows MSI · pre-release
 
-## mtty
+| | |
+|---|---|
+| [Overview](/docs/mtty/) | What it is, what ships today, and what is next |
+| [Install](/docs/mtty/install/) | Packages, building from source, and URL schemes |
+| [Configuration](/docs/mtty/config/) | `config.toml`: every key, themes, language servers, shell integration |
+| [The `mtty-cli` control plane](/docs/mtty/cli/) | Drive a running host from a script or another program |
+| [Keyboard shortcuts](/docs/mtty/shortcuts/) | The window, the terminal and the editor pane |
+| [View rules](/docs/mtty/view-rules/) | Pane titles, icons and badges from `views.json` |
+| [Troubleshooting](/docs/mtty/troubleshooting/) | Build failures, config paths, shell integration, `mtty-cli` |
 
-A fast, embeddable, cross-platform terminal emulator and engine written in Rust. The application ships as `mtty`.
+## miao — an AI coding agent for the terminal
 
-- [Overview](/docs/mtty/) — status, downloads, building from source, and where the rest of the documentation lives
+An open-source coding agent that explores a repository, edits code, runs
+commands and checks its own work, using the models you choose — with the cost of
+every turn in view.
+
+```sh
+curl -fsSL https://mtty.dev/miao/install | bash
+```
+
+| | |
+|---|---|
+| [Overview](/docs/miao/) | What it is and how it is put together |
+| [Guide](/docs/miao/guide/) | Install, providers, permissions, MCP and LSP, sessions, long tasks, troubleshooting |
+| [Versioning and release](/docs/miao/release/) | How versions are numbered, built and published |
+| [miao compared with opencode](/docs/miao/miao-vs-opencode/) | Where the fork's work has gone, with measurements and availability |
+| [Contributing](/docs/miao/contributing/) | Reporting a problem and sending a change |
+| [Security](/docs/miao/security/) | How to report a vulnerability |
+
+## Reporting a problem
+
+Each project takes issues on GitHub:
+[mtty](https://github.com/oxdingzg/miao-term/issues) ·
+[miao](https://github.com/oxdingzg/miao/issues). For anything else, write to
+<dingzg@mtty.dev>.
