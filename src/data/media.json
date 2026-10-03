@@ -1,0 +1,200 @@
+{
+  "/shots/miao.webp": {
+    "type": "image",
+    "width": 1600,
+    "height": 905,
+    "small": "/shots/miao-640.webp",
+    "bytes": 208068
+  },
+  "/shots/miao-home.webp": {
+    "type": "image",
+    "width": 1280,
+    "height": 724,
+    "small": "/shots/miao-home-640.webp",
+    "bytes": 33370
+  },
+  "/shots/miao-providers.webp": {
+    "type": "image",
+    "width": 1280,
+    "height": 724,
+    "small": "/shots/miao-providers-640.webp",
+    "bytes": 55100
+  },
+  "/shots/miao-permission.webp": {
+    "type": "image",
+    "width": 1280,
+    "height": 724,
+    "small": "/shots/miao-permission-640.webp",
+    "bytes": 75472
+  },
+  "/shots/miao-mini.webp": {
+    "type": "image",
+    "width": 1280,
+    "height": 724,
+    "small": "/shots/miao-mini-640.webp",
+    "bytes": 63062
+  },
+  "/shots/miao-web.webp": {
+    "type": "image",
+    "width": 1280,
+    "height": 800,
+    "small": "/shots/miao-web-640.webp",
+    "bytes": 31224
+  },
+  "/shots/mtty.webp": {
+    "type": "image",
+    "width": 1600,
+    "height": 1000,
+    "small": "/shots/mtty-640.webp",
+    "bytes": 143390
+  },
+  "/shots/mtty-editor.webp": {
+    "type": "image",
+    "width": 1280,
+    "height": 800,
+    "small": "/shots/mtty-editor-640.webp",
+    "bytes": 99438
+  },
+  "/shots/mtty-workspace.webp": {
+    "type": "image",
+    "width": 1280,
+    "height": 800,
+    "small": "/shots/mtty-workspace-640.webp",
+    "bytes": 65512
+  },
+  "/shots/mtty-hosts.webp": {
+    "type": "image",
+    "width": 1280,
+    "height": 800,
+    "small": "/shots/mtty-hosts-640.webp",
+    "bytes": 56590
+  },
+  "/shots/mtty-review.webp": {
+    "type": "image",
+    "width": 1280,
+    "height": 800,
+    "small": "/shots/mtty-review-640.webp",
+    "bytes": 85860
+  },
+  "/shots/mtty-splits.webp": {
+    "type": "image",
+    "width": 1280,
+    "height": 800,
+    "small": "/shots/mtty-splits-640.webp",
+    "bytes": 65272
+  },
+  "/shots/mtty-tasks.webp": {
+    "type": "image",
+    "width": 1280,
+    "height": 800,
+    "small": "/shots/mtty-tasks-640.webp",
+    "bytes": 31772
+  },
+  "/shots/mtty-queue.webp": {
+    "type": "image",
+    "width": 1280,
+    "height": 800,
+    "small": "/shots/mtty-queue-640.webp",
+    "bytes": 34946
+  },
+  "/shots/mtty-vim.webp": {
+    "type": "image",
+    "width": 1280,
+    "height": 800,
+    "small": "/shots/mtty-vim-640.webp",
+    "bytes": 39236
+  },
+  "/shots/mtty-palette.webp": {
+    "type": "image",
+    "width": 1280,
+    "height": 800,
+    "small": "/shots/mtty-palette-640.webp",
+    "bytes": 74540
+  },
+  "/shots/mtty-states.webp": {
+    "type": "image",
+    "width": 1280,
+    "height": 800,
+    "small": "/shots/mtty-states-640.webp",
+    "bytes": 30832
+  },
+  "/shots/mtty-panels.webp": {
+    "type": "image",
+    "width": 1280,
+    "height": 800,
+    "small": "/shots/mtty-panels-640.webp",
+    "bytes": 29692
+  },
+  "/shots/mtty-states.mp4": {
+    "type": "video",
+    "width": 1280,
+    "height": 800,
+    "poster": "/shots/mtty-states.webp",
+    "seconds": 12.13,
+    "bytes": 47621
+  },
+  "/shots/mtty-review.mp4": {
+    "type": "video",
+    "width": 1280,
+    "height": 800,
+    "poster": "/shots/mtty-review.webp",
+    "seconds": 9.5,
+    "bytes": 66330
+  },
+  "/shots/mtty-editor.mp4": {
+    "type": "video",
+    "width": 1280,
+    "height": 800,
+    "poster": "/shots/mtty-editor.webp",
+    "seconds": 11.75,
+    "bytes": 107409
+  },
+  "/shots/mtty-palette.mp4": {
+    "type": "video",
+    "width": 1280,
+    "height": 800,
+    "poster": "/shots/mtty-palette.webp",
+    "seconds": 9.63,
+    "bytes": 74458
+  },
+  "/shots/miao-providers.mp4": {
+    "type": "video",
+    "width": 1280,
+    "height": 724,
+    "poster": "/shots/miao-providers.webp",
+    "seconds": 15.88,
+    "bytes": 65989
+  },
+  "/shots/miao-session.mp4": {
+    "type": "video",
+    "width": 1280,
+    "height": 724,
+    "poster": "/shots/miao.webp",
+    "seconds": 13.5,
+    "bytes": 104276
+  },
+  "/shots/miao-mini.mp4": {
+    "type": "video",
+    "width": 1280,
+    "height": 724,
+    "poster": "/shots/miao-mini.webp",
+    "seconds": 15.13,
+    "bytes": 124973
+  },
+  "/shots/miao-web.mp4": {
+    "type": "video",
+    "width": 1280,
+    "height": 800,
+    "poster": "/shots/miao-web.webp",
+    "seconds": 7.25,
+    "bytes": 89631
+  },
+  "/shots/mtty-panels.mp4": {
+    "type": "video",
+    "width": 1280,
+    "height": 800,
+    "poster": "/shots/mtty-panels.webp",
+    "seconds": 14.38,
+    "bytes": 61692
+  }
+}

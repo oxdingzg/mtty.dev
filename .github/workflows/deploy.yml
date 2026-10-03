@@ -41,6 +41,8 @@ jobs:
             exit 1
           fi
 
+      - run: bun run check:media
+
       - run: bun run check
 
       - run: bun run build

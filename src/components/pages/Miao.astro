@@ -5,6 +5,7 @@
 import MarketingLayout from "../../layouts/MarketingLayout.astro"
 import InstallCommand from "../site/InstallCommand.astro"
 import MiaoMark from "../site/MiaoMark.astro"
+import ProductMedia from "../site/ProductMedia.astro"
 import { prefixFor, type Locale } from "../../i18n/routes"
 
 interface Props {
@@ -38,8 +39,8 @@ const copy = {
     platforms: "macOS and Linux · Windows builds exist · MIT",
     guide: "Read the guide",
     source: "Source",
-    shot: "Full miao example session with task progress, code diffs, file writes, command output, context usage and the modified-files sidebar.",
-    cap: "Build agent · tasks, code changes, tool output and session status (example session)",
+    shot: "Current miao terminal UI showing an example code review, an inline edit diff, the response and context telemetry.",
+    cap: "Build agent · inline code changes and context telemetry · illustrative session",
     steerLabel: "steer, don't restart",
     steerH: "Add a requirement while it works.",
     steerBody: [
@@ -76,8 +77,12 @@ const copy = {
     screensLabel: "the app",
     screensH: "The agent, running in a terminal you already use.",
     screens: [
-      ["/shots/miao-home.png", "One command, a full agent", "miao's TUI with its own input box; run it inside mtty and the pane reports the agent's state."],
-      ["/shots/miao-providers.png", "Bring your own provider", "OpenAI, Anthropic, GitHub Copilot, Google or a local endpoint; your keys stay on your machine."],
+      ["/shots/miao-session.mp4", "Review the work, choose the model", "An illustrative code-review session with an inline diff and context telemetry; open model selection without leaving the conversation."],
+      ["/shots/miao-providers.mp4", "Bring your own provider", "Browse the provider picker and its available services. Connect OpenAI, Anthropic, GitHub Copilot, Google or your own endpoint."],
+      ["/shots/miao-web.mp4", "The same session, in a browser", "Expand the edit diff and open the file-review panel in miao's browser UI. This is the same illustrative session as the terminal capture."],
+      ["/shots/miao-mini.mp4", "A compact interactive mode", "The development build's opt-in mini interface: task progress, an edit diff and a multi-select question, using the built-in demo mode."],
+      ["/shots/miao-permission.webp", "Review before allowing an edit", "The mini interface's edit-permission prompt shows the proposed diff and Allow once, Allow always and Reject choices. Built-in demo mode."],
+      ["/shots/miao-home.webp", "Start with a prompt", "The current terminal start screen, with the selected agent, model and reasoning variant beside the input."],
     ],
     loopLabel: "longer tasks, with limits",
     loopH: "Let it keep going, inside a budget.",
@@ -122,8 +127,8 @@ const copy = {
     platforms: "macOS 与 Linux · Windows 已有构建 · MIT",
     guide: "阅读使用指南",
     source: "源码",
-    shot: "miao 完整示例会话：任务进度、代码 diff、文件写入、命令输出、上下文用量和右侧修改文件清单。",
-    cap: "Build 代理 · 任务、代码改动、工具输出与会话状态（示例会话）",
+    shot: "当前 miao 终端界面：示例代码审阅、行内编辑 diff、回复和上下文遥测。",
+    cap: "Build 代理 · 行内代码改动与上下文遥测 · 示例会话",
     steerLabel: "中途调整，不必重来",
     steerH: "它在干活时，你仍然可以补充要求。",
     steerBody: [
@@ -160,8 +165,12 @@ const copy = {
     screensLabel: "界面",
     screensH: "代理，跑在你已经用的终端里。",
     screens: [
-      ["/shots/miao-home.png", "一条命令，一个完整代理", "miao 的 TUI 与输入框；在 mtty 里运行，窗格会上报代理状态。"],
-      ["/shots/miao-providers.png", "自带模型服务商", "OpenAI、Anthropic、GitHub Copilot、Google 或本地端点；密钥只留在你自己的机器上。"],
+      ["/shots/miao-session.mp4", "审阅改动，选择模型", "示例代码审阅会话中直接查看 diff 和上下文遥测；打开模型选择，无需离开当前会话。"],
+      ["/shots/miao-providers.mp4", "自带模型服务商", "打开供应商选择器，浏览可用服务；连接 OpenAI、Anthropic、GitHub Copilot、Google 或自己的端点。"],
+      ["/shots/miao-web.mp4", "同一个会话，也能在浏览器里看", "在 miao 浏览器界面展开编辑 diff、打开文件审阅面板；与终端截图使用同一个示例会话。"],
+      ["/shots/miao-mini.mp4", "紧凑的交互模式", "开发构建中可选的 mini 界面：任务进度、编辑 diff 和多选问题，使用内置演示模式录制。"],
+      ["/shots/miao-permission.webp", "允许编辑前，先看清改动", "mini 界面的编辑权限确认展示拟议 diff，以及单次允许、始终允许和拒绝选项。来自内置演示模式。"],
+      ["/shots/miao-home.webp", "从一个提示开始", "当前终端启动界面，输入框旁直接显示所选代理、模型和推理档位。"],
     ],
     loopLabel: "长任务，有边界",
     loopH: "让它继续推进 —— 在预算之内。",
@@ -222,7 +231,7 @@ const copy = {
         </div>
       </div>
       <figure class="shot hero-shot rise" style="--i:4">
-        <img src="/shots/miao.png" width="2400" height="1413" alt={copy.shot} fetchpriority="high" />
+        <ProductMedia src="/shots/miao.webp" alt={copy.shot} eager />
         <figcaption>{copy.cap}</figcaption>
       </figure>
     </div>
@@ -302,7 +311,7 @@ const copy = {
     </table>
   </section>
 
-  <section class="wrap section" data-reveal>
+  <section id="screens" class="wrap section" data-reveal>
     <div class="section-head">
       <p class="label"><b>04</b> {copy.screensLabel}</p>
       <h2 class="display h2">{copy.screensH}</h2>
@@ -311,10 +320,11 @@ const copy = {
       {
         copy.screens.map(([src, head, body]) => (
           <figure class="mcard">
-            <img src={src} width="2400" height="1413" loading="lazy" alt={body} />
+            <ProductMedia src={src} alt={body} />
             <figcaption>
               <b>{head}</b>
               <span>{body}</span>
+              <a class="media-original" href={src} target="_blank" rel="noopener noreferrer">{lang === "zh" ? "放大查看" : "View full size"} ↗</a>
             </figcaption>
           </figure>
         ))
@@ -490,11 +500,11 @@ const copy = {
     margin-top: 28px;
   }
 
-  .hero-shot img {
+  .hero-shot :global(img) {
     box-shadow: 0 60px 120px -40px rgb(0 0 0 / 0.95), 0 0 0 1px var(--border-strong);
   }
 
-  :root[data-theme="light"] .hero-shot img {
+  :root[data-theme="light"] .hero-shot :global(img) {
     box-shadow: 0 40px 80px -36px rgb(40 30 10 / 0.45), 0 0 0 1px var(--border-strong);
   }
 
@@ -793,7 +803,7 @@ const copy = {
     transform: translateY(-3px);
   }
 
-  .mcard img {
+  .mcard :global(.product-media) {
     display: block;
     width: 100%;
     height: auto;

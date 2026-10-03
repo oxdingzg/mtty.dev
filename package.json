@@ -8,6 +8,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
+    "check:media": "bun scripts/check-media.ts",
     "sync:docs": "bun scripts/sync-docs.ts",
     "og": "bun scripts/og.ts",
     "astro": "astro"

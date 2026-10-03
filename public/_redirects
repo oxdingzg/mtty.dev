@@ -13,3 +13,15 @@
 /miao/feedback/  https://github.com/oxdingzg/miao/issues   302
 # Windows: irm https://mtty.dev/miao/install.ps1 | iex
 /miao/install.ps1   https://raw.githubusercontent.com/oxdingzg/miao/main/install.ps1   302
+
+# Previous screenshot URLs resolve to the current, optimized captures.
+/shots/miao-home.png /shots/miao-home.webp 301
+/shots/miao-providers.png /shots/miao-providers.webp 301
+/shots/miao.png /shots/miao.webp 301
+/shots/mtty-editor.png /shots/mtty-editor.webp 301
+/shots/mtty-palette.png /shots/mtty-palette.webp 301
+/shots/mtty-splits.png /shots/mtty-splits.webp 301
+/shots/mtty-tasks.png /shots/mtty-tasks.webp 301
+/shots/mtty-vim.png /shots/mtty-vim.webp 301
+/shots/mtty-workspace.png /shots/mtty-workspace.webp 301
+/shots/mtty.png /shots/mtty.webp 301

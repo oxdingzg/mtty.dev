@@ -4,6 +4,7 @@
 // from the miao-term repository.
 import MarketingLayout from "../../layouts/MarketingLayout.astro"
 import MttyMark from "../site/MttyMark.astro"
+import ProductMedia from "../site/ProductMedia.astro"
 import { prefixFor, type Locale } from "../../i18n/routes"
 
 interface Props {
@@ -32,8 +33,8 @@ const copy = {
       ["Linux", ".deb · AppImage · tar"],
       ["Windows", "MSI · zip"],
     ],
-    shot: "mtty example workspace with three sessions, a Markdown editor, live Mermaid preview, a split terminal and the Agent state panel.",
-    cap: "The full-height session sidebar, the details panel, and the repository's own git log",
+    shot: "Current mtty workspace with a session sidebar, Markdown editor, rendered Mermaid preview and split terminal.",
+    cap: "Editor, Mermaid preview and terminal · one example workspace",
     preview: "<strong>Pre-release.</strong> The API is not stable yet. macOS is the primary platform; Windows and Linux are built, tested and checked on real desktops. Apple notarization and Windows MSI signing are still pending.",
     glanceLabel: "at a glance",
     glance: [
@@ -89,16 +90,18 @@ const copy = {
     screensLabel: "the screens",
     screensH: "Every feature, seen in the real app.",
     screensBody:
-      "Captures from the packaged build: tabs that report their agent's state, an editor with a Markdown preview, recursive splits, the command palette, an opt-in vim mode, and the right-hand panels — including a live view of the four agent states.",
+      "Fresh captures from the current development build, using an isolated example project: agent badges, live preview, inline edit review, hosts, splits and the details panels. Agent-state events and edit proposals are driven through the real control plane; the host addresses are examples.",
     screens: [
-      ["/shots/mtty-workspace.png", "Tabs that know their agent", "Three tabs, each badged idle, processing or awaiting, with the repository's own git log in the active pane and the details panel beside it."],
-      ["/shots/mtty-editor.png", "Editor and live preview", "A Markdown file in the editor with its preview to the right; built-in Mermaid subsets render in the pane."],
-      ["/shots/mtty-states.gif", "Agent state, live", "A pane reports the same four states an agent CLI does. The tab badge and the Agent panel update as it moves from processing to awaiting, error and idle."],
-      ["/shots/mtty-splits.png", "Recursive splits", "A git log and a long-running server side by side in one tab; layouts survive a restart."],
-      ["/shots/mtty-palette.png", "Command palette", "Fuzzy-find any action, file or content hit; the same palette drives new tabs and splits."],
-      ["/shots/mtty-tasks.png", "The right-hand panels", "Info, Agent, Outline (the command history), Git, Files and Ports sit beside the pane — the running task list, every state, one window."],
-      ["/shots/mtty-vim.png", "Vim and folds", "An opt-in vim mode in the editor and syntax-tree folding, marked in the gutter."],
-      ["/shots/mtty-panels.gif", "Panels, one after another", "Switching between the details panels: the agent's state, the commands run in this pane, the git status, the files here and the ports listening."],
+      ["/shots/mtty-workspace.webp", "Tabs that know their agent", "Three example sessions with processing, awaiting and idle badges, a code change in the terminal and Git details beside it."],
+      ["/shots/mtty-editor.mp4", "Editor and live preview", "A Markdown edit updates its preview in the same workspace. Mermaid, tables and code blocks render beside the source."],
+      ["/shots/mtty-states.mp4", "Agent state, live", "Real control-plane events move the tab badge and Agent panel through processing, awaiting, error and idle."],
+      ["/shots/mtty-review.mp4", "Review an agent's edit inline", "A proposed change appears in the native editor as an undoable inline diff, then is accepted through the command palette."],
+      ["/shots/mtty-hosts.webp", "Your hosts, in the workspace", "A grouped host library with SSH destinations, jump-host configuration, file access and saved port forwards. Addresses shown are examples."],
+      ["/shots/mtty-splits.webp", "Recursive splits", "Git changes and an actual local HTTP server run side by side in one tab; both panes use the same workspace."],
+      ["/shots/mtty-palette.mp4", "Commands within reach", "Open the command palette over the current workspace: terminal, editor and agent actions in one place."],
+      ["/shots/mtty-queue.webp", "Keep the next prompts ready", "The Queue panel holds follow-up prompts for the active agent pane while it is processing."],
+      ["/shots/mtty-vim.webp", "Vim and folds", "The editor in opt-in Normal mode, with syntax-tree folds collapsed in the line-number gutter."],
+      ["/shots/mtty-panels.mp4", "A tour of the details panels", "A short sequence of current captures: Info, Agent, command history, Git, Files, Ports and Queue, beside the same pane."],
     ],
     agentLabel: "built for agents",
     agentH: "It knows what the agent in each pane is doing.",
@@ -146,8 +149,8 @@ const copy = {
       ["Linux", ".deb · AppImage · tar"],
       ["Windows", "MSI · zip"],
     ],
-    shot: "mtty 示例工作区：三个会话、Markdown 编辑器、实时 Mermaid 预览、分屏终端和 Agent 状态面板。",
-    cap: "全高会话侧栏、详情面板，以及仓库自己的 git 日志",
+    shot: "当前 mtty 工作区：会话侧栏、Markdown 编辑器、Mermaid 渲染预览和分屏终端。",
+    cap: "编辑器、Mermaid 预览与终端 · 同一个示例工作区",
     preview: "<strong>预发布。</strong>API 尚未稳定。macOS 是主要平台；Windows 与 Linux 已构建、测试，并在真实桌面上验收。Apple 公证与 Windows MSI 签名尚未完成。",
     glanceLabel: "一眼看懂",
     glance: [
@@ -203,16 +206,18 @@ const copy = {
     screensLabel: "界面",
     screensH: "每个功能，都在真实应用里。",
     screensBody:
-      "以下截图来自打包构建:上报代理状态的标签、带 Markdown 预览的编辑器、递归分屏、命令面板、可选的 vim 模式,以及右侧面板 —— 其中包含四种代理状态的实时展示。",
+      "使用独立示例项目，从当前开发构建重新采集：代理徽章、实时预览、行内改动审阅、主机库、分屏和详情面板。代理状态事件与改动提议通过真实控制面驱动；主机地址为示例。",
     screens: [
-      ["/shots/mtty-workspace.png", "知道代理状态的标签", "三个标签,分别标注 idle、processing、awaiting;活动窗格里是仓库自己的 git 日志,右侧是详情面板。"],
-      ["/shots/mtty-editor.png", "编辑器与实时预览", "Markdown 文件在编辑器中打开,右侧是随输入更新的预览;内置的 Mermaid 子集直接在窗格中渲染。"],
-      ["/shots/mtty-states.gif", "代理状态,实时变化", "窗格会上报与代理 CLI 相同的四种状态;从 processing 到 awaiting、error、idle,标签徽章与 Agent 面板同步更新。"],
-      ["/shots/mtty-splits.png", "递归分屏", "同一个标签里,git 日志与一个长时间运行的服务并排;布局重启后依然保留。"],
-      ["/shots/mtty-palette.png", "命令面板", "模糊查找任意命令、文件或内容命中;新建标签与分屏也走同一个面板。"],
-      ["/shots/mtty-tasks.png", "右侧面板", "信息、Agent、大纲(命令历史)、Git、文件与端口都在窗格旁边 —— 运行中的任务清单、各种状态,同在一个窗口。"],
-      ["/shots/mtty-vim.png", "vim 与折叠", "编辑器中可选的 vim 模式,以及由语法树驱动的折叠,在行号栏标记。"],
-      ["/shots/mtty-panels.gif", "面板依次切换", "在详情面板之间切换:代理状态、本窗格执行过的命令、git 状态、当前目录的文件,以及正在监听的端口。"],
+      ["/shots/mtty-workspace.webp", "知道代理状态的标签", "三个示例会话标注 processing、awaiting 与 idle；终端展示代码改动，旁边是 Git 详情。"],
+      ["/shots/mtty-editor.mp4", "编辑器与实时预览", "Markdown 改动实时更新同一工作区中的预览；Mermaid、表格和代码块直接在源码旁渲染。"],
+      ["/shots/mtty-states.mp4", "代理状态，实时变化", "真实控制面事件让标签徽章和 Agent 面板依次显示 processing、awaiting、error 与 idle。"],
+      ["/shots/mtty-review.mp4", "代理的改动，行内审阅", "拟议改动在原生编辑器中显示为可撤销的行内 diff，再通过命令面板接受。"],
+      ["/shots/mtty-hosts.webp", "主机，也在工作区里", "分组主机库展示 SSH 目标、跳板配置、文件入口和已保存的端口转发；地址均为示例。"],
+      ["/shots/mtty-splits.webp", "递归分屏", "Git 改动与实际运行的本地 HTTP 服务并排，共用同一个工作区。"],
+      ["/shots/mtty-palette.mp4", "操作，随手可达", "在当前工作区打开命令面板，终端、编辑器和代理操作都在同一个入口。"],
+      ["/shots/mtty-queue.webp", "下一条提示，先准备好", "代理窗格处于 processing 时，队列面板保留后续要发送的提示。"],
+      ["/shots/mtty-vim.webp", "vim 与折叠", "编辑器处于可选的 Normal 模式，语法树折叠在行号栏中收起。"],
+      ["/shots/mtty-panels.mp4", "详情面板，一轮看完", "当前界面的短截图序列：信息、Agent、命令历史、Git、文件、端口和队列，始终在同一个窗格旁边。"],
     ],
     agentLabel: "为代理而造",
     agentH: "它知道每个窗格里的代理在做什么。",
@@ -291,7 +296,7 @@ const copy = {
         </div>
       </div>
       <figure class="shot hero-shot rise" style="--i:4">
-        <img src="/shots/mtty.png" width="2400" height="1538" alt={copy.shot} fetchpriority="high" />
+        <ProductMedia src="/shots/mtty.webp" alt={copy.shot} eager />
         <figcaption>{copy.cap}</figcaption>
       </figure>
     </div>
@@ -403,7 +408,7 @@ const copy = {
     </ul>
   </section>
 
-  <section class="wrap section screens" data-reveal>
+  <section id="screens" class="wrap section screens" data-reveal>
     <div class="section-head">
       <p class="label"><b>04</b> {copy.screensLabel}</p>
       <h2 class="display h2">{copy.screensH}</h2>
@@ -413,10 +418,11 @@ const copy = {
       {
         copy.screens.map(([src, head, body]) => (
           <figure class="gcard">
-            <img src={src} width="1100" height="720" loading="lazy" alt={body} />
+            <ProductMedia src={src} alt={body} />
             <figcaption>
               <b>{head}</b>
               <span>{body}</span>
+              <a class="media-original" href={src} target="_blank" rel="noopener noreferrer">{lang === "zh" ? "放大查看" : "View full size"} ↗</a>
             </figcaption>
           </figure>
         ))
@@ -580,13 +586,13 @@ const copy = {
 
   /* The same lifted frame the miao hero uses, so the two product pages read as
      one site. */
-  .hero-shot img {
+  .hero-shot :global(img) {
     box-shadow:
       0 60px 120px -40px rgb(0 0 0 / 0.95),
       0 0 0 1px var(--border-strong);
   }
 
-  :root[data-theme="light"] .hero-shot img {
+  :root[data-theme="light"] .hero-shot :global(img) {
     box-shadow:
       0 40px 80px -36px rgb(40 30 10 / 0.45),
       0 0 0 1px var(--border-strong);
@@ -1072,7 +1078,7 @@ const copy = {
     grid-column: 1 / -1;
   }
 
-  .gcard img {
+  .gcard :global(.product-media) {
     display: block;
     width: 100%;
     height: auto;

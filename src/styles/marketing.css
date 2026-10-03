@@ -583,3 +583,7 @@ kbd {
     display: none;
   }
 }
+
+/* Original captures stay readable beyond the gallery thumbnail. */
+.media-original { color: var(--fg-muted); font-size: .78rem; text-decoration: underline; text-underline-offset: 3px; }
+.media-original:hover { color: var(--fg); }

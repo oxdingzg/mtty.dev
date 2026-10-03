@@ -58,5 +58,15 @@ Run from the repository root:
 | `bun run build` | Production build to `./dist/` |
 | `bun run preview` | Serve the built output locally |
 | `bun run check` | Type-check `.astro` and content files |
+| `bun run check:media` | Verify screenshot dimensions, video metadata and media size budgets |
 | `bun run sync:docs` | Re-sync the miao documentation from its repository |
 | `bun run og` | Re-render the social preview cards in `public/og/` |
+
+## Product media
+
+The current screenshots and nine silent demos were captured on 2026-10-04.
+See [the media notes](docs/media.md) for provenance, feature coverage and capture
+guidelines. `src/data/media.json` records actual dimensions and byte counts.
+`ProductMedia.astro` serves responsive WebP stills and viewport-driven MP4s;
+native controls allow pausing, and reduced-motion or data-saving preferences
+disable automatic playback.

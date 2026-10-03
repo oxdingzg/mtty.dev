@@ -7,6 +7,7 @@ import MiaoMark from "../site/MiaoMark.astro"
 import MttyMark from "../site/MttyMark.astro"
 import ShowcaseWindow from "../site/ShowcaseWindow.astro"
 import ProductShowcase from "../site/ProductShowcase.astro"
+import ProductMedia from "../site/ProductMedia.astro"
 import { prefixFor, type Locale } from "../../i18n/routes"
 
 interface Props {
@@ -35,8 +36,8 @@ const copy = {
     download: "Download the preview",
     downloadMeta: "macOS · Linux · Windows · preview",
     copyLabel: "Copy command",
-    shotMtty: "mtty example workspace with three sessions, a Markdown editor, live Mermaid preview, a split terminal and the Agent state panel.",
-    shotMiao: "Full miao example session with task progress, code diffs, file writes, command output, context usage and the modified-files sidebar.",
+    shotMtty: "Current mtty example workspace with a session sidebar, Markdown editor, Mermaid preview and a split terminal.",
+    shotMiao: "Current miao example session with an inline edit diff, response and context telemetry.",
     capMtty: "mtty · editor, preview, terminal and agent state",
     capMiao: "miao · tasks, changes, tools and context (example session)",
     productsLabel: "the products",
@@ -78,12 +79,14 @@ const copy = {
     shotsLabel: "in pictures",
     shotsH: "Terminals, editor and agents in one window.",
     shots: [
-      ["/shots/mtty-workspace.png", "Tabs that report their agent", "Each tab is badged idle, processing or awaiting as the agent inside reports its state."],
-      ["/shots/mtty-states.gif", "Agent state, live", "The tab badge and the Agent panel track a pane through the four states in real time."],
-      ["/shots/mtty-palette.gif", "One shortcut, then a split", "The command palette fuzzy-finds any action; picking Split Right lays out a second pane."],
-      ["/shots/mtty-editor.png", "Editor and live preview", "Open a Markdown file and its preview follows your typing; Mermaid renders in the pane."],
-      ["/shots/mtty-panels.gif", "Every panel beside the pane", "Info, Agent, the task list, Git, files and ports switch in the right-hand panel."],
-      ["/shots/mtty-splits.png", "Recursive splits", "A git log and a running server side by side; the layout returns after a restart."],
+      ["/shots/miao-session.mp4", "miao · review, then choose a model", "An illustrative session shows the edit diff and context telemetry; model selection stays in the same conversation."],
+      ["/shots/mtty-states.mp4", "mtty · agent state, live", "Control-plane events update the tab badge and Agent panel through processing, awaiting, error and idle."],
+      ["/shots/miao-providers.mp4", "miao · bring your own provider", "Browse the provider picker and choose the service that fits your work."],
+      ["/shots/mtty-editor.mp4", "mtty · editor and live preview", "A Markdown edit updates the adjacent preview, with Mermaid, tables and code blocks."],
+      ["/shots/miao-web.mp4", "miao · the browser workspace", "Expand a code diff and open the review panel in the browser, using the same illustrative session."],
+      ["/shots/mtty-review.mp4", "mtty · inline edit review", "Review a proposed change in the editor, then accept it through the command palette."],
+      ["/shots/mtty-hosts.webp", "mtty · local and remote", "A grouped host library with file access and saved port forwards; all addresses shown are examples."],
+      ["/shots/mtty-splits.webp", "mtty · recursive splits", "Git changes and a running local HTTP server side by side in the same workspace."],
     ],
     honestLabel: "status",
     honestH: "Early, moving fast, and plain about it.",
@@ -110,8 +113,8 @@ const copy = {
     download: "下载预览版",
     downloadMeta: "macOS · Linux · Windows · 预览版",
     copyLabel: "复制命令",
-    shotMtty: "mtty 示例工作区：三个会话、Markdown 编辑器、实时 Mermaid 预览、分屏终端和 Agent 状态面板。",
-    shotMiao: "miao 完整示例会话：任务进度、代码 diff、文件写入、命令输出、上下文用量和右侧修改文件清单。",
+    shotMtty: "当前 mtty 示例工作区：会话侧栏、Markdown 编辑器、Mermaid 预览和分屏终端。",
+    shotMiao: "当前 miao 示例会话：行内编辑 diff、回复和上下文遥测。",
     capMtty: "mtty · 编辑、预览、终端和 Agent 状态",
     capMiao: "miao · 任务、改动、工具与上下文（示例会话）",
     productsLabel: "两个产品",
@@ -153,12 +156,14 @@ const copy = {
     shotsLabel: "看图",
     shotsH: "终端、编辑器与代理，同在一个窗口。",
     shots: [
-      ["/shots/mtty-workspace.png", "会上报代理状态的标签", "标签里的代理上报状态后，标签会标注 idle、processing 或 awaiting。"],
-      ["/shots/mtty-states.gif", "代理状态，实时变化", "标签徽章与 Agent 面板实时跟随窗格在四种状态之间切换。"],
-      ["/shots/mtty-palette.gif", "一个快捷键，然后分屏", "命令面板模糊查找任意操作；选中“向右分屏”即多出一个窗格。"],
-      ["/shots/mtty-editor.png", "编辑器与实时预览", "打开 Markdown 文件，预览随输入更新；Mermaid 直接在窗格中渲染。"],
-      ["/shots/mtty-panels.gif", "窗格旁边，样样都有", "信息、Agent、任务清单、Git、文件与端口在右侧面板中切换。"],
-      ["/shots/mtty-splits.png", "递归分屏", "git 日志与运行中的服务并排；重启后布局自动恢复。"],
+      ["/shots/miao-session.mp4", "miao · 审阅改动，再选模型", "示例会话展示编辑 diff 和上下文遥测；模型选择也留在同一个会话中。"],
+      ["/shots/mtty-states.mp4", "mtty · 代理状态，实时变化", "控制面事件让标签徽章和 Agent 面板依次显示 processing、awaiting、error 与 idle。"],
+      ["/shots/miao-providers.mp4", "miao · 自带模型服务商", "打开供应商选择器，浏览并选择适合任务的服务。"],
+      ["/shots/mtty-editor.mp4", "mtty · 编辑器与实时预览", "Markdown 改动同步更新旁边的预览，包含 Mermaid、表格与代码块。"],
+      ["/shots/miao-web.mp4", "miao · 浏览器工作区", "在浏览器里展开代码 diff、打开审阅面板，使用同一个示例会话。"],
+      ["/shots/mtty-review.mp4", "mtty · 行内改动审阅", "在编辑器里审阅拟议改动，再通过命令面板接受。"],
+      ["/shots/mtty-hosts.webp", "mtty · 本地与远程", "分组主机库提供文件入口和已保存的端口转发；展示地址均为示例。"],
+      ["/shots/mtty-splits.webp", "mtty · 递归分屏", "Git 改动与实际运行的本地 HTTP 服务并排，共用一个工作区。"],
     ],
     honestLabel: "现状",
     honestH: "还很早期，迭代很快，话说在明处。",
@@ -227,14 +232,14 @@ const copy = {
       <div class="hero-shots rise" style="--i:3">
         <ProductShowcase lang={lang} miaoKind={copy.miaoKind} mttyKind={copy.mttyKind}>
           <ShowcaseWindow slot="miao" embedded product="miao" kind={copy.miaoKind} lang={lang} slides={[
-            { src: "/shots/miao.png", label: lang === "zh" ? "任务、代码改动与会话状态 · 示例会话" : "Tasks, code changes and session status · Example session", alt: copy.shotMiao, width: 2400, height: 1413 },
-            { src: "/shots/miao-providers.png", label: lang === "zh" ? "连接你选择的模型服务" : "Connect your choice of model provider", alt: lang === "zh" ? "miao 模型服务选择面板" : "miao model provider selection", width: 2400, height: 1413 },
-            { src: "/shots/miao-home.png", label: lang === "zh" ? "从一个提示开始" : "Start with a prompt", alt: lang === "zh" ? "miao 启动界面和提示输入框" : "miao start screen and prompt input", width: 2400, height: 1413 },
+            { src: "/shots/miao.webp", label: lang === "zh" ? "行内代码改动与上下文遥测 · 示例会话" : "Inline code changes and context telemetry · Example session", alt: copy.shotMiao },
+            { src: "/shots/miao-providers.webp", label: lang === "zh" ? "连接你选择的模型服务" : "Connect your choice of model provider", alt: lang === "zh" ? "miao 模型服务选择面板" : "miao model provider selection" },
+            { src: "/shots/miao-home.webp", label: lang === "zh" ? "从一个提示开始" : "Start with a prompt", alt: lang === "zh" ? "miao 启动界面和提示输入框" : "miao start screen and prompt input" },
           ]} />
           <ShowcaseWindow slot="mtty" embedded product="mtty" kind={copy.mttyKind} lang={lang} slides={[
-            { src: "/shots/mtty.png", label: lang === "zh" ? "编辑器、预览、终端与 Agent 状态" : "Editor, preview, terminal and agent state", alt: copy.shotMtty, width: 2400, height: 1538 },
-            { src: "/shots/mtty-editor.png", label: lang === "zh" ? "Markdown 与 Mermaid 实时预览" : "Live Markdown and Mermaid preview", alt: lang === "zh" ? "mtty Markdown 编辑器和实时预览" : "mtty Markdown editor with live preview", width: 1100, height: 720 },
-            { src: "/shots/mtty-splits.png", label: lang === "zh" ? "并排查看终端与运行中的服务" : "Terminals and running services side by side", alt: lang === "zh" ? "mtty 递归分屏终端" : "mtty split terminals", width: 1100, height: 720 },
+            { src: "/shots/mtty.webp", label: lang === "zh" ? "编辑器、预览与终端" : "Editor, preview and terminal", alt: copy.shotMtty },
+            { src: "/shots/mtty-editor.webp", label: lang === "zh" ? "Markdown 与 Mermaid 实时预览" : "Live Markdown and Mermaid preview", alt: lang === "zh" ? "mtty Markdown 编辑器和实时预览" : "mtty Markdown editor with live preview" },
+            { src: "/shots/mtty-splits.webp", label: lang === "zh" ? "并排查看终端与运行中的服务" : "Terminals and running services side by side", alt: lang === "zh" ? "mtty 递归分屏终端" : "mtty split terminals" },
           ]} />
         </ProductShowcase>
       </div>
@@ -344,10 +349,11 @@ const copy = {
       {
         copy.shots.map(([src, head, body]) => (
           <figure class="scard">
-            <img src={src} width="1100" height="720" loading="lazy" alt={body} />
+            <ProductMedia src={src} alt={body} />
             <figcaption>
               <b>{head}</b>
               <span>{body}</span>
+              <a class="media-original" href={src} target="_blank" rel="noopener noreferrer">{lang === "zh" ? "放大查看" : "View full size"} ↗</a>
             </figcaption>
           </figure>
         ))
@@ -890,7 +896,7 @@ const copy = {
 
   .shotgrid {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 20px;
   }
 
@@ -910,7 +916,7 @@ const copy = {
     transform: translateY(-3px);
   }
 
-  .scard img {
+  .scard :global(.product-media) {
     display: block;
     width: 100%;
     height: auto;
