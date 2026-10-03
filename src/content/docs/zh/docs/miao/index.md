@@ -16,6 +16,7 @@ curl -fsSL https://mtty.dev/miao/install | bash
 | | |
 |---|---|
 | [使用指南](/zh/docs/miao/guide/) | 安装与升级、供应商、配置、键位、会话与模型、命令与技能、MCP、LSP、沙箱、费用遥测、自治续跑、FAQ 与排障 |
+| [Windows 未签名程序提示](/zh/docs/miao/windows-code-signing/) | 下载或运行时可能看到的 Windows 安全提示、处理方法与原因 |
 | [版本管理与发布](/zh/docs/miao/release/) | 版本如何编号、构建和发布，以及如何回滚 |
 | [miao 与 opencode 的对比](/zh/docs/miao/miao-vs-opencode/) | 这个分支的工作落在哪里，附实测数据与可用性 |
 | [参与贡献](/zh/docs/miao/contributing/) | 报告问题与提交改动 |

@@ -1,7 +1,7 @@
 ---
 title: "miao versioning and release"
 sidebar:
-  order: 2
+  order: 3
 ---
 
 ## Version scheme
@@ -21,6 +21,8 @@ sidebar:
    - `cli`: matrix `macos-26`(darwin-arm64) / `macos-26-intel`(darwin-x64) / `ubuntu-latest`(linux-x64) / `ubuntu-24.04-arm`(linux-arm64) / `windows-2025`(windows-x64). Each platform runs `bun install` + installs Rust, then `packages/miao/script/build.ts --single` builds the host binary (building and embedding the host native addon first) and uploads `miao-<target>.zip|tar.gz` to the draft release.
    - `publish`: after all platforms succeed, `gh release edit --draft=false` publishes the release.
 4. **Assets**: `miao-{darwin-arm64,darwin-x64,linux-x64,linux-arm64,windows-x64}.{zip,tar.gz}`, matching the `install` script and the updater (`Installation.latest` -> `oxdingzg/miao/releases/latest`).
+
+Current Windows binaries are **unsigned**. Users may see an unknown publisher or SmartScreen prompt when downloading or running miao. See [Windows unsigned app warnings](/docs/miao/windows-code-signing/) for details and steps.
 
 ## Changelog
 
