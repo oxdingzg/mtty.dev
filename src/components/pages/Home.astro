@@ -33,10 +33,10 @@ const copy = {
     download: "Download the preview",
     downloadMeta: "macOS · Linux · Windows · preview",
     copyLabel: "Copy command",
-    shotMtty: "mtty with a full-height session sidebar of three tabs, the details panel, and a coloured git log in the active pane.",
-    shotMiao: "miao, having listed every place in packages/core that spawns a subprocess, with its input box below.",
-    capMtty: "mtty, showing its own git history",
-    capMiao: "miao, answering a question about its own code",
+    shotMtty: "mtty example workspace with three sessions, a Markdown editor, live Mermaid preview, a split terminal and the Agent state panel.",
+    shotMiao: "miao demo session showing an edit diff and permission choices: allow once, allow always or reject.",
+    capMtty: "mtty · editor, preview, terminal and agent state",
+    capMiao: "miao · review an edit before allowing it (demo)",
     productsLabel: "the products",
     productsH: "Use either one. They are separate projects.",
     miaoKind: "AI coding agent",
@@ -108,10 +108,10 @@ const copy = {
     download: "下载预览版",
     downloadMeta: "macOS · Linux · Windows · 预览版",
     copyLabel: "复制命令",
-    shotMtty: "mtty 的全高会话侧栏里有三个标签，右侧是详情面板，活动窗格里是一份带颜色的 git 日志。",
-    shotMiao: "miao 列出了 packages/core 中所有启动子进程的位置，下方是输入框。",
-    capMtty: "mtty，展示自己的提交历史",
-    capMiao: "miao，回答关于自身代码的问题",
+    shotMtty: "mtty 示例工作区：三个会话、Markdown 编辑器、实时 Mermaid 预览、分屏终端和 Agent 状态面板。",
+    shotMiao: "miao 演示会话：查看文件修改 diff，选择允许一次、始终允许或拒绝。",
+    capMtty: "mtty · 编辑、预览、终端和 Agent 状态",
+    capMiao: "miao · 审阅修改后再授权（演示）",
     productsLabel: "两个产品",
     productsH: "任选其一，二者是独立的项目。",
     miaoKind: "AI 编程代理",
@@ -222,19 +222,19 @@ const copy = {
 
       <div class="hero-shots rise" style="--i:3">
         <figure class="shot s-miao">
-          <img src="/shots/miao.png" width="1199" height="1150" alt={copy.shotMiao} />
+          <img src="/shots/miao.png" width="1400" height="530" alt={copy.shotMiao} />
           <figcaption><span class="ink-miao">●</span> {copy.capMiao}</figcaption>
         </figure>
         <figure class="shot s-mtty">
           <img
             src="/shots/mtty.png"
-            width="1910"
-            height="920"
+            width="2400"
+            height="1538"
             alt={copy.shotMtty}
             fetchpriority="high"
           />
           <div class="reflection" aria-hidden="true">
-            <img src="/shots/mtty.png" width="1910" height="920" alt="" />
+            <img src="/shots/mtty.png" width="2400" height="1538" alt="" />
           </div>
           <figcaption><span class="ink-mtty">●</span> {copy.capMtty}</figcaption>
         </figure>
@@ -509,7 +509,7 @@ const copy = {
     z-index: 2;
     display: flex;
     flex-direction: column-reverse;
-    width: 62.8%;
+    width: 78%;
     margin-left: auto;
   }
 
@@ -521,7 +521,7 @@ const copy = {
   .s-mtty {
     position: relative;
     z-index: 1;
-    margin-top: -16%;
+    margin-top: -5%;
   }
 
   /* The same capture flipped under itself and faded out: the floor the two
