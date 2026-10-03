@@ -227,13 +227,21 @@ const copy = {
           <a href="/shots/miao.png" target="_blank" rel="noopener noreferrer" aria-label={lang === "zh" ? "查看 miao 完整截图" : "View the full miao screenshot"}>
             <img src="/shots/miao.png" width="2400" height="1413" alt={copy.shotMiao} />
           </a>
-          <figcaption><span class="ink-miao">●</span> {copy.capMiao}</figcaption>
+          <figcaption>
+            <span class="window-brand"><MiaoMark size={15} /><b>miao</b></span>
+            <span class="window-kind">{copy.miaoKind}</span>
+            <span class="window-note">{lang === "zh" ? "示例会话" : "Example session"}</span>
+          </figcaption>
         </figure>
         <figure class="shot s-mtty">
           <a href="/shots/mtty.png" target="_blank" rel="noopener noreferrer" aria-label={lang === "zh" ? "查看 mtty 完整截图" : "View the full mtty screenshot"}>
             <img src="/shots/mtty.png" width="2400" height="1538" alt={copy.shotMtty} loading="lazy" />
           </a>
-          <figcaption><span class="ink-mtty">●</span> {copy.capMtty}</figcaption>
+          <figcaption>
+            <span class="window-brand"><MttyMark size={15} /><b>mtty</b></span>
+            <span class="window-kind">{copy.mttyKind}</span>
+            <span class="window-note" aria-hidden="true">↗</span>
+          </figcaption>
         </figure>
       </div>
     </div>
@@ -489,42 +497,106 @@ const copy = {
     margin-left: auto;
   }
 
-  /* Scale both complete captures to the available first-screen height. */
+  /* A pair of offset windows, with both complete captures in the first screen. */
   .hero-shots {
+    position: relative;
     display: grid;
-    gap: 22px;
+    gap: 20px;
     min-width: 0;
     width: 100%;
-    max-width: calc((100svh - 230px) / 1.23);
+    max-width: calc((100svh - 240px) / 1.23);
     justify-self: end;
+    isolation: isolate;
+  }
+
+  .hero-shots::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    inset: 12% -12% 5%;
+    border-radius: 50%;
+    background: radial-gradient(ellipse at 65% 20%, color-mix(in srgb, var(--miao-accent) 12%, transparent), transparent 60%),
+      radial-gradient(ellipse at 25% 80%, color-mix(in srgb, var(--mtty-accent) 16%, transparent), transparent 65%);
+    filter: blur(32px);
+    pointer-events: none;
   }
 
   .s-miao,
   .s-mtty {
     display: flex;
     flex-direction: column-reverse;
-    width: 100%;
+    width: 94%;
     margin: 0;
+    padding: 0 5px 5px;
+    border: 1px solid var(--border-strong);
+    border-radius: 14px;
+    background: var(--surface);
+    box-shadow: 0 24px 44px -22px rgb(0 0 0 / 0.35), 0 3px 10px -4px rgb(0 0 0 / 0.12);
+    transition: transform 220ms var(--ease), box-shadow 220ms var(--ease);
+  }
+
+  .s-miao {
+    justify-self: end;
+    transform: rotate(1deg);
+  }
+
+  .s-mtty {
+    justify-self: start;
+    transform: rotate(-1deg);
+  }
+
+  .hero-shots .shot:hover,
+  .hero-shots .shot:focus-within {
+    transform: rotate(0deg) translateY(-3px);
+    box-shadow: 0 30px 52px -22px rgb(0 0 0 / 0.4);
   }
 
   .hero-shots a {
     display: block;
-    border-radius: inherit;
+    overflow: hidden;
+    border-radius: 9px;
     cursor: zoom-in;
   }
 
   .hero-shots a:focus-visible {
     outline: 2px solid var(--mtty-accent);
-    outline-offset: 6px;
+    outline-offset: 2px;
   }
 
   .hero-shots img {
-    box-shadow: 0 24px 60px -30px rgb(0 0 0 / 0.5), 0 0 0 1px var(--border-strong);
+    border-radius: 0;
+    box-shadow: none;
   }
 
   .hero-shots figcaption {
-    margin: 0 0 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    height: 36px;
+    margin: 0;
+    padding: 0 8px;
     text-align: left;
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+  }
+
+  .window-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--fg);
+    font-family: var(--font-mono);
+  }
+
+  .window-kind {
+    color: var(--fg-muted);
+  }
+
+  .window-note {
+    margin-left: auto;
+    color: var(--fg-faint);
+    font-size: 0.65rem;
+    white-space: nowrap;
   }
 
   /* --- Products --- */
@@ -959,6 +1031,10 @@ const copy = {
     .badge,
     .pulse {
       animation: none !important;
+    }
+
+    .hero-shots .shot {
+      transition: none;
     }
   }
 
