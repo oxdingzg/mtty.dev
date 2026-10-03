@@ -36,7 +36,7 @@ sidebar:
 - [ ] Windows real-machine VT verification: PowerShell 5.1 legacy console / Windows Terminal / pwsh 7 (the logic is only verified on macOS so far).
 - [ ] `curl -fsSL https://raw.githubusercontent.com/oxdingzg/miao/main/install | bash` installs that release.
 - [ ] `miao upgrade` and the startup update check point at `oxdingzg/miao` and detect the new version.
-- [ ] Native edit/patch paths run by default: confirm the built addon loads on each platform and `MIAO_NATIVE=0` falls back to pure TS, so a release is not affected by the open native PoC risks.
+- [ ] Native addon: confirm the built addon loads on each platform and `MIAO_NATIVE=0` falls back, so the OS sandbox runner and the other native helpers are not affected by the open native PoC risks.
 - [ ] No credentials/secrets committed; no `auth.json` / `.env` in the artifact.
 - [ ] LICENSE and attribution (based on opencode, MIT).
 - [ ] Version matches in all three places: git tag, GitHub release, binary `miao --version`.
@@ -54,4 +54,4 @@ sidebar:
 
 ---
 
-*Synced from [`oxdingzg/miao@a98f5ce`](https://github.com/oxdingzg/miao/blob/a98f5ce4354f8abfda8412e5579cb78a205538c8/docs/release.en.md).*
+*Synced from [`oxdingzg/miao@4d01ae5`](https://github.com/oxdingzg/miao/blob/4d01ae5e2692af438a0be891c52e4d78ec009a1a/docs/release.en.md).*

@@ -79,13 +79,47 @@ export function transform(raw: string, page: DocPage, locale: Locale, sha: strin
   return `${frontmatter}\n\n${convertAlerts(rewritten).trim()}\n\n---\n\n${provenance}\n`
 }
 
-// Three spellings occur across the two languages:
+// The line that cross-links the two language editions, in each spelling the
+// repositories use:
 //   <p align="center"><a href="guide.en.md">English</a> | <a href="guide.zh.md">简体中文</a></p>
 //   **Language:** [English](release.en.md) | [中文](release.zh.md)
 //   **语言 / Language:** [中文](release.zh.md) | [English](release.en.md)
+//   [简体中文](INSTALL.zh-CN.md)          <- miao-term: one bare link, no separator
+// Starlight's own language switcher replaces it, so the line would be a second,
+// dead control. A line qualifies only when every link on it names a language and
+// nothing else substantial sits beside them, so "[See the guide](guide.md)"
+// stays put.
+// Longest first, so 简体中文 is consumed before 中文. The Chinese pages prefix
+// the line with both words ("**语言 / Language:**"), so this strips a run of
+// them rather than matching the whole string.
+const LANGUAGE = /简体中文|繁體中文|中文|语言|english|chinese|language/gi
+
+/** Letters and CJK only, so emphasis markers and separators do not matter. */
+function bareWords(text: string) {
+  return text.replace(/[^A-Za-z一-鿿]/g, "")
+}
+
+/** True when nothing is left once the language words are taken out. */
+function onlyLanguageWords(text: string) {
+  return bareWords(text).replace(LANGUAGE, "") === ""
+}
+
 function isLanguageLink(line: string) {
-  if (!line.includes("English") || !line.includes("|")) return false
-  return line.includes("中文")
+  const links = [
+    ...[...line.matchAll(/\[([^\]]*)\]\([^)]*\)/g)].map((match) => match[1]),
+    ...[...line.matchAll(/<a[^>]*>([^<]*)<\/a>/g)].map((match) => match[1]),
+  ]
+  if (links.length === 0) return false
+  // Every link must name a language, and nothing else may sit beside them —
+  // so "[See the guide](guide.md)" and "[English](a.md) documentation" stay.
+  if (!links.every(onlyLanguageWords)) return false
+
+  return onlyLanguageWords(
+    line
+      .replace(/<a[^>]*>[^<]*<\/a>/g, "") // anchors, text and all
+      .replace(/\[[^\]]*\]\([^)]*\)/g, "") // markdown links
+      .replace(/<[^>]*>/g, ""), // whatever wrapper tags remain
+  )
 }
 
 function splitAnchor(target: string) {

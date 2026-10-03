@@ -12,7 +12,7 @@ miao 尚处于 pre-1.0、活跃开发中，CLI 与配置可能随版本变化。
 
 miao 是一个开源编程代理，提供终端界面、HTTP 服务与浏览器界面。它基于 [opencode](https://github.com/anomalyco/opencode)，把重点放在模型调用周围的工作上：持久化会话、上下文效率、代理协作和可观察的成本。
 
-用它理解仓库、实现改动、排查测试失败，或委派专项调研。连接你偏好的供应商，配置项目工具，并在任务变化时继续补充要求。模型选择与 MCP 延续了上游工作流；miao 的运行时建设与可用范围见 [产品概览](https://github.com/oxdingzg/miao/blob/a98f5ce4354f8abfda8412e5579cb78a205538c8/README.zh.md) 和 [对比说明](/zh/docs/miao/miao-vs-opencode/)。
+用它理解仓库、实现改动、排查测试失败，或委派专项调研。连接你偏好的供应商，配置项目工具，并在任务变化时继续补充要求。模型选择与 MCP 延续了上游工作流；miao 的运行时建设与可用范围见 [产品概览](https://github.com/oxdingzg/miao/blob/4d01ae5e2692af438a0be891c52e4d78ec009a1a/README.zh.md) 和 [对比说明](/zh/docs/miao/miao-vs-opencode/)。
 
 第一次可以这样提需求：「找到这个错误的原因，做出适当的最小修复，运行相关检查，再解释代码差异。」执行过程中继续补充约束，无需另开对话。
 
@@ -166,16 +166,15 @@ miao
 - `formatter: true` 启用后，`edit`/`write`/`apply_patch` 成功后按扩展名跑格式化命令。
 - 侧边栏 LSP 一栏显示服务器连接状态；**改配置后需重启 miao 才生效**。
 
-### 5.6 内核级沙箱（兼容运行时，需开启）
+### 5.6 内核级沙箱（需开启）
 
-沙箱接入位于 `packages/miao/src/tool` 的兼容 Shell 工具。默认 V2 `bash` 工具不经过这个 runner。在受支持的 macOS / Linux 主机上测试兼容 TUI：
+V2 `bash` 工具可以把每条命令放进 OS 沙箱运行：macOS 用 seatbelt，Linux 用 Landlock，Windows 暂无后端。可在配置中开启：
 
-```bash
-MIAO_TUI_V2=0 MIAO_SANDBOX=1 miao
-MIAO_TUI_V2=0 MIAO_SANDBOX=1 MIAO_SANDBOX_DENY_NETWORK=1 miao
+```jsonc
+{ "sandbox": { "mode": "workspace-write", "network": true } }
 ```
 
-打包的后端必须可用。支持的后端限制写入；兼容 Shell 默认允许网络，需要显式禁止。不能由这些环境变量推断 V2 已有内核隔离。可用范围和平台限制见 [接入说明](/zh/docs/miao/miao-vs-opencode/#原生工具与沙箱适用范围)。
+`MIAO_SANDBOX=1`、`MIAO_SANDBOX_DENY_NETWORK=1` 可覆盖配置。`workspace-write` 不限制读取，只允许写入当前 Location、命令工作目录、临时目录、`writable_roots`，以及被拦截后你批准的路径（命令会带该目录重跑）。网络默认允许，可显式禁止。沙箱已开启但主机没有后端时，`on_unavailable` 默认 `"warn"`，命令不带沙箱运行；设为 `"fail"` 则直接拒绝。平台限制见 [接入说明](/zh/docs/miao/miao-vs-opencode/#原生工具与沙箱适用范围)。
 
 ### 5.7 成本与缓存遥测
 
@@ -220,11 +219,11 @@ V2 `list_sessions` 可发现同项目会话，`send_message` 接受会话 ID 或
 
 ## 6. 运行时状态与后续工作
 
-V2 是默认 TUI 运行时，浏览器应用在服务端声明支持时选择 V2。V1 保留用于兼容；TUI 可用 `MIAO_TUI_V2=0` 选择 V1，浏览器可用 `?protocol=v1` 选择 V1。
+所有已发布客户端都使用单一 V2 会话运行时；V1 会话运行时及其 `/session/*` 路由已删除。
 
-- [V1 退役计划](https://github.com/oxdingzg/miao/blob/a98f5ce4354f8abfda8412e5579cb78a205538c8/specs/v2/v1-retirement.md) 跟踪迁移和剩余兼容接口。
-- [会话存储设计](https://github.com/oxdingzg/miao/blob/a98f5ce4354f8abfda8412e5579cb78a205538c8/specs/storage/session-storage-hardening.md) 记录存储方案。可用 `miao db stats`、`miao db vacuum` 和 JSONL 导出检查、维护本地记录。
-- 崩溃后自动执行恢复与集群所有权尚未实现。原生工具和内核沙箱仍是兼容路径能力，见 [可用范围](/zh/docs/miao/miao-vs-opencode/)。
+- [V1 退役计划](https://github.com/oxdingzg/miao/blob/4d01ae5e2692af438a0be891c52e4d78ec009a1a/specs/v2/v1-retirement.md) 记录了删除过程和剩余兼容面（数据库迁移与非会话旧路由）。
+- [会话存储设计](https://github.com/oxdingzg/miao/blob/4d01ae5e2692af438a0be891c52e4d78ec009a1a/specs/storage/session-storage-hardening.md) 记录存储方案。可用 `miao db stats`、`miao db vacuum` 和 JSONL 导出检查、维护本地记录。
+- 崩溃后自动执行恢复与集群所有权尚未实现。OS 沙箱已内置于 V2 `bash` 工具但仍需开启，见 [可用范围](/zh/docs/miao/miao-vs-opencode/)。
 
 ## 7. 常见问题（FAQ）
 
@@ -240,8 +239,8 @@ V2 是默认 TUI 运行时，浏览器应用在服务端声明支持时选择 V2
 **Q：成本显示和账单对不上？**
 让 provider 用本币单价（`providers.<id>.models.<m>.cost` 用本币）；或用 `/currency` 切换显示货币。
 
-**Q：兼容路径的 native（Rust）工具出问题怎么办？**
-用 `MIAO_NATIVE=0` 禁用兼容工具的插件。V2 使用独立实现，详见接入对比。
+**Q：native（Rust）addon 出问题怎么办？**
+用 `MIAO_NATIVE=0` 禁用它。V2 的 edit／patch 是 TypeScript 实现；addon 用于 OS 沙箱 runner。详见[接入对比](/zh/docs/miao/miao-vs-opencode/)。
 
 **Q：能持续推进一个有多个待办的任务吗？**
 用 `loop` 配置（§5.8），或外部循环 `miao run --continue "...continue..."`。
@@ -255,12 +254,13 @@ V2 是默认 TUI 运行时，浏览器应用在服务端声明支持时选择 V2
 miao db path              # 数据库路径
 miao db stats             # 表/事件占用（定位膨胀）
 miao db vacuum            # checkpoint + VACUUM 回收空闲页
-miao db backfill          # 把旧 V1 会话消息转成 V2 投影（幂等、可选）
+miao db backfill          # 把旧 V1 会话消息转成 V2 结构（幂等）
+miao db compact           # backfill 后：删除已退役的 message/part 表及其事件
 miao export <sessionID> --format jsonl   # 导出会话
 MIAO_CONFIG=/path/miao.jsonc miao        # 指定配置
 ```
 
-日志位于 `~/.local/share/miao/log/`。数据库膨胀主要来自 V1 遗留的逐 delta 事件；在 V1 完全退役前，`miao db stats` 可监控，`vacuum` 可回收空闲页。
+日志位于 `~/.local/share/miao/log/`。V2 之前的数据库膨胀主要来自遗留的逐 delta 事件；`miao db stats` 可监控，`miao db compact` 可退役旧表，`vacuum` 可回收空闲页。
 
 ## 9. 开发
 
@@ -274,8 +274,8 @@ bun --cwd packages/miao test
 
 ## 许可证
 
-MIT，详见 [LICENSE](https://github.com/oxdingzg/miao/blob/a98f5ce4354f8abfda8412e5579cb78a205538c8/LICENSE)。
+MIT，详见 [LICENSE](https://github.com/oxdingzg/miao/blob/4d01ae5e2692af438a0be891c52e4d78ec009a1a/LICENSE)。
 
 ---
 
-*Synced from [`oxdingzg/miao@a98f5ce`](https://github.com/oxdingzg/miao/blob/a98f5ce4354f8abfda8412e5579cb78a205538c8/docs/guide.zh.md).*
+*Synced from [`oxdingzg/miao@4d01ae5`](https://github.com/oxdingzg/miao/blob/4d01ae5e2692af438a0be891c52e4d78ec009a1a/docs/guide.zh.md).*
