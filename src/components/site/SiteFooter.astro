@@ -3,8 +3,14 @@ import { prefixFor, type Locale } from "../../i18n/routes"
 
 interface Props {
   lang?: Locale
+  /**
+   * The marketing page this footer sits under: "" for the home page, otherwise
+   * the product slug. miao's fork notice belongs on miao's own page — the home
+   * page is the umbrella page for both products, not a miao page.
+   */
+  product?: string
 }
-const { lang = "en" } = Astro.props
+const { lang = "en", product = "" } = Astro.props
 
 const prefix = prefixFor(lang)
 const en = lang === "en"
@@ -57,18 +63,24 @@ const columns = [
         </div>
       ))
     }
-    <div class="note">
+    <div class="contact">
+      <p class="head">{en ? "contact" : "联系"}</p>
+      <a href="mailto:dingzg@mtty.dev">dingzg@mtty.dev</a>
       {
-        en ? (
-          <p>
-            miao is an independent fork of{" "}
-            <a href="https://github.com/anomalyco/opencode">opencode</a>, which is MIT
-            licensed. This site is not affiliated with or endorsed by that project.
-          </p>
-        ) : (
-          <p>
-            miao 是 <a href="https://github.com/anomalyco/opencode">opencode</a>{" "}
-            的独立分支，后者以 MIT 协议授权。本站与该上游项目无隶属关系，也未获其背书。
+        product === "miao" && (
+          <p class="fork">
+            {en ? (
+              <>
+                miao is an independent fork of{" "}
+                <a href="https://github.com/anomalyco/opencode">opencode</a>, which is MIT
+                licensed. This site is not affiliated with or endorsed by that project.
+              </>
+            ) : (
+              <>
+                miao 是 <a href="https://github.com/anomalyco/opencode">opencode</a>{" "}
+                的独立分支，后者以 MIT 协议授权。本站与该上游项目无隶属关系，也未获其背书。
+              </>
+            )}
           </p>
         )
       }
@@ -96,7 +108,7 @@ const columns = [
     margin-inline: auto;
     padding: 0 var(--gutter);
     display: grid;
-    grid-template-columns: 1.4fr 1fr 1fr 1.6fr;
+    grid-template-columns: 1.4fr 1fr 1fr 1.35fr;
     gap: 40px;
   }
 
@@ -139,13 +151,17 @@ const columns = [
     color: var(--fg);
   }
 
-  .note p {
-    margin: 0;
+  /* miao's fork notice, shown on miao's own page only: fine print under the
+     contact line, divided like the baseline row. */
+  .fork {
+    margin: 20px 0 0;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
     color: var(--fg-faint);
     line-height: 1.6;
   }
 
-  .note a {
+  .fork a {
     text-decoration: underline;
     text-underline-offset: 3px;
   }
@@ -170,7 +186,7 @@ const columns = [
     }
 
     .sign,
-    .note {
+    .contact {
       grid-column: 1 / -1;
     }
   }

@@ -73,7 +73,7 @@ const ogImage = new URL(`/og/${route === "" ? "home" : route}-${lang}.png`, Astr
     <main id="main">
       <slot />
     </main>
-    <SiteFooter lang={lang} />
+    <SiteFooter lang={lang} product={route} />
     <script src="../scripts/site.ts"></script>
   </body>
 </html>
