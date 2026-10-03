@@ -34,9 +34,9 @@ const copy = {
     downloadMeta: "macOS · Linux · Windows · preview",
     copyLabel: "Copy command",
     shotMtty: "mtty example workspace with three sessions, a Markdown editor, live Mermaid preview, a split terminal and the Agent state panel.",
-    shotMiao: "miao demo session showing an edit diff and permission choices: allow once, allow always or reject.",
+    shotMiao: "Full miao example session with task progress, code diffs, file writes, command output, context usage and the modified-files sidebar.",
     capMtty: "mtty · editor, preview, terminal and agent state",
-    capMiao: "miao · review an edit before allowing it (demo)",
+    capMiao: "miao · tasks, changes, tools and context (example session)",
     productsLabel: "the products",
     productsH: "Use either one. They are separate projects.",
     miaoKind: "AI coding agent",
@@ -109,9 +109,9 @@ const copy = {
     downloadMeta: "macOS · Linux · Windows · 预览版",
     copyLabel: "复制命令",
     shotMtty: "mtty 示例工作区：三个会话、Markdown 编辑器、实时 Mermaid 预览、分屏终端和 Agent 状态面板。",
-    shotMiao: "miao 演示会话：查看文件修改 diff，选择允许一次、始终允许或拒绝。",
+    shotMiao: "miao 完整示例会话：任务进度、代码 diff、文件写入、命令输出、上下文用量和右侧修改文件清单。",
     capMtty: "mtty · 编辑、预览、终端和 Agent 状态",
-    capMiao: "miao · 审阅修改后再授权（演示）",
+    capMiao: "miao · 任务、改动、工具与上下文（示例会话）",
     productsLabel: "两个产品",
     productsH: "任选其一，二者是独立的项目。",
     miaoKind: "AI 编程代理",
@@ -178,11 +178,13 @@ const copy = {
     <div class="glow g2" aria-hidden="true"></div>
     <div class="wrap hero-grid">
       <div class="hero-copy">
+        <div class="hero-heading">
         <p class="label rise"><b>{copy.kicker}</b></p>
         <h1 class="display h1 rise" style="--i:1">
           <span class="hl">{copy.h1a}</span>
           <em class="hl accent">{copy.h1b}</em>
         </h1>
+        </div>
 
         <div class="picks rise" style="--i:2">
           <div class="pick">
@@ -222,20 +224,15 @@ const copy = {
 
       <div class="hero-shots rise" style="--i:3">
         <figure class="shot s-miao">
-          <img src="/shots/miao.png" width="1400" height="530" alt={copy.shotMiao} />
+          <a href="/shots/miao.png" target="_blank" rel="noopener noreferrer" aria-label={lang === "zh" ? "查看 miao 完整截图" : "View the full miao screenshot"}>
+            <img src="/shots/miao.png" width="2400" height="1413" alt={copy.shotMiao} />
+          </a>
           <figcaption><span class="ink-miao">●</span> {copy.capMiao}</figcaption>
         </figure>
         <figure class="shot s-mtty">
-          <img
-            src="/shots/mtty.png"
-            width="2400"
-            height="1538"
-            alt={copy.shotMtty}
-            fetchpriority="high"
-          />
-          <div class="reflection" aria-hidden="true">
-            <img src="/shots/mtty.png" width="2400" height="1538" alt="" />
-          </div>
+          <a href="/shots/mtty.png" target="_blank" rel="noopener noreferrer" aria-label={lang === "zh" ? "查看 mtty 完整截图" : "View the full mtty screenshot"}>
+            <img src="/shots/mtty.png" width="2400" height="1538" alt={copy.shotMtty} loading="lazy" />
+          </a>
           <figcaption><span class="ink-mtty">●</span> {copy.capMtty}</figcaption>
         </figure>
       </div>
@@ -408,15 +405,23 @@ const copy = {
     background: var(--mtty-accent);
   }
 
-  /* Copy and actions on the left, the two real captures on the right: the
-     first screen says what each tool is, how to get it, and what it looks
-     like. */
+  /* Keep the introduction compact so both full workspaces get the page width. */
   .hero-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.08fr);
-    gap: 56px;
-    align-items: center;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 40px;
     padding-bottom: 8px;
+  }
+
+  .hero-copy {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.08fr);
+    column-gap: 56px;
+    align-items: start;
+  }
+
+  .hero-copy > .picks {
+    margin-top: 0;
   }
 
   .h1 {
@@ -494,79 +499,39 @@ const copy = {
     margin-left: auto;
   }
 
-  /* The two captures at one scale: miao's window (1199 px wide, 62.8% of
-     mtty's 1910) stands at the top right, in front and shown whole, its
-     caption above it; mtty's wide window lies behind it across the bottom,
-     mirrored below as a fading reflection. Margins in % are of the width,
-     so the composition holds at every size. */
+  /* Full-size, separate captures: neither sidebar is hidden by another image. */
   .hero-shots {
-    display: flow-root;
+    display: grid;
+    gap: 36px;
     min-width: 0;
   }
 
-  .s-miao {
-    position: relative;
-    z-index: 2;
+  .s-miao,
+  .s-mtty {
     display: flex;
     flex-direction: column-reverse;
-    width: 78%;
-    margin-left: auto;
-  }
-
-  .s-miao figcaption {
-    margin-top: 0;
-    margin-bottom: 12px;
-  }
-
-  .s-mtty {
-    position: relative;
-    z-index: 1;
-    margin-top: -5%;
-  }
-
-  /* The same capture flipped under itself and faded out: the floor the two
-     windows stand on. Only a band of it shows (16% of the width, about a
-     third of the image), so it never pushes the page down by a whole image.
-     The mask is in the image's own coordinates, before the flip: opaque at
-     its bottom edge, which the flip puts right under the capture. */
-  .reflection {
-    position: relative;
-    height: 0;
-    padding-bottom: 14%;
-    margin-top: 6px;
-    overflow: hidden;
-    pointer-events: none;
-    user-select: none;
-  }
-
-  .shot .reflection img {
-    position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
-    transform: scaleY(-1);
-    box-shadow: none;
-    opacity: 0.22;
-    mask-image: linear-gradient(to top, rgb(0 0 0 / 0.75), transparent 28%);
-    -webkit-mask-image: linear-gradient(to top, rgb(0 0 0 / 0.75), transparent 28%);
+    margin: 0;
   }
 
-  .s-mtty > img,
-  .s-miao > img {
-    box-shadow: 0 40px 80px -30px rgb(0 0 0 / 0.85), 0 0 0 1px var(--border-strong);
+  .hero-shots a {
+    display: block;
+    border-radius: inherit;
+    cursor: zoom-in;
   }
 
-  :root[data-theme="light"] .s-mtty > img,
-  :root[data-theme="light"] .s-miao > img {
-    box-shadow: 0 34px 64px -30px rgb(40 30 10 / 0.45), 0 0 0 1px var(--border-strong);
+  .hero-shots a:focus-visible {
+    outline: 2px solid var(--mtty-accent);
+    outline-offset: 6px;
   }
 
-  .s-miao figcaption {
-    text-align: right;
+  .hero-shots img {
+    box-shadow: 0 24px 60px -30px rgb(0 0 0 / 0.5), 0 0 0 1px var(--border-strong);
   }
 
-  .s-mtty figcaption {
-    text-align: center;
+  .hero-shots figcaption {
+    margin: 0 0 14px;
+    text-align: left;
   }
 
   /* --- Products --- */
@@ -1005,10 +970,12 @@ const copy = {
   }
 
   @media (max-width: 960px) {
-    .hero-grid {
+    .hero-grid,
+    .hero-copy {
       grid-template-columns: minmax(0, 1fr);
       gap: 40px;
     }
+
 
     .duo,
     .together {
