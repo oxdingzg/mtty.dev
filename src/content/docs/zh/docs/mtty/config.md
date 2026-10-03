@@ -18,7 +18,7 @@ mtty 的配置项全部可选。只有一行的文件就是一份合法配置，
 
 v0.0.5 及之前应用名为 `miaotty`。首次启动时，若 `$XDG_CONFIG_HOME/mtty` 不存在，会把
 `$XDG_CONFIG_HOME/miaotty` 复制过去，并保留旧目录，使更早的版本仍可使用。见
-[应用身份与迁移](https://github.com/oxdingzg/miao-term/blob/52a0984c52daec23794e58a35be42232d758f7b1/docs/APP-IDENTITY.zh-CN.md)。
+[应用身份与迁移](https://github.com/oxdingzg/miao-term/blob/1f9cb378cab3d9f0a3995971a05be22f5917fd05/docs/APP-IDENTITY.zh-CN.md)。
 
 ## 最小配置
 
@@ -66,7 +66,7 @@ palette    = ["#3b4252", "#bf616a", "#a3be8c", "#ebcb8b",
 
 ### 标签徽章
 
-`[badges]` 决定哪些 agent 状态在标签上显示徽章。四项默认全开:
+`[badges]` 决定哪些 agent 状态在标签上显示:状态圆圈(处理中为半圆,完成或等待时为实心,空闲为空心)以及 `!` 或完成标记。关闭某个状态后,处于该状态的标签显示普通终端图标,也不加标记。四项默认全开,系统通知不受影响:
 
 ```toml
 [badges]
@@ -157,8 +157,8 @@ fish 3.7、PowerShell 7.5;Windows 上的 PowerShell 由 CI 运行)。
 
 ## 完整参考
 
-[`config.example.toml`](https://github.com/oxdingzg/miao-term/blob/52a0984c52daec23794e58a35be42232d758f7b1/docs/config.example.toml) 是带注释的完整参考:上面每个键及其默认值都在一个文件里。
+[`config.example.toml`](https://github.com/oxdingzg/miao-term/blob/1f9cb378cab3d9f0a3995971a05be22f5917fd05/docs/config.example.toml) 是带注释的完整参考:上面每个键及其默认值都在一个文件里。
 
 ---
 
-*Synced from [`oxdingzg/miao-term@52a0984`](https://github.com/oxdingzg/miao-term/blob/52a0984c52daec23794e58a35be42232d758f7b1/docs/CONFIG.zh-CN.md).*
+*Synced from [`oxdingzg/miao-term@1f9cb37`](https://github.com/oxdingzg/miao-term/blob/1f9cb378cab3d9f0a3995971a05be22f5917fd05/docs/CONFIG.zh-CN.md).*

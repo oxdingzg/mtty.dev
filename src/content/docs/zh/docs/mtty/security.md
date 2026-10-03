@@ -50,4 +50,4 @@ MTP —— `mtty-cli`，以及任何实现该协议的程序 —— 可以在窗
 
 ---
 
-*Synced from [`oxdingzg/miao-term@52a0984`](https://github.com/oxdingzg/miao-term/blob/52a0984c52daec23794e58a35be42232d758f7b1/SECURITY.zh-CN.md).*
+*Synced from [`oxdingzg/miao-term@1f9cb37`](https://github.com/oxdingzg/miao-term/blob/1f9cb378cab3d9f0a3995971a05be22f5917fd05/SECURITY.zh-CN.md).*

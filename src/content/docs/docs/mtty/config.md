@@ -21,7 +21,7 @@ elsewhere in the documentation live in this directory too.
 Up to v0.0.5 the application was called `miaotty`. On first start,
 `$XDG_CONFIG_HOME/miaotty` is copied to `$XDG_CONFIG_HOME/mtty` when the latter
 does not exist, and the old directory is kept so an older build still works.
-See [identity and migration](https://github.com/oxdingzg/miao-term/blob/52a0984c52daec23794e58a35be42232d758f7b1/docs/APP-IDENTITY.md).
+See [identity and migration](https://github.com/oxdingzg/miao-term/blob/1f9cb378cab3d9f0a3995971a05be22f5917fd05/docs/APP-IDENTITY.md).
 
 ## A minimal configuration
 
@@ -70,8 +70,10 @@ If no mtty configuration exists, ghostty's `config` and alacritty's
 
 ### Badges
 
-`[badges]` chooses which agent states show a tab badge. All four are on by
-default:
+`[badges]` chooses which agent states show on tabs: the state circle (half
+while working, full when finished or waiting, an empty ring when idle) and the
+`!` or finished mark. A state switched off shows the plain terminal icon and no
+mark. All four are on by default; system notifications are not affected:
 
 ```toml
 [badges]
@@ -170,9 +172,9 @@ directory. See [view rules](/docs/mtty/view-rules/).
 
 ## Full reference
 
-[`config.example.toml`](https://github.com/oxdingzg/miao-term/blob/52a0984c52daec23794e58a35be42232d758f7b1/docs/config.example.toml) is the annotated reference: every
+[`config.example.toml`](https://github.com/oxdingzg/miao-term/blob/1f9cb378cab3d9f0a3995971a05be22f5917fd05/docs/config.example.toml) is the annotated reference: every
 key above, with its default, in one file.
 
 ---
 
-*Synced from [`oxdingzg/miao-term@52a0984`](https://github.com/oxdingzg/miao-term/blob/52a0984c52daec23794e58a35be42232d758f7b1/docs/CONFIG.md).*
+*Synced from [`oxdingzg/miao-term@1f9cb37`](https://github.com/oxdingzg/miao-term/blob/1f9cb378cab3d9f0a3995971a05be22f5917fd05/docs/CONFIG.md).*
