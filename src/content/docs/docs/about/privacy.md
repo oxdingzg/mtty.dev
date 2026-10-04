@@ -164,7 +164,7 @@ cargo tree -e normal --prefix none | awk '{print $1}' | sort -u \
 One line: `ureq`, which the Markdown preview uses for remote images — the
 exception noted above, found by this command rather than left out of it. The
 update check does not use it; that is a `curl` subprocess, in `check_updates` in
-[`crates/term-widget/src/lib.rs`](https://github.com/oxdingzg/mtty/blob/main/crates/term-widget/src/lib.rs).
+[`crates/mtty-widget/src/lib.rs`](https://github.com/oxdingzg/mtty/blob/main/crates/mtty-widget/src/lib.rs).
 
 **Does this website track you?**
 
