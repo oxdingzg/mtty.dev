@@ -21,7 +21,7 @@ elsewhere in the documentation live in this directory too.
 Up to v0.0.5 the application was called `miaotty`. On first start,
 `$XDG_CONFIG_HOME/miaotty` is copied to `$XDG_CONFIG_HOME/mtty` when the latter
 does not exist, and the old directory is kept so an older build still works.
-See [identity and migration](https://github.com/oxdingzg/mtty/blob/00e97801b35c5bb4d8d60c26928c310f2e5968b4/docs/APP-IDENTITY.md).
+See [identity and migration](https://github.com/oxdingzg/mtty/blob/b65a3d13ea6c2a3ff8afd59f639e25d4f193b45a/docs/APP-IDENTITY.md).
 
 ## A minimal configuration
 
@@ -210,9 +210,9 @@ directory. See [view rules](/docs/mtty/view-rules/).
 
 ## Full reference
 
-[`config.example.toml`](https://github.com/oxdingzg/mtty/blob/00e97801b35c5bb4d8d60c26928c310f2e5968b4/docs/config.example.toml) is the annotated reference: every
+[`config.example.toml`](https://github.com/oxdingzg/mtty/blob/b65a3d13ea6c2a3ff8afd59f639e25d4f193b45a/docs/config.example.toml) is the annotated reference: every
 key above, with its default, in one file.
 
 ---
 
-*Synced from [`oxdingzg/mtty@00e9780`](https://github.com/oxdingzg/mtty/blob/00e97801b35c5bb4d8d60c26928c310f2e5968b4/docs/CONFIG.md).*
+*Synced from [`oxdingzg/mtty@b65a3d1`](https://github.com/oxdingzg/mtty/blob/b65a3d13ea6c2a3ff8afd59f639e25d4f193b45a/docs/CONFIG.md).*

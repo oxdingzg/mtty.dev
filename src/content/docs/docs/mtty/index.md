@@ -10,13 +10,13 @@ Rust. It stands on three pillars: a GPU-rendered terminal with remote operations
 (host library, SFTP, port forwarding, jump hosts, snippets), an editor (a
 built-in viewer and editor today, a native editor pane in progress), and an
 agent workspace that shows what each AI coding agent is doing and queues work
-for it. Underneath are UI-free engines: `miao-term-core` owns the path from the
-PTY to the screen, and `miao-term-editor` is the editing core.
+for it. Underneath are UI-free engines: `mtty-core` owns the path from the
+PTY to the screen, and `mtty-editor` is the editing core.
 
 The application ships as **`mtty`**, alongside the **`mtty-cli`** control client
 (both were called `miaotty` up to v0.0.5, and an existing `~/.config/miaotty` is
 copied on first start); the source lives in the
-[`miao-term`](https://github.com/oxdingzg/mtty) repository.
+[`mtty`](https://github.com/oxdingzg/mtty) repository.
 
 :::caution[Pre-release]
 The API is not stable yet. macOS is the primary platform; Windows and Linux are
@@ -60,11 +60,11 @@ consumer rather than their owner:
 
 | Crate | What it owns |
 |---|---|
-| `miao-term-widget` | The winit + wgpu host: the render loop, and the egui chrome composited in the same frame |
-| `miao-term-render` | The wgpu + glyphon glyph grid, the quad and image pipelines |
-| `miao-term-core` | The PTY, VT parsing, the grid and scrollback, selection, search, OSC and input encoding |
+| `mtty-widget` | The winit + wgpu host: the render loop, and the egui chrome composited in the same frame |
+| `mtty-render` | The wgpu + glyphon glyph grid, the quad and image pipelines |
+| `mtty-core` | The PTY, VT parsing, the grid and scrollback, selection, search, OSC and input encoding |
 
-`miao-term-editor` is the editing core, and `graphics`, `config`, `mtp` and `ui`
+`mtty-editor` is the editing core, and `graphics`, `config`, `mtp` and `ui`
 sit alongside. The core carries no windowing or GPU code, so it can be embedded
 in something else.
 

@@ -56,9 +56,9 @@ const copy = {
     engineBody: "Dependencies point inward only — host, then renderer, then core — and the core has no windowing or GPU code, so it can be embedded in something else. The app is the engine's first consumer, not its owner.",
     hot: "The hot path takes no locks and allocates nothing per frame.",
     layers: [
-      ["host", "miao-term-widget", "winit + wgpu render loop; composites egui chrome in the same frame"],
-      ["render", "miao-term-render", "wgpu + glyphon glyph grid; quad and image pipelines"],
-      ["core", "miao-term-core", "PTY, VT parsing, grid and scrollback, selection, search, OSC, input encoding"],
+      ["host", "mtty-widget", "winit + wgpu render loop; composites egui chrome in the same frame"],
+      ["render", "mtty-render", "wgpu + glyphon glyph grid; quad and image pipelines"],
+      ["core", "mtty-core", "PTY, VT parsing, grid and scrollback, selection, search, OSC, input encoding"],
     ],
     beside: ["graphics", "config", "mtp", "ui"],
     besideLabel: "alongside",
@@ -172,9 +172,9 @@ const copy = {
     engineBody: "依赖只向内指：宿主 → 渲染 → 内核。内核不含任何窗口或 GPU 代码，因此可以嵌入别的程序。应用是引擎的第一个使用者，而不是它的主人。",
     hot: "热路径不加锁，每帧零分配。",
     layers: [
-      ["host", "miao-term-widget", "winit + wgpu 渲染循环，在同一帧合成 egui 界面"],
-      ["render", "miao-term-render", "wgpu + glyphon 字形网格，四边形与图像管线"],
-      ["core", "miao-term-core", "PTY、VT 解析、网格与回滚、选择、搜索、OSC、输入编码"],
+      ["host", "mtty-widget", "winit + wgpu 渲染循环，在同一帧合成 egui 界面"],
+      ["render", "mtty-render", "wgpu + glyphon 字形网格，四边形与图像管线"],
+      ["core", "mtty-core", "PTY、VT 解析、网格与回滚、选择、搜索、OSC、输入编码"],
     ],
     beside: ["graphics", "config", "mtp", "ui"],
     besideLabel: "并列模块",
@@ -361,7 +361,7 @@ const copy = {
       }
       <div class="beside">
         <span class="tier">{copy.besideLabel}</span>
-        {copy.beside.map((name) => <code>miao-term-{name}</code>)}
+        {copy.beside.map((name) => <code>mtty-{name}</code>)}
       </div>
     </div>
   </section>

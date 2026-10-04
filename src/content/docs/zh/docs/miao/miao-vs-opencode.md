@@ -47,7 +47,7 @@ V2 是唯一的会话运行时，工具位于 `packages/core/src/tool`；V1 兼�
 - **native addon：** `MIAO_NATIVE=0` 可禁用 addon。它为沙箱 runner 和其他原生辅助提供支持，不用于 V2 edit／patch。
 - **进程内 Git：** 已有 `gix` 实现和基准，尚未成为默认 Git 路径。
 
-依赖沙箱前，请阅读 [使用指南](/zh/docs/miao/guide/#56-内核级沙箱需开启) 与 [接入风险](https://github.com/oxdingzg/miao/blob/8120a590512a04e43a292c0501c9109c37696f80/docs/rust-integration-risks.zh.md)。Windows 内核沙箱尚未实现同等能力。
+依赖沙箱前，请阅读 [使用指南](/zh/docs/miao/guide/#56-内核级沙箱需开启) 与 [接入风险](https://github.com/oxdingzg/miao/blob/479665d35b2a65ce9cb864df1e31690c9e30f7d9/docs/rust-integration-risks.zh.md)。Windows 内核沙箱尚未实现同等能力。
 
 ## 边界与后续工作
 
@@ -55,10 +55,10 @@ V2 是唯一的会话运行时，工具位于 `packages/core/src/tool`；V1 兼�
 - 持久化历史与精确提示重试校验，不等于模型执行自动恢复或 Shell 副作用严格只发生一次。
 - 会话执行和消息唤醒限于本进程，不宣传跨机器代理集群。
 - Code Mode 属于实验功能；生成的客户端与内嵌 host 是私有工作区包，契约仍在演进。
-- 消息权限的逐目标策略持久化、接收会话的循环成本计量仍有设计工作，见 [会话消息规格](https://github.com/oxdingzg/miao/blob/8120a590512a04e43a292c0501c9109c37696f80/specs/v2/session-messaging.md)。
+- 消息权限的逐目标策略持久化、接收会话的循环成本计量仍有设计工作，见 [会话消息规格](https://github.com/oxdingzg/miao/blob/479665d35b2a65ce9cb864df1e31690c9e30f7d9/specs/v2/session-messaging.md)。
 
-产品概览见 [README](https://github.com/oxdingzg/miao/blob/8120a590512a04e43a292c0501c9109c37696f80/README.zh.md)，操作方法见 [使用指南](/zh/docs/miao/guide/)，运行时契约见 [CONTEXT.md](https://github.com/oxdingzg/miao/blob/8120a590512a04e43a292c0501c9109c37696f80/CONTEXT.md)。
+产品概览见 [README](https://github.com/oxdingzg/miao/blob/479665d35b2a65ce9cb864df1e31690c9e30f7d9/README.zh.md)，操作方法见 [使用指南](/zh/docs/miao/guide/)，运行时契约见 [CONTEXT.md](https://github.com/oxdingzg/miao/blob/479665d35b2a65ce9cb864df1e31690c9e30f7d9/CONTEXT.md)。
 
 ---
 
-*Synced from [`oxdingzg/miao@8120a59`](https://github.com/oxdingzg/miao/blob/8120a590512a04e43a292c0501c9109c37696f80/docs/miao-vs-opencode.zh.md).*
+*Synced from [`oxdingzg/miao@479665d`](https://github.com/oxdingzg/miao/blob/479665d35b2a65ce9cb864df1e31690c9e30f7d9/docs/miao-vs-opencode.zh.md).*
