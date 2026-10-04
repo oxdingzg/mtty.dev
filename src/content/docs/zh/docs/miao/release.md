@@ -34,9 +34,13 @@ sidebar:
   - 预览某版本区间：`bun script/changelog.ts --from <上一版本> --to HEAD --version <x.y.z> --print`
   - 写入 `CHANGELOG.md`：追加 `--write`
   - 发布时 `script/version.ts` 以 `--to <sha>` 调用它生成 `UPCOMING_CHANGELOG.md`，即 release notes。
+- Release notes **统一用英文，并且始终链接到简体中文镜像**：`docs/releases/<tag>.zh.md`，
+  在第一个标题下以 `[简体中文](https://github.com/oxdingzg/miao/blob/ae1906f67d16ca843e19f36a3dd15fb7e527fe2f/docs/…)` 链接。发布前先写好镜像——缺少镜像时
+  `script/release-notes.ts` 会让发布作业失败。所有 miao 项目（包括 `miao-term`）都遵循同一规则。
 
 ## 发布前检查清单
 
+- [ ] `docs/releases/<x.y.z>.zh.md` 已存在：release 正文链接指向的简体中文镜像。
 - [ ] Windows 真机验证 VT：PowerShell 5.1 老控制台 / Windows Terminal / pwsh 7 各跑一次（目前只在 macOS 上验证了逻辑，未上真机）。
 - [ ] `curl -fsSL https://raw.githubusercontent.com/oxdingzg/miao/main/install | bash` 能装到该 release。
 - [ ] `miao upgrade` 与启动自更新检查指向 `oxdingzg/miao` 且能识别新版本。
@@ -58,4 +62,4 @@ sidebar:
 
 ---
 
-*Synced from [`oxdingzg/miao@388f4cb`](https://github.com/oxdingzg/miao/blob/388f4cb223995da3114b3833aa17bcc00e0f3349/docs/release.zh.md).*
+*Synced from [`oxdingzg/miao@ae1906f`](https://github.com/oxdingzg/miao/blob/ae1906f67d16ca843e19f36a3dd15fb7e527fe2f/docs/release.zh.md).*

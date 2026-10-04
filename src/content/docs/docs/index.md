@@ -13,7 +13,7 @@ A terminal, an editor and an agent workspace in one native window, written in
 Rust. GPU-rendered, held to a performance gate, and aware of what the agent in
 each pane is doing.
 
-[Download the preview](https://github.com/oxdingzg/miao-term/releases/latest) ·
+[Download the preview](https://github.com/oxdingzg/mtty/releases/latest) ·
 macOS · Linux `.deb`/AppImage · Windows MSI · pre-release
 
 | | |
@@ -49,6 +49,6 @@ curl -fsSL https://mtty.dev/miao/install | bash
 ## Reporting a problem
 
 Each project takes issues on GitHub:
-[mtty](https://github.com/oxdingzg/miao-term/issues) ·
+[mtty](https://github.com/oxdingzg/mtty/issues) ·
 [miao](https://github.com/oxdingzg/miao/issues). For anything else, write to
 <contact@mtty.dev>.

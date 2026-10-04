@@ -5,10 +5,10 @@
  * rather than invented:
  *
  *   miao — miao/install, the banner gradient (ANSI 210/209/215/221/226)
- *   mtty — miao-term/scripts/make-icon.py, the app icon (Nord0/Nord8/Nord13)
+ *   mtty — mtty/scripts/make-icon.py, the app icon (Nord0/Nord8/Nord13)
  *
  * Type: Instrument Serif for display, Instrument Sans for running text, and
- * JetBrains Mono — the terminal's own default face (miao-term
+ * JetBrains Mono — the terminal's own default face (mtty
  * docs/config.example.toml) — for everything that is a command or a name.
  * Chinese falls back to a serif for headings and the system sans for text, so
  * the two scripts keep the same contrast between display and body.

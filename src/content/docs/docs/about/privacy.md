@@ -145,7 +145,7 @@ what any host or CDN sees — the IP address and user agent of the request.
 ## Check it yourself
 
 These are the commands behind the claims above. The first two run in a clone of
-`miao-term`; the last two need nothing but a terminal.
+`mtty`; the last two need nothing but a terminal.
 
 **Is there anything in mtty that reports on you?**
 
@@ -164,7 +164,7 @@ cargo tree -e normal --prefix none | awk '{print $1}' | sort -u \
 One line: `ureq`, which the Markdown preview uses for remote images — the
 exception noted above, found by this command rather than left out of it. The
 update check does not use it; that is a `curl` subprocess, in `check_updates` in
-[`crates/term-widget/src/lib.rs`](https://github.com/oxdingzg/miao-term/blob/main/crates/term-widget/src/lib.rs).
+[`crates/term-widget/src/lib.rs`](https://github.com/oxdingzg/mtty/blob/main/crates/term-widget/src/lib.rs).
 
 **Does this website track you?**
 
@@ -184,9 +184,9 @@ be believed: publishing the code is what makes that unnecessary.
 
 Questions, or something here that does not match what you observe: write to
 <contact@mtty.dev>, or open an issue on
-[mtty](https://github.com/oxdingzg/miao-term/issues) or
+[mtty](https://github.com/oxdingzg/mtty/issues) or
 [miao](https://github.com/oxdingzg/miao/issues).
 
 *Last updated: 2026-10-03. This page describes code, so it changes when that
 code does — the review dates for individual claims are in
-[the licence and dependency policy](https://github.com/oxdingzg/miao-term/blob/main/docs/decisions/0006-license-policy.md).*
+[the licence and dependency policy](https://github.com/oxdingzg/mtty/blob/main/docs/decisions/0006-license-policy.md).*

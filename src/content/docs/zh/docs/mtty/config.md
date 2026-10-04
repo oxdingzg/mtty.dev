@@ -18,14 +18,14 @@ mtty 的配置项全部可选。只有一行的文件就是一份合法配置，
 
 v0.0.5 及之前应用名为 `miaotty`。首次启动时，若 `$XDG_CONFIG_HOME/mtty` 不存在，会把
 `$XDG_CONFIG_HOME/miaotty` 复制过去，并保留旧目录，使更早的版本仍可使用。见
-[应用身份与迁移](https://github.com/oxdingzg/miao-term/blob/941c7c2ab6c91b281fd689425e23c4380a7520c4/docs/APP-IDENTITY.zh-CN.md)。
+[应用身份与迁移](https://github.com/oxdingzg/mtty/blob/00e97801b35c5bb4d8d60c26928c310f2e5968b4/docs/APP-IDENTITY.zh-CN.md)。
 
 ## 最小配置
 
 ```toml
 font-size   = 13                 # 默认 13
 font-family = "JetBrains Mono"   # 默认;回退到系统等宽字体
-theme       = "nord"             # nord | dracula | gruvbox | solarized | tokyo-night
+theme       = "nord"             # nord | dracula | gruvbox | mtty | solarized | tokyo-night
 
 [colors]                          # 显式配色会覆盖命名主题
 background = "#2e3440"
@@ -60,13 +60,27 @@ palette    = ["#3b4252", "#bf616a", "#a3be8c", "#ebcb8b",
 | `graphics` | `true` | 内联终端图像(Sixel / Kitty / iTerm2) |
 | `remote-listen` | — | 用 TCP 暴露 MTP 控制面，如 `127.0.0.1:7273`(需 `MTTY_MTP_TOKEN`) |
 | `language` | — | 界面语言，`en` 或 `zh`;也会读取 `$LANG` |
+| `update-auto-check` | `true` | 启动时检查一次更新；设为 `false` 则在你主动查之前不发任何请求 |
 | `update-pubkey` | — | minisign 公钥;启用签名校验 |
 | `update-check-url` | 项目自己的清单 | 更新检查去哪里取；见下文 |
 | `theme` | — | 内置命名主题，会被显式的 `[colors]` 覆盖 |
 
+### 主题
+
+`theme` 按名称选择内置调色板，不区分大小写。**Nord** 仍为默认值。
+
+```toml
+theme = "mtty"   # nord | dracula | gruvbox | mtty
+```
+
+预设为 Nord、Dracula、Gruvbox 与 mtty。mtty 是航海蓝(navy)工作区配色;
+与前三个不同，它会连带周围的界面外壳——窗口、卡片与侧栏——一并跟随该预设，
+而非保持中性的深色外壳。此外也接受命名主题 `solarized`/`solarized-dark` 与
+`tokyo-night`/`tokyonight`，显式的 `[colors]` 块会覆盖所选主题。
+
 ### 标签徽章
 
-`[badges]` 决定哪些 agent 状态在标签上显示:状态圆圈(处理中为半圆,完成或等待时为实心,空闲为空心)以及 `!` 或完成标记。关闭某个状态后,处于该状态的标签显示普通终端图标,也不加标记。四项默认全开,系统通知不受影响:
+`[badges]` 决定哪些 agent 状态在标签上显示:状态标记——空闲为空心圆圈,执行中为旋转的圆弧,等待你时为带实心圆心的圆环,完成(绿)或失败(红)为实心圆——以及 `!` 或完成标记。关闭某个状态后,处于该状态的标签显示普通终端图标,也不加标记。四项默认全开,系统通知不受影响:
 
 ```toml
 [badges]
@@ -128,8 +142,9 @@ ACP 读文件会优先读取编辑器中的未保存内容。写文件会打开�
 
 ### 更新检查
 
-**你不主动查，它就一个请求都不发。** mtty 启动时不做任何请求;检查由菜单里的「Check for Updates」
-发起，以及更新对话框在失败后提供的重试按钮。发起时就是一条普通的 `curl`:
+**启动时检查一次，之后只在你主动查时检查。** mtty 启动时会静默检查一次(设
+`update-auto-check = false` 可跳过，则完全不发请求);有新版本时在状态栏提示。菜单里的
+「Check for Updates」以及更新对话框失败后的重试按钮按需检查。检查就是一条普通的 `curl`:
 
 ```sh
 curl -fsSL --max-time 8 <update-check-url>
@@ -171,8 +186,8 @@ fish 3.7、PowerShell 7.5;Windows 上的 PowerShell 由 CI 运行)。
 
 ## 完整参考
 
-[`config.example.toml`](https://github.com/oxdingzg/miao-term/blob/941c7c2ab6c91b281fd689425e23c4380a7520c4/docs/config.example.toml) 是带注释的完整参考:上面每个键及其默认值都在一个文件里。
+[`config.example.toml`](https://github.com/oxdingzg/mtty/blob/00e97801b35c5bb4d8d60c26928c310f2e5968b4/docs/config.example.toml) 是带注释的完整参考:上面每个键及其默认值都在一个文件里。
 
 ---
 
-*Synced from [`oxdingzg/miao-term@941c7c2`](https://github.com/oxdingzg/miao-term/blob/941c7c2ab6c91b281fd689425e23c4380a7520c4/docs/CONFIG.zh-CN.md).*
+*Synced from [`oxdingzg/mtty@00e9780`](https://github.com/oxdingzg/mtty/blob/00e97801b35c5bb4d8d60c26928c310f2e5968b4/docs/CONFIG.zh-CN.md).*

@@ -1,7 +1,7 @@
 ---
-// The mtty product page, in both languages. Claims follow the miao-term README,
+// The mtty product page, in both languages. Claims follow the mtty README,
 // docs/PERFORMANCE.md and docs/INSTALL.md. The application ships as `mtty`
-// from the miao-term repository.
+// from the mtty repository.
 import MarketingLayout from "../../layouts/MarketingLayout.astro"
 import MttyMark from "../site/MttyMark.astro"
 import ProductMedia from "../site/ProductMedia.astro"
@@ -13,7 +13,7 @@ interface Props {
 const { lang } = Astro.props
 const prefix = prefixFor(lang)
 
-const REPO = "https://github.com/oxdingzg/miao-term"
+const REPO = "https://github.com/oxdingzg/mtty"
 const RELEASES = `${REPO}/releases/latest`
 
 const copy = {
@@ -25,7 +25,7 @@ const copy = {
     h1a: "An AI-native terminal and editor,",
     h1b: "for local and remote work.",
     lede: "Terminals, files, remote hosts and your AI coding agents in one fast, native window — the same tabs and splits for all of them. Written in Rust, GPU-rendered, held to a performance gate. No account, no forced cloud: mtty hosts the agents you choose and never calls a model itself.",
-    naming: "The application ships as <code>mtty</code> (called <code>miaotty</code> up to v0.0.5); the source lives in <code>miao-term</code>.",
+    naming: "The application ships as <code>mtty</code> (called <code>miaotty</code> up to v0.0.5); the source lives in <code>mtty</code>.",
     download: "Download the preview",
     build: "Build from source",
     pkgs: [
@@ -141,7 +141,7 @@ const copy = {
     h1a: "AI 原生的终端与编辑器，",
     h1b: "本地与远程同样顺手。",
     lede: "终端、文件、远程主机和你的 AI 编程代理，放进同一个快速的原生窗口，共用同一套标签与分屏。用 Rust 编写，GPU 渲染，由性能门把关。不需要账号，不强制上云：mtty 托管你选择的代理，自己从不调用模型。",
-    naming: "应用以 <code>mtty</code> 的名字发布（v0.0.5 及之前名为 <code>miaotty</code>），源码在 <code>miao-term</code> 仓库。",
+    naming: "应用以 <code>mtty</code> 的名字发布（v0.0.5 及之前名为 <code>miaotty</code>），源码在 <code>mtty</code> 仓库。",
     download: "下载预览版",
     build: "从源码构建",
     pkgs: [
@@ -499,7 +499,7 @@ const copy = {
       <a class="btn" href={`${prefix}/docs/mtty/`}>{copy.docs} <span class="arrow">→</span></a>
     </div>
     <p class="fine src">{copy.srcLabel}</p>
-    <pre class="codeblock mtty"><code><span class="p">$ </span>git clone https://github.com/oxdingzg/miao-term.git && cd miao-term
+    <pre class="codeblock mtty"><code><span class="p">$ </span>git clone https://github.com/oxdingzg/mtty.git && cd mtty
 <span class="p">$ </span>cargo run --release -p mtty-app</code></pre>
   </section>
 </MarketingLayout>

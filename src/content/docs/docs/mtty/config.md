@@ -21,14 +21,14 @@ elsewhere in the documentation live in this directory too.
 Up to v0.0.5 the application was called `miaotty`. On first start,
 `$XDG_CONFIG_HOME/miaotty` is copied to `$XDG_CONFIG_HOME/mtty` when the latter
 does not exist, and the old directory is kept so an older build still works.
-See [identity and migration](https://github.com/oxdingzg/miao-term/blob/941c7c2ab6c91b281fd689425e23c4380a7520c4/docs/APP-IDENTITY.md).
+See [identity and migration](https://github.com/oxdingzg/mtty/blob/00e97801b35c5bb4d8d60c26928c310f2e5968b4/docs/APP-IDENTITY.md).
 
 ## A minimal configuration
 
 ```toml
 font-size   = 13                 # default 13
 font-family = "JetBrains Mono"   # default; falls back to the system monospace
-theme       = "nord"             # nord | dracula | gruvbox | solarized | tokyo-night
+theme       = "nord"             # nord | dracula | gruvbox | mtty | solarized | tokyo-night
 
 [colors]                          # explicit colors override the named theme
 background = "#2e3440"
@@ -64,16 +64,34 @@ If no mtty configuration exists, ghostty's `config` and alacritty's
 | `graphics` | `true` | Inline terminal graphics (Sixel / Kitty / iTerm2) |
 | `remote-listen` | — | Serve the MTP control plane over TCP, e.g. `127.0.0.1:7273` (needs `MTTY_MTP_TOKEN`) |
 | `language` | — | UI language, `en` or `zh`; `$LANG` is read as well |
+| `update-auto-check` | `true` | Check for updates once on startup; `false` makes no request until you ask |
 | `update-pubkey` | — | minisign public key; enables signature checks |
 | `update-check-url` | the project's own manifest | Where an update check looks; see below |
 | `theme` | — | A built-in named theme, overridden by an explicit `[colors]` |
 
+### Themes
+
+`theme` names a built-in palette, case-insensitively. **Nord** remains the
+default.
+
+```toml
+theme = "mtty"   # nord | dracula | gruvbox | mtty
+```
+
+The presets are Nord, Dracula, Gruvbox and mtty. mtty is a navy
+workspace palette; unlike the other three, its surrounding chrome — the window,
+cards and sidebars — follows the preset instead of the neutral dark chrome. The
+named themes `solarized`/`solarized-dark` and `tokyo-night`/`tokyonight` are
+accepted too, and an explicit `[colors]` block overrides any named theme.
+
 ### Badges
 
-`[badges]` chooses which agent states show on tabs: the state circle (half
-while working, full when finished or waiting, an empty ring when idle) and the
-`!` or finished mark. A state switched off shows the plain terminal icon and no
-mark. All four are on by default; system notifications are not affected:
+`[badges]` chooses which agent states show on tabs: the state marker — an empty
+ring when idle, a rotating arc while executing, a ring with a solid core when
+waiting for you, and a solid disc when a turn finished (green) or failed (red)
+— plus the `!` or finished mark. A state switched off shows the plain terminal
+icon and no mark. All four are on by default; system notifications are not
+affected:
 
 ```toml
 [badges]
@@ -140,9 +158,11 @@ appears in the ACP window.
 
 ### Update checks
 
-**Nothing is fetched until you ask.** mtty makes no request at startup; the
-check runs from the menu's *Check for Updates*, and from the retry button in
-the update dialog after a failure. When it runs, it is a single plain `curl`:
+**One check on startup, then only when you ask.** mtty runs a single silent
+check on startup — set `update-auto-check = false` to skip it and make no
+request at all; a newer version is then shown in the status line. The menu's
+*Check for Updates* and the retry button in the update dialog after a failure
+check on demand. A check is a single plain `curl`:
 
 ```sh
 curl -fsSL --max-time 8 <update-check-url>
@@ -190,9 +210,9 @@ directory. See [view rules](/docs/mtty/view-rules/).
 
 ## Full reference
 
-[`config.example.toml`](https://github.com/oxdingzg/miao-term/blob/941c7c2ab6c91b281fd689425e23c4380a7520c4/docs/config.example.toml) is the annotated reference: every
+[`config.example.toml`](https://github.com/oxdingzg/mtty/blob/00e97801b35c5bb4d8d60c26928c310f2e5968b4/docs/config.example.toml) is the annotated reference: every
 key above, with its default, in one file.
 
 ---
 
-*Synced from [`oxdingzg/miao-term@941c7c2`](https://github.com/oxdingzg/miao-term/blob/941c7c2ab6c91b281fd689425e23c4380a7520c4/docs/CONFIG.md).*
+*Synced from [`oxdingzg/mtty@00e9780`](https://github.com/oxdingzg/mtty/blob/00e97801b35c5bb4d8d60c26928c310f2e5968b4/docs/CONFIG.md).*

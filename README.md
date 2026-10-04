@@ -5,7 +5,7 @@ Source for **[mtty.dev](https://mtty.dev)**, the site that documents two product
 | Product | What it is | Repository |
 | --- | --- | --- |
 | **miao** | An open-source AI coding agent for the terminal | [oxdingzg/miao](https://github.com/oxdingzg/miao) |
-| **mtty** | A fast, embeddable, cross-platform terminal emulator written in Rust | [oxdingzg/miao-term](https://github.com/oxdingzg/miao-term) |
+| **mtty** | A fast, embeddable, cross-platform terminal emulator written in Rust | [oxdingzg/mtty](https://github.com/oxdingzg/mtty) |
 
 The two are separate projects; each works without the other. Inside an mtty pane, miao
 reports its state (working, waiting, done, error) to mtty, which badges the pane, notifies

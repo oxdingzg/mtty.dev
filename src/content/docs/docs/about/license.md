@@ -10,7 +10,7 @@ build it, change it and redistribute it.
 ## mtty — Apache License 2.0
 
 The full text is the repository's
-[`LICENSE`](https://github.com/oxdingzg/miao-term/blob/main/LICENSE).
+[`LICENSE`](https://github.com/oxdingzg/mtty/blob/main/LICENSE).
 
 Apache-2.0 lets you use, modify and redistribute mtty, including commercially.
 In return it asks that you keep the licence and any notices with the software,
@@ -33,15 +33,15 @@ Four that are easy to miss:
   keeps its own file and licence: JetBrains Mono (SIL Open Font License 1.1,
   modified — Noto Sans symbols merged in for glyph coverage), Symbols Nerd Font
   (MIT) and a Tabler Icons subset (MIT). The table is in
-  [`assets/fonts/README.md`](https://github.com/oxdingzg/miao-term/blob/main/assets/fonts/README.md).
+  [`assets/fonts/README.md`](https://github.com/oxdingzg/mtty/blob/main/assets/fonts/README.md).
 - **Two crates are vendored with local patches**, each keeping its upstream
   licence: `muda` (Apache-2.0 OR MIT) and `egui_commonmark` (MIT OR Apache-2.0).
 - **Syntax definitions vendored from [bat](https://github.com/sharkdp/bat)** keep
   an individual licence and source note each; the per-syntax table is
-  [`docs/third-party/SYNTAXES.md`](https://github.com/oxdingzg/miao-term/blob/main/docs/third-party/SYNTAXES.md).
+  [`docs/third-party/SYNTAXES.md`](https://github.com/oxdingzg/mtty/blob/main/docs/third-party/SYNTAXES.md).
 - **Everything else is a dependency**, listed in the workspace's `Cargo.toml`
   files, under a licence from an allow-list the project records in
-  [ADR 0006](https://github.com/oxdingzg/miao-term/blob/main/docs/decisions/0006-license-policy.md):
+  [ADR 0006](https://github.com/oxdingzg/mtty/blob/main/docs/decisions/0006-license-policy.md):
   MIT, Apache-2.0, BSD, ISC, Zlib, 0BSD, CC0-1.0, Unicode-3.0 and OFL-1.1.
 
 ## This site

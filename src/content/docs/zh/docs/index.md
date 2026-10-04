@@ -11,7 +11,7 @@ description: mtty（AI 原生终端与编辑器）与 miao（AI 编程代理）�
 终端、编辑器与代理工作台，同在一个原生窗口里，用 Rust 编写。GPU 渲染，由性能门把关，并且知道每个
 窗格里的代理在做什么。
 
-[下载预览版](https://github.com/oxdingzg/miao-term/releases/latest) ·
+[下载预览版](https://github.com/oxdingzg/mtty/releases/latest) ·
 macOS · Linux `.deb`/AppImage · Windows MSI · 预发布
 
 | | |
@@ -45,5 +45,5 @@ curl -fsSL https://mtty.dev/miao/install | bash
 ## 报告问题
 
 两个项目都在 GitHub 上接收 issue:
-[mtty](https://github.com/oxdingzg/miao-term/issues) ·
+[mtty](https://github.com/oxdingzg/mtty/issues) ·
 [miao](https://github.com/oxdingzg/miao/issues)。其他事情请写信到 <contact@mtty.dev>。
