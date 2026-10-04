@@ -3,6 +3,7 @@ name: deploy
 on:
   push:
     branches: [main]
+  pull_request:
   workflow_dispatch:
 
 concurrency:
@@ -14,10 +15,9 @@ permissions:
 
 jobs:
   deploy:
-    # Gated on the Cloudflare account variable so that a repository without
-    # credentials yet skips instead of failing on every push. Set
-    # CLOUDFLARE_ACCOUNT_ID (variable) and CLOUDFLARE_API_TOKEN (secret) to arm it.
-    if: ${{ vars.CLOUDFLARE_ACCOUNT_ID != '' }}
+    # Validate PRs without deployment credentials. Push/dispatch publication
+    # stays gated on the configured Cloudflare account.
+    if: ${{ github.event_name == 'pull_request' || vars.CLOUDFLARE_ACCOUNT_ID != '' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -48,6 +48,7 @@ jobs:
       - run: bun run build
 
       - uses: cloudflare/wrangler-action@v3
+        if: github.event_name != 'pull_request'
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}

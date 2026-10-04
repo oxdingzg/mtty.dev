@@ -6,20 +6,53 @@ sidebar:
 
 miao builds on opencode's open-source coding workflow and invests in context efficiency, session control, and measurable operating cost. This page describes the fork's engineering work and its recorded baseline measurements. It is **not an audit of the current upstream product**, and shared capabilities such as model selection, MCP, and subagents are not claimed as exclusive to miao.
 
+**Status as of 2026-10-04:** the latest official release is **v0.1.4**. This page separates released
+behavior from newer changes merged into `main`. A source or preview build may still print the same
+version number; its commit and build provenance determine which fixes it contains.
+
 ## What changes the daily workflow
 
-| Area                      | miao's implementation                                                                        | Practical value                                                             | Availability                         |
-| ------------------------- | -------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- | ------------------------------------ |
-| Input during execution    | Durable admission; steer at safe provider-turn boundaries; explicit queue at idle boundaries | Add constraints while work continues, with a recorded pending input         | V2                                   |
-| Session collaboration     | `task`, resumable child sessions, project-scoped `list_sessions` / `send_message`            | Delegate focused work and exchange findings across conversations            | V2; messaging subject to permissions |
-| Context stability         | Immutable Context Epoch baseline; chronological context updates                              | Reduce unnecessary changes to a reusable provider-cache prefix              | V2                                   |
-| Cost and cache visibility | Per-turn usage, estimated cost, TTFT, cache-hit ratio and cache-state classification         | Diagnose expensive or slow turns with measurements                          | Implemented                          |
-| Context controls          | Output bounding, optional pruning, compaction settings and cache TTL                         | Keep large tool results and long histories from consuming context unchecked | V2; advanced settings opt-in         |
-| Long-task continuation    | Todo-driven loop with iteration / stall guards and optional cost budget                      | Continue multi-step work without a new prompt after every idle boundary     | V2, opt-in                           |
-| Durable history           | Stored inbox and event-backed history; fork and export                                       | Keep inspectable conversations beyond a terminal's lifetime                 | V2; no automatic crash continuation  |
-| Independent distribution  | Own release source and versioning; separate release, source, and preview commands            | Validate development builds while keeping the daily command usable          | Implemented                          |
+| Area                        | miao's implementation                                                                        | Practical value                                                             | Availability                              |
+| --------------------------- | -------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- | ----------------------------------------- |
+| Input during execution      | Durable admission; steer at safe provider-turn boundaries; explicit queue at idle boundaries | Add constraints while work continues, with a recorded pending input         | V2                                        |
+| Session collaboration       | `task`, resumable child sessions, project-scoped `list_sessions` / `send_message`            | Delegate focused work and exchange findings across conversations            | V2; messaging subject to permissions      |
+| Context stability           | Immutable Context Epoch baseline; chronological context updates                              | Reduce unnecessary changes to a reusable provider-cache prefix              | V2                                        |
+| Cost and cache visibility   | Per-turn usage, estimated cost, TTFT, cache-hit ratio and cache-state classification         | Diagnose expensive or slow turns with measurements                          | Implemented                               |
+| Context controls            | Output bounding, optional pruning, compaction settings and cache TTL                         | Keep large tool results and long histories from consuming context unchecked | V2; advanced settings opt-in              |
+| Long-task continuation      | Todo-driven loop with iteration / stall guards and optional cost budget                      | Continue multi-step work without a new prompt after every idle boundary     | V2, opt-in                                |
+| Durable history             | Stored inbox and event-backed history; fork and export                                       | Keep inspectable conversations beyond a terminal's lifetime                 | V2; no automatic crash continuation       |
+| Independent distribution    | Own release source and versioning; separate release, source, and preview commands            | Validate development builds while keeping the daily command usable          | Implemented                               |
+| Transcript updates          | Incremental durable-event application and viewport-windowed rendering                        | Reduce full-history reloads and off-screen rendering work                   | Released in v0.1.4                        |
+| Pending-input recovery      | Read durable queued inputs even when another process admitted them without a live event      | Recover visible pending work across processes                               | Released; v0.1.4 binary verified on Linux |
+| Provider failure visibility | Visible final errors and bounded retry status                                                | Distinguish a failed request from an apparently idle agent                  | Released in v0.1.4                        |
 
 Estimated costs depend on configured model rates and currency metadata. Budget checks stop further scheduling once the threshold is reached; they do not cap a request already in flight or replace provider billing. Prompt caching depends on the provider and workload, so there is no guaranteed task-level savings percentage.
+
+## Newer source changes and planned work
+
+The following are merged into `main` **after v0.1.4**, but are not yet part of an official release:
+
+| Area                 | Merged implementation                                                                                                                                  | Evidence and boundary                                                                      |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ |
+| Stream consistency   | Reconcile queued stream text with history snapshots; protect live todos from stale full-sync snapshots                                                 | Regression coverage for duplicate text and reverted live updates (#45, #42)                |
+| Session lifecycle    | Release deleted Sessions' history caches and older TUI transcript state                                                                                | Regression coverage for cleanup (#31, #32); not a general memory-leak claim                |
+| Request recovery     | Classify transient connection and timeout failures for bounded retry                                                                                   | Real dropped-TCP-connection regression (#47); published output is not replayed             |
+| Repetitive output    | Stop high-confidence short-prose loops in text/reasoning; neutralize their provider-facing history without deleting durable records or completed tools | Per-stream isolation and no-replay regressions (#53); not a proven provider/model root fix |
+| Read-path efficiency | Cache immutable blob encodings, skip no-op projection writes and legacy reads for fully projected Sessions, page durable event tails                   | Focused implementation and regressions (#48–#52); no new end-to-end speedup percentage     |
+| Project architecture | Core-owned project persistence and removal of the old miao Project facade                                                                              | Completed migration and lifecycle regressions (#35, #36, #46)                              |
+
+The repetitive-output investigation found simultaneous normal sessions on the same provider/model,
+including sessions with larger reported input sizes. Length alone does not explain that failure.
+The initial guard recognizes short newline-delimited prose loops; it does not detect every form of
+repetition. See the [investigation and limits](https://github.com/oxdingzg/miao/blob/efb8c006289808476296c0b3b6b336011d96d604/docs/provider-output-repetition.en.md).
+
+Background jobs integrated with V2 tools, post-crash automatic continuation, MCP progressive tool
+discovery, blob garbage collection, and sandbox coverage beyond bash remain planned or incomplete.
+They are not advertised as available features. Track current work in the [roadmap](https://github.com/oxdingzg/miao/blob/efb8c006289808476296c0b3b6b336011d96d604/docs/roadmap.md).
+
+The recent transcript, cache, and read-path improvements have regression evidence, but there is no
+controlled before/after result proving a task-level speedup over current upstream opencode or a
+specific memory reduction. The benchmarks below are historical measurements of a different scope.
 
 ## Recorded native benchmarks
 
@@ -47,18 +80,18 @@ V2 is the only session runtime. Its tools live in `packages/core/src/tool`; the 
 - **Native addon:** `MIAO_NATIVE=0` disables the addon. It backs the sandbox runner and other native helpers; it is not used for V2 edit/patch.
 - **In-process Git:** the `gix` implementation and benchmarks exist, but it is not the default Git path.
 
-Read the [guide](/docs/miao/guide/#56-kernel-level-sandbox-opt-in) and [integration risks](https://github.com/oxdingzg/miao/blob/479665d35b2a65ce9cb864df1e31690c9e30f7d9/docs/rust-integration-risks.en.md) before relying on the sandbox. Windows kernel sandbox parity is not implemented.
+Read the [guide](/docs/miao/guide/#56-kernel-level-sandbox-opt-in) and [integration risks](https://github.com/oxdingzg/miao/blob/efb8c006289808476296c0b3b6b336011d96d604/docs/rust-integration-risks.en.md) before relying on the sandbox. Windows kernel sandbox parity is not implemented.
 
 ## Boundaries and ongoing work
 
-- The V1 session runtime and its `/session/*` routes have been removed; all shipped clients run V2. Database migration and non-session legacy routes remain.
+- The V1 session runtime and its `/session/*` routes have been removed; all shipped clients run V2. Legacy database/configuration readers remain for compatibility; unprefixed non-session legacy routes have also been removed.
 - Durable history and exact prompt retry reconciliation do not mean automatic recovery of interrupted provider execution or exactly-once shell side effects.
 - Session execution and messaging wakes remain process-local; no cross-machine agent cluster is advertised.
 - Code Mode is experimental. Generated clients and the embedded host are private workspace packages with evolving contracts.
-- Per-target messaging policy persistence and receiving-drain loop accounting still have open design work; see [session messaging](https://github.com/oxdingzg/miao/blob/479665d35b2a65ce9cb864df1e31690c9e30f7d9/specs/v2/session-messaging.md).
+- Per-target messaging policy persistence and receiving-drain loop accounting still have open design work; see [session messaging](https://github.com/oxdingzg/miao/blob/efb8c006289808476296c0b3b6b336011d96d604/specs/v2/session-messaging.md).
 
-See [README](https://github.com/oxdingzg/miao/blob/479665d35b2a65ce9cb864df1e31690c9e30f7d9/README.md) for the product overview, [the guide](/docs/miao/guide/) for usage, and [CONTEXT.md](https://github.com/oxdingzg/miao/blob/479665d35b2a65ce9cb864df1e31690c9e30f7d9/CONTEXT.md) for runtime contracts.
+See [README](https://github.com/oxdingzg/miao/blob/efb8c006289808476296c0b3b6b336011d96d604/README.md) for the product overview, [the guide](/docs/miao/guide/) for usage, and [CONTEXT.md](https://github.com/oxdingzg/miao/blob/efb8c006289808476296c0b3b6b336011d96d604/CONTEXT.md) for runtime contracts.
 
 ---
 
-*Synced from [`oxdingzg/miao@479665d`](https://github.com/oxdingzg/miao/blob/479665d35b2a65ce9cb864df1e31690c9e30f7d9/docs/miao-vs-opencode.en.md).*
+*Synced from [`oxdingzg/miao@efb8c00`](https://github.com/oxdingzg/miao/blob/efb8c006289808476296c0b3b6b336011d96d604/docs/miao-vs-opencode.en.md).*
