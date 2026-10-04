@@ -14,8 +14,8 @@ sidebar:
 
 ## 发布流程
 
-1. **确认 main 是绿的**：`bun typecheck`、对应包的 `bun test`，以及原生 CI `.github/workflows/native.yml`。发布前用 `./script/install-local.sh` 构建并冒烟测试 `miao-preview`。
-2. **触发发布**：在干净的 main 上运行 `./script/release X.Y.Z`。脚本依次执行 `bun script/set-version.ts X.Y.Z`、提交 `chore: release X.Y.Z`、push，然后 `gh workflow run release.yml --ref main`。工作流**没有输入参数**，版本完全取自根 `package.json`；在 Actions 页面手动 dispatch 也一样。
+1. **通过 PR 准备版本**：创建短期发布分支，运行 `bun script/set-version.ts X.Y.Z`，准备 changelog 和简体中文 release notes 镜像。只提交发布相关路径，推送并创建 PR。包检查与原生 CI 通过后，squash 合入 `main`。正式发布前，在配置好的构建机上构建并冒烟测试 preview。
+2. **从已合并的 main 触发**：获得明确发布确认后，运行 `gh workflow run release.yml --ref main --repo oxdingzg/miao`。工作流**没有输入参数**，版本完全取自根 `package.json`；在 Actions 页面手动 dispatch 也一样。不要直接向 `main` 提交或推送版本准备改动。
 3. **工作流 `.github/workflows/release.yml`**：
    - `version`：运行 `script/version.ts`，以根 `package.json` 的版本创建**草稿** release `vX.Y.Z`，并生成 release notes，输出 `version/release/tag/repo`。
    - `cli`：矩阵 `macos-26`(darwin-arm64) / `macos-26-intel`(darwin-x64) / `ubuntu-latest`(linux-x64) / `ubuntu-24.04-arm`(linux-arm64) / `windows-2025`(windows-x64)。每个平台先 `bun install` + 安装 Rust，然后 `packages/miao/script/build.ts --single` 构建本平台二进制（会先构建本机原生 addon 并内嵌），最后把 `miao-<target>.zip|tar.gz` 上传到该草稿 release。
@@ -35,7 +35,7 @@ sidebar:
   - 写入 `CHANGELOG.md`：追加 `--write`
   - 发布时 `script/version.ts` 以 `--to <sha>` 调用它生成 `UPCOMING_CHANGELOG.md`，即 release notes。
 - Release notes **统一用英文，并且始终链接到简体中文镜像**：`docs/releases/<tag>.zh.md`，
-  在第一个标题下以 `[简体中文](https://github.com/oxdingzg/miao/blob/479665d35b2a65ce9cb864df1e31690c9e30f7d9/docs/…)` 链接。发布前先写好镜像——缺少镜像时
+  在第一个标题下以 `[简体中文](https://github.com/oxdingzg/miao/blob/efb8c006289808476296c0b3b6b336011d96d604/docs/…)` 链接。发布前先写好镜像——缺少镜像时
   `script/release-notes.ts` 会让发布作业失败。所有 miao 项目（包括 `mtty`）都遵循同一规则。
 
 ## 发布前检查清单
@@ -62,4 +62,4 @@ sidebar:
 
 ---
 
-*Synced from [`oxdingzg/miao@479665d`](https://github.com/oxdingzg/miao/blob/479665d35b2a65ce9cb864df1e31690c9e30f7d9/docs/release.zh.md).*
+*Synced from [`oxdingzg/miao@efb8c00`](https://github.com/oxdingzg/miao/blob/efb8c006289808476296c0b3b6b336011d96d604/docs/release.zh.md).*

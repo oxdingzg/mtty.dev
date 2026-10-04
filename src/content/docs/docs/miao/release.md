@@ -14,8 +14,8 @@ sidebar:
 
 ## Release process
 
-1. **Make sure main is green**: `bun typecheck`, the relevant `bun test` suites, and the native CI `.github/workflows/native.yml`. Build and smoke-test `miao-preview` with `./script/install-local.sh` before releasing.
-2. **Trigger**: on a clean main, run `./script/release X.Y.Z`. It runs `bun script/set-version.ts X.Y.Z`, commits `chore: release X.Y.Z`, pushes, then runs `gh workflow run release.yml --ref main`. The workflow takes **no inputs**; the version comes entirely from the root `package.json`, including when dispatched from the Actions UI.
+1. **Prepare through a PR**: create a short-lived release branch, run `bun script/set-version.ts X.Y.Z`, and prepare the changelog and Simplified Chinese release-note mirror. Commit only the release paths, push, and open a PR. After the package checks and native CI pass, squash-merge it into `main`. Build and smoke-test the preview on a configured build host before publication.
+2. **Trigger from the merged main**: after explicit publication confirmation, run `gh workflow run release.yml --ref main --repo oxdingzg/miao`. The workflow takes **no inputs**; the version comes entirely from the root `package.json`, including when dispatched from the Actions UI. Do not commit or push release preparation directly to `main`.
 3. **Workflow `.github/workflows/release.yml`**:
    - `version`: runs `script/version.ts`, creates a **draft** release `vX.Y.Z` for the root `package.json` version with generated release notes, and outputs `version/release/tag/repo`.
    - `cli`: matrix `macos-26`(darwin-arm64) / `macos-26-intel`(darwin-x64) / `ubuntu-latest`(linux-x64) / `ubuntu-24.04-arm`(linux-arm64) / `windows-2025`(windows-x64). Each platform runs `bun install` + installs Rust, then `packages/miao/script/build.ts --single` builds the host binary (building and embedding the host native addon first) and uploads `miao-<target>.zip|tar.gz` to the draft release.
@@ -35,7 +35,7 @@ Windows binaries are currently unsigned. The `publish` step records this status 
   - Write into `CHANGELOG.md`: add `--write`
   - At release time `script/version.ts` calls it with `--to <sha>` to produce `UPCOMING_CHANGELOG.md`, which becomes the release notes.
 - Release notes are **English and always link to a Simplified Chinese mirror**:
-  `docs/releases/<tag>.zh.md`, linked as `[简体中文](https://github.com/oxdingzg/miao/blob/479665d35b2a65ce9cb864df1e31690c9e30f7d9/docs/…)` under the first
+  `docs/releases/<tag>.zh.md`, linked as `[简体中文](https://github.com/oxdingzg/miao/blob/efb8c006289808476296c0b3b6b336011d96d604/docs/…)` under the first
   heading. Write the mirror before dispatching a release — `script/release-notes.ts`
   fails the publish job when it is missing. The same rule applies to every miao
   project, including `mtty`.
@@ -64,4 +64,4 @@ Windows binaries are currently unsigned. The `publish` step records this status 
 
 ---
 
-*Synced from [`oxdingzg/miao@479665d`](https://github.com/oxdingzg/miao/blob/479665d35b2a65ce9cb864df1e31690c9e30f7d9/docs/release.en.md).*
+*Synced from [`oxdingzg/miao@efb8c00`](https://github.com/oxdingzg/miao/blob/efb8c006289808476296c0b3b6b336011d96d604/docs/release.en.md).*

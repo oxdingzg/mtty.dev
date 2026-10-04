@@ -13,7 +13,7 @@ releases. This guide covers install, usage, and troubleshooting end to end.
 
 miao is an open-source coding agent with a terminal UI, HTTP server, and browser interface. It focuses on the work around model calls: durable sessions, context efficiency, collaboration, and visible cost.
 
-Use it to explore a repository, implement a change, investigate a failing test, or delegate focused research. Connect the providers you prefer, configure project tools, and continue the conversation as the task evolves. Model selection and MCP are part of the workflow; miao's runtime work is described in the [overview](https://github.com/oxdingzg/miao/blob/479665d35b2a65ce9cb864df1e31690c9e30f7d9/README.md) and [availability comparison](/docs/miao/miao-vs-opencode/).
+Use it to explore a repository, implement a change, investigate a failing test, or delegate focused research. Connect the providers you prefer, configure project tools, and continue the conversation as the task evolves. Model selection and MCP are part of the workflow; miao's runtime work is described in the [overview](https://github.com/oxdingzg/miao/blob/efb8c006289808476296c0b3b6b336011d96d604/README.md) and [availability comparison](/docs/miao/miao-vs-opencode/).
 
 A useful first task is: “Find the cause of this failure, make the smallest appropriate fix, run the relevant checks, and explain the diff.” Add constraints while the agent works rather than starting a second conversation.
 
@@ -230,8 +230,8 @@ This optional project configuration combines continued todo work, a scheduling b
 
 All shipped clients use the single V2 session runtime; the V1 session runtime and its `/session/*` routes have been removed.
 
-- [V1 retirement](https://github.com/oxdingzg/miao/blob/479665d35b2a65ce9cb864df1e31690c9e30f7d9/specs/v2/v1-retirement.md) records the removal and the remaining compatibility surfaces (database migration and non-session legacy routes).
-- [Session storage](https://github.com/oxdingzg/miao/blob/479665d35b2a65ce9cb864df1e31690c9e30f7d9/specs/storage/session-storage-hardening.md) tracks storage design. Use `miao db stats`, `miao db vacuum`, and JSONL exports to inspect and maintain local records.
+- [V1 retirement](https://github.com/oxdingzg/miao/blob/efb8c006289808476296c0b3b6b336011d96d604/specs/v2/v1-retirement.md) records the removal and the remaining compatibility surfaces (database migration and non-session legacy routes).
+- [Session storage](https://github.com/oxdingzg/miao/blob/efb8c006289808476296c0b3b6b336011d96d604/specs/storage/session-storage-hardening.md) tracks storage design. Use `miao db stats`, `miao db vacuum`, and JSONL exports to inspect and maintain local records.
 - Automatic post-crash execution continuation and clustered ownership are not implemented. The OS sandbox is built into the V2 `bash` tool but remains opt-in; see the [availability matrix](/docs/miao/miao-vs-opencode/).
 
 ## 7. FAQ
@@ -291,8 +291,8 @@ bun --cwd packages/miao test
 
 ## License
 
-MIT. See [LICENSE](https://github.com/oxdingzg/miao/blob/479665d35b2a65ce9cb864df1e31690c9e30f7d9/LICENSE).
+MIT. See [LICENSE](https://github.com/oxdingzg/miao/blob/efb8c006289808476296c0b3b6b336011d96d604/LICENSE).
 
 ---
 
-*Synced from [`oxdingzg/miao@479665d`](https://github.com/oxdingzg/miao/blob/479665d35b2a65ce9cb864df1e31690c9e30f7d9/docs/guide.en.md).*
+*Synced from [`oxdingzg/miao@efb8c00`](https://github.com/oxdingzg/miao/blob/efb8c006289808476296c0b3b6b336011d96d604/docs/guide.en.md).*
