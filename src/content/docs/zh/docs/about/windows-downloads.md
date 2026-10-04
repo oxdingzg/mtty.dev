@@ -36,6 +36,6 @@ sidebar:
 | Windows Authenticode 签名 | `miao.exe` 未签名 | 当前 MSI 和 ZIP 中的程序均未签名。`v0.1.2` 发布流水线因未配置 Windows 证书而跳过 MSI 签名。 |
 | 额外发布签名 | 当前 miao Windows 下载项没有随包提供 detached 签名 | Windows ZIP 和 MSI 带有独立的 `.sig` 文件及 minisign 公钥，可用于校验下载文件；这不是 Authenticode 签名，Windows 不会把它当作发布者身份，也不会因此消除 SmartScreen 提示。 |
 
-miao 请从 [miao GitHub Releases](https://github.com/oxdingzg/miao/releases) 下载，mtty 请从 [mtty GitHub Releases](https://github.com/oxdingzg/miao-term/releases) 下载。miao 的 [Windows 专项说明](/zh/docs/miao/windows-code-signing/)介绍了 PowerShell 安装；mtty 的[安装指南](/zh/docs/mtty/install/)介绍了 MSI 和 ZIP。
+miao 请从 [miao GitHub Releases](https://github.com/oxdingzg/miao/releases) 下载，mtty 请从 [mtty GitHub Releases](https://github.com/oxdingzg/mtty/releases) 下载。miao 的 [Windows 专项说明](/zh/docs/miao/windows-code-signing/)介绍了 PowerShell 安装；mtty 的[安装指南](/zh/docs/mtty/install/)介绍了 MSI 和 ZIP。
 
-关于 mtty v0.1.2 的签名状态，可查看[发布文件](https://github.com/oxdingzg/miao-term/releases/tag/v0.1.2)和 [Windows 发布工作流](https://github.com/oxdingzg/miao-term/actions/runs/37131514776)。
+关于 mtty v0.1.2 的签名状态，可查看[发布文件](https://github.com/oxdingzg/mtty/releases/tag/v0.1.2)和 [Windows 发布工作流](https://github.com/oxdingzg/mtty/actions/runs/37131514776)。

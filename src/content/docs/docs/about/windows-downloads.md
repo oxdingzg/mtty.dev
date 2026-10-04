@@ -36,6 +36,6 @@ If your organization blocks the app or **Run anyway** is unavailable, ask the de
 | Windows Authenticode signature | `miao.exe` is unsigned | The current MSI and ZIP executables are unsigned. In the `v0.1.2` release, CI skipped MSI signing because its Windows certificate was not configured. |
 | Separate release signature | No detached signature is listed with the current miao Windows asset | Windows ZIP and MSI releases include detached `.sig` files and a minisign public key. These can verify the downloaded archive or installer, but Windows does not treat them as Authenticode signatures and they do not identify a Windows publisher. |
 
-Get miao from [miao GitHub Releases](https://github.com/oxdingzg/miao/releases), and mtty from [mtty GitHub Releases](https://github.com/oxdingzg/miao-term/releases). miao's [Windows-specific notes](/docs/miao/windows-code-signing/) cover its PowerShell installer. mtty's [install guide](/docs/mtty/install/) covers its MSI and ZIP packages.
+Get miao from [miao GitHub Releases](https://github.com/oxdingzg/miao/releases), and mtty from [mtty GitHub Releases](https://github.com/oxdingzg/mtty/releases). miao's [Windows-specific notes](/docs/miao/windows-code-signing/) cover its PowerShell installer. mtty's [install guide](/docs/mtty/install/) covers its MSI and ZIP packages.
 
-For the mtty v0.1.2 signing status, see the [release assets](https://github.com/oxdingzg/miao-term/releases/tag/v0.1.2) and [Windows release workflow](https://github.com/oxdingzg/miao-term/actions/runs/37131514776).
+For the mtty v0.1.2 signing status, see the [release assets](https://github.com/oxdingzg/mtty/releases/tag/v0.1.2) and [Windows release workflow](https://github.com/oxdingzg/mtty/actions/runs/37131514776).

@@ -116,7 +116,7 @@ minisign 签名。把 `update-check-url` 指向空，就永远不会有任何抓
 
 ## 自己验
 
-这些就是上面那些结论背后的命令。前两条在 `miao-term` 的克隆里跑;后两条只要有终端就行。
+这些就是上面那些结论背后的命令。前两条在 `mtty` 的克隆里跑;后两条只要有终端就行。
 
 **mtty 里有没有会替你做上报的东西?**
 
@@ -134,7 +134,7 @@ cargo tree -e normal --prefix none | awk '{print $1}' | sort -u \
 
 一行:`ureq` —— 就是上文提到的那个例外，由 Markdown 预览用来取远程图片。**这个例外是被这条命令
 找出来的，不是被藏起来的。**更新检查不用它:那是 `curl` 子进程，在
-[`crates/term-widget/src/lib.rs`](https://github.com/oxdingzg/miao-term/blob/main/crates/term-widget/src/lib.rs)
+[`crates/term-widget/src/lib.rs`](https://github.com/oxdingzg/mtty/blob/main/crates/term-widget/src/lib.rs)
 的 `check_updates` 里。
 
 **本站会追踪你吗?**
@@ -153,8 +153,8 @@ curl -sI https://mtty.dev/ | grep -ci set-cookie
 ## 联系
 
 有疑问，或者发现本页与你的实际观察不符:写信到 <contact@mtty.dev>，或在
-[mtty](https://github.com/oxdingzg/miao-term/issues) 与
+[mtty](https://github.com/oxdingzg/mtty/issues) 与
 [miao](https://github.com/oxdingzg/miao/issues) 开 issue。
 
 *最后更新:2026-10-03。本页描述的是代码，所以代码变了它就会变 —— 各条结论的复核日期记录在*
-[*许可与依赖政策*](https://github.com/oxdingzg/miao-term/blob/main/docs/decisions/0006-license-policy.zh-CN.md) *里。*
+[*许可与依赖政策*](https://github.com/oxdingzg/mtty/blob/main/docs/decisions/0006-license-policy.zh-CN.md) *里。*

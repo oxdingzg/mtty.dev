@@ -47,7 +47,7 @@ V2 is the only session runtime. Its tools live in `packages/core/src/tool`; the 
 - **Native addon:** `MIAO_NATIVE=0` disables the addon. It backs the sandbox runner and other native helpers; it is not used for V2 edit/patch.
 - **In-process Git:** the `gix` implementation and benchmarks exist, but it is not the default Git path.
 
-Read the [guide](/docs/miao/guide/#56-kernel-level-sandbox-opt-in) and [integration risks](https://github.com/oxdingzg/miao/blob/388f4cb223995da3114b3833aa17bcc00e0f3349/docs/rust-integration-risks.en.md) before relying on the sandbox. Windows kernel sandbox parity is not implemented.
+Read the [guide](/docs/miao/guide/#56-kernel-level-sandbox-opt-in) and [integration risks](https://github.com/oxdingzg/miao/blob/ae1906f67d16ca843e19f36a3dd15fb7e527fe2f/docs/rust-integration-risks.en.md) before relying on the sandbox. Windows kernel sandbox parity is not implemented.
 
 ## Boundaries and ongoing work
 
@@ -55,10 +55,10 @@ Read the [guide](/docs/miao/guide/#56-kernel-level-sandbox-opt-in) and [integrat
 - Durable history and exact prompt retry reconciliation do not mean automatic recovery of interrupted provider execution or exactly-once shell side effects.
 - Session execution and messaging wakes remain process-local; no cross-machine agent cluster is advertised.
 - Code Mode is experimental. Generated clients and the embedded host are private workspace packages with evolving contracts.
-- Per-target messaging policy persistence and receiving-drain loop accounting still have open design work; see [session messaging](https://github.com/oxdingzg/miao/blob/388f4cb223995da3114b3833aa17bcc00e0f3349/specs/v2/session-messaging.md).
+- Per-target messaging policy persistence and receiving-drain loop accounting still have open design work; see [session messaging](https://github.com/oxdingzg/miao/blob/ae1906f67d16ca843e19f36a3dd15fb7e527fe2f/specs/v2/session-messaging.md).
 
-See [README](https://github.com/oxdingzg/miao/blob/388f4cb223995da3114b3833aa17bcc00e0f3349/README.md) for the product overview, [the guide](/docs/miao/guide/) for usage, and [CONTEXT.md](https://github.com/oxdingzg/miao/blob/388f4cb223995da3114b3833aa17bcc00e0f3349/CONTEXT.md) for runtime contracts.
+See [README](https://github.com/oxdingzg/miao/blob/ae1906f67d16ca843e19f36a3dd15fb7e527fe2f/README.md) for the product overview, [the guide](/docs/miao/guide/) for usage, and [CONTEXT.md](https://github.com/oxdingzg/miao/blob/ae1906f67d16ca843e19f36a3dd15fb7e527fe2f/CONTEXT.md) for runtime contracts.
 
 ---
 
-*Synced from [`oxdingzg/miao@388f4cb`](https://github.com/oxdingzg/miao/blob/388f4cb223995da3114b3833aa17bcc00e0f3349/docs/miao-vs-opencode.en.md).*
+*Synced from [`oxdingzg/miao@ae1906f`](https://github.com/oxdingzg/miao/blob/ae1906f67d16ca843e19f36a3dd15fb7e527fe2f/docs/miao-vs-opencode.en.md).*

@@ -16,7 +16,7 @@ PTY to the screen, and `miao-term-editor` is the editing core.
 The application ships as **`mtty`**, alongside the **`mtty-cli`** control client
 (both were called `miaotty` up to v0.0.5, and an existing `~/.config/miaotty` is
 copied on first start); the source lives in the
-[`miao-term`](https://github.com/oxdingzg/miao-term) repository.
+[`miao-term`](https://github.com/oxdingzg/mtty) repository.
 
 :::caution[Pre-release]
 The API is not stable yet. macOS is the primary platform; Windows and Linux are
@@ -40,14 +40,14 @@ signing are still pending.
 ## Getting it
 
 Pre-release packages are published on
-[GitHub Releases](https://github.com/oxdingzg/miao-term/releases/latest): a zip
+[GitHub Releases](https://github.com/oxdingzg/mtty/releases/latest): a zip
 containing `mtty.app` for macOS, `.deb`/AppImage/tar for Linux, and MSI/zip for
 Windows. Each package has a minisign `.sig` signature, and the public key is
 published with the release.
 
 ```sh
-git clone https://github.com/oxdingzg/miao-term.git
-cd miao-term
+git clone https://github.com/oxdingzg/mtty.git
+cd mtty
 cargo run --release -p mtty-app
 ```
 
@@ -73,8 +73,8 @@ in something else.
 The internal engineering records stay in the repository and are deliberately not
 published here:
 
-- [Architecture and design](https://github.com/oxdingzg/miao-term/blob/main/docs/ARCHITECTURE.md)
-- [Performance budgets and the CI gate](https://github.com/oxdingzg/miao-term/blob/main/docs/PERFORMANCE.md)
-- [Release pipeline, signing and the update manifest](https://github.com/oxdingzg/miao-term/blob/main/docs/RELEASE.md)
-- [Product requirements and the roadmap](https://github.com/oxdingzg/miao-term/blob/main/docs/PRODUCT.md)
-- [Architecture decision records](https://github.com/oxdingzg/miao-term/tree/main/docs/decisions)
+- [Architecture and design](https://github.com/oxdingzg/mtty/blob/main/docs/ARCHITECTURE.md)
+- [Performance budgets and the CI gate](https://github.com/oxdingzg/mtty/blob/main/docs/PERFORMANCE.md)
+- [Release pipeline, signing and the update manifest](https://github.com/oxdingzg/mtty/blob/main/docs/RELEASE.md)
+- [Product requirements and the roadmap](https://github.com/oxdingzg/mtty/blob/main/docs/PRODUCT.md)
+- [Architecture decision records](https://github.com/oxdingzg/mtty/tree/main/docs/decisions)

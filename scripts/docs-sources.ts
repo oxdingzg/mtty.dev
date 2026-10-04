@@ -52,46 +52,46 @@ export const pages: DocPage[] = [
     sources: { en: "SECURITY.md", zh: "SECURITY.zh.md" },
   },
 
-  // miao-term names its bilingual pairs `X.md` / `X.zh-CN.md`, so each page
+  // mtty names its bilingual pairs `X.md` / `X.zh-CN.md`, so each page
   // states both paths rather than the sync assuming one convention.
   {
-    repo: "oxdingzg/miao-term",
+    repo: "oxdingzg/mtty",
     to: "mtty/install",
     order: 1,
     sources: { en: "docs/INSTALL.md", zh: "docs/INSTALL.zh-CN.md" },
   },
   {
-    repo: "oxdingzg/miao-term",
+    repo: "oxdingzg/mtty",
     to: "mtty/config",
     order: 2,
     sources: { en: "docs/CONFIG.md", zh: "docs/CONFIG.zh-CN.md" },
   },
   {
-    repo: "oxdingzg/miao-term",
+    repo: "oxdingzg/mtty",
     to: "mtty/cli",
     order: 3,
     sources: { en: "docs/CLI.md", zh: "docs/CLI.zh-CN.md" },
   },
   {
-    repo: "oxdingzg/miao-term",
+    repo: "oxdingzg/mtty",
     to: "mtty/shortcuts",
     order: 4,
     sources: { en: "docs/SHORTCUTS.md", zh: "docs/SHORTCUTS.zh-CN.md" },
   },
   {
-    repo: "oxdingzg/miao-term",
+    repo: "oxdingzg/mtty",
     to: "mtty/troubleshooting",
     order: 5,
     sources: { en: "docs/TROUBLESHOOTING.md", zh: "docs/TROUBLESHOOTING.zh-CN.md" },
   },
   {
-    repo: "oxdingzg/miao-term",
+    repo: "oxdingzg/mtty",
     to: "mtty/view-rules",
     order: 6,
     sources: { en: "docs/VIEW-RULES.md", zh: "docs/VIEW-RULES.zh-CN.md" },
   },
   {
-    repo: "oxdingzg/miao-term",
+    repo: "oxdingzg/mtty",
     to: "mtty/security",
     order: 7,
     sources: { en: "SECURITY.md", zh: "SECURITY.zh-CN.md" },

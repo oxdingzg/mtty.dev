@@ -84,7 +84,7 @@ export function transform(raw: string, page: DocPage, locale: Locale, sha: strin
 //   <p align="center"><a href="guide.en.md">English</a> | <a href="guide.zh.md">简体中文</a></p>
 //   **Language:** [English](release.en.md) | [中文](release.zh.md)
 //   **语言 / Language:** [中文](release.zh.md) | [English](release.en.md)
-//   [简体中文](INSTALL.zh-CN.md)          <- miao-term: one bare link, no separator
+//   [简体中文](INSTALL.zh-CN.md)          <- mtty: one bare link, no separator
 // Starlight's own language switcher replaces it, so the line would be a second,
 // dead control. A line qualifies only when every link on it names a language and
 // nothing else substantial sits beside them, so "[See the guide](guide.md)"
