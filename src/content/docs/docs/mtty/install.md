@@ -46,9 +46,6 @@ Apple Developer ID signing/notarization, Windows MSI signing and minisign
 artifact signatures use the optional secrets described in [RELEASE.md](https://github.com/oxdingzg/miao-term/blob/941c7c2ab6c91b281fd689425e23c4380a7520c4/docs/RELEASE.md).
 `dist-workspace.toml` remains a cargo-dist scaffold, not the active release pipeline.
 
-Windows packages are code-signed under the [SignPath Foundation](https://signpath.org)
-program: free code signing provided by [SignPath.io](https://signpath.io), certificate
-by [SignPath Foundation](https://signpath.org).
 
 ## Configuration and links
 
