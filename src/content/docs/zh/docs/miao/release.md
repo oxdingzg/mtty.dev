@@ -35,8 +35,8 @@ sidebar:
   - 写入 `CHANGELOG.md`：追加 `--write`
   - 发布时 `script/version.ts` 以 `--to <sha>` 调用它生成 `UPCOMING_CHANGELOG.md`，即 release notes。
 - Release notes **统一用英文，并且始终链接到简体中文镜像**：`docs/releases/<tag>.zh.md`，
-  在第一个标题下以 `[简体中文](https://github.com/oxdingzg/miao/blob/ae1906f67d16ca843e19f36a3dd15fb7e527fe2f/docs/…)` 链接。发布前先写好镜像——缺少镜像时
-  `script/release-notes.ts` 会让发布作业失败。所有 miao 项目（包括 `miao-term`）都遵循同一规则。
+  在第一个标题下以 `[简体中文](https://github.com/oxdingzg/miao/blob/8120a590512a04e43a292c0501c9109c37696f80/docs/…)` 链接。发布前先写好镜像——缺少镜像时
+  `script/release-notes.ts` 会让发布作业失败。所有 miao 项目（包括 `mtty`）都遵循同一规则。
 
 ## 发布前检查清单
 
@@ -62,4 +62,4 @@ sidebar:
 
 ---
 
-*Synced from [`oxdingzg/miao@ae1906f`](https://github.com/oxdingzg/miao/blob/ae1906f67d16ca843e19f36a3dd15fb7e527fe2f/docs/release.zh.md).*
+*Synced from [`oxdingzg/miao@8120a59`](https://github.com/oxdingzg/miao/blob/8120a590512a04e43a292c0501c9109c37696f80/docs/release.zh.md).*
