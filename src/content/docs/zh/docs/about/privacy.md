@@ -134,7 +134,7 @@ cargo tree -e normal --prefix none | awk '{print $1}' | sort -u \
 
 一行:`ureq` —— 就是上文提到的那个例外，由 Markdown 预览用来取远程图片。**这个例外是被这条命令
 找出来的，不是被藏起来的。**更新检查不用它:那是 `curl` 子进程，在
-[`crates/term-widget/src/lib.rs`](https://github.com/oxdingzg/mtty/blob/main/crates/term-widget/src/lib.rs)
+[`crates/mtty-widget/src/lib.rs`](https://github.com/oxdingzg/mtty/blob/main/crates/mtty-widget/src/lib.rs)
 的 `check_updates` 里。
 
 **本站会追踪你吗?**
