@@ -35,10 +35,10 @@ Windows binaries are currently unsigned. The `publish` step records this status 
   - Write into `CHANGELOG.md`: add `--write`
   - At release time `script/version.ts` calls it with `--to <sha>` to produce `UPCOMING_CHANGELOG.md`, which becomes the release notes.
 - Release notes are **English and always link to a Simplified Chinese mirror**:
-  `docs/releases/<tag>.zh.md`, linked as `[简体中文](https://github.com/oxdingzg/miao/blob/ae1906f67d16ca843e19f36a3dd15fb7e527fe2f/docs/…)` under the first
+  `docs/releases/<tag>.zh.md`, linked as `[简体中文](https://github.com/oxdingzg/miao/blob/8120a590512a04e43a292c0501c9109c37696f80/docs/…)` under the first
   heading. Write the mirror before dispatching a release — `script/release-notes.ts`
   fails the publish job when it is missing. The same rule applies to every miao
-  project, including `miao-term`.
+  project, including `mtty`.
 
 ## Pre-release checklist
 
@@ -64,4 +64,4 @@ Windows binaries are currently unsigned. The `publish` step records this status 
 
 ---
 
-*Synced from [`oxdingzg/miao@ae1906f`](https://github.com/oxdingzg/miao/blob/ae1906f67d16ca843e19f36a3dd15fb7e527fe2f/docs/release.en.md).*
+*Synced from [`oxdingzg/miao@8120a59`](https://github.com/oxdingzg/miao/blob/8120a590512a04e43a292c0501c9109c37696f80/docs/release.en.md).*
