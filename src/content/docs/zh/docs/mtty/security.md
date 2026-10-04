@@ -34,7 +34,7 @@ MTP —— `mtty-cli`，以及任何实现该协议的程序 —— 可以在窗
 
 ### 私钥在这里只被读取，不被使用
 
-`miao-term-keys` 解析 OpenSSH 与 PuTTY `.ppk` 两种格式的私钥，并在两者之间重新编码。它**不用这些
+`mtty-keys` 解析 OpenSSH 与 PuTTY `.ppk` 两种格式的私钥，并在两者之间重新编码。它**不用这些
 密钥做签名或解密**:整个工作区没有任何私钥运算，而 SSH 连接本身是由你自己的 OpenSSH 建立的。
 
 密钥文件和你在其中输入的密码，都不会离开这台机器。
@@ -50,4 +50,4 @@ MTP —— `mtty-cli`，以及任何实现该协议的程序 —— 可以在窗
 
 ---
 
-*Synced from [`oxdingzg/mtty@00e9780`](https://github.com/oxdingzg/mtty/blob/00e97801b35c5bb4d8d60c26928c310f2e5968b4/SECURITY.zh-CN.md).*
+*Synced from [`oxdingzg/mtty@b65a3d1`](https://github.com/oxdingzg/mtty/blob/b65a3d13ea6c2a3ff8afd59f639e25d4f193b45a/SECURITY.zh-CN.md).*

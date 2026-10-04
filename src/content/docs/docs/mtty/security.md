@@ -40,7 +40,7 @@ control plane without the token, or a socket another user can open.
 
 ### Private keys are read here, not used here
 
-`miao-term-keys` parses OpenSSH and PuTTY `.ppk` private keys and re-encodes them
+`mtty-keys` parses OpenSSH and PuTTY `.ppk` private keys and re-encodes them
 between the two formats. It does not sign or decrypt with them: the workspace
 performs no private-key operation, and the SSH connections themselves are made
 by your own OpenSSH.
@@ -58,4 +58,4 @@ A key file, and any passphrase you type, stay on the machine.
 
 ---
 
-*Synced from [`oxdingzg/mtty@00e9780`](https://github.com/oxdingzg/mtty/blob/00e97801b35c5bb4d8d60c26928c310f2e5968b4/SECURITY.md).*
+*Synced from [`oxdingzg/mtty@b65a3d1`](https://github.com/oxdingzg/mtty/blob/b65a3d13ea6c2a3ff8afd59f639e25d4f193b45a/SECURITY.md).*

@@ -8,11 +8,11 @@ sidebar:
 mtty 是用 Rust 编写的 AI 原生终端与编辑器，本地与远程同样顺手。它站在三根支柱上:带远程能力的
 GPU 渲染终端(主机库、SFTP、端口转发、跳板机、命令片段)、编辑器(今天是内置的查看与编辑，原生编辑器
 窗格正在开发)，以及一个代理工作台 —— 它显示每个 AI 编程代理正在做什么，并为代理排队后续工作。
-底下是不含界面的引擎:`miao-term-core` 负责从 PTY 到屏幕的整条路径，`miao-term-editor` 是编辑内核。
+底下是不含界面的引擎:`mtty-core` 负责从 PTY 到屏幕的整条路径，`mtty-editor` 是编辑内核。
 
 应用以 **`mtty`** 的名字发布，同时提供 **`mtty-cli`** 控制客户端(v0.0.5 及之前两者都叫
 `miaotty`，首次启动时会复制已有的 `~/.config/miaotty`);源码在
-[`miao-term`](https://github.com/oxdingzg/mtty) 仓库。
+[`mtty`](https://github.com/oxdingzg/mtty) 仓库。
 
 :::caution[预发布]
 API 尚未稳定。macOS 是主要平台;Windows 与 Linux 已构建、测试，并在真实桌面上验收。Apple 公证与
@@ -53,11 +53,11 @@ cargo run --release -p mtty-app
 
 | crate | 负责什么 |
 |---|---|
-| `miao-term-widget` | winit + wgpu 宿主:渲染循环，以及在同一帧里合成的 egui 界面 |
-| `miao-term-render` | wgpu + glyphon 字形网格，四边形与图像管线 |
-| `miao-term-core` | PTY、VT 解析、网格与回滚、选择、搜索、OSC、输入编码 |
+| `mtty-widget` | winit + wgpu 宿主:渲染循环，以及在同一帧里合成的 egui 界面 |
+| `mtty-render` | wgpu + glyphon 字形网格，四边形与图像管线 |
+| `mtty-core` | PTY、VT 解析、网格与回滚、选择、搜索、OSC、输入编码 |
 
-`miao-term-editor` 是编辑内核，`graphics`、`config`、`mtp` 与 `ui` 与之并列。内核不含任何窗口或
+`mtty-editor` 是编辑内核，`graphics`、`config`、`mtp` 与 `ui` 与之并列。内核不含任何窗口或
 GPU 代码，因此可以嵌入别的程序。
 
 ## 其余部分在哪里
