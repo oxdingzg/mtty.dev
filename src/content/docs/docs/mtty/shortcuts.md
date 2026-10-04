@@ -48,7 +48,7 @@ Linux and Windows, and `Super`/`Win` combinations are left to the desktop.
 
 In an editor pane these take precedence over the window shortcuts above. The
 language features need a server for the file's language (see `[lsp]` in
-[`config.example.toml`](https://github.com/oxdingzg/miao-term/blob/1f9cb378cab3d9f0a3995971a05be22f5917fd05/docs/config.example.toml)); hovering over code shows its
+[`config.example.toml`](https://github.com/oxdingzg/miao-term/blob/941c7c2ab6c91b281fd689425e23c4380a7520c4/docs/config.example.toml)); hovering over code shows its
 type, docs and problems.
 
 | macOS | Linux / Windows | Action |
@@ -68,4 +68,4 @@ type, docs and problems.
 
 ---
 
-*Synced from [`oxdingzg/miao-term@1f9cb37`](https://github.com/oxdingzg/miao-term/blob/1f9cb378cab3d9f0a3995971a05be22f5917fd05/docs/SHORTCUTS.md).*
+*Synced from [`oxdingzg/miao-term@941c7c2`](https://github.com/oxdingzg/miao-term/blob/941c7c2ab6c91b281fd689425e23c4380a7520c4/docs/SHORTCUTS.md).*

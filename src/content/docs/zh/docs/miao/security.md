@@ -72,4 +72,4 @@ miao 是运行在你本机的 AI 编程助手。它提供一套代理系统，�
 
 ---
 
-*Synced from [`oxdingzg/miao@59d3484`](https://github.com/oxdingzg/miao/blob/59d348451ff55f3a3cde192d935f75cbf2a9a13c/SECURITY.zh.md).*
+*Synced from [`oxdingzg/miao@388f4cb`](https://github.com/oxdingzg/miao/blob/388f4cb223995da3114b3833aa17bcc00e0f3349/SECURITY.zh.md).*

@@ -4,11 +4,51 @@ sidebar:
   order: 5
 ---
 
+## Investigating high CPU or memory usage
+
+mtty records process resource samples by default, at startup and every 30 seconds,
+without blocking the UI. Set `MTTY_MONITOR=0` before launching to disable recording.
+New builds must be launched before they can record; older installations do not gain
+this feature automatically.
+
+| Platform | Recorder directory |
+|---|---|
+| macOS | `~/Library/Logs/mtty/monitor/` |
+| Linux | `$XDG_STATE_HOME/mtty/monitor/`, or `~/.local/state/mtty/monitor/` |
+| Windows | `%LOCALAPPDATA%\\mtty\\logs\\monitor\\` |
+
+Each run writes `process-<timestamp>-<pid>.jsonl`. Records include version,
+platform, uptime, RSS bytes, cumulative process CPU microseconds, interval CPU
+percentage (100% = one logical core), and cumulative render calls and wall time.
+Render counters cover the main and picture-in-picture windows, including
+render calls that return early; they are not GPU execution times. Thread counts
+are available on macOS/Linux, and file-descriptor counts on Linux. Unsupported
+or failed probes are `null`, not zero. These samples describe mtty itself,
+not its PTY hosts or shell/agent child processes. RSS is not the same metric as
+macOS Activity Monitor's memory footprint.
+
+Compare consecutive records: rising CPU time with unchanged render counters
+points toward non-render work; rising render counts during an otherwise idle
+period points toward unwanted refreshes. Observe memory across repeated similar
+tasks and idle periods rather than treating one high sample as a leak.
+
+Files rotate before exceeding 4 MiB with one `.previous.jsonl` backup. The latest
+16 exited-process logs and their backups are retained, subject to a **64 MiB total
+resource-log budget**. Startup removes excess historical runs; each write also
+removes older backups or exited-process logs when space is needed. Active-process
+primary logs are preserved: if these fill the budget, new samples are dropped
+rather than letting disk use grow. A cross-process lease serializes quota checks
+and writes. Sampling failures are best-effort and do not terminate the application.
+The adjacent `panic.log` is separately limited to **1 MiB plus one backup**, with
+**2 MiB total**, including cleanup of oversized legacy crash logs at startup. No terminal contents, command arguments,
+or working directories are included. For Rust panics, consult the adjacent
+`panic.log`; the resource recorder preserves the preceding samples.
+
 ## The build fails, or the first build takes minutes
 
 | Requirement | Detail |
 |---|---|
-| Rust | The **stable** toolchain, pinned in [`rust-toolchain.toml`](https://github.com/oxdingzg/miao-term/blob/1f9cb378cab3d9f0a3995971a05be22f5917fd05/rust-toolchain.toml); MSRV 1.80 |
+| Rust | The **stable** toolchain, pinned in [`rust-toolchain.toml`](https://github.com/oxdingzg/miao-term/blob/941c7c2ab6c91b281fd689425e23c4380a7520c4/rust-toolchain.toml); MSRV 1.80 |
 | GPU | A driver supporting Metal (macOS), Vulkan (Linux) or DX12 (Windows) |
 | Linux | The usual `winit`/`wgpu` system libraries (X11 or Wayland development packages) |
 
@@ -109,7 +149,7 @@ the existing control socket, rather than starting a second process. Use
 | Agent hooks | Installed hook scripts and miao's integration read `MIAOTTY_PANE_ID` / `MIAOTTY_CLI`, which are still exported, so they keep reporting state; newly installed hooks use the `MTTY_*` names |
 | Notifications on macOS | The rename changed the bundle ID, so macOS asks for notification permission again |
 
-See [identity and migration](https://github.com/oxdingzg/miao-term/blob/1f9cb378cab3d9f0a3995971a05be22f5917fd05/docs/APP-IDENTITY.md) for the full table.
+See [identity and migration](https://github.com/oxdingzg/miao-term/blob/941c7c2ab6c91b281fd689425e23c4380a7520c4/docs/APP-IDENTITY.md) for the full table.
 
 ## The editor has no completions, diagnostics or hover
 
@@ -128,10 +168,10 @@ An explicit `[lsp] enabled = false` disables the lot. See
 
 The rest of the documentation is in the repository: [installation](/docs/mtty/install/),
 [view rules](/docs/mtty/view-rules/), and the annotated
-[`config.example.toml`](https://github.com/oxdingzg/miao-term/blob/1f9cb378cab3d9f0a3995971a05be22f5917fd05/docs/config.example.toml). For anything else, open an issue
+[`config.example.toml`](https://github.com/oxdingzg/miao-term/blob/941c7c2ab6c91b281fd689425e23c4380a7520c4/docs/config.example.toml). For anything else, open an issue
 on [oxdingzg/miao-term](https://github.com/oxdingzg/miao-term/issues), or write
 to <contact@mtty.dev>.
 
 ---
 
-*Synced from [`oxdingzg/miao-term@1f9cb37`](https://github.com/oxdingzg/miao-term/blob/1f9cb378cab3d9f0a3995971a05be22f5917fd05/docs/TROUBLESHOOTING.md).*
+*Synced from [`oxdingzg/miao-term@941c7c2`](https://github.com/oxdingzg/miao-term/blob/941c7c2ab6c91b281fd689425e23c4380a7520c4/docs/TROUBLESHOOTING.md).*

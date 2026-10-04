@@ -21,7 +21,7 @@ elsewhere in the documentation live in this directory too.
 Up to v0.0.5 the application was called `miaotty`. On first start,
 `$XDG_CONFIG_HOME/miaotty` is copied to `$XDG_CONFIG_HOME/mtty` when the latter
 does not exist, and the old directory is kept so an older build still works.
-See [identity and migration](https://github.com/oxdingzg/miao-term/blob/1f9cb378cab3d9f0a3995971a05be22f5917fd05/docs/APP-IDENTITY.md).
+See [identity and migration](https://github.com/oxdingzg/miao-term/blob/941c7c2ab6c91b281fd689425e23c4380a7520c4/docs/APP-IDENTITY.md).
 
 ## A minimal configuration
 
@@ -120,6 +120,24 @@ drives a transcript window. `command` is a string split at spaces, or a list.
 # command = ["gemini", "--experimental-acp"]
 ```
 
+
+Optional `env` values are passed to the agent process. `auth-method` selects an
+ID advertised by that agent; the ACP window also offers an authentication
+picker. `session-id` loads an existing conversation when the agent advertises
+`loadSession`; an unsupported resume shows an error. The start dialog can
+supply a session ID too.
+
+```toml
+# env = { EXAMPLE_SETTING = "value" }
+# auth-method = "<agent-auth-method-id>"
+# session-id = "<agent-session-id>"
+```
+
+ACP file reads include unsaved editor text. Writes open a proposal in the editor:
+**Accept and Save** writes the file before acknowledging the agent; **Reject**
+leaves the disk unchanged. Terminal commands require permission and their output
+appears in the ACP window.
+
 ### Update checks
 
 **Nothing is fetched until you ask.** mtty makes no request at startup; the
@@ -172,9 +190,9 @@ directory. See [view rules](/docs/mtty/view-rules/).
 
 ## Full reference
 
-[`config.example.toml`](https://github.com/oxdingzg/miao-term/blob/1f9cb378cab3d9f0a3995971a05be22f5917fd05/docs/config.example.toml) is the annotated reference: every
+[`config.example.toml`](https://github.com/oxdingzg/miao-term/blob/941c7c2ab6c91b281fd689425e23c4380a7520c4/docs/config.example.toml) is the annotated reference: every
 key above, with its default, in one file.
 
 ---
 
-*Synced from [`oxdingzg/miao-term@1f9cb37`](https://github.com/oxdingzg/miao-term/blob/1f9cb378cab3d9f0a3995971a05be22f5917fd05/docs/CONFIG.md).*
+*Synced from [`oxdingzg/miao-term@941c7c2`](https://github.com/oxdingzg/miao-term/blob/941c7c2ab6c91b281fd689425e23c4380a7520c4/docs/CONFIG.md).*

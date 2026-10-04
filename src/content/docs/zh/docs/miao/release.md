@@ -1,7 +1,7 @@
 ---
 title: "miao 版本管理与发布"
 sidebar:
-  order: 3
+  order: 2
 ---
 
 ## 版本方案
@@ -19,10 +19,12 @@ sidebar:
 3. **工作流 `.github/workflows/release.yml`**：
    - `version`：运行 `script/version.ts`，以根 `package.json` 的版本创建**草稿** release `vX.Y.Z`，并生成 release notes，输出 `version/release/tag/repo`。
    - `cli`：矩阵 `macos-26`(darwin-arm64) / `macos-26-intel`(darwin-x64) / `ubuntu-latest`(linux-x64) / `ubuntu-24.04-arm`(linux-arm64) / `windows-2025`(windows-x64)。每个平台先 `bun install` + 安装 Rust，然后 `packages/miao/script/build.ts --single` 构建本平台二进制（会先构建本机原生 addon 并内嵌），最后把 `miao-<target>.zip|tar.gz` 上传到该草稿 release。
-   - `publish`：所有平台成功后，在 release 说明中记录 Windows 二进制尚未签名，再执行 `gh release edit --draft=false` 正式发布。
+   - `publish`：所有平台成功后，先把 Windows 签名状态追加到 release 说明，再执行 `gh release edit --draft=false` 正式发布。
 4. **产物**：`miao-{darwin-arm64,darwin-x64,linux-x64,linux-arm64,windows-x64}.{zip,tar.gz}`，命名与 `install` 脚本、自更新（`Installation.latest` → `oxdingzg/miao/releases/latest`）一致。
 
-当前发布的 Windows 二进制**没有代码签名**。下载或运行时可能出现未知发布者或 SmartScreen 提示；详情与操作步骤见 [Windows 未签名程序提示](/zh/docs/miao/windows-code-signing/)。
+上述工作流是当前维护的发布入口。每次构建通过 `packages/miao/script/generate.ts` 从 `https://models.dev/api.json` 读取模型目录，也可以用 `MODELS_DEV_API_JSON` 指定本地文件。仓库没有单独提交模型快照的工作流；运行时会独立刷新缓存中的模型目录。
+
+目前 Windows 二进制尚未签名。`publish` 步骤会在下载页面记录当前状态。
 
 ## 变更日志
 
@@ -56,4 +58,4 @@ sidebar:
 
 ---
 
-*Synced from [`oxdingzg/miao@3572024`](https://github.com/oxdingzg/miao/blob/35720245fdc30836a124aadae467b9284922e791/docs/release.zh.md).*
+*Synced from [`oxdingzg/miao@388f4cb`](https://github.com/oxdingzg/miao/blob/388f4cb223995da3114b3833aa17bcc00e0f3349/docs/release.zh.md).*

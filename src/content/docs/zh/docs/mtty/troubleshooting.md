@@ -4,11 +4,44 @@ sidebar:
   order: 5
 ---
 
+## 排查 CPU 或内存占用偏高
+
+mtty 默认在启动时及每 30 秒记录一次进程资源，采样在后台线程执行。
+启动前设置 `MTTY_MONITOR=0` 可关闭。需要运行包含此功能的新版本；
+已经运行的旧版本不会自动获得记录功能。
+
+| 平台 | 记录目录 |
+|---|---|
+| macOS | `~/Library/Logs/mtty/monitor/` |
+| Linux | `$XDG_STATE_HOME/mtty/monitor/`，或 `~/.local/state/mtty/monitor/` |
+| Windows | `%LOCALAPPDATA%\\mtty\\logs\\monitor\\` |
+
+每次运行生成 `process-<timestamp>-<pid>.jsonl`。记录包括版本、平台、运行时间、
+RSS 字节数、累计进程 CPU 微秒数、区间 CPU 百分比（100% 表示一个逻辑核心），
+以及累计渲染调用次数和渲染墙钟耗时。渲染统计覆盖主窗口和画中画，包括提前返回
+的调用，不代表 GPU 执行耗时。macOS/Linux 支持线程数，Linux 支持文件描述符数；
+不支持或读取失败的指标记录为 `null`，而非零。统计只覆盖 mtty 本体，
+不包含 PTY 后台、shell 或 agent 子进程。RSS 与 macOS 活动监视器的内存 footprint
+不是同一口径。
+
+比较相邻记录：CPU 时间增长但渲染计数不变，提示非渲染工作；
+空闲时渲染计数持续增加，提示不必要的刷新。应观察多轮相近任务及空闲期的内存
+趋势，不要仅凭一个高数值判断泄漏。
+
+单文件超过 4 MiB 前轮转，保留一份 `.previous.jsonl` 备份。保留最近 16 个已退出
+进程的日志及其备份，同时受 **资源日志目录总量 64 MiB** 的限制。启动时清理多余
+历史记录，每次写入也会按需清理旧备份或已退出进程日志。活跃进程的主日志保留；
+如果它们占满预算，则丢弃新采样，不继续增加磁盘占用。跨进程写入锁避免多个实例
+同时通过预算检查。采样或写入失败不会终止应用。
+同级 `panic.log` 限制为 **单文件 1 MiB 加一份备份，总计 2 MiB**，
+启动时也会清理超限的旧版崩溃日志。日志不包含终端内容、命令参数或工作目录。Rust panic 记录位于
+同级 `panic.log`，资源日志可用于查看崩溃前的采样。
+
 ## 构建失败，或首次构建要好几分钟
 
 | 要求 | 说明 |
 |---|---|
-| Rust | **stable** 工具链，锁定于 [`rust-toolchain.toml`](https://github.com/oxdingzg/miao-term/blob/1f9cb378cab3d9f0a3995971a05be22f5917fd05/rust-toolchain.toml);MSRV 1.80 |
+| Rust | **stable** 工具链，锁定于 [`rust-toolchain.toml`](https://github.com/oxdingzg/miao-term/blob/941c7c2ab6c91b281fd689425e23c4380a7520c4/rust-toolchain.toml);MSRV 1.80 |
 | GPU | 支持 Metal(macOS)、Vulkan(Linux)或 DX12(Windows)的驱动 |
 | Linux | 常见的 `winit`/`wgpu` 系统库(X11 或 Wayland 开发包) |
 
@@ -95,7 +128,7 @@ keep-sessions-on-quit = true
 | agent 钩子 | 已安装的钩子脚本与 miao 的集成读取 `MIAOTTY_PANE_ID` / `MIAOTTY_CLI`，这些变量仍然导出，因此它们会继续上报状态;新安装的钩子使用 `MTTY_*` 名字 |
 | macOS 通知 | 更名改变了 bundle ID,macOS 会重新询问通知权限 |
 
-完整对照见[应用身份与迁移](https://github.com/oxdingzg/miao-term/blob/1f9cb378cab3d9f0a3995971a05be22f5917fd05/docs/APP-IDENTITY.zh-CN.md)。
+完整对照见[应用身份与迁移](https://github.com/oxdingzg/miao-term/blob/941c7c2ab6c91b281fd689425e23c4380a7520c4/docs/APP-IDENTITY.zh-CN.md)。
 
 ## 编辑器没有补全、诊断或悬停提示
 
@@ -110,10 +143,10 @@ keep-sessions-on-quit = true
 ## 这里没有我遇到的问题
 
 其余文档在仓库里:[安装](/zh/docs/mtty/install/)、[视图规则](/zh/docs/mtty/view-rules/)，以及带注释的
-[`config.example.toml`](https://github.com/oxdingzg/miao-term/blob/1f9cb378cab3d9f0a3995971a05be22f5917fd05/docs/config.example.toml)。其他问题请在
+[`config.example.toml`](https://github.com/oxdingzg/miao-term/blob/941c7c2ab6c91b281fd689425e23c4380a7520c4/docs/config.example.toml)。其他问题请在
 [oxdingzg/miao-term](https://github.com/oxdingzg/miao-term/issues) 开 issue，或写信到
 <contact@mtty.dev>。
 
 ---
 
-*Synced from [`oxdingzg/miao-term@1f9cb37`](https://github.com/oxdingzg/miao-term/blob/1f9cb378cab3d9f0a3995971a05be22f5917fd05/docs/TROUBLESHOOTING.zh-CN.md).*
+*Synced from [`oxdingzg/miao-term@941c7c2`](https://github.com/oxdingzg/miao-term/blob/941c7c2ab6c91b281fd689425e23c4380a7520c4/docs/TROUBLESHOOTING.zh-CN.md).*

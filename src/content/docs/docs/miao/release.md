@@ -1,7 +1,7 @@
 ---
 title: "miao versioning and release"
 sidebar:
-  order: 3
+  order: 2
 ---
 
 ## Version scheme
@@ -19,10 +19,12 @@ sidebar:
 3. **Workflow `.github/workflows/release.yml`**:
    - `version`: runs `script/version.ts`, creates a **draft** release `vX.Y.Z` for the root `package.json` version with generated release notes, and outputs `version/release/tag/repo`.
    - `cli`: matrix `macos-26`(darwin-arm64) / `macos-26-intel`(darwin-x64) / `ubuntu-latest`(linux-x64) / `ubuntu-24.04-arm`(linux-arm64) / `windows-2025`(windows-x64). Each platform runs `bun install` + installs Rust, then `packages/miao/script/build.ts --single` builds the host binary (building and embedding the host native addon first) and uploads `miao-<target>.zip|tar.gz` to the draft release.
-   - `publish`: after all platforms succeed, it records that Windows binaries are unsigned in the release body and runs `gh release edit --draft=false` to publish the release.
+   - `publish`: after all platforms succeed, it appends the Windows signing status to the release body and runs `gh release edit --draft=false` to publish the release.
 4. **Assets**: `miao-{darwin-arm64,darwin-x64,linux-x64,linux-arm64,windows-x64}.{zip,tar.gz}`, matching the `install` script and the updater (`Installation.latest` -> `oxdingzg/miao/releases/latest`).
 
-Current Windows binaries are **unsigned**. Users may see an unknown publisher or SmartScreen prompt when downloading or running miao. See [Windows unsigned app warnings](/docs/miao/windows-code-signing/) for details and steps.
+The release workflow above is the maintained publication path. Each build loads the model catalog through `packages/miao/script/generate.ts` from `https://models.dev/api.json`, or from a local file selected by `MODELS_DEV_API_JSON`. There is no separate workflow that commits model snapshots to the repository; the runtime refreshes its cached catalog independently.
+
+Windows binaries are currently unsigned. The `publish` step records this status on the download page.
 
 ## Changelog
 
@@ -56,4 +58,4 @@ Current Windows binaries are **unsigned**. Users may see an unknown publisher or
 
 ---
 
-*Synced from [`oxdingzg/miao@3572024`](https://github.com/oxdingzg/miao/blob/35720245fdc30836a124aadae467b9284922e791/docs/release.en.md).*
+*Synced from [`oxdingzg/miao@388f4cb`](https://github.com/oxdingzg/miao/blob/388f4cb223995da3114b3833aa17bcc00e0f3349/docs/release.en.md).*

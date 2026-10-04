@@ -18,7 +18,7 @@ mtty 的配置项全部可选。只有一行的文件就是一份合法配置，
 
 v0.0.5 及之前应用名为 `miaotty`。首次启动时，若 `$XDG_CONFIG_HOME/mtty` 不存在，会把
 `$XDG_CONFIG_HOME/miaotty` 复制过去，并保留旧目录，使更早的版本仍可使用。见
-[应用身份与迁移](https://github.com/oxdingzg/miao-term/blob/1f9cb378cab3d9f0a3995971a05be22f5917fd05/docs/APP-IDENTITY.zh-CN.md)。
+[应用身份与迁移](https://github.com/oxdingzg/miao-term/blob/941c7c2ab6c91b281fd689425e23c4380a7520c4/docs/APP-IDENTITY.zh-CN.md)。
 
 ## 最小配置
 
@@ -112,6 +112,20 @@ error = true
 # command = ["gemini", "--experimental-acp"]
 ```
 
+
+可选 `env` 会传给 Agent 进程。`auth-method` 指定 Agent 公布的认证方式 ID，ACP 窗口也提供认证选择器。
+`session-id` 在 Agent 声明支持 `loadSession` 时恢复已有会话；不支持时会显示错误。
+启动对话框也可以输入会话 ID。
+
+```toml
+# env = { EXAMPLE_SETTING = "value" }
+# auth-method = "<agent-auth-method-id>"
+# session-id = "<agent-session-id>"
+```
+
+ACP 读文件会优先读取编辑器中的未保存内容。写文件会打开修改提案：“接受并保存”实际写入文件后才向 Agent
+报告成功；“拒绝”保留磁盘原文。终端命令需要权限确认，输出在 ACP 窗口显示。
+
 ### 更新检查
 
 **你不主动查，它就一个请求都不发。** mtty 启动时不做任何请求;检查由菜单里的「Check for Updates」
@@ -157,8 +171,8 @@ fish 3.7、PowerShell 7.5;Windows 上的 PowerShell 由 CI 运行)。
 
 ## 完整参考
 
-[`config.example.toml`](https://github.com/oxdingzg/miao-term/blob/1f9cb378cab3d9f0a3995971a05be22f5917fd05/docs/config.example.toml) 是带注释的完整参考:上面每个键及其默认值都在一个文件里。
+[`config.example.toml`](https://github.com/oxdingzg/miao-term/blob/941c7c2ab6c91b281fd689425e23c4380a7520c4/docs/config.example.toml) 是带注释的完整参考:上面每个键及其默认值都在一个文件里。
 
 ---
 
-*Synced from [`oxdingzg/miao-term@1f9cb37`](https://github.com/oxdingzg/miao-term/blob/1f9cb378cab3d9f0a3995971a05be22f5917fd05/docs/CONFIG.zh-CN.md).*
+*Synced from [`oxdingzg/miao-term@941c7c2`](https://github.com/oxdingzg/miao-term/blob/941c7c2ab6c91b281fd689425e23c4380a7520c4/docs/CONFIG.zh-CN.md).*

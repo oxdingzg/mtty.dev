@@ -46,7 +46,7 @@ sidebar:
 ## 编辑器窗格
 
 在编辑器窗格中，下列按键优先于上面的窗口快捷键。语言相关功能需要该语言的语言服务器(见
-[`config.example.toml`](https://github.com/oxdingzg/miao-term/blob/1f9cb378cab3d9f0a3995971a05be22f5917fd05/docs/config.example.toml) 中的 `[lsp]`);鼠标停在代码上会显示类型、文档与问题。
+[`config.example.toml`](https://github.com/oxdingzg/miao-term/blob/941c7c2ab6c91b281fd689425e23c4380a7520c4/docs/config.example.toml) 中的 `[lsp]`);鼠标停在代码上会显示类型、文档与问题。
 
 | macOS | Linux / Windows | 操作 |
 |---|---|---|
@@ -65,4 +65,4 @@ sidebar:
 
 ---
 
-*Synced from [`oxdingzg/miao-term@1f9cb37`](https://github.com/oxdingzg/miao-term/blob/1f9cb378cab3d9f0a3995971a05be22f5917fd05/docs/SHORTCUTS.zh-CN.md).*
+*Synced from [`oxdingzg/miao-term@941c7c2`](https://github.com/oxdingzg/miao-term/blob/941c7c2ab6c91b281fd689425e23c4380a7520c4/docs/SHORTCUTS.zh-CN.md).*
