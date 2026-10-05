@@ -18,6 +18,7 @@ when an agent needs you and sends a queued prompt when it goes idle. The home pa
 | [`/miao`](https://mtty.dev/miao) · [`/mtty`](https://mtty.dev/mtty) | Product pages |
 | [`/docs/miao`](https://mtty.dev/docs/miao) · [`/docs/mtty`](https://mtty.dev/docs/mtty) | Documentation |
 | `/miao/install` | 302 to miao's install script (see `public/_redirects`) |
+| `/models/api.json` | The model catalog miao fetches at runtime (generated, see `scripts/sync-models.ts`) |
 
 [oxdingzg/miaotty](https://github.com/oxdingzg/miaotty) was a personal, temporary macOS
 prototype of the terminal (a Ghostty fork). It is not documented here; its README points to
@@ -60,6 +61,7 @@ Run from the repository root:
 | `bun run check` | Type-check `.astro` and content files |
 | `bun run check:media` | Verify screenshot dimensions, video metadata and media size budgets |
 | `bun run sync:docs` | Re-sync the miao documentation from its repository |
+| `bun run sync:models` | Build `public/models/api.json`, the catalog miao fetches |
 | `bun run og` | Re-render the social preview cards in `public/og/` |
 
 ## Product media
