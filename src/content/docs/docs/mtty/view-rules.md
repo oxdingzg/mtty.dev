@@ -1,7 +1,7 @@
 ---
 title: "View rules"
 sidebar:
-  order: 6
+  order: 8
 ---
 
 A pane's tab title, icon and badge are derived from its context by the *view

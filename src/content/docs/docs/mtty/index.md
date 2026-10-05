@@ -31,6 +31,8 @@ signing are still pending.
 | [Install](/docs/mtty/install/) | Packages for macOS, Linux and Windows, building from source, and the URL schemes it registers |
 | [Windows download warnings](/docs/about/windows-downloads/) | Shared SmartScreen steps and differences between mtty and miao signatures |
 | [Configuration](/docs/mtty/config/) | `config.toml` — every key, themes, colors, language servers, ACP agents, shell integration |
+| [Remote hosts and SSH](/docs/mtty/remote/) | The host library, SFTP, port forwarding, jump hosts, snippets and broadcast, over the system OpenSSH |
+| [The editor](/docs/mtty/editor/) | Opening files, syntax and large files, multi-cursor, vim, folding, Markdown preview and LSP |
 | [Keyboard shortcuts](/docs/mtty/shortcuts/) | The window, the terminal and the editor pane |
 | [The `mtty-cli` control plane](/docs/mtty/cli/) | Drive a running host from a script or another program |
 | [View rules](/docs/mtty/view-rules/) | Pane titles, icons and badges, from `views.json` |

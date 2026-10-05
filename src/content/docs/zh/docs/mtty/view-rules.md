@@ -1,7 +1,7 @@
 ---
 title: "View 规则"
 sidebar:
-  order: 6
+  order: 8
 ---
 
 一个 pane 的标签标题、图标与徽章由 *View 规则引擎* 从上下文推导

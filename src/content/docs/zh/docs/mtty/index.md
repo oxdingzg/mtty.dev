@@ -26,6 +26,8 @@ Windows MSI 签名尚未完成。
 | [安装](/zh/docs/mtty/install/) | macOS、Linux、Windows 的安装包，从源码构建，以及注册的 URL scheme |
 | [Windows 下载提示](/zh/docs/about/windows-downloads/) | 两个产品共用的 SmartScreen 处理步骤与签名差异 |
 | [配置](/zh/docs/mtty/config/) | `config.toml` —— 每个键、主题、配色、语言服务器、ACP agent、shell 集成 |
+| [远程主机与 SSH](/zh/docs/mtty/remote/) | 基于系统 OpenSSH 的主机库、SFTP、端口转发、跳板机、片段与广播 |
+| [编辑器](/zh/docs/mtty/editor/) | 打开文件、语法与超大文件、多光标、vim、折叠、Markdown 预览与 LSP |
 | [快捷键](/zh/docs/mtty/shortcuts/) | 窗口、终端与编辑器窗格 |
 | [`mtty-cli` 控制面](/zh/docs/mtty/cli/) | 用脚本或另一个程序驱动正在运行的宿主 |
 | [视图规则](/zh/docs/mtty/view-rules/) | 由 `views.json` 决定窗格标题、图标与徽章 |

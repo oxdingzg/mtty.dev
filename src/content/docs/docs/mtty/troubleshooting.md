@@ -1,7 +1,7 @@
 ---
 title: "Troubleshooting"
 sidebar:
-  order: 5
+  order: 7
 ---
 
 ## Investigating high CPU or memory usage

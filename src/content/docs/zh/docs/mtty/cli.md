@@ -1,7 +1,7 @@
 ---
 title: "mtty-cli 控制面"
 sidebar:
-  order: 3
+  order: 5
 ---
 
 `mtty-cli` 让脚本或其他程序驱动正在运行的 mtty 宿主。它通过每用户套接字与应用程序通话，说的是

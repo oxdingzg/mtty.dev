@@ -1,7 +1,7 @@
 ---
 title: "快捷键"
 sidebar:
-  order: 4
+  order: 6
 ---
 
 `⌘` 是 macOS 的主修饰键;Linux / Windows 一列是对应平台上的等价组合。

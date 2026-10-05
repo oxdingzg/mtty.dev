@@ -1,7 +1,7 @@
 ---
 title: "Keyboard shortcuts"
 sidebar:
-  order: 4
+  order: 6
 ---
 
 `⌘` is the macOS primary modifier; the Linux and Windows column is the
