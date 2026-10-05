@@ -10,6 +10,7 @@
     "check": "astro check",
     "check:media": "bun scripts/check-media.ts",
     "sync:docs": "bun scripts/sync-docs.ts",
+    "sync:models": "bun scripts/sync-models.ts",
     "og": "bun scripts/og.ts",
     "astro": "astro"
   },
