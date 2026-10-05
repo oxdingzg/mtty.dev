@@ -15,7 +15,7 @@ concurrency:
   cancel-in-progress: true
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   deploy:
@@ -52,6 +52,22 @@ jobs:
       # The catalog miao fetches at runtime is generated, not committed, so it
       # is always current with models.dev and is present in the deployed assets.
       - run: bun run sync:models
+
+      # Mirror the generated catalog and schema as assets on a rolling release,
+      # so miao (and editors) have a fallback source if mtty.dev is unreachable.
+      # The stable URLs are .../releases/download/models/api.json and
+      # .../releases/download/models/model-schema.json.
+      - name: Publish the catalog to a GitHub release (fallback)
+        if: github.event_name != 'pull_request'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release view models --repo "${{ github.repository }}" >/dev/null 2>&1 ||
+            gh release create models --repo "${{ github.repository }}" \
+              --title "Model catalog" \
+              --notes "Rolling model catalog and model schema, refreshed by the deploy workflow."
+          gh release upload models public/models/api.json public/miao/model-schema.json \
+            --repo "${{ github.repository }}" --clobber
 
       - run: bun run build
 
