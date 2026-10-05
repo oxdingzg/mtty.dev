@@ -14,12 +14,19 @@
 // Command Code) still resolves. Command Code models also carry the plan tiers
 // that include them, so miao can hide a model the connected account's plan
 // cannot call (the API answers 403 MODEL_NOT_IN_PLAN at request time otherwise).
+//
+// It also writes public/miao/model-schema.json. The config schema miao
+// publishes at https://mtty.dev/miao/config.json $refs a `Model` definition for
+// editor autocomplete of the `model` field, and that definition is only the set
+// of provider/model IDs, so serving it from here keeps it in step with the
+// catalog instead of pointing editors at models.dev.
 
 import { mkdir } from "node:fs/promises"
 import { dirname, join } from "node:path"
 
 const ROOT = dirname(import.meta.dir)
 const OUTPUT = join(ROOT, "public", "models", "api.json")
+const SCHEMA_OUTPUT = join(ROOT, "public", "miao", "model-schema.json")
 const MODELS_DEV = "https://models.dev/api.json"
 // The Command Code CLI ships a generated model reference whose `Min plan`
 // column says the cheapest plan that serves each model, and every higher plan
@@ -123,8 +130,26 @@ function merge(catalog: Catalog, commandcode: Record<string, Model>): Catalog {
 }
 
 const commandcode = await loadCommandCodeModels()
-const serialized = `${JSON.stringify(merge(await loadModelsDev(), commandcode), null, 1)}\n`
+const catalog = merge(await loadModelsDev(), commandcode)
 
+const serialized = `${JSON.stringify(catalog, null, 1)}\n`
 await mkdir(dirname(OUTPUT), { recursive: true })
 await Bun.write(OUTPUT, serialized)
 console.log(`Wrote ${OUTPUT} (${serialized.length} bytes)`)
+
+// The `model` $ref for editors: every provider/model ID in the catalog.
+const modelIds = Object.entries(catalog)
+  .flatMap(([providerID, provider]) => Object.keys(provider.models ?? {}).map((id) => `${providerID}/${id}`))
+  .sort()
+const modelSchema = `${JSON.stringify(
+  {
+    $schema: "https://json-schema.org/draft/2020-12/schema",
+    $id: "https://mtty.dev/miao/model-schema.json",
+    $defs: { Model: { type: "string", enum: modelIds } },
+  },
+  null,
+  2,
+)}\n`
+await mkdir(dirname(SCHEMA_OUTPUT), { recursive: true })
+await Bun.write(SCHEMA_OUTPUT, modelSchema)
+console.log(`Wrote ${SCHEMA_OUTPUT} (${modelIds.length} model ids)`)

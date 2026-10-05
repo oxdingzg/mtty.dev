@@ -1,7 +1,8 @@
 # build output
 dist/
-# generated model catalog (scripts/sync-models.ts, run by the deploy workflow)
+# generated model catalog + model schema (scripts/sync-models.ts, run by the deploy workflow)
 public/models/
+public/miao/model-schema.json
 # generated types
 .astro/
 
