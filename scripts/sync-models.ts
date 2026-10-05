@@ -11,62 +11,119 @@
 //
 // The catalog is the public models.dev catalog with miao's own entries merged
 // on top, so a provider miao supports but models.dev does not list (currently
-// Command Code) still resolves. miao also ships this merge as a fallback, so
-// this file only needs to be current, not exhaustively hand-maintained.
+// Command Code) still resolves. Command Code models also carry the plan tiers
+// that include them, so miao can hide a model the connected account's plan
+// cannot call (the API answers 403 MODEL_NOT_IN_PLAN at request time otherwise).
 
 import { mkdir } from "node:fs/promises"
 import { dirname, join } from "node:path"
 
 const ROOT = dirname(import.meta.dir)
 const OUTPUT = join(ROOT, "public", "models", "api.json")
-const SOURCES = ["https://models.dev/api.json"]
+const MODELS_DEV = "https://models.dev/api.json"
+// The Command Code CLI ships a generated model reference whose `Min plan`
+// column says the cheapest plan that serves each model, and every higher plan
+// includes it. jsDelivr serves the file straight out of the npm package, so no
+// install is needed here.
+const COMMANDCODE_MODELS_MD =
+  "https://cdn.jsdelivr.net/npm/command-code/dist/bundled/command-code-knowledge/reference/models.md"
 
-type Provider = Record<string, unknown>
+type Model = Record<string, unknown>
+type Provider = { models?: Record<string, Model> } & Record<string, unknown>
 type Catalog = Record<string, Provider>
 
-/** Merge these over the fetched catalog, letting these provider fields win. */
-const OVERLAY: Catalog = {
-  commandcode: {
-    id: "commandcode",
-    name: "Command Code",
-    env: ["CMD_API_KEY", "COMMAND_CODE_API_KEY"],
-    api: "https://api.commandcode.ai",
-    models: {},
-  },
+// Cheapest-first plan tiers. A model's `plans` lists every tier that includes
+// it, so a `Min plan` of "GOAT and above" becomes ["goat", "pro", "max"].
+const PLAN_TIERS = ["go", "goat", "pro", "max"] as const
+type PlanTier = (typeof PLAN_TIERS)[number]
+
+const COMMANDCODE_PROVIDER: Provider = {
+  id: "commandcode",
+  name: "Command Code",
+  env: ["CMD_API_KEY", "COMMAND_CODE_API_KEY"],
+  api: "https://api.commandcode.ai",
+  models: {},
 }
 
-async function loadCatalog(): Promise<Catalog> {
-  let failure: string | undefined
-  for (const source of SOURCES) {
-    try {
-      const response = await fetch(source)
-      if (!response.ok) {
-        failure = `${source} answered ${response.status}`
-        continue
-      }
-      return (await response.json()) as Catalog
-    } catch (error) {
-      failure = `${source} failed: ${error instanceof Error ? error.message : String(error)}`
+async function loadModelsDev(): Promise<Catalog> {
+  const response = await fetch(MODELS_DEV)
+  if (!response.ok) throw new Error(`${MODELS_DEV} answered ${response.status}`)
+  return (await response.json()) as Catalog
+}
+
+/** Parse the Command Code reference table into id → model (with plan tiers). */
+function parseCommandCodeModels(markdown: string): Record<string, Model> {
+  const models: Record<string, Model> = {}
+  for (const line of markdown.split("\n")) {
+    // | Id | Name | Context | Efforts | $/1M in/out · cache read | Min plan | Best for |
+    const cells = line.split("|").map((cell) => cell.trim())
+    if (cells.length < 8) continue
+    const id = cells[1]?.match(/^`(.+)`$/)?.[1]
+    if (!id) continue
+    const minPlan = cells[6]?.toLowerCase().split(/\s+/)[0]
+    const tier = PLAN_TIERS.find((tier) => tier === minPlan)
+    if (!tier) continue
+    const context = parseContext(cells[3] ?? "") ?? 128_000
+    models[id] = {
+      id,
+      name: cells[2] ?? id,
+      // The models endpoint miao also reads reports capabilities; keep these
+      // conservative so a catalog-only render still looks sane.
+      attachment: false,
+      reasoning: false,
+      temperature: false,
+      tool_call: true,
+      release_date: "",
+      limit: { context, output: 32_768 },
+      plans: PLAN_TIERS.slice(PLAN_TIERS.indexOf(tier)),
     }
   }
-  throw new Error(`No catalog source available (${failure})`)
+  return models
 }
 
-function merge(catalog: Catalog): Catalog {
+function parseContext(value: string): number | undefined {
+  const match = value.trim().match(/^([\d.]+)\s*([MK])$/i)
+  if (!match) return undefined
+  const size = Number.parseFloat(match[1]!)
+  if (!Number.isFinite(size)) return undefined
+  return Math.round(size * (match[2]!.toUpperCase() === "M" ? 1_000_000 : 1_000))
+}
+
+async function loadCommandCodeModels(): Promise<Record<string, Model>> {
+  try {
+    const response = await fetch(COMMANDCODE_MODELS_MD)
+    if (!response.ok) {
+      console.warn(`Command Code models reference answered ${response.status}`)
+      return {}
+    }
+    const models = parseCommandCodeModels(await response.text())
+    console.log(`Parsed ${Object.keys(models).length} Command Code models`)
+    return models
+  } catch (error) {
+    console.warn(`Command Code models reference failed: ${error instanceof Error ? error.message : String(error)}`)
+    return {}
+  }
+}
+
+function merge(catalog: Catalog, commandcode: Record<string, Model>): Catalog {
   const result: Catalog = { ...catalog }
-  for (const [id, provider] of Object.entries(OVERLAY)) {
-    const existing = result[id] as { models?: Record<string, unknown> } | undefined
+  const overlay: Catalog = {
+    commandcode: { ...COMMANDCODE_PROVIDER, models: commandcode },
+  }
+  for (const [id, provider] of Object.entries(overlay)) {
+    const existing = result[id]
     result[id] = {
       ...existing,
       ...provider,
-      models: { ...existing?.models, ...(provider.models as Record<string, unknown> | undefined) },
+      models: { ...existing?.models, ...(provider.models ?? {}) },
     }
   }
   // Stable key order, so a re-sync produces a stable file.
   return Object.fromEntries(Object.keys(result).sort().map((id) => [id, result[id]!]))
 }
 
-const serialized = `${JSON.stringify(merge(await loadCatalog()), null, 1)}\n`
+const commandcode = await loadCommandCodeModels()
+const serialized = `${JSON.stringify(merge(await loadModelsDev(), commandcode), null, 1)}\n`
 
 await mkdir(dirname(OUTPUT), { recursive: true })
 await Bun.write(OUTPUT, serialized)
