@@ -33,7 +33,7 @@ has a key in the environment is also picked up without `login`.
 miao models                     # every provider/model your build knows
 miao models anthropic           # filter to one provider
 miao models --verbose           # include metadata such as costs
-miao models --refresh           # refresh the catalog from models.dev first
+miao models --refresh           # refresh the catalog from mtty.dev first
 ```
 
 Inside the TUI, `/model` or `ctrl+x m` switches the model; the last model used
@@ -53,11 +53,11 @@ Specialist agents can carry their own model and permissions; see the
 ## Where the catalog comes from
 
 Model metadata (names, context limits, capabilities, pricing) comes from
-miao's own catalog served at `mtty.dev`, falling back to the public
-[models.dev](https://models.dev) catalog. Providers miao maintains that
-models.dev does not list yet — currently [Command Code](https://commandcode.ai)
-— are merged on top. A snapshot is bundled into the build, so startup works
-offline.
+miao's own catalog served at `mtty.dev`: the public [models.dev](https://models.dev)
+catalog with the provider miao maintains that models.dev does not list —
+currently [Command Code](https://commandcode.ai) — merged in when the site
+deploys. miao reads only this source; there is no models.dev fallback at
+runtime. A snapshot is bundled into the build, so startup works offline.
 
 You can point this at a different source:
 

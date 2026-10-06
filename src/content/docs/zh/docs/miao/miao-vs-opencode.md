@@ -42,10 +42,10 @@ miao 延续 opencode 的开源编程工作流，把工程投入集中在上下�
 
 重复输出调查发现，同一供应商/模型同时存在正常会话，其中一些报告的输入更大。因此，长度本身
 不足以解释故障。首版保护识别短的换行自然语言循环，不覆盖所有重复形式，详见
-[调查与边界](https://github.com/oxdingzg/miao/blob/d0edc5690352a481ff6dc7566afdf16437f2b61d/docs/provider-output-repetition.zh.md)。
+[调查与边界](https://github.com/oxdingzg/miao/blob/5dbadaa581d6b2eddf8b94faf8b3a82fe18f7fc9/docs/provider-output-repetition.zh.md)。
 
 V2 工具接入后台任务、崩溃后自动续跑、MCP 工具渐进发现、blob 垃圾回收，以及 bash 之外的沙箱
-覆盖仍处于规划或未完成状态，不作为当前可用功能宣传。当前工作见[路线图](https://github.com/oxdingzg/miao/blob/d0edc5690352a481ff6dc7566afdf16437f2b61d/docs/roadmap.zh.md)。
+覆盖仍处于规划或未完成状态，不作为当前可用功能宣传。当前工作见[路线图](https://github.com/oxdingzg/miao/blob/5dbadaa581d6b2eddf8b94faf8b3a82fe18f7fc9/docs/roadmap.zh.md)。
 
 近期会话记录、缓存与读取路径优化已有回归证据，但没有受控的前后对比证明相对当前上游
 opencode 的整任务提速或特定内存下降。下面的基准是另一种范围的历史测量。
@@ -76,7 +76,7 @@ V2 是唯一的会话运行时，工具位于 `packages/core/src/tool`；V1 兼�
 - **native addon：** 默认启用。它为沙箱 runner、编辑匹配、补丁派生与其他原生辅助提供支持。`MIAO_NATIVE=0` 全部禁用，改由 TypeScript 实现接管。
 - **进程内 Git：** 已有 `gix` 实现和基准，尚未成为默认 Git 路径。
 
-依赖沙箱前，请阅读 [使用指南](/zh/docs/miao/guide/#56-内核级沙箱需开启) 与 [接入风险](https://github.com/oxdingzg/miao/blob/d0edc5690352a481ff6dc7566afdf16437f2b61d/docs/rust-integration-risks.zh.md)。Windows 内核沙箱尚未实现同等能力。
+依赖沙箱前，请阅读 [使用指南](/zh/docs/miao/guide/#56-内核级沙箱需开启) 与 [接入风险](https://github.com/oxdingzg/miao/blob/5dbadaa581d6b2eddf8b94faf8b3a82fe18f7fc9/docs/rust-integration-risks.zh.md)。Windows 内核沙箱尚未实现同等能力。
 
 ## 边界与后续工作
 
@@ -84,10 +84,10 @@ V2 是唯一的会话运行时，工具位于 `packages/core/src/tool`；V1 兼�
 - 持久化历史与精确提示重试校验，不等于模型执行自动恢复或 Shell 副作用严格只发生一次。
 - 会话执行和消息唤醒限于本进程，不宣传跨机器代理集群。
 - Code Mode 属于实验功能；生成的客户端与内嵌 host 是私有工作区包，契约仍在演进。
-- 消息权限的逐目标策略持久化、接收会话的循环成本计量仍有设计工作，见 [会话消息规格](https://github.com/oxdingzg/miao/blob/d0edc5690352a481ff6dc7566afdf16437f2b61d/specs/v2/session-messaging.md)。
+- 消息权限的逐目标策略持久化、接收会话的循环成本计量仍有设计工作，见 [会话消息规格](https://github.com/oxdingzg/miao/blob/5dbadaa581d6b2eddf8b94faf8b3a82fe18f7fc9/specs/v2/session-messaging.md)。
 
-产品概览见 [README](https://github.com/oxdingzg/miao/blob/d0edc5690352a481ff6dc7566afdf16437f2b61d/README.zh.md)，操作方法见 [使用指南](/zh/docs/miao/guide/)，运行时契约见 [CONTEXT.md](https://github.com/oxdingzg/miao/blob/d0edc5690352a481ff6dc7566afdf16437f2b61d/CONTEXT.md)。
+产品概览见 [README](https://github.com/oxdingzg/miao/blob/5dbadaa581d6b2eddf8b94faf8b3a82fe18f7fc9/README.zh.md)，操作方法见 [使用指南](/zh/docs/miao/guide/)，运行时契约见 [CONTEXT.md](https://github.com/oxdingzg/miao/blob/5dbadaa581d6b2eddf8b94faf8b3a82fe18f7fc9/CONTEXT.md)。
 
 ---
 
-*Synced from [`oxdingzg/miao@d0edc56`](https://github.com/oxdingzg/miao/blob/d0edc5690352a481ff6dc7566afdf16437f2b61d/docs/miao-vs-opencode.zh.md).*
+*Synced from [`oxdingzg/miao@5dbadaa`](https://github.com/oxdingzg/miao/blob/5dbadaa581d6b2eddf8b94faf8b3a82fe18f7fc9/docs/miao-vs-opencode.zh.md).*
