@@ -1,7 +1,7 @@
 ---
 title: "mtty-cli 控制面"
 sidebar:
-  order: 5
+  order: 3
 ---
 
 `mtty-cli` 让脚本或其他程序驱动正在运行的 mtty 宿主。它通过每用户套接字与应用程序通话，说的是
@@ -103,4 +103,4 @@ MTP 是套接字上的换行分隔 JSON，客户端不必依赖 `mtty-cli`:写�
 
 ---
 
-*Synced from [`oxdingzg/mtty@b65a3d1`](https://github.com/oxdingzg/mtty/blob/b65a3d13ea6c2a3ff8afd59f639e25d4f193b45a/docs/CLI.zh-CN.md).*
+*Synced from [`oxdingzg/mtty@1ce4ec3`](https://github.com/oxdingzg/mtty/blob/1ce4ec38b46329e7d8d9ae4eb932fead2b3c3a71/docs/CLI.zh-CN.md).*

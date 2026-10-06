@@ -42,26 +42,26 @@ miao 延续 opencode 的开源编程工作流，把工程投入集中在上下�
 
 重复输出调查发现，同一供应商/模型同时存在正常会话，其中一些报告的输入更大。因此，长度本身
 不足以解释故障。首版保护识别短的换行自然语言循环，不覆盖所有重复形式，详见
-[调查与边界](https://github.com/oxdingzg/miao/blob/efb8c006289808476296c0b3b6b336011d96d604/docs/provider-output-repetition.zh.md)。
+[调查与边界](https://github.com/oxdingzg/miao/blob/7ea8a0e06916abbd70859980d1348773c69edfe0/docs/provider-output-repetition.zh.md)。
 
 V2 工具接入后台任务、崩溃后自动续跑、MCP 工具渐进发现、blob 垃圾回收，以及 bash 之外的沙箱
-覆盖仍处于规划或未完成状态，不作为当前可用功能宣传。当前工作见[路线图](https://github.com/oxdingzg/miao/blob/efb8c006289808476296c0b3b6b336011d96d604/docs/roadmap.zh.md)。
+覆盖仍处于规划或未完成状态，不作为当前可用功能宣传。当前工作见[路线图](https://github.com/oxdingzg/miao/blob/7ea8a0e06916abbd70859980d1348773c69edfe0/docs/roadmap.zh.md)。
 
 近期会话记录、缓存与读取路径优化已有回归证据，但没有受控的前后对比证明相对当前上游
 opencode 的整任务提速或特定内存下降。下面的基准是另一种范围的历史测量。
 
 ## 已有的原生基准记录
 
-基线是本仓库引入原生模块之前的 TypeScript 实现，不是当前的 `anomalyco/opencode`。数据为同机 release 构建的中位数，测量经 Rust 插件调用的独立操作，不包含双方共有的编排、I/O、LSP、格式化、供应商延迟或模型推理。本次文档更新没有重新运行这些基准。表中的原生 edit／patch 路径属于已被删除的 V1 兼容工具，数字作为历史组件测量保留。
+基线是本仓库引入原生模块之前的 TypeScript 实现，不是当前的 `anomalyco/opencode`。数据为同机 release 构建的中位数，测量经 Rust 插件调用的独立操作，不包含双方共有的编排、I/O、LSP、格式化、供应商延迟或模型推理。本次文档更新没有重新运行这些基准；最早承载这些路径的 V1 兼容工具已经删除，但原语本身没有随之消失 —— 只要 addon 已加载（默认即加载），V2 的 edit 与 apply_patch 调用的就是同一套原生匹配与派生。这些数字仍是原语的组件测量，而不是对当前工具的重新基准。
 
 | 操作                                            | TypeScript 基线 | Rust 原生 | 提速      | 接入范围             |
 | ----------------------------------------------- | --------------- | --------- | --------- | -------------------- |
-| edit 精确匹配（12k 行）                         | 0.21 ms         | 0.12 ms   | **1.7x**  | 已删除的 V1 路径     |
-| edit 模糊匹配（12k 行）                         | 0.76 ms         | 0.39 ms   | **1.9x**  | 已删除的 V1 路径     |
-| edit 匹配 + diff 统计（12k 行）                 | 2.03 ms         | 1.78 ms   | 1.14x     | 已删除的 V1 路径     |
-| apply_patch `deriveNewContents` exact（20k 行） | 1.67 ms         | 1.28 ms   | **1.3x**  | 已删除的 V1 路径     |
-| apply_patch trim 匹配（20k 行）                 | 3.47 ms         | 1.76 ms   | **2.0x**  | 已删除的 V1 路径     |
-| apply_patch unicode 归一化（20k 行）            | 13.06 ms        | 5.21 ms   | **2.5x**  | 已删除的 V1 路径     |
+| edit 精确匹配（12k 行）                         | 0.21 ms         | 0.12 ms   | **1.7x**  | V2 工具，native 默认 |
+| edit 模糊匹配（12k 行）                         | 0.76 ms         | 0.39 ms   | **1.9x**  | V2 工具，native 默认 |
+| edit 匹配 + diff 统计（12k 行）                 | 2.03 ms         | 1.78 ms   | 1.14x     | V2 工具，native 默认 |
+| apply_patch `deriveNewContents` exact（20k 行） | 1.67 ms         | 1.28 ms   | **1.3x**  | V2 工具，native 默认 |
+| apply_patch trim 匹配（20k 行）                 | 3.47 ms         | 1.76 ms   | **2.0x**  | V2 工具，native 默认 |
+| apply_patch unicode 归一化（20k 行）            | 13.06 ms        | 5.21 ms   | **2.5x**  | V2 工具，native 默认 |
 | git status 小仓（10 文件 / 2 变更）             | 12.3 ms         | 1.0 ms    | **11.9x** | 原型，未接入默认路径 |
 | git status 大仓（2200 文件 / 400 变更）         | 13.6 ms         | 5.8 ms    | **2.4x**  | 原型，未接入默认路径 |
 
@@ -71,12 +71,12 @@ opencode 的整任务提速或特定内存下降。下面的基准是另一种�
 
 V2 是唯一的会话运行时，工具位于 `packages/core/src/tool`；V1 兼容工具及其在 `packages/miao/src/tool` 的原生 edit／patch 路径均已删除。
 
-- **edit／patch：** V2 工具是 TypeScript 实现（`edit-fuzzy.ts` 等）。上表中的原生 edit／patch 加速已不再接入任何已发布工具。
-- **OS 沙箱：** V2 `bash` 工具可以把每条命令放进沙箱运行。macOS 用 seatbelt，Linux 用 Landlock，Windows 暂无后端。用 `sandbox.mode: "workspace-write"` 或 `MIAO_SANDBOX=1` 开启，`MIAO_SANDBOX_DENY_NETWORK=1` 禁止网络。默认关闭，需显式开启。
-- **native addon：** `MIAO_NATIVE=0` 可禁用 addon。它为沙箱 runner 和其他原生辅助提供支持，不用于 V2 edit／patch。
+- **edit／patch：** V2 工具经由 `packages/core/src/tool/edit-match.ts` 与 `packages/core/src/patch.ts`，在 addon 已加载（默认即加载）时调用原生 `matchEdit` 与 `deriveNewContentsV2`。`edit-fuzzy.ts` 与 `deriveTs` 是 TypeScript 参考实现，在缺少 addon 或设置了 `MIAO_NATIVE=0` 时启用。匹配与派生是纯计算：文件 IO、权限、条件写入与落盘都留在 Core。
+- **OS 沙箱：** V2 `bash` 工具可以把每条命令放进沙箱运行。macOS 用 seatbelt，Linux 用 Landlock，Windows 暂无后端。用 `sandbox.mode: "workspace-write"` 或 `MIAO_SANDBOX=1` 开启，`MIAO_SANDBOX_DENY_NETWORK=1` 禁止网络。默认关闭，需显式开启，且默认 fail-open —— `sandbox.on_unavailable` 默认 `"warn"`，缺少后端的主机会直接裸跑命令，除非设为 `"fail"`。
+- **native addon：** 默认启用。它为沙箱 runner、编辑匹配、补丁派生与其他原生辅助提供支持。`MIAO_NATIVE=0` 全部禁用，改由 TypeScript 实现接管。
 - **进程内 Git：** 已有 `gix` 实现和基准，尚未成为默认 Git 路径。
 
-依赖沙箱前，请阅读 [使用指南](/zh/docs/miao/guide/#56-内核级沙箱需开启) 与 [接入风险](https://github.com/oxdingzg/miao/blob/efb8c006289808476296c0b3b6b336011d96d604/docs/rust-integration-risks.zh.md)。Windows 内核沙箱尚未实现同等能力。
+依赖沙箱前，请阅读 [使用指南](/zh/docs/miao/guide/#56-内核级沙箱需开启) 与 [接入风险](https://github.com/oxdingzg/miao/blob/7ea8a0e06916abbd70859980d1348773c69edfe0/docs/rust-integration-risks.zh.md)。Windows 内核沙箱尚未实现同等能力。
 
 ## 边界与后续工作
 
@@ -84,10 +84,10 @@ V2 是唯一的会话运行时，工具位于 `packages/core/src/tool`；V1 兼�
 - 持久化历史与精确提示重试校验，不等于模型执行自动恢复或 Shell 副作用严格只发生一次。
 - 会话执行和消息唤醒限于本进程，不宣传跨机器代理集群。
 - Code Mode 属于实验功能；生成的客户端与内嵌 host 是私有工作区包，契约仍在演进。
-- 消息权限的逐目标策略持久化、接收会话的循环成本计量仍有设计工作，见 [会话消息规格](https://github.com/oxdingzg/miao/blob/efb8c006289808476296c0b3b6b336011d96d604/specs/v2/session-messaging.md)。
+- 消息权限的逐目标策略持久化、接收会话的循环成本计量仍有设计工作，见 [会话消息规格](https://github.com/oxdingzg/miao/blob/7ea8a0e06916abbd70859980d1348773c69edfe0/specs/v2/session-messaging.md)。
 
-产品概览见 [README](https://github.com/oxdingzg/miao/blob/efb8c006289808476296c0b3b6b336011d96d604/README.zh.md)，操作方法见 [使用指南](/zh/docs/miao/guide/)，运行时契约见 [CONTEXT.md](https://github.com/oxdingzg/miao/blob/efb8c006289808476296c0b3b6b336011d96d604/CONTEXT.md)。
+产品概览见 [README](https://github.com/oxdingzg/miao/blob/7ea8a0e06916abbd70859980d1348773c69edfe0/README.zh.md)，操作方法见 [使用指南](/zh/docs/miao/guide/)，运行时契约见 [CONTEXT.md](https://github.com/oxdingzg/miao/blob/7ea8a0e06916abbd70859980d1348773c69edfe0/CONTEXT.md)。
 
 ---
 
-*Synced from [`oxdingzg/miao@efb8c00`](https://github.com/oxdingzg/miao/blob/efb8c006289808476296c0b3b6b336011d96d604/docs/miao-vs-opencode.zh.md).*
+*Synced from [`oxdingzg/miao@7ea8a0e`](https://github.com/oxdingzg/miao/blob/7ea8a0e06916abbd70859980d1348773c69edfe0/docs/miao-vs-opencode.zh.md).*

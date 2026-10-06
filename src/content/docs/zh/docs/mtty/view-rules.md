@@ -1,11 +1,11 @@
 ---
 title: "View 规则"
 sidebar:
-  order: 8
+  order: 6
 ---
 
 一个 pane 的标签标题、图标与徽章由 *View 规则引擎* 从上下文推导
-(设计见 [ADR 0007](https://github.com/oxdingzg/mtty/blob/b65a3d13ea6c2a3ff8afd59f639e25d4f193b45a/docs/decisions/0007-view-rule-engine.zh-CN.md))。规则存放于
+(设计见 [ADR 0007](https://github.com/oxdingzg/mtty/blob/1ce4ec38b46329e7d8d9ae4eb932fead2b3c3a71/docs/decisions/0007-view-rule-engine.zh-CN.md))。规则存放于
 `~/.config/mtty/views.json`(JSON)。文件修改后 mtty 会自动重新加载,下一次有操作时
 几秒内生效;应用内的规则编辑器尚未提供。
 
@@ -59,4 +59,4 @@ emoji、再到纯色圆点。内置名称:
 
 ---
 
-*Synced from [`oxdingzg/mtty@b65a3d1`](https://github.com/oxdingzg/mtty/blob/b65a3d13ea6c2a3ff8afd59f639e25d4f193b45a/docs/VIEW-RULES.zh-CN.md).*
+*Synced from [`oxdingzg/mtty@1ce4ec3`](https://github.com/oxdingzg/mtty/blob/1ce4ec38b46329e7d8d9ae4eb932fead2b3c3a71/docs/VIEW-RULES.zh-CN.md).*

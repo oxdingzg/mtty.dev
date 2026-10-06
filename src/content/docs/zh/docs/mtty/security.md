@@ -1,7 +1,7 @@
 ---
 title: "安全"
 sidebar:
-  order: 9
+  order: 7
 ---
 
 ## 报告安全问题
@@ -50,4 +50,4 @@ MTP —— `mtty-cli`，以及任何实现该协议的程序 —— 可以在窗
 
 ---
 
-*Synced from [`oxdingzg/mtty@b65a3d1`](https://github.com/oxdingzg/mtty/blob/b65a3d13ea6c2a3ff8afd59f639e25d4f193b45a/SECURITY.zh-CN.md).*
+*Synced from [`oxdingzg/mtty@1ce4ec3`](https://github.com/oxdingzg/mtty/blob/1ce4ec38b46329e7d8d9ae4eb932fead2b3c3a71/SECURITY.zh-CN.md).*

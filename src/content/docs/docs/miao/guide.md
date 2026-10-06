@@ -13,7 +13,7 @@ releases. This guide covers install, usage, and troubleshooting end to end.
 
 miao is an open-source coding agent with a terminal UI, HTTP server, and browser interface. It focuses on the work around model calls: durable sessions, context efficiency, collaboration, and visible cost.
 
-Use it to explore a repository, implement a change, investigate a failing test, or delegate focused research. Connect the providers you prefer, configure project tools, and continue the conversation as the task evolves. Model selection and MCP are part of the workflow; miao's runtime work is described in the [overview](https://github.com/oxdingzg/miao/blob/efb8c006289808476296c0b3b6b336011d96d604/README.md) and [availability comparison](/docs/miao/miao-vs-opencode/).
+Use it to explore a repository, implement a change, investigate a failing test, or delegate focused research. Connect the providers you prefer, configure project tools, and continue the conversation as the task evolves. Model selection and MCP are part of the workflow; miao's runtime work is described in the [overview](https://github.com/oxdingzg/miao/blob/7ea8a0e06916abbd70859980d1348773c69edfe0/README.md) and [availability comparison](/docs/miao/miao-vs-opencode/).
 
 A useful first task is: “Find the cause of this failure, make the smallest appropriate fix, run the relevant checks, and explain the diff.” Add constraints while the agent works rather than starting a second conversation.
 
@@ -99,7 +99,7 @@ overrides the path. Main fields:
 | `lsp`                                                             | language servers: `true` enables all built-ins, `false` disables, or a per-name record. **Omitted = all disabled** |
 | `formatter`                                                       | formatters: `true` enables built-ins, or a per-name record with commands                                           |
 | `mcp`                                                             | MCP servers (local stdio / remote streamable-http)                                                                 |
-| `compaction`                                                      | `prune` old tool output, `summarize_small`, `hot_prefix`, `precise_tokens`                                         |
+| `compaction`                                                      | `prune` old tool output, `threshold` ratio, `summarize_small`, `hot_prefix`, `precise_tokens`                      |
 | `cache`                                                           | `ttl_seconds` extends the prompt-cache TTL                                                                         |
 | `cost`                                                            | `budget_usd` per-session cost budget (warns and stops continuation)                                                |
 | `loop`                                                            | autonomous continuation (see §5.8)                                                                                 |
@@ -224,14 +224,17 @@ V2's `list_sessions` discovers project peers, and `send_message` accepts a sessi
 }
 ```
 
-This optional project configuration combines continued todo work, a scheduling budget, old-output pruning, and a bound on each tool's model-visible output. A budget does not interrupt an in-flight turn and is not a billing cap. Output files are temporary; the bounded transcript is the durable record. Enable small-model summaries or hot-prefix compaction separately after checking that they suit your provider and workload.
+This optional project configuration combines continued todo work, a scheduling budget, old-output pruning, and a bound on each tool's model-visible output. A budget does not interrupt an in-flight turn and is not a billing cap. Output files are temporary; the bounded transcript is the durable record. Tool-output pruning is on by default (disable with `"prune": false`). Automatic compaction triggers at `threshold` (default `0.9`) of the window using the provider's reported prompt tokens, so it runs before the window fills rather than at the last moment. Enable small-model summaries or hot-prefix compaction separately after checking that they suit your provider and workload.
+
+Content that a compaction removed from the model window stays durable on disk. The `recall` tool searches that history by keyword, so an agent can recover a dropped detail instead of re-reading files or repeating finished work.
 
 ## 6. Runtime status and ongoing work
 
 All shipped clients use the single V2 session runtime; the V1 session runtime and its `/session/*` routes have been removed.
 
-- [V1 retirement](https://github.com/oxdingzg/miao/blob/efb8c006289808476296c0b3b6b336011d96d604/specs/v2/v1-retirement.md) records the removal and the remaining compatibility surfaces (database migration and non-session legacy routes).
-- [Session storage](https://github.com/oxdingzg/miao/blob/efb8c006289808476296c0b3b6b336011d96d604/specs/storage/session-storage-hardening.md) tracks storage design. Use `miao db stats`, `miao db vacuum`, and JSONL exports to inspect and maintain local records.
+- [V1 retirement](https://github.com/oxdingzg/miao/blob/7ea8a0e06916abbd70859980d1348773c69edfe0/specs/v2/v1-retirement.md) records the removal and the remaining compatibility surfaces (database migration and non-session legacy routes).
+- [Session storage](https://github.com/oxdingzg/miao/blob/7ea8a0e06916abbd70859980d1348773c69edfe0/specs/storage/session-storage-hardening.md) tracks storage design. Use `miao db stats`, `miao db vacuum`, and JSONL exports to inspect and maintain local records.
+- [Agent concurrency](https://github.com/oxdingzg/miao/blob/7ea8a0e06916abbd70859980d1348773c69edfe0/specs/v2/agent-concurrency.md) designs non-blocking subagents and wake-on-completion so long-running work does not stall a Session.
 - Automatic post-crash execution continuation and clustered ownership are not implemented. The OS sandbox is built into the V2 `bash` tool but remains opt-in; see the [availability matrix](/docs/miao/miao-vs-opencode/).
 
 ## 7. FAQ
@@ -249,12 +252,19 @@ manual toggle still works.
 `miao providers login` writes credentials; `miao models` lists them; customize under
 `providers` in `miao.jsonc`. Use `miao debug` for provider errors.
 
+**How do I use my Command Code subscription?**
+Connect once with `miao auth login commandcode` (a browser-assisted login), or set
+`CMD_API_KEY` to an API key from [commandcode.ai Studio](https://commandcode.ai/studio/).
+Its models are discovered from your account when it connects. Command Code uses its CLI
+subscription endpoint rather than the documented Provider API, so model capabilities and
+pricing are conservative until the catalog reports them.
+
 **Cost does not match the bill?**
 Use native-currency pricing (`providers.<id>.models.<m>.cost`), or switch display currency with
 `/currency`.
 
 **Native (Rust) addon problems?**
-`MIAO_NATIVE=0` disables the addon. The V2 edit/patch tools are TypeScript; the addon backs the OS sandbox runner. See the [comparison matrix](/docs/miao/miao-vs-opencode/).
+`MIAO_NATIVE=0` disables the addon, and the TypeScript implementations of edit matching and patch derivation take over. The addon also backs the OS sandbox runner. See the [comparison matrix](/docs/miao/miao-vs-opencode/).
 
 **Can it keep working autonomously like a single long run?**
 Use the `loop` config (§5.8), or an external loop `miao run --continue "...continue..."`.
@@ -291,8 +301,8 @@ bun --cwd packages/miao test
 
 ## License
 
-MIT. See [LICENSE](https://github.com/oxdingzg/miao/blob/efb8c006289808476296c0b3b6b336011d96d604/LICENSE).
+MIT. See [LICENSE](https://github.com/oxdingzg/miao/blob/7ea8a0e06916abbd70859980d1348773c69edfe0/LICENSE).
 
 ---
 
-*Synced from [`oxdingzg/miao@efb8c00`](https://github.com/oxdingzg/miao/blob/efb8c006289808476296c0b3b6b336011d96d604/docs/guide.en.md).*
+*Synced from [`oxdingzg/miao@7ea8a0e`](https://github.com/oxdingzg/miao/blob/7ea8a0e06916abbd70859980d1348773c69edfe0/docs/guide.en.md).*

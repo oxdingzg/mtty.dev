@@ -30,7 +30,7 @@ If you need true isolation, run miao inside a Docker container or VM.
 
 ### Server Mode
 
-Server mode is opt-in: it starts with `miao serve`, or `miao remote` for the chat bridges, and is not running otherwise.
+Normal CLI/TUI clients start a persistent local Runtime automatically. `miao serve` exposes an explicitly configured listener; `miao runtime` manages the local Runtime. Legacy IM bridges have been removed.
 
 The service listens on **127.0.0.1 only** and does not advertise itself over mDNS, so it is reachable from this machine rather than from the network.
 
@@ -63,4 +63,4 @@ week passes with no reply, ask again on the same thread.
 
 ---
 
-*Synced from [`oxdingzg/miao@efb8c00`](https://github.com/oxdingzg/miao/blob/efb8c006289808476296c0b3b6b336011d96d604/SECURITY.md).*
+*Synced from [`oxdingzg/miao@7ea8a0e`](https://github.com/oxdingzg/miao/blob/7ea8a0e06916abbd70859980d1348773c69edfe0/SECURITY.md).*

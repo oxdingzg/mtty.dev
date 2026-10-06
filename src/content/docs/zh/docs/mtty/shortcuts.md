@@ -1,7 +1,7 @@
 ---
 title: "快捷键"
 sidebar:
-  order: 6
+  order: 4
 ---
 
 `⌘` 是 macOS 的主修饰键;Linux / Windows 一列是对应平台上的等价组合。
@@ -46,7 +46,7 @@ sidebar:
 ## 编辑器窗格
 
 在编辑器窗格中，下列按键优先于上面的窗口快捷键。语言相关功能需要该语言的语言服务器(见
-[`config.example.toml`](https://github.com/oxdingzg/mtty/blob/b65a3d13ea6c2a3ff8afd59f639e25d4f193b45a/docs/config.example.toml) 中的 `[lsp]`);鼠标停在代码上会显示类型、文档与问题。
+[`config.example.toml`](https://github.com/oxdingzg/mtty/blob/1ce4ec38b46329e7d8d9ae4eb932fead2b3c3a71/docs/config.example.toml) 中的 `[lsp]`);鼠标停在代码上会显示类型、文档与问题。
 
 | macOS | Linux / Windows | 操作 |
 |---|---|---|
@@ -65,4 +65,4 @@ sidebar:
 
 ---
 
-*Synced from [`oxdingzg/mtty@b65a3d1`](https://github.com/oxdingzg/mtty/blob/b65a3d13ea6c2a3ff8afd59f639e25d4f193b45a/docs/SHORTCUTS.zh-CN.md).*
+*Synced from [`oxdingzg/mtty@1ce4ec3`](https://github.com/oxdingzg/mtty/blob/1ce4ec38b46329e7d8d9ae4eb932fead2b3c3a71/docs/SHORTCUTS.zh-CN.md).*

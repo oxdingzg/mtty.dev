@@ -12,7 +12,7 @@ miao 尚处于 pre-1.0、活跃开发中，CLI 与配置可能随版本变化。
 
 miao 是一个开源编程代理，提供终端界面、HTTP 服务与浏览器界面。它把重点放在模型调用周围的工作上：持久化会话、上下文效率、代理协作和可观察的成本。
 
-用它理解仓库、实现改动、排查测试失败，或委派专项调研。连接你偏好的供应商，配置项目工具，并在任务变化时继续补充要求。miao 支持模型选择与 MCP；miao 的运行时建设与可用范围见 [产品概览](https://github.com/oxdingzg/miao/blob/efb8c006289808476296c0b3b6b336011d96d604/README.zh.md) 和 [对比说明](/zh/docs/miao/miao-vs-opencode/)。
+用它理解仓库、实现改动、排查测试失败，或委派专项调研。连接你偏好的供应商，配置项目工具，并在任务变化时继续补充要求。miao 支持模型选择与 MCP；miao 的运行时建设与可用范围见 [产品概览](https://github.com/oxdingzg/miao/blob/7ea8a0e06916abbd70859980d1348773c69edfe0/README.zh.md) 和 [对比说明](/zh/docs/miao/miao-vs-opencode/)。
 
 第一次可以这样提需求：「找到这个错误的原因，做出适当的最小修复，运行相关检查，再解释代码差异。」执行过程中继续补充约束，无需另开对话。
 
@@ -92,24 +92,24 @@ miao
 
 配置文件按优先级合并：项目 `.miao/` > 全局 `~/.config/miao/`，另外可用 `MIAO_CONFIG` 指定。主要字段：
 
-| 字段                                                              | 作用                                                                                                                     |
-| ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| `model`                                                           | 默认模型（`provider/model`）                                                                                             |
-| `default_agent`                                                   | 默认 agent                                                                                                               |
-| `permission`                                                      | 权限规则（`allow` / `ask` / `deny`，可分级按工具/路径）；未匹配默认 `ask`                                                |
-| `agents`                                                          | 自定义 agent（模型、系统提示、权限、步数上限）                                                                           |
-| `lsp`                                                             | 语言服务器：`true` 启用全部内置，`false` 关闭，或按名配置。**省略 = 全部禁用**                                           |
-| `formatter`                                                       | 代码格式化：`true` 启用内置，或按名配置命令                                                                              |
-| `mcp`                                                             | MCP 服务器（local stdio / remote streamable-http）                                                                       |
-| `compaction`                                                      | 压缩行为（`prune` 裁剪旧工具输出、`summarize_small` 用廉价模型摘要、`hot_prefix` 复用热前缀、`precise_tokens` BPE 阈值） |
-| `cache`                                                           | `ttl_seconds` 延长 prompt cache TTL                                                                                      |
-| `cost`                                                            | `budget_usd` 每会话成本预算（超限告警并停止续跑）                                                                        |
-| `loop`                                                            | 自治续跑（见 §5.8）                                                                                                      |
-| `shell`                                                           | 默认 shell                                                                                                               |
-| `skills` / `commands` / `instructions` / `references` / `plugins` | 技能、命令、指令、引用、插件                                                                                             |
-| `watcher` / `attachments` / `tool_output` / `snapshots`           | 文件监听、附件、工具输出阈值、快照                                                                                       |
-| `providers`                                                       | 自定义 provider / 模型（含本币单价 `cost`）                                                                              |
-| `experimental`                                                    | 实验开关（如 Code Mode）                                                                                                 |
+| 字段                                                              | 作用                                                                                                                    |
+| ----------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `model`                                                           | 默认模型（`provider/model`）                                                                                            |
+| `default_agent`                                                   | 默认 agent                                                                                                              |
+| `permission`                                                      | 权限规则（`allow` / `ask` / `deny`，可分级按工具/路径）；未匹配默认 `ask`                                               |
+| `agents`                                                          | 自定义 agent（模型、系统提示、权限、步数上限）                                                                          |
+| `lsp`                                                             | 语言服务器：`true` 启用全部内置，`false` 关闭，或按名配置。**省略 = 全部禁用**                                          |
+| `formatter`                                                       | 代码格式化：`true` 启用内置，或按名配置命令                                                                             |
+| `mcp`                                                             | MCP 服务器（local stdio / remote streamable-http）                                                                      |
+| `compaction`                                                      | 压缩（`prune` 裁剪旧输出、`threshold` 触发比例、`summarize_small` 廉价摘要、`hot_prefix` 热前缀、`precise_tokens` BPE） |
+| `cache`                                                           | `ttl_seconds` 延长 prompt cache TTL                                                                                     |
+| `cost`                                                            | `budget_usd` 每会话成本预算（超限告警并停止续跑）                                                                       |
+| `loop`                                                            | 自治续跑（见 §5.8）                                                                                                     |
+| `shell`                                                           | 默认 shell                                                                                                              |
+| `skills` / `commands` / `instructions` / `references` / `plugins` | 技能、命令、指令、引用、插件                                                                                            |
+| `watcher` / `attachments` / `tool_output` / `snapshots`           | 文件监听、附件、工具输出阈值、快照                                                                                      |
+| `providers`                                                       | 自定义 provider / 模型（含本币单价 `cost`）                                                                             |
+| `experimental`                                                    | 实验开关（如 Code Mode）                                                                                                |
 
 **本币计价**：`providers.<id>.models.<m>.cost` 用 provider 官方本币单价（如 DeepSeek 的 CNY），成本按配置费率估算；TUI 内 `/currency` 可切换显示货币（默认 USD，未声明本币的 provider 按静态汇率换算）。
 
@@ -215,14 +215,17 @@ V2 `list_sessions` 可发现同项目会话，`send_message` 接受会话 ID 或
 }
 ```
 
-这组可选配置组合了待办续跑、调度预算、旧输出裁剪和逐工具的模型可见输出限额。预算不会中断正在执行的轮次，也不是账单硬上限。完整输出文件是临时的，受限的会话记录才是持久化历史。廉价模型摘要与热前缀压缩可以单独开启，先确认它们适合当前供应商和任务。
+这组可选配置组合了待办续跑、调度预算、旧输出裁剪和逐工具的模型可见输出限额。预算不会中断正在执行的轮次，也不是账单硬上限。完整输出文件是临时的，受限的会话记录才是持久化历史。工具结果裁剪（微压缩）默认开启，可用 `"prune": false` 关闭。自动压缩默认在上下文达到窗口的 `threshold`（默认 `0.9`）时触发，并依据供应商回报的真实 prompt tokens 判断，因此会在窗口填满前提前压缩，而不是等到最后。廉价模型摘要与热前缀压缩可以单独开启，先确认它们适合当前供应商和任务。
+
+被压缩出模型窗口的原文仍然持久化在磁盘上。`recall` 工具按关键词检索这段历史，让 agent 找回被摘要丢掉的细节，而不必重新读文件或重复已完成的工作。
 
 ## 6. 运行时状态与后续工作
 
 所有已发布客户端都使用单一 V2 会话运行时；V1 会话运行时及其 `/session/*` 路由已删除。
 
-- [V1 退役计划](https://github.com/oxdingzg/miao/blob/efb8c006289808476296c0b3b6b336011d96d604/specs/v2/v1-retirement.md) 记录了删除过程和剩余兼容面（数据库迁移与非会话旧路由）。
-- [会话存储设计](https://github.com/oxdingzg/miao/blob/efb8c006289808476296c0b3b6b336011d96d604/specs/storage/session-storage-hardening.md) 记录存储方案。可用 `miao db stats`、`miao db vacuum` 和 JSONL 导出检查、维护本地记录。
+- [V1 退役计划](https://github.com/oxdingzg/miao/blob/7ea8a0e06916abbd70859980d1348773c69edfe0/specs/v2/v1-retirement.md) 记录了删除过程和剩余兼容面（数据库迁移与非会话旧路由）。
+- [会话存储设计](https://github.com/oxdingzg/miao/blob/7ea8a0e06916abbd70859980d1348773c69edfe0/specs/storage/session-storage-hardening.md) 记录存储方案。可用 `miao db stats`、`miao db vacuum` 和 JSONL 导出检查、维护本地记录。
+- [代理并发](https://github.com/oxdingzg/miao/blob/7ea8a0e06916abbd70859980d1348773c69edfe0/specs/v2/agent-concurrency.md) 设计非阻塞子代理与完成即唤醒，避免长任务卡住会话。
 - 崩溃后自动执行恢复与集群所有权尚未实现。OS 沙箱已内置于 V2 `bash` 工具但仍需开启，见 [可用范围](/zh/docs/miao/miao-vs-opencode/)。
 
 ## 7. 常见问题（FAQ）
@@ -236,11 +239,17 @@ V2 `list_sessions` 可发现同项目会话，`send_message` 接受会话 ID 或
 **Q：模型/供应商怎么配？**
 `miao providers login` 写凭据；`miao models` 查看；在 `miao.jsonc` 的 `providers` 里自定义。provider 的具体报错可用 `miao debug` 排查。
 
+**Q：怎么用我的 Command Code 订阅？**
+用 `miao auth login commandcode`（浏览器辅助登录）连一次，或把 `CMD_API_KEY` 设成
+[commandcode.ai Studio](https://commandcode.ai/studio/) 生成的 API key。连接后会自动从你的账号
+发现可用模型。Command Code 走的是 CLI 订阅端点而非其文档中的 Provider API，因此模型能力与价格
+在目录补充前取保守值。
+
 **Q：成本显示和账单对不上？**
 让 provider 用本币单价（`providers.<id>.models.<m>.cost` 用本币）；或用 `/currency` 切换显示货币。
 
 **Q：native（Rust）addon 出问题怎么办？**
-用 `MIAO_NATIVE=0` 禁用它。V2 的 edit／patch 是 TypeScript 实现；addon 用于 OS 沙箱 runner。详见[接入对比](/zh/docs/miao/miao-vs-opencode/)。
+用 `MIAO_NATIVE=0` 禁用它，编辑匹配与补丁派生随即改由 TypeScript 实现接管。addon 同时用于 OS 沙箱 runner。详见[接入对比](/zh/docs/miao/miao-vs-opencode/)。
 
 **Q：能持续推进一个有多个待办的任务吗？**
 用 `loop` 配置（§5.8），或外部循环 `miao run --continue "...continue..."`。
@@ -274,8 +283,8 @@ bun --cwd packages/miao test
 
 ## 许可证
 
-MIT，详见 [LICENSE](https://github.com/oxdingzg/miao/blob/efb8c006289808476296c0b3b6b336011d96d604/LICENSE)。
+MIT，详见 [LICENSE](https://github.com/oxdingzg/miao/blob/7ea8a0e06916abbd70859980d1348773c69edfe0/LICENSE)。
 
 ---
 
-*Synced from [`oxdingzg/miao@efb8c00`](https://github.com/oxdingzg/miao/blob/efb8c006289808476296c0b3b6b336011d96d604/docs/guide.zh.md).*
+*Synced from [`oxdingzg/miao@7ea8a0e`](https://github.com/oxdingzg/miao/blob/7ea8a0e06916abbd70859980d1348773c69edfe0/docs/guide.zh.md).*

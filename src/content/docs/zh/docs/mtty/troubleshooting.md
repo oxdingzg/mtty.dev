@@ -1,7 +1,7 @@
 ---
 title: "排障"
 sidebar:
-  order: 7
+  order: 5
 ---
 
 ## 排查 CPU 或内存占用偏高
@@ -24,6 +24,13 @@ RSS 字节数、累计进程 CPU 微秒数、区间 CPU 百分比（100% 表示�
 不包含 PTY 后台、shell 或 agent 子进程。RSS 与 macOS 活动监视器的内存 footprint
 不是同一口径。
 
+记录 schema 2 另有 `mainPresentedFrames` 和 `pipPresentedFrames`，表示成功取得
+surface 后向主窗口、画中画提交的累计帧数。相邻差值除以实际间隔秒数，可得到
+呈现提交频率。`renderCalls` 仍包括被限帧推迟或隐藏窗口的调用，不能当作 FPS；
+schema 1 还会在每次主窗口渲染后计入一次画中画调用，即使画中画没有打开。
+`renderWallUs` 包含 CPU 准备与呈现等待时间，不是 GPU 忙碌时间；垂直同步可能
+增加等待时间，同时减少 GPU 提交次数。
+
 比较相邻记录：CPU 时间增长但渲染计数不变，提示非渲染工作；
 空闲时渲染计数持续增加，提示不必要的刷新。应观察多轮相近任务及空闲期的内存
 趋势，不要仅凭一个高数值判断泄漏。
@@ -41,7 +48,7 @@ RSS 字节数、累计进程 CPU 微秒数、区间 CPU 百分比（100% 表示�
 
 | 要求 | 说明 |
 |---|---|
-| Rust | **stable** 工具链，锁定于 [`rust-toolchain.toml`](https://github.com/oxdingzg/mtty/blob/b65a3d13ea6c2a3ff8afd59f639e25d4f193b45a/rust-toolchain.toml);MSRV 1.80 |
+| Rust | **stable** 工具链，锁定于 [`rust-toolchain.toml`](https://github.com/oxdingzg/mtty/blob/1ce4ec38b46329e7d8d9ae4eb932fead2b3c3a71/rust-toolchain.toml);MSRV 1.80 |
 | GPU | 支持 Metal(macOS)、Vulkan(Linux)或 DX12(Windows)的驱动 |
 | Linux | 常见的 `winit`/`wgpu` 系统库(X11 或 Wayland 开发包) |
 
@@ -128,7 +135,7 @@ keep-sessions-on-quit = true
 | agent 钩子 | 已安装的钩子脚本与 miao 的集成读取 `MIAOTTY_PANE_ID` / `MIAOTTY_CLI`，这些变量仍然导出，因此它们会继续上报状态;新安装的钩子使用 `MTTY_*` 名字 |
 | macOS 通知 | 更名改变了 bundle ID,macOS 会重新询问通知权限 |
 
-完整对照见[应用身份与迁移](https://github.com/oxdingzg/mtty/blob/b65a3d13ea6c2a3ff8afd59f639e25d4f193b45a/docs/APP-IDENTITY.zh-CN.md)。
+完整对照见[应用身份与迁移](https://github.com/oxdingzg/mtty/blob/1ce4ec38b46329e7d8d9ae4eb932fead2b3c3a71/docs/APP-IDENTITY.zh-CN.md)。
 
 ## 编辑器没有补全、诊断或悬停提示
 
@@ -143,10 +150,10 @@ keep-sessions-on-quit = true
 ## 这里没有我遇到的问题
 
 其余文档在仓库里:[安装](/zh/docs/mtty/install/)、[视图规则](/zh/docs/mtty/view-rules/)，以及带注释的
-[`config.example.toml`](https://github.com/oxdingzg/mtty/blob/b65a3d13ea6c2a3ff8afd59f639e25d4f193b45a/docs/config.example.toml)。其他问题请在
+[`config.example.toml`](https://github.com/oxdingzg/mtty/blob/1ce4ec38b46329e7d8d9ae4eb932fead2b3c3a71/docs/config.example.toml)。其他问题请在
 [oxdingzg/mtty](https://github.com/oxdingzg/mtty/issues) 开 issue，或写信到
 <contact@mtty.dev>。
 
 ---
 
-*Synced from [`oxdingzg/mtty@b65a3d1`](https://github.com/oxdingzg/mtty/blob/b65a3d13ea6c2a3ff8afd59f639e25d4f193b45a/docs/TROUBLESHOOTING.zh-CN.md).*
+*Synced from [`oxdingzg/mtty@1ce4ec3`](https://github.com/oxdingzg/mtty/blob/1ce4ec38b46329e7d8d9ae4eb932fead2b3c3a71/docs/TROUBLESHOOTING.zh-CN.md).*

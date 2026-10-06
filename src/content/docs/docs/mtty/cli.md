@@ -1,7 +1,7 @@
 ---
 title: "The mtty-cli control plane"
 sidebar:
-  order: 5
+  order: 3
 ---
 
 `mtty-cli` drives a running mtty host from a shell, a script or another
@@ -111,4 +111,4 @@ MTP is newline-delimited JSON over the socket, so a client does not need
 
 ---
 
-*Synced from [`oxdingzg/mtty@b65a3d1`](https://github.com/oxdingzg/mtty/blob/b65a3d13ea6c2a3ff8afd59f639e25d4f193b45a/docs/CLI.md).*
+*Synced from [`oxdingzg/mtty@1ce4ec3`](https://github.com/oxdingzg/mtty/blob/1ce4ec38b46329e7d8d9ae4eb932fead2b3c3a71/docs/CLI.md).*

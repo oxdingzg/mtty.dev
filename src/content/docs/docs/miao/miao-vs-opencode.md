@@ -44,11 +44,11 @@ The following are merged into `main` **after v0.1.4**, but are not yet part of a
 The repetitive-output investigation found simultaneous normal sessions on the same provider/model,
 including sessions with larger reported input sizes. Length alone does not explain that failure.
 The initial guard recognizes short newline-delimited prose loops; it does not detect every form of
-repetition. See the [investigation and limits](https://github.com/oxdingzg/miao/blob/efb8c006289808476296c0b3b6b336011d96d604/docs/provider-output-repetition.en.md).
+repetition. See the [investigation and limits](https://github.com/oxdingzg/miao/blob/7ea8a0e06916abbd70859980d1348773c69edfe0/docs/provider-output-repetition.en.md).
 
 Background jobs integrated with V2 tools, post-crash automatic continuation, MCP progressive tool
 discovery, blob garbage collection, and sandbox coverage beyond bash remain planned or incomplete.
-They are not advertised as available features. Track current work in the [roadmap](https://github.com/oxdingzg/miao/blob/efb8c006289808476296c0b3b6b336011d96d604/docs/roadmap.md).
+They are not advertised as available features. Track current work in the [roadmap](https://github.com/oxdingzg/miao/blob/7ea8a0e06916abbd70859980d1348773c69edfe0/docs/roadmap.md).
 
 The recent transcript, cache, and read-path improvements have regression evidence, but there is no
 controlled before/after result proving a task-level speedup over current upstream opencode or a
@@ -56,16 +56,16 @@ specific memory reduction. The benchmarks below are historical measurements of a
 
 ## Recorded native benchmarks
 
-The baseline is this repository's TypeScript implementation before the native work, not today's `anomalyco/opencode`. These are recorded same-machine release-build medians for isolated operations through the Rust addon. They exclude shared orchestration, I/O, LSP, formatting, provider latency, and model reasoning. They have not been re-run as part of this documentation update. The native edit/patch paths were part of the V1 compatibility tools and have since been removed; the numbers are kept as historical component measurements.
+The baseline is this repository's TypeScript implementation before the native work, not today's `anomalyco/opencode`. These are recorded same-machine release-build medians for isolated operations through the Rust addon. They exclude shared orchestration, I/O, LSP, formatting, provider latency, and model reasoning. They have not been re-run as part of this documentation update, and the V1 compatibility tools that first carried these paths have since been removed — but the primitives did not go with them. The V2 `edit` and `apply_patch` tools call the same native matching and derivation whenever the addon is loaded, which it is by default. The numbers stay component measurements of the primitives, not a fresh benchmark of the current tools.
 
 | Operation                                         | TypeScript baseline | Rust native | Speedup   | Integration scope      |
 | ------------------------------------------------- | ------------------- | ----------- | --------- | ---------------------- |
-| edit exact match (12k lines)                      | 0.21 ms             | 0.12 ms     | **1.7x**  | Removed V1 path        |
-| edit fuzzy match (12k lines)                      | 0.76 ms             | 0.39 ms     | **1.9x**  | Removed V1 path        |
-| edit match + diff stats (12k lines)               | 2.03 ms             | 1.78 ms     | 1.14x     | Removed V1 path        |
-| apply_patch `deriveNewContents` exact (20k lines) | 1.67 ms             | 1.28 ms     | **1.3x**  | Removed V1 path        |
-| apply_patch trim match (20k lines)                | 3.47 ms             | 1.76 ms     | **2.0x**  | Removed V1 path        |
-| apply_patch unicode-normalize (20k lines)         | 13.06 ms            | 5.21 ms     | **2.5x**  | Removed V1 path        |
+| edit exact match (12k lines)                      | 0.21 ms             | 0.12 ms     | **1.7x**  | V2 tool, native default |
+| edit fuzzy match (12k lines)                      | 0.76 ms             | 0.39 ms     | **1.9x**  | V2 tool, native default |
+| edit match + diff stats (12k lines)               | 2.03 ms             | 1.78 ms     | 1.14x     | V2 tool, native default |
+| apply_patch `deriveNewContents` exact (20k lines) | 1.67 ms             | 1.28 ms     | **1.3x**  | V2 tool, native default |
+| apply_patch trim match (20k lines)                | 3.47 ms             | 1.76 ms     | **2.0x**  | V2 tool, native default |
+| apply_patch unicode-normalize (20k lines)         | 13.06 ms            | 5.21 ms     | **2.5x**  | V2 tool, native default |
 | git status small repo (10 files / 2 changes)      | 12.3 ms             | 1.0 ms      | **11.9x** | Prototype; not default |
 | git status large repo (2200 files / 400 changes)  | 13.6 ms             | 5.8 ms      | **2.4x**  | Prototype; not default |
 
@@ -75,12 +75,12 @@ CPU-heavy matching and normalization show the clearest gains. In-process Git avo
 
 V2 is the only session runtime. Its tools live in `packages/core/src/tool`; the V1 compatibility tools and their native edit/patch paths in `packages/miao/src/tool` have been removed.
 
-- **Edit / patch:** the V2 tools are TypeScript (`edit-fuzzy.ts` and related code). The native edit/patch accelerators benchmarked above are no longer wired into any shipped tool.
-- **OS sandbox:** the V2 `bash` tool can run each command under the sandbox. macOS uses seatbelt and Linux Landlock; Windows has no backend. Enable it with `sandbox.mode: "workspace-write"` or `MIAO_SANDBOX=1`, and deny network with `MIAO_SANDBOX_DENY_NETWORK=1`. It is opt-in and off by default.
-- **Native addon:** `MIAO_NATIVE=0` disables the addon. It backs the sandbox runner and other native helpers; it is not used for V2 edit/patch.
+- **Edit / patch:** the V2 tools route through `packages/core/src/tool/edit-match.ts` and `packages/core/src/patch.ts`, which call the native `matchEdit` and `deriveNewContentsV2` primitives whenever the addon is loaded — by default. `edit-fuzzy.ts` and `deriveTs` are the TypeScript reference implementations, used when the addon is missing or `MIAO_NATIVE=0` is set. Matching and derivation are pure computation: file IO, permissions, conditional writes and settlement stay in Core.
+- **OS sandbox:** the V2 `bash` tool can run each command under the sandbox. macOS uses seatbelt and Linux Landlock; Windows has no backend. Enable it with `sandbox.mode: "workspace-write"` or `MIAO_SANDBOX=1`, and deny network with `MIAO_SANDBOX_DENY_NETWORK=1`. It is opt-in and off by default, and it fails open — `sandbox.on_unavailable` defaults to `"warn"`, so a host with no backend runs the command unsandboxed unless you set it to `"fail"`.
+- **Native addon:** on by default. It backs the sandbox runner, the edit matching, the patch derivation and other native helpers. `MIAO_NATIVE=0` disables all of it and the TypeScript implementations take over.
 - **In-process Git:** the `gix` implementation and benchmarks exist, but it is not the default Git path.
 
-Read the [guide](/docs/miao/guide/#56-kernel-level-sandbox-opt-in) and [integration risks](https://github.com/oxdingzg/miao/blob/efb8c006289808476296c0b3b6b336011d96d604/docs/rust-integration-risks.en.md) before relying on the sandbox. Windows kernel sandbox parity is not implemented.
+Read the [guide](/docs/miao/guide/#56-kernel-level-sandbox-opt-in) and [integration risks](https://github.com/oxdingzg/miao/blob/7ea8a0e06916abbd70859980d1348773c69edfe0/docs/rust-integration-risks.en.md) before relying on the sandbox. Windows kernel sandbox parity is not implemented.
 
 ## Boundaries and ongoing work
 
@@ -88,10 +88,10 @@ Read the [guide](/docs/miao/guide/#56-kernel-level-sandbox-opt-in) and [integrat
 - Durable history and exact prompt retry reconciliation do not mean automatic recovery of interrupted provider execution or exactly-once shell side effects.
 - Session execution and messaging wakes remain process-local; no cross-machine agent cluster is advertised.
 - Code Mode is experimental. Generated clients and the embedded host are private workspace packages with evolving contracts.
-- Per-target messaging policy persistence and receiving-drain loop accounting still have open design work; see [session messaging](https://github.com/oxdingzg/miao/blob/efb8c006289808476296c0b3b6b336011d96d604/specs/v2/session-messaging.md).
+- Per-target messaging policy persistence and receiving-drain loop accounting still have open design work; see [session messaging](https://github.com/oxdingzg/miao/blob/7ea8a0e06916abbd70859980d1348773c69edfe0/specs/v2/session-messaging.md).
 
-See [README](https://github.com/oxdingzg/miao/blob/efb8c006289808476296c0b3b6b336011d96d604/README.md) for the product overview, [the guide](/docs/miao/guide/) for usage, and [CONTEXT.md](https://github.com/oxdingzg/miao/blob/efb8c006289808476296c0b3b6b336011d96d604/CONTEXT.md) for runtime contracts.
+See [README](https://github.com/oxdingzg/miao/blob/7ea8a0e06916abbd70859980d1348773c69edfe0/README.md) for the product overview, [the guide](/docs/miao/guide/) for usage, and [CONTEXT.md](https://github.com/oxdingzg/miao/blob/7ea8a0e06916abbd70859980d1348773c69edfe0/CONTEXT.md) for runtime contracts.
 
 ---
 
-*Synced from [`oxdingzg/miao@efb8c00`](https://github.com/oxdingzg/miao/blob/efb8c006289808476296c0b3b6b336011d96d604/docs/miao-vs-opencode.en.md).*
+*Synced from [`oxdingzg/miao@7ea8a0e`](https://github.com/oxdingzg/miao/blob/7ea8a0e06916abbd70859980d1348773c69edfe0/docs/miao-vs-opencode.en.md).*
