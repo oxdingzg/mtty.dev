@@ -22,7 +22,7 @@ sidebar:
    - `publish`: after all platforms succeed, it appends the Windows signing status to the release body and runs `gh release edit --draft=false` to publish the release.
 4. **Assets**: `miao-darwin-{arm64,x64}.zip`, `miao-linux-{x64,arm64}.tar.gz`, and `miao-windows-x64.zip` (older CPUs: `miao-windows-x64-baseline.zip`), matching the `install` scripts and the updater (`Installation.latest` -> `oxdingzg/miao/releases/latest`).
 
-The release workflow above is the maintained publication path. Each build loads the model catalog through `packages/miao/script/generate.ts` from miao's own catalog at `https://mtty.dev/models/api.json`, falling back to `https://models.dev/api.json`, or from a local file selected by `MODELS_DEV_API_JSON`. Set `MIAO_MODELS_URL` to pin a single source. There is no separate workflow that commits model snapshots to the repository; the runtime refreshes its cached catalog independently, revalidating with the source's ETag so an unchanged catalog is not re-downloaded.
+The release workflow above is the maintained publication path. Each build loads the model catalog through `packages/miao/script/generate.ts` from miao's own catalog at `https://mtty.dev/models/api.json`; there is no fallback source, and an unreachable catalog fails the build. `MIAO_MODELS_JSON` can point at a local file, and `MIAO_MODELS_URL` can pin a different single source. There is no separate workflow that commits model snapshots to the repository; the runtime refreshes its cached catalog independently, revalidating with the source's ETag so an unchanged catalog is not re-downloaded.
 
 Windows binaries are currently unsigned. The `publish` step records this status in the release body, and [mtty.dev's Windows downloads page](https://mtty.dev/docs/about/windows-downloads/) explains the resulting prompts.
 
@@ -35,7 +35,7 @@ Windows binaries are currently unsigned. The `publish` step records this status 
   - Write into `CHANGELOG.md`: add `--write`
   - At release time `script/version.ts` calls it with `--to <sha>` to produce `UPCOMING_CHANGELOG.md`, which becomes the release notes.
 - Release notes are **English and always link to a Simplified Chinese mirror**:
-  `docs/releases/<tag>.zh.md`, linked as `[简体中文](https://github.com/oxdingzg/miao/blob/d0edc5690352a481ff6dc7566afdf16437f2b61d/docs/…)` under the first
+  `docs/releases/<tag>.zh.md`, linked as `[简体中文](https://github.com/oxdingzg/miao/blob/5dbadaa581d6b2eddf8b94faf8b3a82fe18f7fc9/docs/…)` under the first
   heading. Write the mirror before dispatching a release — `script/release-notes.ts`
   fails the publish job when it is missing. The same rule applies to every miao
   project, including `mtty`.
@@ -64,4 +64,4 @@ Windows binaries are currently unsigned. The `publish` step records this status 
 
 ---
 
-*Synced from [`oxdingzg/miao@d0edc56`](https://github.com/oxdingzg/miao/blob/d0edc5690352a481ff6dc7566afdf16437f2b61d/docs/release.en.md).*
+*Synced from [`oxdingzg/miao@5dbadaa`](https://github.com/oxdingzg/miao/blob/5dbadaa581d6b2eddf8b94faf8b3a82fe18f7fc9/docs/release.en.md).*

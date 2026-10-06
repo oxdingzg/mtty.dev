@@ -106,7 +106,7 @@ self-upgrade.
 
 | What | Default |
 |---|---|
-| The models.dev catalog (model names, pricing, limits) | Fetched in the background and cached for 12 hours; a snapshot is bundled for offline use |
+| The model catalog at `mtty.dev` (model names, pricing, limits; built from public models.dev data) | Fetched in the background and cached for 12 hours; a snapshot is bundled for offline use |
 | Model provider APIs | Only the providers **you** configure |
 | The HTTP server and browser interface | Opt-in; `miao serve` |
 | Remote chat bridges (WeChat, QQ) | Opt-in, and they talk to those platforms' servers |

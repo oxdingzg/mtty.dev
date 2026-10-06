@@ -44,11 +44,11 @@ The following are merged into `main` **after v0.1.4**, but are not yet part of a
 The repetitive-output investigation found simultaneous normal sessions on the same provider/model,
 including sessions with larger reported input sizes. Length alone does not explain that failure.
 The initial guard recognizes short newline-delimited prose loops; it does not detect every form of
-repetition. See the [investigation and limits](https://github.com/oxdingzg/miao/blob/d0edc5690352a481ff6dc7566afdf16437f2b61d/docs/provider-output-repetition.en.md).
+repetition. See the [investigation and limits](https://github.com/oxdingzg/miao/blob/5dbadaa581d6b2eddf8b94faf8b3a82fe18f7fc9/docs/provider-output-repetition.en.md).
 
 Background jobs integrated with V2 tools, post-crash automatic continuation, MCP progressive tool
 discovery, blob garbage collection, and sandbox coverage beyond bash remain planned or incomplete.
-They are not advertised as available features. Track current work in the [roadmap](https://github.com/oxdingzg/miao/blob/d0edc5690352a481ff6dc7566afdf16437f2b61d/docs/roadmap.md).
+They are not advertised as available features. Track current work in the [roadmap](https://github.com/oxdingzg/miao/blob/5dbadaa581d6b2eddf8b94faf8b3a82fe18f7fc9/docs/roadmap.md).
 
 The recent transcript, cache, and read-path improvements have regression evidence, but there is no
 controlled before/after result proving a task-level speedup over current upstream opencode or a
@@ -80,7 +80,7 @@ V2 is the only session runtime. Its tools live in `packages/core/src/tool`; the 
 - **Native addon:** on by default. It backs the sandbox runner, the edit matching, the patch derivation and other native helpers. `MIAO_NATIVE=0` disables all of it and the TypeScript implementations take over.
 - **In-process Git:** the `gix` implementation and benchmarks exist, but it is not the default Git path.
 
-Read the [guide](/docs/miao/guide/#56-kernel-level-sandbox-opt-in) and [integration risks](https://github.com/oxdingzg/miao/blob/d0edc5690352a481ff6dc7566afdf16437f2b61d/docs/rust-integration-risks.en.md) before relying on the sandbox. Windows kernel sandbox parity is not implemented.
+Read the [guide](/docs/miao/guide/#56-kernel-level-sandbox-opt-in) and [integration risks](https://github.com/oxdingzg/miao/blob/5dbadaa581d6b2eddf8b94faf8b3a82fe18f7fc9/docs/rust-integration-risks.en.md) before relying on the sandbox. Windows kernel sandbox parity is not implemented.
 
 ## Boundaries and ongoing work
 
@@ -88,10 +88,10 @@ Read the [guide](/docs/miao/guide/#56-kernel-level-sandbox-opt-in) and [integrat
 - Durable history and exact prompt retry reconciliation do not mean automatic recovery of interrupted provider execution or exactly-once shell side effects.
 - Session execution and messaging wakes remain process-local; no cross-machine agent cluster is advertised.
 - Code Mode is experimental. Generated clients and the embedded host are private workspace packages with evolving contracts.
-- Per-target messaging policy persistence and receiving-drain loop accounting still have open design work; see [session messaging](https://github.com/oxdingzg/miao/blob/d0edc5690352a481ff6dc7566afdf16437f2b61d/specs/v2/session-messaging.md).
+- Per-target messaging policy persistence and receiving-drain loop accounting still have open design work; see [session messaging](https://github.com/oxdingzg/miao/blob/5dbadaa581d6b2eddf8b94faf8b3a82fe18f7fc9/specs/v2/session-messaging.md).
 
-See [README](https://github.com/oxdingzg/miao/blob/d0edc5690352a481ff6dc7566afdf16437f2b61d/README.md) for the product overview, [the guide](/docs/miao/guide/) for usage, and [CONTEXT.md](https://github.com/oxdingzg/miao/blob/d0edc5690352a481ff6dc7566afdf16437f2b61d/CONTEXT.md) for runtime contracts.
+See [README](https://github.com/oxdingzg/miao/blob/5dbadaa581d6b2eddf8b94faf8b3a82fe18f7fc9/README.md) for the product overview, [the guide](/docs/miao/guide/) for usage, and [CONTEXT.md](https://github.com/oxdingzg/miao/blob/5dbadaa581d6b2eddf8b94faf8b3a82fe18f7fc9/CONTEXT.md) for runtime contracts.
 
 ---
 
-*Synced from [`oxdingzg/miao@d0edc56`](https://github.com/oxdingzg/miao/blob/d0edc5690352a481ff6dc7566afdf16437f2b61d/docs/miao-vs-opencode.en.md).*
+*Synced from [`oxdingzg/miao@5dbadaa`](https://github.com/oxdingzg/miao/blob/5dbadaa581d6b2eddf8b94faf8b3a82fe18f7fc9/docs/miao-vs-opencode.en.md).*

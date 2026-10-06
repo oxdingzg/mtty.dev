@@ -24,7 +24,7 @@ miao providers logout    # 移除保存的凭证
 miao models                     # 你的构建所知的全部 provider/model
 miao models anthropic           # 只看某个供应商
 miao models --verbose           # 带上成本等元数据
-miao models --refresh           # 先从 models.dev 刷新目录
+miao models --refresh           # 先从 mtty.dev 刷新目录
 ```
 
 在 TUI 里，`/model` 或 `ctrl+x m` 切换模型；每个 agent 上次使用的模型会被记住。没有选定模型的会话使用 `model` 设置，写作 `<provider>/<model>`：
@@ -40,7 +40,7 @@ miao models --refresh           # 先从 models.dev 刷新目录
 
 ## 目录从哪来
 
-模型元数据（名称、上下文上限、能力、价格）来自 miao 自己在 `mtty.dev` 提供的目录，回退到公开的 [models.dev](https://models.dev) 目录。models.dev 尚未收录、但由 miao 维护的供应商——目前是 [Command Code](https://commandcode.ai)——会合并在其上。构建内打包了一份快照，因此离线也能启动。
+模型元数据（名称、上下文上限、能力、价格）来自 miao 自己在 `mtty.dev` 提供的目录：以公开的 [models.dev](https://models.dev) 目录为基础，在站点部署时合入 models.dev 尚未收录、由 miao 维护的供应商——目前是 [Command Code](https://commandcode.ai)。miao 运行时只读这一个源，没有 models.dev 回退。构建内打包了一份快照，因此离线也能启动。
 
 也可以把它指向别的来源：
 

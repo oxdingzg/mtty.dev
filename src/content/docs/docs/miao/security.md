@@ -63,4 +63,4 @@ week passes with no reply, ask again on the same thread.
 
 ---
 
-*Synced from [`oxdingzg/miao@d0edc56`](https://github.com/oxdingzg/miao/blob/d0edc5690352a481ff6dc7566afdf16437f2b61d/SECURITY.md).*
+*Synced from [`oxdingzg/miao@5dbadaa`](https://github.com/oxdingzg/miao/blob/5dbadaa581d6b2eddf8b94faf8b3a82fe18f7fc9/SECURITY.md).*
