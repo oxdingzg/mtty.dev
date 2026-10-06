@@ -1,7 +1,7 @@
 ---
 title: "The mtty-cli control plane"
 sidebar:
-  order: 3
+  order: 6
 ---
 
 `mtty-cli` drives a running mtty host from a shell, a script or another

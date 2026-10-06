@@ -1,7 +1,7 @@
 ---
 title: "miao versioning and release"
 sidebar:
-  order: 2
+  order: 4
 ---
 
 ## Version scheme
@@ -20,11 +20,11 @@ sidebar:
    - `version`: runs `script/version.ts`, creates a **draft** release `vX.Y.Z` for the root `package.json` version with generated release notes, and outputs `version/release/tag/repo`.
    - `cli`: matrix `macos-26`(darwin-arm64) / `macos-26-intel`(darwin-x64) / `ubuntu-latest`(linux-x64) / `ubuntu-24.04-arm`(linux-arm64) / `windows-2025`(windows-x64). Each platform runs `bun install` + installs Rust, then `packages/miao/script/build.ts --single` builds the host binary (building and embedding the host native addon first) and uploads `miao-<target>.zip|tar.gz` to the draft release.
    - `publish`: after all platforms succeed, it appends the Windows signing status to the release body and runs `gh release edit --draft=false` to publish the release.
-4. **Assets**: `miao-{darwin-arm64,darwin-x64,linux-x64,linux-arm64,windows-x64}.{zip,tar.gz}`, matching the `install` script and the updater (`Installation.latest` -> `oxdingzg/miao/releases/latest`).
+4. **Assets**: `miao-darwin-{arm64,x64}.zip`, `miao-linux-{x64,arm64}.tar.gz`, and `miao-windows-x64.zip` (older CPUs: `miao-windows-x64-baseline.zip`), matching the `install` scripts and the updater (`Installation.latest` -> `oxdingzg/miao/releases/latest`).
 
 The release workflow above is the maintained publication path. Each build loads the model catalog through `packages/miao/script/generate.ts` from miao's own catalog at `https://mtty.dev/models/api.json`, falling back to `https://models.dev/api.json`, or from a local file selected by `MODELS_DEV_API_JSON`. Set `MIAO_MODELS_URL` to pin a single source. There is no separate workflow that commits model snapshots to the repository; the runtime refreshes its cached catalog independently, revalidating with the source's ETag so an unchanged catalog is not re-downloaded.
 
-Windows binaries are currently unsigned. The `publish` step records this status on the download page.
+Windows binaries are currently unsigned. The `publish` step records this status in the release body, and [mtty.dev's Windows downloads page](https://mtty.dev/docs/about/windows-downloads/) explains the resulting prompts.
 
 ## Changelog
 
@@ -35,7 +35,7 @@ Windows binaries are currently unsigned. The `publish` step records this status 
   - Write into `CHANGELOG.md`: add `--write`
   - At release time `script/version.ts` calls it with `--to <sha>` to produce `UPCOMING_CHANGELOG.md`, which becomes the release notes.
 - Release notes are **English and always link to a Simplified Chinese mirror**:
-  `docs/releases/<tag>.zh.md`, linked as `[简体中文](https://github.com/oxdingzg/miao/blob/7ea8a0e06916abbd70859980d1348773c69edfe0/docs/…)` under the first
+  `docs/releases/<tag>.zh.md`, linked as `[简体中文](https://github.com/oxdingzg/miao/blob/d0edc5690352a481ff6dc7566afdf16437f2b61d/docs/…)` under the first
   heading. Write the mirror before dispatching a release — `script/release-notes.ts`
   fails the publish job when it is missing. The same rule applies to every miao
   project, including `mtty`.
@@ -58,10 +58,10 @@ Windows binaries are currently unsigned. The `publish` step records this status 
 
 ## Known limitations
 
-- Only gnu linux + mainstream mac/win; musl / baseline / windows-arm64 are not produced yet.
+- Only gnu linux + mainstream mac/win; musl and windows-arm64 are not produced yet.
 - The native addon is **not cross-compiled**: each platform builds it on its own runner.
 - Publishing is a production action: per this repo's rules it requires **explicit confirmation** before running.
 
 ---
 
-*Synced from [`oxdingzg/miao@7ea8a0e`](https://github.com/oxdingzg/miao/blob/7ea8a0e06916abbd70859980d1348773c69edfe0/docs/release.en.md).*
+*Synced from [`oxdingzg/miao@d0edc56`](https://github.com/oxdingzg/miao/blob/d0edc5690352a481ff6dc7566afdf16437f2b61d/docs/release.en.md).*

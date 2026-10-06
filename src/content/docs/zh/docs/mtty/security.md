@@ -1,7 +1,7 @@
 ---
 title: "安全"
 sidebar:
-  order: 7
+  order: 9
 ---
 
 ## 报告安全问题

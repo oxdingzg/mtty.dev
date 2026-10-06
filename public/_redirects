@@ -25,3 +25,10 @@
 /shots/mtty-vim.png /shots/mtty-vim.webp 301
 /shots/mtty-workspace.png /shots/mtty-workspace.webp 301
 /shots/mtty.png /shots/mtty.webp 301
+
+# The miao Windows notes page was folded into the miao guide (§2 Install and
+# upgrade), which now carries the unsigned-release note and the baseline zip.
+/docs/miao/windows-code-signing   /docs/miao/guide/   301
+/docs/miao/windows-code-signing/  /docs/miao/guide/   301
+/zh/docs/miao/windows-code-signing   /zh/docs/miao/guide/   301
+/zh/docs/miao/windows-code-signing/  /zh/docs/miao/guide/   301

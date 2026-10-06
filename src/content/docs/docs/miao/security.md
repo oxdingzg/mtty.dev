@@ -1,7 +1,7 @@
 ---
 title: "Security"
 sidebar:
-  order: 4
+  order: 7
 ---
 
 ## Threat Model
@@ -63,4 +63,4 @@ week passes with no reply, ask again on the same thread.
 
 ---
 
-*Synced from [`oxdingzg/miao@7ea8a0e`](https://github.com/oxdingzg/miao/blob/7ea8a0e06916abbd70859980d1348773c69edfe0/SECURITY.md).*
+*Synced from [`oxdingzg/miao@d0edc56`](https://github.com/oxdingzg/miao/blob/d0edc5690352a481ff6dc7566afdf16437f2b61d/SECURITY.md).*

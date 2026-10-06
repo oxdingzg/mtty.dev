@@ -1,7 +1,7 @@
 ---
 title: "安全"
 sidebar:
-  order: 4
+  order: 7
 ---
 
 ## 威胁模型
@@ -72,4 +72,4 @@ miao 是运行在你本机的 AI 编程助手。它提供一套代理系统，�
 
 ---
 
-*Synced from [`oxdingzg/miao@7ea8a0e`](https://github.com/oxdingzg/miao/blob/7ea8a0e06916abbd70859980d1348773c69edfe0/SECURITY.zh.md).*
+*Synced from [`oxdingzg/miao@d0edc56`](https://github.com/oxdingzg/miao/blob/d0edc5690352a481ff6dc7566afdf16437f2b61d/SECURITY.zh.md).*
