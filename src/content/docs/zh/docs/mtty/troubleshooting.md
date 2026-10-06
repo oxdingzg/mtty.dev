@@ -1,7 +1,7 @@
 ---
 title: "排障"
 sidebar:
-  order: 5
+  order: 8
 ---
 
 ## 排查 CPU 或内存占用偏高

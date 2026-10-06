@@ -2,7 +2,7 @@
 title: Contributing
 description: How to report a problem and send a change to miao.
 sidebar:
-  order: 9
+  order: 6
 ---
 
 miao is MIT licensed and developed in the open at

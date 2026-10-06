@@ -1,7 +1,7 @@
 ---
 title: "Security"
 sidebar:
-  order: 7
+  order: 9
 ---
 
 ## Reporting a security issue

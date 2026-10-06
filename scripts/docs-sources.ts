@@ -28,13 +28,13 @@ export const pages: DocPage[] = [
   {
     repo: "oxdingzg/miao",
     to: "miao/release",
-    order: 2,
+    order: 4,
     sources: { en: "docs/release.en.md", zh: "docs/release.zh.md" },
   },
   {
     repo: "oxdingzg/miao",
     to: "miao/miao-vs-opencode",
-    order: 3,
+    order: 5,
     sources: {
       en: "docs/miao-vs-opencode.en.md",
       zh: "docs/miao-vs-opencode.zh.md",
@@ -48,7 +48,7 @@ export const pages: DocPage[] = [
   {
     repo: "oxdingzg/miao",
     to: "miao/security",
-    order: 4,
+    order: 7,
     sources: { en: "SECURITY.md", zh: "SECURITY.zh.md" },
   },
 
@@ -69,31 +69,31 @@ export const pages: DocPage[] = [
   {
     repo: "oxdingzg/mtty",
     to: "mtty/cli",
-    order: 3,
+    order: 6,
     sources: { en: "docs/CLI.md", zh: "docs/CLI.zh-CN.md" },
   },
   {
     repo: "oxdingzg/mtty",
     to: "mtty/shortcuts",
-    order: 4,
+    order: 5,
     sources: { en: "docs/SHORTCUTS.md", zh: "docs/SHORTCUTS.zh-CN.md" },
   },
   {
     repo: "oxdingzg/mtty",
     to: "mtty/troubleshooting",
-    order: 5,
+    order: 8,
     sources: { en: "docs/TROUBLESHOOTING.md", zh: "docs/TROUBLESHOOTING.zh-CN.md" },
   },
   {
     repo: "oxdingzg/mtty",
     to: "mtty/view-rules",
-    order: 6,
+    order: 7,
     sources: { en: "docs/VIEW-RULES.md", zh: "docs/VIEW-RULES.zh-CN.md" },
   },
   {
     repo: "oxdingzg/mtty",
     to: "mtty/security",
-    order: 7,
+    order: 9,
     sources: { en: "SECURITY.md", zh: "SECURITY.zh-CN.md" },
   },
 ]
