@@ -1,7 +1,7 @@
 ---
 // The miao product page, in both languages. Claims follow the miao README and
 // its comparison document: opt-in and experimental features say so, and the
-// benchmarks carry the same caveats they carry upstream.
+// limits of the sandbox are stated next to the capability itself.
 import MarketingLayout from "../../layouts/MarketingLayout.astro"
 import InstallCommand from "../site/InstallCommand.astro"
 import MiaoMark from "../site/MiaoMark.astro"
@@ -15,15 +15,6 @@ const { lang } = Astro.props
 const prefix = prefixFor(lang)
 
 const REPO = "https://github.com/oxdingzg/miao"
-
-// Recorded same-machine release-build medians for isolated operations, from
-// the miao README. Each row's bars are scaled to its own TypeScript baseline,
-// so the bar length reads as the speedup rather than the absolute time.
-const bench = [
-  { op: { en: "Edit fuzzy match, 12k lines", zh: "编辑模糊匹配，12k 行" }, ts: 0.76, rs: 0.39, unit: "ms" },
-  { op: { en: "Patch Unicode normalization, 20k lines", zh: "补丁 Unicode 规范化，20k 行" }, ts: 13.06, rs: 5.21, unit: "ms" },
-  { op: { en: "Git status, 10 files", zh: "Git status，10 个文件" }, ts: 12.3, rs: 1.0, unit: "ms" },
-]
 
 const copy = {
   en: {
@@ -88,10 +79,24 @@ const copy = {
     loopH: "Let it keep going, inside a budget.",
     loopBody: "The autonomous loop is opt-in. It continues while todos remain open, guarded by an iteration cap and stall detection. A cost budget stops scheduling further provider turns once the estimated session cost reaches the threshold.",
     loopFine: "The budget is not a hard cap on a provider bill or on a turn already in flight. Put this in .miao/miao.jsonc for one project, or ~/.config/miao/miao.jsonc for all of them.",
-    benchLabel: "measured",
-    benchH: "Rust where the CPU work is.",
-    benchBody: "miao includes Rust accelerators, benchmarked against this repository's earlier TypeScript implementation. Recorded on one machine, release builds, medians.",
-    benchFine: "Component benchmarks — not end-to-end task speedups, and not a comparison with any current upstream release. Native edit and patch belong to the compatibility tool path; in-process Git is a prototype and not the default.",
+    sandboxLabel: "isolation",
+    sandboxH: "A kernel sandbox for the commands it runs.",
+    sandboxBody: "miao's Rust layer is small on purpose. It covers the two jobs the rest of the stack cannot do: kernel-enforced isolation around bash, and the matching and patch paths behind edit and apply_patch.",
+    sandboxRows: [
+      [
+        "Kernel-enforced isolation",
+        "macOS seatbelt and Linux Landlock deny writes outside the active Location, the command's own directory, and the paths you approve.",
+      ],
+      [
+        "Approval instead of failure",
+        "A blocked write reports the path it needed and stops there — approve that directory and the command reruns with it.",
+      ],
+      [
+        "On by default, with a way out",
+        "Native edit matching and patch derivation run through the addon on a normal install; MIAO_NATIVE=0 disables it and the TypeScript paths take over.",
+      ],
+    ],
+    sandboxFine: "The sandbox is opt-in and off by default, and Windows has no backend yet. It fails open: a requested sandbox whose backend is unavailable warns and runs the command unsandboxed unless on_unavailable is set to \"fail\".",
     statusLabel: "status",
     statusH: "Pre-1.0, and specific about it.",
     statusHead: ["Capability", "Availability"],
@@ -99,7 +104,7 @@ const copy = {
       ["Durable sessions, prompt admission, Context Epochs, project-local session messaging", "Implemented", "ok"],
       ["Autonomous continuation, cost budgets, pruning and compaction tuning", "Opt-in", "opt"],
       ["Code Mode", "Experimental", ""],
-      ["Native edit/patch and the kernel sandbox", "Compatibility runtime", ""],
+      ["Kernel sandbox for bash; native accelerators in edit and apply_patch", "Sandbox opt-in · accelerators default", "opt"],
       ["Generated clients and the embedded host", "Evolving API", ""],
     ],
     startLabel: "quick start",
@@ -176,10 +181,24 @@ const copy = {
     loopH: "让它继续推进 —— 在预算之内。",
     loopBody: "自治续跑需要手动开启。只要还有未完成的待办，它就继续，并受迭代上限和停滞检测保护。会话估算费用达到阈值后，费用预算会停止调度新的模型轮次。",
     loopFine: "预算不是供应商账单的硬上限，也不会中止已经发出的那一轮。项目级配置放在 .miao/miao.jsonc，全局配置放在 ~/.config/miao/miao.jsonc。",
-    benchLabel: "实测",
-    benchH: "CPU 密集的地方用 Rust。",
-    benchBody: "miao 内置 Rust 加速模块，并与本仓库早先的 TypeScript 实现做对比。同一台机器、release 构建、取中位数。",
-    benchFine: "这些是组件基准，不代表端到端任务提速，也不是与上游当前版本的比较。原生编辑/补丁属于兼容工具路径；进程内 Git 仍是原型，默认不启用。",
+    sandboxLabel: "隔离",
+    sandboxH: "它为要执行的命令提供内核级沙箱。",
+    sandboxBody: "miao 的 Rust 层刻意做得很小，只覆盖其余部分做不到的两件事：围绕 bash 的内核级隔离，以及 edit 与 apply_patch 背后的匹配与补丁路径。",
+    sandboxRows: [
+      [
+        "内核级隔离",
+        "macOS seatbelt 与 Linux Landlock 拒绝写入当前 Location、命令自身目录以及你批准的路径之外的位置。",
+      ],
+      [
+        "以批准代替失败",
+        "被拦下的写入会报告它需要的路径并就此停下 —— 批准该目录，命令便带着它重跑。",
+      ],
+      [
+        "出厂即启用，也留了退路",
+        "正常安装下，原生编辑匹配与补丁派生经由 addon 运行；MIAO_NATIVE=0 可关闭，改由 TypeScript 实现接管。",
+      ],
+    ],
+    sandboxFine: "沙箱需手动开启，默认关闭，且 Windows 尚无后端。它默认 fail-open：请求了沙箱却没有后端时会告警并裸跑命令，除非把 on_unavailable 设为 \"fail\"。",
     statusLabel: "现状",
     statusH: "1.0 之前，哪些能用说清楚。",
     statusHead: ["能力", "可用性"],
@@ -187,7 +206,7 @@ const copy = {
       ["持久化会话、输入接收、Context Epoch、项目内会话消息", "已实现", "ok"],
       ["自治续跑、费用预算、输出裁剪与压缩调优", "可选开启", "opt"],
       ["Code Mode", "实验性", ""],
-      ["原生编辑/补丁与内核沙箱", "兼容运行时", ""],
+      ["bash 的内核级沙箱；edit 与 apply_patch 的原生加速", "沙箱需开启 · 加速默认启用", "opt"],
       ["生成的客户端与嵌入式宿主", "API 仍在演进", ""],
     ],
     startLabel: "快速开始",
@@ -349,33 +368,21 @@ const copy = {
 
   <section class="wrap section" data-reveal>
     <div class="section-head">
-      <p class="label"><b>06</b> {copy.benchLabel}</p>
-      <h2 class="display h2">{copy.benchH}</h2>
-      <p class="lede">{copy.benchBody}</p>
+      <p class="label"><b>06</b> {copy.sandboxLabel}</p>
+      <h2 class="display h2">{copy.sandboxH}</h2>
+      <p class="lede">{copy.sandboxBody}</p>
     </div>
-    <div class="bench">
+    <div class="sandbox">
       {
-        bench.map((row) => (
-          <div class="bench-row">
-            <p class="bench-op">
-              {row.op[lang]}
-              <span class="x">{(row.ts / row.rs).toFixed(1)}×</span>
-            </p>
-            <div class="bars">
-              <span class="bar ts" style="--w:100%">
-                <i>TypeScript</i>
-                <b>{row.ts} {row.unit}</b>
-              </span>
-              <span class="bar rs" style={`--w:${(row.rs / row.ts) * 100}%`}>
-                <i>Rust</i>
-                <b>{row.rs.toFixed(2)} {row.unit}</b>
-              </span>
-            </div>
+        copy.sandboxRows.map((row) => (
+          <div class="sandbox-row">
+            <b>{row[0]}</b>
+            <p>{row[1]}</p>
           </div>
         ))
       }
     </div>
-    <p class="fine note">{copy.benchFine}</p>
+    <p class="fine note">{copy.sandboxFine}</p>
   </section>
 
   <section class="wrap section split" data-reveal>
@@ -704,61 +711,28 @@ const copy = {
     padding: 28px;
   }
 
-  /* --- Bench --- */
+  /* --- Sandbox --- */
 
-  .bench {
+  .sandbox {
     display: grid;
-    gap: 34px;
+    gap: 28px;
   }
 
-  .bench-op {
-    display: flex;
-    justify-content: space-between;
-    gap: 16px;
-    margin: 0 0 12px;
+  .sandbox-row {
+    display: grid;
+    gap: 6px;
+    padding-left: 18px;
+    border-left: 2px solid var(--border);
+  }
+
+  .sandbox-row b {
     font-weight: 550;
   }
 
-  .x {
-    color: var(--miao-ink);
-    font-family: var(--font-mono);
-    font-weight: 600;
-  }
-
-  .bars {
-    display: grid;
-    gap: 6px;
-  }
-
-  .bar {
-    position: relative;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 12px;
-    min-width: 112px;
-    width: var(--w);
-    height: 32px;
-    padding: 0 12px;
-    border-radius: 4px;
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-  }
-
-  .bar i {
-    font-style: normal;
-  }
-
-  .bar.ts {
-    background: var(--surface-raised);
-    border: 1px solid var(--border);
+  .sandbox-row p {
+    margin: 0;
     color: var(--fg-muted);
-  }
-
-  .bar.rs {
-    background: linear-gradient(90deg, var(--miao-1), var(--miao-2));
-    color: #1a1207;
-    font-weight: 600;
+    line-height: 1.6;
   }
 
   /* --- Start --- */
