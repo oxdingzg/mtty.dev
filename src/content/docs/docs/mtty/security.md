@@ -1,7 +1,7 @@
 ---
 title: "Security"
 sidebar:
-  order: 9
+  order: 7
 ---
 
 ## Reporting a security issue
@@ -58,4 +58,4 @@ A key file, and any passphrase you type, stay on the machine.
 
 ---
 
-*Synced from [`oxdingzg/mtty@b65a3d1`](https://github.com/oxdingzg/mtty/blob/b65a3d13ea6c2a3ff8afd59f639e25d4f193b45a/SECURITY.md).*
+*Synced from [`oxdingzg/mtty@1ce4ec3`](https://github.com/oxdingzg/mtty/blob/1ce4ec38b46329e7d8d9ae4eb932fead2b3c3a71/SECURITY.md).*

@@ -21,7 +21,7 @@ elsewhere in the documentation live in this directory too.
 Up to v0.0.5 the application was called `miaotty`. On first start,
 `$XDG_CONFIG_HOME/miaotty` is copied to `$XDG_CONFIG_HOME/mtty` when the latter
 does not exist, and the old directory is kept so an older build still works.
-See [identity and migration](https://github.com/oxdingzg/mtty/blob/b65a3d13ea6c2a3ff8afd59f639e25d4f193b45a/docs/APP-IDENTITY.md).
+See [identity and migration](https://github.com/oxdingzg/mtty/blob/1ce4ec38b46329e7d8d9ae4eb932fead2b3c3a71/docs/APP-IDENTITY.md).
 
 ## A minimal configuration
 
@@ -54,6 +54,7 @@ If no mtty configuration exists, ghostty's `config` and alacritty's
 | `notifications` | `true` | A system notification when an agent needs attention |
 | `prevent-sleep` | `true` | Keep the machine awake while an agent is processing |
 | `restore-scrollback` | `true` | Save terminals' contents at quit and show them on relaunch |
+| `ssh-auto-reconnect` | `false` | Connect a restored SSH tab on startup instead of waiting for Enter |
 | `pty-host` | `true` | Run each shell in a PTY host, so updates, relaunches and crashes do not end what runs in the panes |
 | `keep-sessions-on-quit` | `false` | Quitting also keeps programs running for the next launch (tmux-like) |
 | `detached-timeout` | `"24h"` | How long a kept program waits for mtty: `90s`, `30m`, `24h`, `7d` or seconds |
@@ -210,9 +211,9 @@ directory. See [view rules](/docs/mtty/view-rules/).
 
 ## Full reference
 
-[`config.example.toml`](https://github.com/oxdingzg/mtty/blob/b65a3d13ea6c2a3ff8afd59f639e25d4f193b45a/docs/config.example.toml) is the annotated reference: every
+[`config.example.toml`](https://github.com/oxdingzg/mtty/blob/1ce4ec38b46329e7d8d9ae4eb932fead2b3c3a71/docs/config.example.toml) is the annotated reference: every
 key above, with its default, in one file.
 
 ---
 
-*Synced from [`oxdingzg/mtty@b65a3d1`](https://github.com/oxdingzg/mtty/blob/b65a3d13ea6c2a3ff8afd59f639e25d4f193b45a/docs/CONFIG.md).*
+*Synced from [`oxdingzg/mtty@1ce4ec3`](https://github.com/oxdingzg/mtty/blob/1ce4ec38b46329e7d8d9ae4eb932fead2b3c3a71/docs/CONFIG.md).*

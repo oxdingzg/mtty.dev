@@ -5,7 +5,7 @@ sidebar:
 ---
 
 mtty (formerly miaotty) is the native winit/wgpu application.
-There is one GUI executable and one CLI. See [identity and migration](https://github.com/oxdingzg/mtty/blob/b65a3d13ea6c2a3ff8afd59f639e25d4f193b45a/docs/APP-IDENTITY.md).
+There is one GUI executable and one CLI. See [identity and migration](https://github.com/oxdingzg/mtty/blob/1ce4ec38b46329e7d8d9ae4eb932fead2b3c3a71/docs/APP-IDENTITY.md).
 
 ## From source
 
@@ -34,7 +34,7 @@ The installed app uses the macOS system menu bar; a bare binary uses an in-windo
 
 ## Release packages
 
-[release.yml](https://github.com/oxdingzg/mtty/blob/b65a3d13ea6c2a3ff8afd59f639e25d4f193b45a/.github/workflows/release.yml) requires Apple Silicon macOS,
+[release.yml](https://github.com/oxdingzg/mtty/blob/1ce4ec38b46329e7d8d9ae4eb932fead2b3c3a71/.github/workflows/release.yml) requires Apple Silicon macOS,
 Intel macOS, Linux and Windows runner builds. A `v*` tag publishes a release;
 manual dispatch rehearses packaging without publishing.
 
@@ -43,7 +43,7 @@ manual dispatch rehearses packaging without publishing.
 - Windows: zip and MSI, containing `mtty.exe` and `mtty-cli.exe`.
 
 Apple Developer ID signing/notarization, Windows MSI signing and minisign
-artifact signatures use the optional secrets described in [RELEASE.md](https://github.com/oxdingzg/mtty/blob/b65a3d13ea6c2a3ff8afd59f639e25d4f193b45a/docs/RELEASE.md).
+artifact signatures use the optional secrets described in [RELEASE.md](https://github.com/oxdingzg/mtty/blob/1ce4ec38b46329e7d8d9ae4eb932fead2b3c3a71/docs/RELEASE.md).
 `dist-workspace.toml` remains a cargo-dist scaffold, not the active release pipeline.
 
 
@@ -63,4 +63,4 @@ identity remains unchanged.
 
 ---
 
-*Synced from [`oxdingzg/mtty@b65a3d1`](https://github.com/oxdingzg/mtty/blob/b65a3d13ea6c2a3ff8afd59f639e25d4f193b45a/docs/INSTALL.md).*
+*Synced from [`oxdingzg/mtty@1ce4ec3`](https://github.com/oxdingzg/mtty/blob/1ce4ec38b46329e7d8d9ae4eb932fead2b3c3a71/docs/INSTALL.md).*

@@ -1,7 +1,7 @@
 ---
 title: "Troubleshooting"
 sidebar:
-  order: 7
+  order: 5
 ---
 
 ## Investigating high CPU or memory usage
@@ -27,6 +27,15 @@ or failed probes are `null`, not zero. These samples describe mtty itself,
 not its PTY hosts or shell/agent child processes. RSS is not the same metric as
 macOS Activity Monitor's memory footprint.
 
+Recorder schema 2 additionally reports `mainPresentedFrames` and
+`pipPresentedFrames`: cumulative frames submitted to each surface after a
+successful acquisition. Divide their consecutive differences by elapsed seconds
+to measure presentation rate. `renderCalls` still counts attempts, including
+deferred or hidden redraws, so it must not be interpreted as FPS. Schema 1 also
+counted the early-return PiP call after every main-window render, even without a
+PiP window. `renderWallUs` includes CPU preparation and presentation waits, not
+GPU busy time; vsync can increase that wait while reducing GPU submissions.
+
 Compare consecutive records: rising CPU time with unchanged render counters
 points toward non-render work; rising render counts during an otherwise idle
 period points toward unwanted refreshes. Observe memory across repeated similar
@@ -48,7 +57,7 @@ or working directories are included. For Rust panics, consult the adjacent
 
 | Requirement | Detail |
 |---|---|
-| Rust | The **stable** toolchain, pinned in [`rust-toolchain.toml`](https://github.com/oxdingzg/mtty/blob/b65a3d13ea6c2a3ff8afd59f639e25d4f193b45a/rust-toolchain.toml); MSRV 1.80 |
+| Rust | The **stable** toolchain, pinned in [`rust-toolchain.toml`](https://github.com/oxdingzg/mtty/blob/1ce4ec38b46329e7d8d9ae4eb932fead2b3c3a71/rust-toolchain.toml); MSRV 1.80 |
 | GPU | A driver supporting Metal (macOS), Vulkan (Linux) or DX12 (Windows) |
 | Linux | The usual `winit`/`wgpu` system libraries (X11 or Wayland development packages) |
 
@@ -149,7 +158,7 @@ the existing control socket, rather than starting a second process. Use
 | Agent hooks | Installed hook scripts and miao's integration read `MIAOTTY_PANE_ID` / `MIAOTTY_CLI`, which are still exported, so they keep reporting state; newly installed hooks use the `MTTY_*` names |
 | Notifications on macOS | The rename changed the bundle ID, so macOS asks for notification permission again |
 
-See [identity and migration](https://github.com/oxdingzg/mtty/blob/b65a3d13ea6c2a3ff8afd59f639e25d4f193b45a/docs/APP-IDENTITY.md) for the full table.
+See [identity and migration](https://github.com/oxdingzg/mtty/blob/1ce4ec38b46329e7d8d9ae4eb932fead2b3c3a71/docs/APP-IDENTITY.md) for the full table.
 
 ## The editor has no completions, diagnostics or hover
 
@@ -168,10 +177,10 @@ An explicit `[lsp] enabled = false` disables the lot. See
 
 The rest of the documentation is in the repository: [installation](/docs/mtty/install/),
 [view rules](/docs/mtty/view-rules/), and the annotated
-[`config.example.toml`](https://github.com/oxdingzg/mtty/blob/b65a3d13ea6c2a3ff8afd59f639e25d4f193b45a/docs/config.example.toml). For anything else, open an issue
+[`config.example.toml`](https://github.com/oxdingzg/mtty/blob/1ce4ec38b46329e7d8d9ae4eb932fead2b3c3a71/docs/config.example.toml). For anything else, open an issue
 on [oxdingzg/mtty](https://github.com/oxdingzg/mtty/issues), or write
 to <contact@mtty.dev>.
 
 ---
 
-*Synced from [`oxdingzg/mtty@b65a3d1`](https://github.com/oxdingzg/mtty/blob/b65a3d13ea6c2a3ff8afd59f639e25d4f193b45a/docs/TROUBLESHOOTING.md).*
+*Synced from [`oxdingzg/mtty@1ce4ec3`](https://github.com/oxdingzg/mtty/blob/1ce4ec38b46329e7d8d9ae4eb932fead2b3c3a71/docs/TROUBLESHOOTING.md).*

@@ -18,7 +18,7 @@ mtty 的配置项全部可选。只有一行的文件就是一份合法配置，
 
 v0.0.5 及之前应用名为 `miaotty`。首次启动时，若 `$XDG_CONFIG_HOME/mtty` 不存在，会把
 `$XDG_CONFIG_HOME/miaotty` 复制过去，并保留旧目录，使更早的版本仍可使用。见
-[应用身份与迁移](https://github.com/oxdingzg/mtty/blob/b65a3d13ea6c2a3ff8afd59f639e25d4f193b45a/docs/APP-IDENTITY.zh-CN.md)。
+[应用身份与迁移](https://github.com/oxdingzg/mtty/blob/1ce4ec38b46329e7d8d9ae4eb932fead2b3c3a71/docs/APP-IDENTITY.zh-CN.md)。
 
 ## 最小配置
 
@@ -50,6 +50,7 @@ palette    = ["#3b4252", "#bf616a", "#a3be8c", "#ebcb8b",
 | `notifications` | `true` | agent 需要你时发系统通知 |
 | `prevent-sleep` | `true` | agent 工作时保持系统不休眠 |
 | `restore-scrollback` | `true` | 退出时保存终端内容，重启后显示 |
+| `ssh-auto-reconnect` | `false` | 启动时自动重连恢复的 SSH 标签，无需按回车 |
 | `pty-host` | `true` | 每个 shell 运行在 PTY 宿主中,更新、重启或崩溃都不会结束 pane 里正在运行的程序 |
 | `keep-sessions-on-quit` | `false` | 退出时程序也继续运行,下次启动时接回(类似 tmux) |
 | `detached-timeout` | `"24h"` | 程序等待 mtty 的时长:`90s`、`30m`、`24h`、`7d` 或秒数 |
@@ -186,8 +187,8 @@ fish 3.7、PowerShell 7.5;Windows 上的 PowerShell 由 CI 运行)。
 
 ## 完整参考
 
-[`config.example.toml`](https://github.com/oxdingzg/mtty/blob/b65a3d13ea6c2a3ff8afd59f639e25d4f193b45a/docs/config.example.toml) 是带注释的完整参考:上面每个键及其默认值都在一个文件里。
+[`config.example.toml`](https://github.com/oxdingzg/mtty/blob/1ce4ec38b46329e7d8d9ae4eb932fead2b3c3a71/docs/config.example.toml) 是带注释的完整参考:上面每个键及其默认值都在一个文件里。
 
 ---
 
-*Synced from [`oxdingzg/mtty@b65a3d1`](https://github.com/oxdingzg/mtty/blob/b65a3d13ea6c2a3ff8afd59f639e25d4f193b45a/docs/CONFIG.zh-CN.md).*
+*Synced from [`oxdingzg/mtty@1ce4ec3`](https://github.com/oxdingzg/mtty/blob/1ce4ec38b46329e7d8d9ae4eb932fead2b3c3a71/docs/CONFIG.zh-CN.md).*
