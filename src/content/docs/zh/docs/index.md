@@ -16,7 +16,7 @@ macOS · Linux `.deb`/AppImage · Windows MSI · 预发布
 
 | | |
 |---|---|
-| [概览](/zh/docs/mtty/) | 它是什么、现在能做什么、接下来做什么 |
+| [概览](/zh/docs/mtty/) | 它是什么，以及怎样开始使用 |
 | [安装](/zh/docs/mtty/install/) | 安装包、从源码构建，以及 URL scheme |
 | [配置](/zh/docs/mtty/config/) | `config.toml`:每个键、主题、语言服务器、shell 集成 |
 | [`mtty-cli` 控制面](/zh/docs/mtty/cli/) | 用脚本或另一个程序驱动正在运行的宿主 |
@@ -39,6 +39,8 @@ curl -fsSL https://mtty.dev/miao/install | bash
 |---|---|
 | [概览](/zh/docs/miao/) | 它是什么，以及它是怎么搭起来的 |
 | [使用指南](/zh/docs/miao/guide/) | 安装、供应商、权限、MCP 与 LSP、会话、长任务、排障 |
+| [供应商与模型](/zh/docs/miao/providers/) | 鉴权、模型选择与自定义供应商 |
+| [远程控制](/zh/docs/miao/remote/) | 自己的 Hub、窗口连接与设备授权 |
 | [版本管理与发布](/zh/docs/miao/release/) | 版本如何编号、构建和发布 |
 | [miao 与 opencode 的对比](/zh/docs/miao/miao-vs-opencode/) | 这个分支的工作落在哪里，附实测数据与可用性 |
 | [参与贡献](/zh/docs/miao/contributing/) | 报告问题与提交改动 |
