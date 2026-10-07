@@ -19,7 +19,7 @@ export default defineConfig({
     starlight({
       title: "mtty.dev",
       description:
-        "miao — an AI coding agent for the terminal. mtty — a fast, embeddable terminal emulator written in Rust.",
+        "miao — an AI coding agent for the terminal. mtty — an AI-native terminal and editor for local and remote work, written in Rust.",
       defaultLocale: "root",
       locales: {
         root: { label: "English", lang: "en" },

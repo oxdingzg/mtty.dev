@@ -28,13 +28,14 @@ miao 作者的 2026 与 opencode 的 2025 —— 因为 MIT 要求上游声明�
   (SIL Open Font License 1.1，**经过修改** —— 合入了 Noto Sans 符号以补足字形)、Symbols Nerd
   Font(MIT)、Tabler Icons 子集(MIT)。表格见
   [`assets/fonts/README.md`](https://github.com/oxdingzg/mtty/blob/main/assets/fonts/README.md)。
-- **有两个 crate 是带本地补丁内嵌的**(vendored)，各自保留上游协议:`muda`(Apache-2.0 OR MIT)
-  与 `egui_commonmark`(MIT OR Apache-2.0)。
+- **带本地补丁内嵌的 crate 保留上游协议**：`muda`（Apache-2.0 OR MIT）、
+  `egui_commonmark`（MIT OR Apache-2.0）与 `winit`（Apache-2.0）。
 - **[bat](https://github.com/sharkdp/bat) 内嵌的语法定义**各自保留独立的协议与来源说明;逐条表格见
   [`docs/third-party/SYNTAXES.md`](https://github.com/oxdingzg/mtty/blob/main/docs/third-party/SYNTAXES.md)。
 - **其余都是依赖项**，在工作区各 `Cargo.toml` 中声明，其协议取自项目在
-  [ADR 0006](https://github.com/oxdingzg/mtty/blob/main/docs/decisions/0006-license-policy.zh-CN.md)
-  中记录的白名单:MIT、Apache-2.0、BSD、ISC、Zlib、0BSD、CC0-1.0、Unicode-3.0 与 OFL-1.1。
+  [`deny.toml`](https://github.com/oxdingzg/mtty/blob/main/deny.toml) 中维护的白名单，政策见
+  [ADR 0006](https://github.com/oxdingzg/mtty/blob/main/docs/decisions/0006-license-policy.zh-CN.md)。
+  以当前配置为准，其中还记录了 BSL-1.0、CDLA-Permissive-2.0、Apache-2.0 WITH LLVM-exception 等宽松许可表达式。
 
 ## 本站
 

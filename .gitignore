@@ -7,7 +7,7 @@ public/miao/model-schema.json
 .astro/
 
 # dependencies
-node_modules/
+/node_modules
 
 # wrangler local cache
 .wrangler/
@@ -26,3 +26,4 @@ pnpm-debug.log*
 # macOS-specific files
 .DS_Store
 .gstack/
+.product-sources/

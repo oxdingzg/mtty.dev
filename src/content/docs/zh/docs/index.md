@@ -3,7 +3,7 @@ title: 文档
 description: mtty（AI 原生终端与编辑器）与 miao（AI 编程代理）的用户文档。
 ---
 
-两个开源工具，文档都在这里。每个产品下的页面由 `bun run sync:docs` 从其仓库同步而来，并标注
+两个开源工具，文档都在这里。使用教程由 `bun run sync:docs` 从对应产品仓库同步而来，并标注
 来源提交，因此页面与它所描述的代码随时可以对照。
 
 ## mtty —— AI 原生的终端与编辑器
@@ -20,6 +20,8 @@ macOS · Linux `.deb`/AppImage · Windows MSI · 预发布
 | [安装](/zh/docs/mtty/install/) | 安装包、从源码构建，以及 URL scheme |
 | [配置](/zh/docs/mtty/config/) | `config.toml`:每个键、主题、语言服务器、shell 集成 |
 | [`mtty-cli` 控制面](/zh/docs/mtty/cli/) | 用脚本或另一个程序驱动正在运行的宿主 |
+| [编辑器](/zh/docs/mtty/editor/) | 文件、高亮、语言服务器与本地/远程保存行为 |
+| [远程连接](/zh/docs/mtty/remote/) | SSH 主机、传输、端口、串口、Telnet 与 TCP |
 | [快捷键](/zh/docs/mtty/shortcuts/) | 窗口、终端与编辑器窗格 |
 | [视图规则](/zh/docs/mtty/view-rules/) | 由 `views.json` 决定窗格标题、图标与徽章 |
 | [排障](/zh/docs/mtty/troubleshooting/) | 构建失败、配置路径、shell 集成、`mtty-cli` |

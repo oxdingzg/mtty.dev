@@ -34,15 +34,17 @@ Four that are easy to miss:
   modified — Noto Sans symbols merged in for glyph coverage), Symbols Nerd Font
   (MIT) and a Tabler Icons subset (MIT). The table is in
   [`assets/fonts/README.md`](https://github.com/oxdingzg/mtty/blob/main/assets/fonts/README.md).
-- **Two crates are vendored with local patches**, each keeping its upstream
-  licence: `muda` (Apache-2.0 OR MIT) and `egui_commonmark` (MIT OR Apache-2.0).
+- **Locally patched crates keep their upstream licences**: `muda` (Apache-2.0 OR MIT),
+  `egui_commonmark` (MIT OR Apache-2.0) and `winit` (Apache-2.0).
 - **Syntax definitions vendored from [bat](https://github.com/sharkdp/bat)** keep
   an individual licence and source note each; the per-syntax table is
   [`docs/third-party/SYNTAXES.md`](https://github.com/oxdingzg/mtty/blob/main/docs/third-party/SYNTAXES.md).
 - **Everything else is a dependency**, listed in the workspace's `Cargo.toml`
   files, under a licence from an allow-list the project records in
-  [ADR 0006](https://github.com/oxdingzg/mtty/blob/main/docs/decisions/0006-license-policy.md):
-  MIT, Apache-2.0, BSD, ISC, Zlib, 0BSD, CC0-1.0, Unicode-3.0 and OFL-1.1.
+  [`deny.toml`](https://github.com/oxdingzg/mtty/blob/main/deny.toml), with its policy
+  explained in [ADR 0006](https://github.com/oxdingzg/mtty/blob/main/docs/decisions/0006-license-policy.md).
+  The configuration is authoritative and includes additional permissive expressions
+  such as BSL-1.0, CDLA-Permissive-2.0 and Apache-2.0 WITH LLVM-exception.
 
 ## This site
 

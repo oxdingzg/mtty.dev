@@ -5,7 +5,31 @@ sidebar:
 ---
 
 mtty (formerly miaotty) is the native winit/wgpu application.
-There is one GUI executable and one CLI. See [identity and migration](https://github.com/oxdingzg/mtty/blob/1ce4ec38b46329e7d8d9ae4eb932fead2b3c3a71/docs/APP-IDENTITY.md).
+There is one GUI executable and one CLI. See [identity and migration](https://github.com/oxdingzg/mtty/blob/d64b052e75f291bd44298029c323d6a325a80fa6/docs/APP-IDENTITY.md).
+
+## Install a release
+
+Choose the latest package from [GitHub Releases](https://github.com/oxdingzg/mtty/releases/latest).
+
+| Platform | Package and first launch |
+|---|---|
+| macOS | Choose the arm64 zip for Apple silicon or x86_64 for Intel. Unzip, move `mtty.app` to Applications, then open it |
+| Linux | Install the `.deb` on Debian/Ubuntu, or make the AppImage executable and run it. The tar archive also contains the binaries |
+| Windows | Run the MSI installer, or extract the zip and open `mtty.exe`. The MSI also installs `mtty-cli` on PATH |
+
+For current platform signing status and download prompts, see the release notes
+and [Windows download guidance](https://mtty.dev/docs/about/windows-downloads/).
+The `.sig` files and `minisign.pub` are for optional manual verification, not applications to open.
+
+## Your first workspace
+
+1. Open mtty and use the initial local terminal, or **New SSH Session…** for a remote shell.
+2. Open the command palette (`⌘K` on macOS, `Ctrl+Shift+K` elsewhere). **Open Quickly** is `⌘⇧O` / `Ctrl+Shift+Alt+O`.
+3. Run an installed agent CLI such as `miao` in a pane. miao reports state automatically; other supported agents expose setup actions for their state hooks.
+4. Open a file beside the terminal, then use the details panel (`⌘⇧R` / `Ctrl+Shift+Alt+R`) for files, Git, agent state and queued prompts.
+
+See [shortcuts](/docs/mtty/shortcuts/), [configuration](/docs/mtty/config/), [editor](/docs/mtty/editor/)
+and [remote connections](/docs/mtty/remote/) for the next steps.
 
 ## From source
 
@@ -34,7 +58,7 @@ The installed app uses the macOS system menu bar; a bare binary uses an in-windo
 
 ## Release packages
 
-[release.yml](https://github.com/oxdingzg/mtty/blob/1ce4ec38b46329e7d8d9ae4eb932fead2b3c3a71/.github/workflows/release.yml) requires Apple Silicon macOS,
+[release.yml](https://github.com/oxdingzg/mtty/blob/d64b052e75f291bd44298029c323d6a325a80fa6/.github/workflows/release.yml) requires Apple Silicon macOS,
 Intel macOS, Linux and Windows runner builds. A `v*` tag publishes a release;
 manual dispatch rehearses packaging without publishing.
 
@@ -43,7 +67,7 @@ manual dispatch rehearses packaging without publishing.
 - Windows: zip and MSI, containing `mtty.exe` and `mtty-cli.exe`.
 
 Apple Developer ID signing/notarization, Windows MSI signing and minisign
-artifact signatures use the optional secrets described in [RELEASE.md](https://github.com/oxdingzg/mtty/blob/1ce4ec38b46329e7d8d9ae4eb932fead2b3c3a71/docs/RELEASE.md).
+artifact signatures use the optional secrets described in [RELEASE.md](https://github.com/oxdingzg/mtty/blob/d64b052e75f291bd44298029c323d6a325a80fa6/docs/RELEASE.md).
 `dist-workspace.toml` remains a cargo-dist scaffold, not the active release pipeline.
 
 
@@ -63,4 +87,4 @@ identity remains unchanged.
 
 ---
 
-*Synced from [`oxdingzg/mtty@1ce4ec3`](https://github.com/oxdingzg/mtty/blob/1ce4ec38b46329e7d8d9ae4eb932fead2b3c3a71/docs/INSTALL.md).*
+*Synced from [`oxdingzg/mtty@d64b052`](https://github.com/oxdingzg/mtty/blob/d64b052e75f291bd44298029c323d6a325a80fa6/docs/INSTALL.md).*

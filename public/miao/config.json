@@ -48,7 +48,7 @@
         ],
         "additionalProperties": false
       },
-      "description": "Command configuration, see https://opencode.ai/docs/commands"
+      "description": "Command configuration, see https://github.com/oxdingzg/miao/blob/main/packages/web/src/content/docs/commands.mdx"
     },
     "skills": {
       "description": "Additional paths or URLs to discover skills from",
@@ -172,11 +172,11 @@
         "auto",
         "disabled"
       ],
-      "description": "Control whether sessions may be shared manually, automatically, or not at all"
+      "description": "@deprecated Ignored: session sharing was removed"
     },
     "autoshare": {
       "type": "boolean",
-      "description": "@deprecated Use 'share' field instead. Share newly created sessions automatically"
+      "description": "@deprecated Ignored: session sharing was removed"
     },
     "autoupdate": {
       "anyOf": [
@@ -273,7 +273,7 @@
       "additionalProperties": {
         "$ref": "#/$defs/AgentConfig"
       },
-      "description": "Agent configuration, see https://opencode.ai/docs/agents"
+      "description": "Agent configuration, see https://github.com/oxdingzg/miao/blob/main/packages/web/src/content/docs/agents.mdx"
     },
     "provider": {
       "type": "object",
@@ -494,10 +494,19 @@
       "$ref": "#/$defs/PermissionConfig"
     },
     "tools": {
-      "type": "object",
-      "additionalProperties": {
-        "type": "boolean"
-      }
+      "description": "Tool advertising: defer remote catalogs behind tool_search and pin always-loaded tools",
+      "anyOf": [
+        {
+          "type": "object",
+          "additionalProperties": {
+            "type": "boolean"
+          }
+        },
+        {
+          "$ref": "#/$defs/ConfigV2.Tools",
+          "description": "Tool advertising: defer remote catalogs behind tool_search and pin always-loaded tools"
+        }
+      ]
     },
     "attachment": {
       "$ref": "#/$defs/AttachmentConfig",
@@ -511,7 +520,7 @@
         }
       },
       "additionalProperties": false,
-      "description": "Enterprise sharing service configuration"
+      "description": "@deprecated Ignored: session sharing was removed"
     },
     "tool_output": {
       "description": "Tool output truncation thresholds",
@@ -540,6 +549,10 @@
           "description": "Tool output truncation thresholds"
         }
       ]
+    },
+    "sandbox": {
+      "$ref": "#/$defs/ConfigV2.Sandbox",
+      "description": "OS sandbox for bash commands"
     },
     "compaction": {
       "description": "Conversation compaction behavior",
@@ -651,6 +664,20 @@
     "snapshots": {
       "type": "boolean",
       "description": "Enable snapshots used for undo and revert behavior"
+    },
+    "linter": {
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/ConfigV2.Linter.Entry"
+          }
+        }
+      ],
+      "description": "File-scoped lint commands that run after edits and feed failures back to the model"
     },
     "attachments": {
       "$ref": "#/$defs/ConfigV2.Attachments",
@@ -1300,6 +1327,13 @@
           },
           "description": "Environment variables to set when running the MCP server"
         },
+        "call_meta": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Identity stamped into `_meta` on every tools/call. `{env:VAR}` values are re-read per call, so credential rotation is picked up without reconnecting."
+        },
         "enabled": {
           "type": "boolean",
           "description": "Enable or disable the MCP server on startup"
@@ -1369,6 +1403,13 @@
             "type": "string"
           },
           "description": "Headers to send with the request"
+        },
+        "call_meta": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Identity stamped into `_meta` on every tools/call. `{env:VAR}` values are re-read per call, so credential rotation is picked up without reconnecting."
         },
         "oauth": {
           "anyOf": [
@@ -1442,41 +1483,67 @@
       },
       "additionalProperties": false
     },
-    "Policy.Effect": {
-      "type": "string",
-      "enum": [
-        "allow",
-        "deny"
-      ]
+    "ConfigV2.Sandbox": {
+      "type": "object",
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": [
+            "off",
+            "workspace-write"
+          ],
+          "description": "Run bash commands inside the OS sandbox. workspace-write limits writes to the Location, the command's working directory, temp directories, and approved paths. Defaults to off; MIAO_SANDBOX=1 or 0 overrides it."
+        },
+        "network": {
+          "type": "boolean",
+          "description": "Allow network access inside the sandbox (default: true). MIAO_SANDBOX_DENY_NETWORK=1 overrides it to deny."
+        },
+        "writable_roots": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Extra directories the sandbox may write to. Relative paths resolve from the Location; ~ expands to the home directory."
+        },
+        "on_unavailable": {
+          "type": "string",
+          "enum": [
+            "warn",
+            "fail"
+          ],
+          "description": "What to do when the sandbox is enabled but no sandbox runner is available: warn and run unsandboxed (default), or fail the command."
+        }
+      },
+      "additionalProperties": false
     },
     "ConfigV2.Experimental.Policy": {
       "type": "object",
       "properties": {
-        "action": {
-          "anyOf": [
-            {
-              "anyOf": [
-                {
-                  "type": "string",
-                  "enum": [
-                    "provider.use"
-                  ]
-                }
-              ]
-            }
-          ]
-        },
         "effect": {
-          "$ref": "#/$defs/Policy.Effect"
+          "type": "string",
+          "enum": [
+            "allow",
+            "deny"
+          ]
         },
         "resource": {
           "type": "string"
+        },
+        "action": {
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "provider.use"
+              ]
+            }
+          ]
         }
       },
       "required": [
-        "action",
         "effect",
-        "resource"
+        "resource",
+        "action"
       ],
       "additionalProperties": false
     },
@@ -1529,7 +1596,7 @@
             ],
             "additionalProperties": false
           },
-          "description": "Command configuration, see https://opencode.ai/docs/commands"
+          "description": "Command configuration, see https://github.com/oxdingzg/miao/blob/main/packages/web/src/content/docs/commands.mdx"
         },
         "skills": {
           "type": "object",
@@ -1632,11 +1699,11 @@
             "auto",
             "disabled"
           ],
-          "description": "Control sharing behavior:'manual' allows manual sharing via commands, 'auto' enables automatic sharing, 'disabled' disables all sharing"
+          "description": "@deprecated Ignored: session sharing was removed"
         },
         "autoshare": {
           "type": "boolean",
-          "description": "@deprecated Use 'share' field instead. Share newly created sessions automatically"
+          "description": "@deprecated Ignored: session sharing was removed"
         },
         "autoupdate": {
           "anyOf": [
@@ -1733,7 +1800,7 @@
           "additionalProperties": {
             "$ref": "#/$defs/AgentConfig"
           },
-          "description": "Agent configuration, see https://opencode.ai/docs/agents"
+          "description": "Agent configuration, see https://github.com/oxdingzg/miao/blob/main/packages/web/src/content/docs/agents.mdx"
         },
         "provider": {
           "type": "object",
@@ -1905,7 +1972,8 @@
               "description": "Enterprise URL"
             }
           },
-          "additionalProperties": false
+          "additionalProperties": false,
+          "description": "@deprecated Ignored: session sharing was removed"
         },
         "tool_output": {
           "type": "object",
@@ -1925,6 +1993,10 @@
           },
           "additionalProperties": false,
           "description": "Thresholds for truncating tool output. When output exceeds either limit, the full text is written to the truncation directory and a preview is returned."
+        },
+        "sandbox": {
+          "$ref": "#/$defs/ConfigV2.Sandbox",
+          "description": "OS sandbox for bash commands"
         },
         "compaction": {
           "type": "object",
@@ -2051,6 +2123,13 @@
       },
       "additionalProperties": false
     },
+    "PermissionV2.Mode": {
+      "type": "string",
+      "enum": [
+        "default",
+        "auto"
+      ]
+    },
     "ConfigV2.Agent": {
       "type": "object",
       "properties": {
@@ -2111,6 +2190,10 @@
         },
         "permissions": {
           "$ref": "#/$defs/PermissionV2.Ruleset"
+        },
+        "permission_mode": {
+          "$ref": "#/$defs/PermissionV2.Mode",
+          "description": "Auto mode classifies safe asks (workspace edits, read-only commands) as allowed"
         }
       },
       "additionalProperties": false
@@ -2150,6 +2233,50 @@
           "items": {
             "type": "string"
           }
+        }
+      },
+      "additionalProperties": false
+    },
+    "ConfigV2.Linter.Entry": {
+      "type": "object",
+      "properties": {
+        "disabled": {
+          "type": "boolean"
+        },
+        "command": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "environment": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "extensions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "ConfigV2.Tools": {
+      "type": "object",
+      "properties": {
+        "disclosure": {
+          "type": "boolean",
+          "description": "Defer external tool schemas above the budget behind a stable tool_search tool"
+        },
+        "always_load": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "External tool names that stay resident instead of deferring behind tool_search"
         }
       },
       "additionalProperties": false
@@ -2204,6 +2331,11 @@
           "maximum": 9007199254740991
         },
         "max_base64_bytes": {
+          "exclusiveMinimum": 0,
+          "type": "integer",
+          "maximum": 9007199254740991
+        },
+        "target_raw_bytes": {
           "exclusiveMinimum": 0,
           "type": "integer",
           "maximum": 9007199254740991
@@ -2279,6 +2411,13 @@
             "type": "string"
           }
         },
+        "call_meta": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Identity stamped into `_meta` on every tools/call. `{env:VAR}` values are re-read per call, so credential rotation is picked up without reconnecting."
+        },
         "disabled": {
           "type": "boolean"
         },
@@ -2332,6 +2471,13 @@
           "additionalProperties": {
             "type": "string"
           }
+        },
+        "call_meta": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Identity stamped into `_meta` on every tools/call. `{env:VAR}` values are re-read per call, so credential rotation is picked up without reconnecting."
         },
         "oauth": {
           "anyOf": [
@@ -2409,6 +2555,31 @@
         },
         "summarize_small": {
           "type": "boolean"
+        },
+        "threshold": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string",
+              "enum": [
+                "NaN"
+              ]
+            },
+            {
+              "type": "string",
+              "enum": [
+                "Infinity"
+              ]
+            },
+            {
+              "type": "string",
+              "enum": [
+                "-Infinity"
+              ]
+            }
+          ]
         },
         "keep": {
           "$ref": "#/$defs/ConfigV2.Compaction.Keep"
@@ -2529,6 +2700,10 @@
           "items": {
             "$ref": "#/$defs/ConfigV2.Experimental.Policy"
           }
+        },
+        "disable_paste_summary": {
+          "type": "boolean",
+          "description": "Disable the TUI paste summary"
         }
       },
       "additionalProperties": false
@@ -2839,6 +3014,10 @@
         "name": {
           "type": "string"
         },
+        "disabled": {
+          "type": "boolean",
+          "description": "Hide this provider and its models, even when credentials for it exist"
+        },
         "env": {
           "type": "array",
           "items": {
@@ -2904,7 +3083,7 @@
             "auto",
             "disabled"
           ],
-          "description": "Control whether sessions may be shared manually, automatically, or not at all"
+          "description": "@deprecated Ignored: session sharing was removed"
         },
         "enterprise": {
           "type": "object",
@@ -2914,7 +3093,7 @@
             }
           },
           "additionalProperties": false,
-          "description": "Enterprise sharing service configuration"
+          "description": "@deprecated Ignored: session sharing was removed"
         },
         "username": {
           "type": "string",
@@ -2959,6 +3138,24 @@
             }
           ],
           "description": "Enable built-in formatters or configure formatter overrides"
+        },
+        "linter": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "object",
+              "additionalProperties": {
+                "$ref": "#/$defs/ConfigV2.Linter.Entry"
+              }
+            }
+          ],
+          "description": "File-scoped lint commands that run after edits and feed failures back to the model"
+        },
+        "tools": {
+          "$ref": "#/$defs/ConfigV2.Tools",
+          "description": "Tool advertising: defer remote catalogs behind tool_search and pin always-loaded tools"
         },
         "lsp": {
           "anyOf": [
@@ -3020,6 +3217,10 @@
         "cost": {
           "$ref": "#/$defs/ConfigV2.Cost",
           "description": "Cost guardrails"
+        },
+        "sandbox": {
+          "$ref": "#/$defs/ConfigV2.Sandbox",
+          "description": "OS sandbox for bash commands"
         },
         "skills": {
           "type": "array",

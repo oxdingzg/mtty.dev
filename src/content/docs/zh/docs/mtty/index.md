@@ -5,10 +5,9 @@ sidebar:
   order: 0
 ---
 
-mtty 是用 Rust 编写的 AI 原生终端与编辑器，本地与远程同样顺手。它站在三根支柱上:带远程能力的
-GPU 渲染终端(主机库、SFTP、端口转发、跳板机、命令片段)、编辑器(今天是内置的查看与编辑，原生编辑器
-窗格正在开发)，以及一个代理工作台 —— 它显示每个 AI 编程代理正在做什么，并为代理排队后续工作。
-底下是不含界面的引擎:`mtty-core` 负责从 PTY 到屏幕的整条路径，`mtty-editor` 是编辑内核。
+mtty 是用 Rust 编写的 AI 原生终端与编辑器，面向本地与远程工作。终端提供标签与分屏、主机库、
+文件传输和端口转发；原生编辑器窗格支持高亮、LSP、多光标和实时预览；代理工作台提供状态
+徽章、通知、提示队列、ACP 与行内编辑提案。三者共用同一个窗口。
 
 应用以 **`mtty`** 的名字发布，同时提供 **`mtty-cli`** 控制客户端(v0.0.5 及之前两者都叫
 `miaotty`，首次启动时会复制已有的 `~/.config/miaotty`);源码在
@@ -41,11 +40,8 @@ Windows MSI 签名尚未完成。
 `mtty.app` 的 zip，Linux 是 `.deb`/AppImage/tar，Windows 是 MSI/zip。每个包都带 minisign
 `.sig` 签名，公钥随版本一同发布。
 
-```sh
-git clone https://github.com/oxdingzg/mtty.git
-cd mtty
-cargo run --release -p mtty-app
-```
+下载后打开 mtty，在终端窗格中运行已安装的代理 CLI，例如 `miao`，再用命令面板在旁边打开文件。
+[安装与第一个工作区](/zh/docs/mtty/install/) 按平台介绍操作，也包含源码构建步骤。
 
 环境要求与各平台的细节见[安装](/zh/docs/mtty/install/)。
 

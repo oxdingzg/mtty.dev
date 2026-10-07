@@ -48,7 +48,7 @@ Linux and Windows, and `Super`/`Win` combinations are left to the desktop.
 
 In an editor pane these take precedence over the window shortcuts above. The
 language features need a server for the file's language (see `[lsp]` in
-[`config.example.toml`](https://github.com/oxdingzg/mtty/blob/1ce4ec38b46329e7d8d9ae4eb932fead2b3c3a71/docs/config.example.toml)); hovering over code shows its
+[`config.example.toml`](https://github.com/oxdingzg/mtty/blob/d64b052e75f291bd44298029c323d6a325a80fa6/docs/config.example.toml)); hovering over code shows its
 type, docs and problems.
 
 | macOS | Linux / Windows | Action |
@@ -68,4 +68,4 @@ type, docs and problems.
 
 ---
 
-*Synced from [`oxdingzg/mtty@1ce4ec3`](https://github.com/oxdingzg/mtty/blob/1ce4ec38b46329e7d8d9ae4eb932fead2b3c3a71/docs/SHORTCUTS.md).*
+*Synced from [`oxdingzg/mtty@d64b052`](https://github.com/oxdingzg/mtty/blob/d64b052e75f291bd44298029c323d6a325a80fa6/docs/SHORTCUTS.md).*

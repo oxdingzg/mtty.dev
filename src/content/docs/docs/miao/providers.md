@@ -117,7 +117,7 @@ declared currency use a static conversion to USD.
 
 The `experimental.policies` list can deny use of a provider even when it is
 configured and authenticated. Rules are matched in order and the **last match
-wins**; both `action` and `resource` accept wildcards:
+wins**. The supported action is `provider.use`; `resource` accepts wildcard patterns:
 
 ```jsonc
 {
@@ -132,7 +132,7 @@ wins**; both `action` and `resource` accept wildcards:
 
 ## Troubleshooting
 
-- `miao debug` prints configuration, provider and catalog diagnostics.
+- `miao debug config` shows resolved configuration; `miao debug info` shows installation and plugin information. `miao debug` lists the available subcommands.
 - An authentication error names the fix, usually `miao auth login <provider>`;
   re-run `miao providers login` if the stored token expired.
 - A provider that shows no models is usually missing credentials or disabled by
@@ -141,3 +141,7 @@ wins**; both `action` and `resource` accept wildcards:
 See the [guide](/docs/miao/guide/) for configuration precedence and the
 [comparison with opencode](/docs/miao/miao-vs-opencode/) for how the provider layer
 evolved.
+
+---
+
+*Synced from [`oxdingzg/miao@8e8ef12`](https://github.com/oxdingzg/miao/blob/8e8ef1295518e81b75576a557b4256f106eafb69/docs/providers.en.md).*

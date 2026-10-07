@@ -40,7 +40,7 @@ control plane without the token, or a socket another user can open.
 
 ### Private keys are read here, not used here
 
-`mtty-keys` parses OpenSSH and PuTTY `.ppk` private keys and re-encodes them
+`mtty-keys` parses OpenSSH and .ppk `.ppk` private keys and re-encodes them
 between the two formats. It does not sign or decrypt with them: the workspace
 performs no private-key operation, and the SSH connections themselves are made
 by your own OpenSSH.
@@ -58,4 +58,4 @@ A key file, and any passphrase you type, stay on the machine.
 
 ---
 
-*Synced from [`oxdingzg/mtty@1ce4ec3`](https://github.com/oxdingzg/mtty/blob/1ce4ec38b46329e7d8d9ae4eb932fead2b3c3a71/SECURITY.md).*
+*Synced from [`oxdingzg/mtty@d64b052`](https://github.com/oxdingzg/mtty/blob/d64b052e75f291bd44298029c323d6a325a80fa6/SECURITY.md).*

@@ -48,7 +48,7 @@ schema 1 还会在每次主窗口渲染后计入一次画中画调用，即使�
 
 | 要求 | 说明 |
 |---|---|
-| Rust | **stable** 工具链，锁定于 [`rust-toolchain.toml`](https://github.com/oxdingzg/mtty/blob/1ce4ec38b46329e7d8d9ae4eb932fead2b3c3a71/rust-toolchain.toml);MSRV 1.80 |
+| Rust | **stable** 工具链，锁定于 [`rust-toolchain.toml`](https://github.com/oxdingzg/mtty/blob/d64b052e75f291bd44298029c323d6a325a80fa6/rust-toolchain.toml);MSRV 1.80 |
 | GPU | 支持 Metal(macOS)、Vulkan(Linux)或 DX12(Windows)的驱动 |
 | Linux | 常见的 `winit`/`wgpu` 系统库(X11 或 Wayland 开发包) |
 
@@ -135,7 +135,7 @@ keep-sessions-on-quit = true
 | agent 钩子 | 已安装的钩子脚本与 miao 的集成读取 `MIAOTTY_PANE_ID` / `MIAOTTY_CLI`，这些变量仍然导出，因此它们会继续上报状态;新安装的钩子使用 `MTTY_*` 名字 |
 | macOS 通知 | 更名改变了 bundle ID,macOS 会重新询问通知权限 |
 
-完整对照见[应用身份与迁移](https://github.com/oxdingzg/mtty/blob/1ce4ec38b46329e7d8d9ae4eb932fead2b3c3a71/docs/APP-IDENTITY.zh-CN.md)。
+完整对照见[应用身份与迁移](https://github.com/oxdingzg/mtty/blob/d64b052e75f291bd44298029c323d6a325a80fa6/docs/APP-IDENTITY.zh-CN.md)。
 
 ## 编辑器没有补全、诊断或悬停提示
 
@@ -150,10 +150,10 @@ keep-sessions-on-quit = true
 ## 这里没有我遇到的问题
 
 其余文档在仓库里:[安装](/zh/docs/mtty/install/)、[视图规则](/zh/docs/mtty/view-rules/)，以及带注释的
-[`config.example.toml`](https://github.com/oxdingzg/mtty/blob/1ce4ec38b46329e7d8d9ae4eb932fead2b3c3a71/docs/config.example.toml)。其他问题请在
+[`config.example.toml`](https://github.com/oxdingzg/mtty/blob/d64b052e75f291bd44298029c323d6a325a80fa6/docs/config.example.toml)。其他问题请在
 [oxdingzg/mtty](https://github.com/oxdingzg/mtty/issues) 开 issue，或写信到
 <contact@mtty.dev>。
 
 ---
 
-*Synced from [`oxdingzg/mtty@1ce4ec3`](https://github.com/oxdingzg/mtty/blob/1ce4ec38b46329e7d8d9ae4eb932fead2b3c3a71/docs/TROUBLESHOOTING.zh-CN.md).*
+*Synced from [`oxdingzg/mtty@d64b052`](https://github.com/oxdingzg/mtty/blob/d64b052e75f291bd44298029c323d6a325a80fa6/docs/TROUBLESHOOTING.zh-CN.md).*

@@ -27,6 +27,21 @@ export const pages: DocPage[] = [
   },
   {
     repo: "oxdingzg/miao",
+    to: "miao/providers",
+    order: 2,
+    sources: { en: "docs/providers.en.md", zh: "docs/providers.zh.md" },
+  },
+  {
+    repo: "oxdingzg/miao",
+    to: "miao/remote",
+    order: 3,
+    sources: {
+      en: "docs/remote-control.en.md",
+      zh: "docs/remote-control.zh.md",
+    },
+  },
+  {
+    repo: "oxdingzg/miao",
     to: "miao/release",
     order: 4,
     sources: { en: "docs/release.en.md", zh: "docs/release.zh.md" },
@@ -68,6 +83,18 @@ export const pages: DocPage[] = [
   },
   {
     repo: "oxdingzg/mtty",
+    to: "mtty/remote",
+    order: 3,
+    sources: { en: "docs/REMOTE.md", zh: "docs/REMOTE.zh-CN.md" },
+  },
+  {
+    repo: "oxdingzg/mtty",
+    to: "mtty/editor",
+    order: 4,
+    sources: { en: "docs/EDITOR.md", zh: "docs/EDITOR.zh-CN.md" },
+  },
+  {
+    repo: "oxdingzg/mtty",
     to: "mtty/cli",
     order: 6,
     sources: { en: "docs/CLI.md", zh: "docs/CLI.zh-CN.md" },
@@ -82,7 +109,10 @@ export const pages: DocPage[] = [
     repo: "oxdingzg/mtty",
     to: "mtty/troubleshooting",
     order: 8,
-    sources: { en: "docs/TROUBLESHOOTING.md", zh: "docs/TROUBLESHOOTING.zh-CN.md" },
+    sources: {
+      en: "docs/TROUBLESHOOTING.md",
+      zh: "docs/TROUBLESHOOTING.zh-CN.md",
+    },
   },
   {
     repo: "oxdingzg/mtty",

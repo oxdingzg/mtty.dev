@@ -85,7 +85,7 @@ miao models --refresh           # 先从 mtty.dev 刷新目录
 
 ## 供应商策略（实验性）
 
-`experimental.policies` 列表即使在供应商已配置且已鉴权时也能拒绝其使用。规则按顺序匹配，**最后一条匹配者生效**；`action` 和 `resource` 都支持通配符：
+`experimental.policies` 列表即使在供应商已配置且已鉴权时也能拒绝其使用。规则按顺序匹配，**最后一条匹配者生效**；当前支持的 `action` 是 `provider.use`，`resource` 支持通配符：
 
 ```jsonc
 {
@@ -100,8 +100,12 @@ miao models --refresh           # 先从 mtty.dev 刷新目录
 
 ## 排障
 
-- `miao debug` 打印配置、供应商和目录诊断信息。
+- `miao debug config` 查看生效配置，`miao debug info` 查看安装与插件信息；`miao debug` 列出可用子命令。
 - 鉴权错误会指出修复方式，通常是 `miao auth login <provider>`；保存的 token 过期时重跑 `miao providers login`。
 - 供应商不显示任何模型，通常是缺凭证或被策略禁用；`miao models <provider> --verbose` 会显示解析结果。
 
 配置优先级见[使用指南](/zh/docs/miao/guide/)，供应商层的演进见[与 opencode 的对比](/zh/docs/miao/miao-vs-opencode/)。
+
+---
+
+*Synced from [`oxdingzg/miao@8e8ef12`](https://github.com/oxdingzg/miao/blob/8e8ef1295518e81b75576a557b4256f106eafb69/docs/providers.zh.md).*

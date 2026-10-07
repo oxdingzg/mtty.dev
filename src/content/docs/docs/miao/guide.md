@@ -13,7 +13,7 @@ releases. This guide covers install, usage, and troubleshooting end to end.
 
 miao is an open-source coding agent with a terminal UI, HTTP server, and browser interface. It focuses on the work around model calls: durable sessions, context efficiency, collaboration, and visible cost.
 
-Use it to explore a repository, implement a change, investigate a failing test, or delegate focused research. Connect the providers you prefer, configure project tools, and continue the conversation as the task evolves. Model selection and MCP are part of the workflow; miao's runtime work is described in the [overview](https://github.com/oxdingzg/miao/blob/5dbadaa581d6b2eddf8b94faf8b3a82fe18f7fc9/README.md) and [availability comparison](/docs/miao/miao-vs-opencode/).
+Use it to explore a repository, implement a change, investigate a failing test, or delegate focused research. Connect the providers you prefer, configure project tools, and continue the conversation as the task evolves. Model selection and MCP are part of the workflow; miao's runtime work is described in the [overview](https://github.com/oxdingzg/miao/blob/8e8ef1295518e81b75576a557b4256f106eafb69/README.md) and [availability comparison](/docs/miao/miao-vs-opencode/).
 
 A useful first task is: “Find the cause of this failure, make the smallest appropriate fix, run the relevant checks, and explain the diff.” Add constraints while the agent works rather than starting a second conversation.
 
@@ -49,11 +49,11 @@ The current Windows release is not Authenticode-signed. The archive is `miao-win
 
 **Three entry points (coexisting, independent)**
 
-| Command        | What it is                                                           | Data / config                       | Updates                |
-| -------------- | -------------------------------------------------------------------- | ----------------------------------- | ---------------------- |
-| `miao`         | Stable release binary                                                | channel `latest`, DB `miao.db`      | background auto-update |
-| `miao-dev`     | Runs from source; the only entry that sees uncommitted edits         | channel `local`, DB `miao-local.db` | manual                 |
-| `miao-preview` | Compiled build of the current checkout (`./script/install-local.sh`) | channel = current branch            | none                   |
+| Command        | What it is                                                                                           | Data / config                       | Updates                |
+| -------------- | ---------------------------------------------------------------------------------------------------- | ----------------------------------- | ---------------------- |
+| `miao`         | Stable release binary                                                                                | channel `latest`, DB `miao.db`      | background auto-update |
+| `miao-dev`     | Runs from source; the only entry that sees uncommitted edits                                         | channel `local`, DB `miao-local.db` | manual                 |
+| `miao-preview` | Compiled build of the current checkout (`./script/install-local.sh --binary /path/to/prebuilt/miao`) | channel = current branch            | none                   |
 
 `auth.json`, config, and snapshots are shared across channels, so credentials carry over.
 
@@ -213,7 +213,7 @@ Reopen sessions from the session list or export them with `miao export <sessionI
 
 Ask the agent to delegate a bounded task—such as finding callers of an API or reviewing a migration—to a specialist subagent. The `task` tool returns a child session that can be continued with its session ID. Its separate conversation keeps detailed investigation out of the main context.
 
-V2's `list_sessions` discovers project peers, and `send_message` accepts a session ID or `@slug`. Messages are attributed to their sender, admitted as queued inputs, and subject to the `message` permission and an inbound queue limit. Cross-project targets are rejected. This is process-local coordination, not a cross-machine worker service.
+V2's `list_sessions` discovers project peers, and `send_message` accepts a session ID or `@slug`. Messages are attributed to their sender and durably admitted to the target inbox, subject to the `message` permission and an inbound queue limit. The default `delivery: "steer"` promotes at the next safe turn boundary; explicit `delivery: "queue"` waits until the Session would otherwise become idle. Cross-project targets are rejected. Execution is process-local; durable admission can reach a Session owned by another live local window, but does not provide cross-machine execution or automatic recovery.
 
 ### 5.11 Tune context and cost deliberately
 
@@ -234,9 +234,9 @@ Content that a compaction removed from the model window stays durable on disk. T
 
 All shipped clients use the single V2 session runtime; the V1 session runtime and its `/session/*` routes have been removed.
 
-- [V1 retirement](https://github.com/oxdingzg/miao/blob/5dbadaa581d6b2eddf8b94faf8b3a82fe18f7fc9/specs/v2/v1-retirement.md) records the removal and the remaining compatibility surfaces (database migration and non-session legacy routes).
-- [Session storage](https://github.com/oxdingzg/miao/blob/5dbadaa581d6b2eddf8b94faf8b3a82fe18f7fc9/specs/storage/session-storage-hardening.md) tracks storage design. Use `miao db stats`, `miao db vacuum`, and JSONL exports to inspect and maintain local records.
-- [Agent concurrency](https://github.com/oxdingzg/miao/blob/5dbadaa581d6b2eddf8b94faf8b3a82fe18f7fc9/specs/v2/agent-concurrency.md) designs non-blocking subagents and wake-on-completion so long-running work does not stall a Session.
+- [V1 retirement](https://github.com/oxdingzg/miao/blob/8e8ef1295518e81b75576a557b4256f106eafb69/specs/v2/v1-retirement.md) records the removal and the remaining compatibility surfaces (database migration and non-session legacy routes).
+- [Session storage](https://github.com/oxdingzg/miao/blob/8e8ef1295518e81b75576a557b4256f106eafb69/specs/storage/session-storage-hardening.md) tracks storage design. Use `miao db stats`, `miao db vacuum`, and JSONL exports to inspect and maintain local records.
+- [Agent concurrency](https://github.com/oxdingzg/miao/blob/8e8ef1295518e81b75576a557b4256f106eafb69/specs/v2/agent-concurrency.md) designs non-blocking subagents and wake-on-completion so long-running work does not stall a Session.
 - Automatic post-crash execution continuation and clustered ownership are not implemented. The OS sandbox is built into the V2 `bash` tool but remains opt-in; see the [availability matrix](/docs/miao/miao-vs-opencode/).
 
 ## 7. FAQ
@@ -252,7 +252,7 @@ manual toggle still works.
 
 **How do I configure models/providers?**
 `miao providers login` writes credentials; `miao models` lists them; customize under
-`providers` in `miao.jsonc`. Use `miao debug` for provider errors.
+`providers` in `miao.jsonc`. Use `miao debug config` to inspect resolved configuration and `miao debug info` for installation and plugin diagnostics; `miao debug` lists its subcommands.
 
 **How do I use my Command Code subscription?**
 Connect once with `miao auth login commandcode` (a browser-assisted login), or set
@@ -298,13 +298,13 @@ bun install
 bun run dev                     # run from source (same as miao-dev)
 bun --cwd packages/miao typecheck
 bun --cwd packages/miao test
-./script/install-local.sh       # build and install miao-preview
+./script/install-local.sh --binary /path/to/prebuilt/miao  # install build-host artifact
 ```
 
 ## License
 
-MIT. See [LICENSE](https://github.com/oxdingzg/miao/blob/5dbadaa581d6b2eddf8b94faf8b3a82fe18f7fc9/LICENSE).
+MIT. See [LICENSE](https://github.com/oxdingzg/miao/blob/8e8ef1295518e81b75576a557b4256f106eafb69/LICENSE).
 
 ---
 
-*Synced from [`oxdingzg/miao@5dbadaa`](https://github.com/oxdingzg/miao/blob/5dbadaa581d6b2eddf8b94faf8b3a82fe18f7fc9/docs/guide.en.md).*
+*Synced from [`oxdingzg/miao@8e8ef12`](https://github.com/oxdingzg/miao/blob/8e8ef1295518e81b75576a557b4256f106eafb69/docs/guide.en.md).*

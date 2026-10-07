@@ -17,8 +17,9 @@ opens the reader. Beyond that:
 
 - **Open Quickly** (`⌘⇧O`) fuzzy-matches files, folders, recent files and text
   inside them, plus tabs, agents and saved hosts.
-- **Edit in Tab** opens the current file in a local editor pane. It uses the
-  `editor` setting, then `$EDITOR`, then `vi` (Notepad on Windows).
+- **Open File…** opens a local file in a native editor pane.
+- **Edit in Tab** runs your configured `editor`, then `$EDITOR`, then `vi`
+  (Notepad on Windows) in a terminal tab; it is the external-editor path.
 - **Open Externally** hands the file to an external editor from the palette.
 - Jump-to-line navigation and `file:line` arguments open the pane at the line.
 
@@ -38,7 +39,7 @@ Size is handled in stages rather than refused:
 |---|---|
 | Up to 512 KB | Parsed on the UI thread; a keystroke reparses incrementally |
 | Above 512 KB | The parse moves to a background thread; colour arrives shortly after |
-| Above 8 MB | Tree-sitter stops (a tree costs 25–35× the file in memory); the Sublime fallback continues to 1 MB |
+| Above 8 MB | Tree-sitter is disabled to bound memory use; syntect fallback is limited to files up to 1 MB, so larger files remain plain text |
 | Above 64 MB | The file opens in **view mode**: a window of lines is read from disk with a sparse index built in the background, so memory stays small at any size |
 
 In view mode, typing, pasting or **Switch to Editing…** offers to load the file
@@ -89,7 +90,7 @@ and the View menu; it closes with its editor and is kept in a saved session.
 With an `[lsp]` entry, the editor starts a language server for `rust-analyzer`,
 `typescript-language-server`, `pyright-langserver`, `gopls` or `clangd` found on
 the login shell's `PATH` — one server per language group and workspace root.
-Files over 2 MB get none.
+Files over 2 MB and remote SSH panes do not start a language server.
 
 In the pane you get diagnostic underlines with ✖/⚠ counts in the status bar,
 hover after the pointer rests, completion on trigger characters, words and
@@ -99,12 +100,17 @@ root markers are configured under `[lsp]` in [`config.toml`](/docs/mtty/config/)
 
 ## Saving without losing work
 
-Saves are atomic and keep the file's permissions. A failed save is reported and
-leaves the buffer **modified**; closing unsaved changes, Close Others/Below or
-quitting asks first. An open pane watches its file: with no unsaved edits it
-reloads in place as one undoable transaction; with unsaved edits it asks whether
-to reload or keep your version; a file deleted underneath the pane is reported
-once. Remote panes reload the same way over ssh.
+Local saves atomically replace the file and preserve its permissions. Failed saves
+are reported and leave the buffer **modified**; closing unsaved changes,
+Close Others/Below or quitting asks first. Local files are watched: clean panes
+reload as one undoable transaction; modified panes ask whether to reload or keep
+the local version. A deleted local file is reported once.
+
+Remote saves stream bytes over SSH with `cat > path`; they are not atomic file
+replacement. Remote panes poll for changes and reload only while clean. If the
+buffer has unsaved edits, those edits are kept without a reload prompt. Failed
+remote probes or reload reads do not replace the buffer. Review remote changes
+before saving a locally modified buffer.
 
 ## Configuration and keys
 
@@ -116,3 +122,7 @@ once. Remote panes reload the same way over ssh.
 | `[lsp]` | Language servers, commands and workspace root markers |
 
 [Keyboard shortcuts](/docs/mtty/shortcuts/) lists the window, terminal and editor keys.
+
+---
+
+*Synced from [`oxdingzg/mtty@d64b052`](https://github.com/oxdingzg/mtty/blob/d64b052e75f291bd44298029c323d6a325a80fa6/docs/EDITOR.md).*

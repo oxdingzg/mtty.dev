@@ -5,7 +5,7 @@ Source for **[mtty.dev](https://mtty.dev)**, the site that documents two product
 | Product | What it is | Repository |
 | --- | --- | --- |
 | **miao** | An open-source AI coding agent for the terminal | [oxdingzg/miao](https://github.com/oxdingzg/miao) |
-| **mtty** | A fast, embeddable, cross-platform terminal emulator written in Rust | [oxdingzg/mtty](https://github.com/oxdingzg/mtty) |
+| **mtty** | An AI-native terminal and editor for local and remote work, written in Rust | [oxdingzg/mtty](https://github.com/oxdingzg/mtty) |
 
 The two are separate projects; each works without the other. Inside an mtty pane, miao
 reports its state (working, waiting, done, error) to mtty, which badges the pane, notifies
@@ -60,9 +60,52 @@ Run from the repository root:
 | `bun run preview` | Serve the built output locally |
 | `bun run check` | Type-check `.astro` and content files |
 | `bun run check:media` | Verify screenshot dimensions, video metadata and media size budgets |
-| `bun run sync:docs` | Re-sync the miao documentation from its repository |
+| `bun run test` | Verify document transformations, semantic drift detection and shared shortcuts |
+| `bun run check:content` | Check source provenance, published schemas and retired marketing claims |
+| `bun run sync:docs` | Sync both products' bilingual user guides and marketing shortcuts |
+| `bun run sync:docs --check` | Detect body/link drift; ignore unrelated commit-only changes |
+| `bun run sync:schemas --miao <checkout>` | Generate config/TUI schemas from an installed miao source checkout |
 | `bun run sync:models` | Build `public/models/api.json`, the catalog miao fetches |
 | `bun run og` | Re-render the social preview cards in `public/og/` |
+
+## Keeping product content current
+
+`scripts/docs-sources.ts` lists the canonical bilingual source files. Provider,
+Remote Control, editor and remote-host guides live in the product repositories;
+edit those sources first. Synced pages carry immutable source links. A product
+commit that does not change a page's body or link destinations leaves that
+page and its provenance intact. Use `--refresh-provenance` to deliberately
+re-pin unchanged pages to a newer commit.
+
+For a reproducible local refresh, use clean source checkouts at the revisions
+you want to publish:
+
+```sh
+bun run sync:docs --miao <miao-checkout> --mtty <mtty-checkout>
+bun run sync:schemas --miao <miao-checkout>
+bun run sync:docs --check --miao <miao-checkout> --mtty <mtty-checkout>
+bun run sync:schemas --check --miao <miao-checkout>
+bun run test
+bun run check:content
+```
+
+Install miao's dependencies first with `bun install --frozen-lockfile --ignore-scripts`;
+schema generation does not require a native build. The model schema remains
+generated from the catalog by `sync:models` at deployment time.
+
+The `product-content-sync` workflow runs daily, manually, or on a
+`product-docs-updated` repository dispatch. It checks out both products, updates
+guides/shortcuts/schemas, validates the result and opens or updates one pull
+request. After merge, the deploy workflow publishes it. An optional
+`DOCS_SYNC_TOKEN` lets the generated PR trigger its own workflows; with the
+default GitHub token, validation runs in the refresh job itself.
+
+Marketing copy, product overviews and About pages remain authored here. Keep
+English and Chinese aligned, describe current user-facing behavior, and put
+architecture details after getting started. Describe use cases directly rather
+than framing the product against commercial competitors. Check deployed pages
+when making claims about CDN behavior; repository source alone does not show
+injected scripts.
 
 ## Product media
 
