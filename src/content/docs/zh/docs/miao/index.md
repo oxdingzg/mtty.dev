@@ -15,11 +15,13 @@ curl -fsSL https://mtty.dev/miao/install | bash
 
 | | |
 |---|---|
+| [为什么选择 miao](/zh/docs/miao/why-miao/) | 适用场景、当前功能与限制、方向性 roadmap |
 | [使用指南](/zh/docs/miao/guide/) | 安装与升级、供应商、配置、键位、会话与模型、命令与技能、MCP、LSP、沙箱、费用遥测、自治续跑、FAQ 与排障 |
 | [供应商与模型](/zh/docs/miao/providers/) | 连接供应商、选择与计价模型、自定义供应商，以及目录来源 |
 | [远程控制](/zh/docs/miao/remote/) | 连接窗口与自己的 Hub、配对设备、管理范围授权与连接生命周期 |
 | [版本管理与发布](/zh/docs/miao/release/) | 版本如何编号、构建和发布，以及如何回滚 |
-| [miao 与 opencode 的对比](/zh/docs/miao/miao-vs-opencode/) | 这个分支的工作落在哪里，附实测数据与可用性 |
+| [开源代理工作流对比](/zh/docs/miao/comparison/) | 八个项目的工具并行、长任务、上下文与恢复，附源码证据 |
+| [原生组件基准](/zh/docs/miao/native-benchmarks/) | 内部历史测量与原生/沙箱范围，独立于产品横向对比 |
 | [参与贡献](/zh/docs/miao/contributing/) | 报告问题与提交改动 |
 | [安全](/zh/docs/miao/security/) | 如何报告漏洞 |
 

@@ -29,6 +29,8 @@ const copy = {
     copyLabel: "Copy command",
     platforms: "macOS and Linux · Windows builds exist · MIT",
     guide: "Read the guide",
+    whyPage: "Why choose miao?",
+    comparisonPage: "Compare eight agent workflows",
     source: "Source",
     shot: "Current miao terminal UI showing an example code review, an inline edit diff, the response and context telemetry.",
     cap: "Build agent · inline code changes and context telemetry · illustrative session",
@@ -45,7 +47,7 @@ const copy = {
     tQueue: "queue · waits until the session would go idle",
     t3: "Then open a draft PR description.",
     whyLabel: "why miao",
-    whyH: "The engineering around the model.",
+    whyH: "Keep the task moving, and the process visible.",
     why: [
       ["Choose the model that fits the work", "Several providers in one interface, model switching within a session, and specialist agents with their own models and permissions. Pick for reasoning quality, speed or price without rebuilding your workflow around one vendor."],
       ["Give collaboration its own context", "Delegate a scoped task to a specialist subagent and continue that session later. With list_sessions and send_message, agents discover and message other sessions in the same project, subject to permissions."],
@@ -132,6 +134,8 @@ const copy = {
     copyLabel: "复制命令",
     platforms: "macOS 与 Linux · Windows 已有构建 · MIT",
     guide: "阅读使用指南",
+    whyPage: "为什么选择 miao",
+    comparisonPage: "八个开源代理对比",
     source: "源码",
     shot: "当前 miao 终端界面：示例代码审阅、行内编辑 diff、回复和上下文遥测。",
     cap: "Build 代理 · 行内代码改动与上下文遥测 · 示例会话",
@@ -148,7 +152,7 @@ const copy = {
     tQueue: "queue · 等会话即将空闲时再处理",
     t3: "然后写一份草稿 PR 描述。",
     whyLabel: "为什么选择 miao",
-    whyH: "功夫花在模型周围。",
+    whyH: "把任务推进，也把过程看清楚。",
     why: [
       ["按任务选择模型", "在同一个界面连接多个供应商，随时切换会话模型，也可以为专门的代理设置各自的模型和权限。按推理能力、响应速度或价格做选择，不必围着某一家重建工作流。"],
       ["专项工作交给独立上下文", "把范围明确的任务委派给子代理，之后还能继续同一个子会话。借助 list_sessions 和 send_message，代理能在权限约束下发现并联系同项目的其他会话。"],
@@ -248,6 +252,7 @@ const copy = {
           <a class="btn solid" href={`${prefix}/docs/miao/guide/`}
             >{copy.guide} <span class="arrow">→</span></a
           >
+          <a class="btn" href={`${prefix}/docs/miao/why-miao/`}>{copy.whyPage} <span class="arrow">→</span></a>
           <a class="btn" href={REPO}>{copy.source} <span class="arrow">↗</span></a>
         </div>
       </div>
@@ -308,6 +313,10 @@ const copy = {
       }
     </ol>
     <p class="fine note">{copy.costNote}</p>
+    <div class="actions">
+      <a class="btn" href={`${prefix}/docs/miao/why-miao/`}>{copy.whyPage} <span class="arrow">→</span></a>
+      <a class="btn" href={`${prefix}/docs/miao/comparison/`}>{copy.comparisonPage} <span class="arrow">→</span></a>
+    </div>
   </section>
 
   <section class="wrap section split" data-reveal>

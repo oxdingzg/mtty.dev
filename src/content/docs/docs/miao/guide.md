@@ -1,7 +1,7 @@
 ---
 title: "miao Guide"
 sidebar:
-  order: 1
+  order: 2
 ---
 
 :::note
@@ -13,7 +13,7 @@ releases. This guide covers install, usage, and troubleshooting end to end.
 
 miao is an open-source coding agent with a terminal UI, HTTP server, and browser interface. It focuses on the work around model calls: durable sessions, context efficiency, collaboration, and visible cost.
 
-Use it to explore a repository, implement a change, investigate a failing test, or delegate focused research. Connect the providers you prefer, configure project tools, and continue the conversation as the task evolves. Model selection and MCP are part of the workflow; miao's runtime work is described in the [overview](https://github.com/oxdingzg/miao/blob/8e8ef1295518e81b75576a557b4256f106eafb69/README.md) and [availability comparison](/docs/miao/miao-vs-opencode/).
+Use it to explore a repository, implement a change, investigate a failing test, or delegate focused research. Connect the providers you prefer, configure project tools, and continue the conversation as the task evolves. Model selection and MCP are part of the workflow; miao's runtime work is described in the [overview](https://github.com/oxdingzg/miao/blob/284be7f96491a33c873335363d25625e0f126c24/README.md) and [workflow comparison](/docs/miao/comparison/).
 
 A useful first task is: “Find the cause of this failure, make the smallest appropriate fix, run the relevant checks, and explain the diff.” Add constraints while the agent works rather than starting a second conversation.
 
@@ -180,7 +180,7 @@ The V2 `bash` tool can run each command under the OS sandbox: seatbelt on macOS,
 { "sandbox": { "mode": "workspace-write", "network": true } }
 ```
 
-`MIAO_SANDBOX=1` and `MIAO_SANDBOX_DENY_NETWORK=1` override the config. `workspace-write` leaves reads unrestricted and allows writes only to the active Location, the command's working directory, temp directories, `writable_roots`, and paths you approve after a blocked write (the command is rerun with the added directory). Network is allowed unless denied. If the sandbox is requested but no backend is available, `on_unavailable` defaults to `"warn"` and the command runs unsandboxed; set `"fail"` to refuse instead. See the [integration matrix](/docs/miao/miao-vs-opencode/#native-tools-and-sandbox-where-they-apply) for platform limits.
+`MIAO_SANDBOX=1` and `MIAO_SANDBOX_DENY_NETWORK=1` override the config. `workspace-write` leaves reads unrestricted and allows writes only to the active Location, the command's working directory, temp directories, `writable_roots`, and paths you approve after a blocked write (the command is rerun with the added directory). Network is allowed unless denied. If the sandbox is requested but no backend is available, `on_unavailable` defaults to `"warn"` and the command runs unsandboxed; set `"fail"` to refuse instead. See the [integration matrix](/docs/miao/native-benchmarks/#native-tools-and-sandbox-where-they-apply) for platform limits.
 
 ### 5.7 Cost and cache telemetry
 
@@ -234,10 +234,10 @@ Content that a compaction removed from the model window stays durable on disk. T
 
 All shipped clients use the single V2 session runtime; the V1 session runtime and its `/session/*` routes have been removed.
 
-- [V1 retirement](https://github.com/oxdingzg/miao/blob/8e8ef1295518e81b75576a557b4256f106eafb69/specs/v2/v1-retirement.md) records the removal and the remaining compatibility surfaces (database migration and non-session legacy routes).
-- [Session storage](https://github.com/oxdingzg/miao/blob/8e8ef1295518e81b75576a557b4256f106eafb69/specs/storage/session-storage-hardening.md) tracks storage design. Use `miao db stats`, `miao db vacuum`, and JSONL exports to inspect and maintain local records.
-- [Agent concurrency](https://github.com/oxdingzg/miao/blob/8e8ef1295518e81b75576a557b4256f106eafb69/specs/v2/agent-concurrency.md) designs non-blocking subagents and wake-on-completion so long-running work does not stall a Session.
-- Automatic post-crash execution continuation and clustered ownership are not implemented. The OS sandbox is built into the V2 `bash` tool but remains opt-in; see the [availability matrix](/docs/miao/miao-vs-opencode/).
+- [V1 retirement](https://github.com/oxdingzg/miao/blob/284be7f96491a33c873335363d25625e0f126c24/specs/v2/v1-retirement.md) records the removal and the remaining compatibility surfaces (database migration and non-session legacy routes).
+- [Session storage](https://github.com/oxdingzg/miao/blob/284be7f96491a33c873335363d25625e0f126c24/specs/storage/session-storage-hardening.md) tracks storage design. Use `miao db stats`, `miao db vacuum`, and JSONL exports to inspect and maintain local records.
+- [Agent concurrency](https://github.com/oxdingzg/miao/blob/284be7f96491a33c873335363d25625e0f126c24/specs/v2/agent-concurrency.md) designs non-blocking subagents and wake-on-completion so long-running work does not stall a Session.
+- Automatic post-crash execution continuation and clustered ownership are not implemented. The OS sandbox is built into the V2 `bash` tool but remains opt-in; see the [native/sandbox scope](/docs/miao/native-benchmarks/).
 
 ## 7. FAQ
 
@@ -266,7 +266,7 @@ Use native-currency pricing (`providers.<id>.models.<m>.cost`), or switch displa
 `/currency`.
 
 **Native (Rust) addon problems?**
-`MIAO_NATIVE=0` disables the addon, and the TypeScript implementations of edit matching and patch derivation take over. The addon also backs the OS sandbox runner. See the [comparison matrix](/docs/miao/miao-vs-opencode/).
+`MIAO_NATIVE=0` disables the addon, and the TypeScript implementations of edit matching and patch derivation take over. The addon also backs the OS sandbox runner. See the [native component scope](/docs/miao/native-benchmarks/).
 
 **Can it keep working autonomously like a single long run?**
 Use the `loop` config (§5.8), or an external loop `miao run --continue "...continue..."`.
@@ -303,8 +303,8 @@ bun --cwd packages/miao test
 
 ## License
 
-MIT. See [LICENSE](https://github.com/oxdingzg/miao/blob/8e8ef1295518e81b75576a557b4256f106eafb69/LICENSE).
+MIT. See [LICENSE](https://github.com/oxdingzg/miao/blob/284be7f96491a33c873335363d25625e0f126c24/LICENSE).
 
 ---
 
-*Synced from [`oxdingzg/miao@8e8ef12`](https://github.com/oxdingzg/miao/blob/8e8ef1295518e81b75576a557b4256f106eafb69/docs/guide.en.md).*
+*Synced from [`oxdingzg/miao@284be7f`](https://github.com/oxdingzg/miao/blob/284be7f96491a33c873335363d25625e0f126c24/docs/guide.en.md).*

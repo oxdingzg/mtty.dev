@@ -1,7 +1,7 @@
 ---
 title: "miao 版本管理与发布"
 sidebar:
-  order: 4
+  order: 7
 ---
 
 ## 版本方案
@@ -35,7 +35,7 @@ sidebar:
   - 写入 `CHANGELOG.md`：追加 `--write`
   - 发布时 `script/version.ts` 以 `--to <sha>` 调用它生成 `UPCOMING_CHANGELOG.md`，即 release notes。
 - Release notes **统一用英文，并且始终链接到简体中文镜像**：`docs/releases/<tag>.zh.md`，
-  在第一个标题下以 `[简体中文](https://github.com/oxdingzg/miao/blob/8e8ef1295518e81b75576a557b4256f106eafb69/docs/…)` 链接。发布前先写好镜像——缺少镜像时
+  在第一个标题下以 `[简体中文](https://github.com/oxdingzg/miao/blob/284be7f96491a33c873335363d25625e0f126c24/docs/…)` 链接。发布前先写好镜像——缺少镜像时
   `script/release-notes.ts` 会让发布作业失败。所有 miao 项目（包括 `mtty`）都遵循同一规则。
 
 ## 发布前检查清单
@@ -62,4 +62,4 @@ sidebar:
 
 ---
 
-*Synced from [`oxdingzg/miao@8e8ef12`](https://github.com/oxdingzg/miao/blob/8e8ef1295518e81b75576a557b4256f106eafb69/docs/release.zh.md).*
+*Synced from [`oxdingzg/miao@284be7f`](https://github.com/oxdingzg/miao/blob/284be7f96491a33c873335363d25625e0f126c24/docs/release.zh.md).*

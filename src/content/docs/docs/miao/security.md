@@ -1,7 +1,7 @@
 ---
 title: "Security"
 sidebar:
-  order: 7
+  order: 9
 ---
 
 ## Threat Model
@@ -35,7 +35,7 @@ Its listener binds to `127.0.0.1` on an ephemeral port, does not advertise over
 mDNS, and uses a fresh private credential and Runtime ID. Closing that window
 ends its execution and remote connection. The private `miao runtime access`
 bridge targets an explicit live Runtime ID; it never starts a daemon. See
-[Runtime lifecycle](https://github.com/oxdingzg/miao/blob/8e8ef1295518e81b75576a557b4256f106eafb69/docs/runtime.md).
+[Runtime lifecycle](https://github.com/oxdingzg/miao/blob/284be7f96491a33c873335363d25625e0f126c24/docs/runtime.md).
 
 `miao serve` is a separate, explicitly started foreground API server. It defaults
 to `127.0.0.1`, but `--hostname` or server configuration can expose it to a network;
@@ -76,4 +76,4 @@ week passes with no reply, ask again on the same thread.
 
 ---
 
-*Synced from [`oxdingzg/miao@8e8ef12`](https://github.com/oxdingzg/miao/blob/8e8ef1295518e81b75576a557b4256f106eafb69/SECURITY.md).*
+*Synced from [`oxdingzg/miao@284be7f`](https://github.com/oxdingzg/miao/blob/284be7f96491a33c873335363d25625e0f126c24/SECURITY.md).*

@@ -42,11 +42,13 @@ curl -fsSL https://mtty.dev/miao/install | bash
 | | |
 |---|---|
 | [Overview](/docs/miao/) | What it is and how it is put together |
+| [Why choose miao?](/docs/miao/why-miao/) | Use cases, current features and limits, and development direction |
 | [Guide](/docs/miao/guide/) | Install, providers, permissions, MCP and LSP, sessions, long tasks, troubleshooting |
 | [Providers and models](/docs/miao/providers/) | Authentication, model selection and custom providers |
 | [Remote Control](/docs/miao/remote/) | Your Hub, window connections and device grants |
 | [Versioning and release](/docs/miao/release/) | How versions are numbered, built and published |
-| [miao compared with opencode](/docs/miao/miao-vs-opencode/) | Where the fork's work has gone, with measurements and availability |
+| [Agent workflow comparison](/docs/miao/comparison/) | Eight open-source agents: parallel tools, long work, context and recovery, with source evidence |
+| [Native component benchmarks](/docs/miao/native-benchmarks/) | Recorded internal timings and native/sandbox scope, separate from product comparisons |
 | [Contributing](/docs/miao/contributing/) | Reporting a problem and sending a change |
 | [Security](/docs/miao/security/) | How to report a vulnerability |
 
