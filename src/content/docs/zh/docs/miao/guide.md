@@ -12,7 +12,7 @@ miao 尚处于 pre-1.0、活跃开发中，CLI 与配置可能随版本变化。
 
 miao 是一个开源编程代理，提供终端界面、HTTP 服务与浏览器界面。它把重点放在模型调用周围的工作上：持久化会话、上下文效率、代理协作和可观察的成本。
 
-用它理解仓库、实现改动、排查测试失败，或委派专项调研。连接你偏好的供应商，配置项目工具，并在任务变化时继续补充要求。miao 支持模型选择与 MCP；miao 的运行时建设与可用范围见 [产品概览](https://github.com/oxdingzg/miao/blob/5dbadaa581d6b2eddf8b94faf8b3a82fe18f7fc9/README.zh.md) 和 [对比说明](/zh/docs/miao/miao-vs-opencode/)。
+用它理解仓库、实现改动、排查测试失败，或委派专项调研。连接你偏好的供应商，配置项目工具，并在任务变化时继续补充要求。miao 支持模型选择与 MCP；miao 的运行时建设与可用范围见 [产品概览](https://github.com/oxdingzg/miao/blob/8e8ef1295518e81b75576a557b4256f106eafb69/README.zh.md) 和 [对比说明](/zh/docs/miao/miao-vs-opencode/)。
 
 第一次可以这样提需求：「找到这个错误的原因，做出适当的最小修复，运行相关检查，再解释代码差异。」执行过程中继续补充约束，无需另开对话。
 
@@ -48,11 +48,11 @@ $env:MIAO_VERSION = "0.0.33"; irm https://raw.githubusercontent.com/oxdingzg/mia
 
 **三个入口（并存，互不干扰）**
 
-| 命令           | 是什么                                                     | 数据/配置                           | 更新         |
-| -------------- | ---------------------------------------------------------- | ----------------------------------- | ------------ |
-| `miao`         | 稳定版（官方 release 二进制）                              | channel `latest`，DB `miao.db`      | 后台自动更新 |
-| `miao-dev`     | 从源码运行，唯一能看到**未提交改动**的入口                 | channel `local`，DB `miao-local.db` | 手动         |
-| `miao-preview` | 当前 checkout 的编译版（`./script/install-local.sh` 安装） | 当前分支为 channel                  | 不自动更新   |
+| 命令           | 是什么                                                                                     | 数据/配置                           | 更新         |
+| -------------- | ------------------------------------------------------------------------------------------ | ----------------------------------- | ------------ |
+| `miao`         | 稳定版（官方 release 二进制）                                                              | channel `latest`，DB `miao.db`      | 后台自动更新 |
+| `miao-dev`     | 从源码运行，唯一能看到**未提交改动**的入口                                                 | channel `local`，DB `miao-local.db` | 手动         |
+| `miao-preview` | 当前 checkout 的编译版（`./script/install-local.sh --binary /path/to/prebuilt/miao` 安装） | 当前分支为 channel                  | 不自动更新   |
 
 `auth.json`、配置、快照在各入口间共享，凭证无需重复登录。
 
@@ -204,7 +204,7 @@ V2 在调度执行前先持久化输入。当前任务仍需继续时，执行�
 
 可以要求代理把范围明确的工作交给专项子代理，例如找出一个 API 的所有调用点，或审查数据库迁移。`task` 返回可通过会话 ID 继续的子会话，独立对话让主上下文不必装下全部调查细节。
 
-V2 `list_sessions` 可发现同项目会话，`send_message` 接受会话 ID 或 `@slug`。消息带发送方标识，以排队输入持久化，并受 `message` 权限和输入队列限额约束。跨项目目标会被拒绝。这是进程内协作能力，不是跨机器工作服务。
+V2 `list_sessions` 可发现同项目会话，`send_message` 接受会话 ID 或 `@slug`。消息带发送方标识，持久化进入目标收件箱，并受 `message` 权限和输入队列限额约束。默认 `delivery: "steer"` 在下一个安全轮次边界采纳；显式 `delivery: "queue"` 等会话即将空闲时再处理。跨项目目标会被拒绝。执行仍是进程内的；持久化输入可以送达由另一个本地活动窗口持有的会话，但不提供跨机器执行或自动恢复。
 
 ### 5.11 按任务调整上下文与成本
 
@@ -225,9 +225,9 @@ V2 `list_sessions` 可发现同项目会话，`send_message` 接受会话 ID 或
 
 所有已发布客户端都使用单一 V2 会话运行时；V1 会话运行时及其 `/session/*` 路由已删除。
 
-- [V1 退役计划](https://github.com/oxdingzg/miao/blob/5dbadaa581d6b2eddf8b94faf8b3a82fe18f7fc9/specs/v2/v1-retirement.md) 记录了删除过程和剩余兼容面（数据库迁移与非会话旧路由）。
-- [会话存储设计](https://github.com/oxdingzg/miao/blob/5dbadaa581d6b2eddf8b94faf8b3a82fe18f7fc9/specs/storage/session-storage-hardening.md) 记录存储方案。可用 `miao db stats`、`miao db vacuum` 和 JSONL 导出检查、维护本地记录。
-- [代理并发](https://github.com/oxdingzg/miao/blob/5dbadaa581d6b2eddf8b94faf8b3a82fe18f7fc9/specs/v2/agent-concurrency.md) 设计非阻塞子代理与完成即唤醒，避免长任务卡住会话。
+- [V1 退役计划](https://github.com/oxdingzg/miao/blob/8e8ef1295518e81b75576a557b4256f106eafb69/specs/v2/v1-retirement.md) 记录了删除过程和剩余兼容面（数据库迁移与非会话旧路由）。
+- [会话存储设计](https://github.com/oxdingzg/miao/blob/8e8ef1295518e81b75576a557b4256f106eafb69/specs/storage/session-storage-hardening.md) 记录存储方案。可用 `miao db stats`、`miao db vacuum` 和 JSONL 导出检查、维护本地记录。
+- [代理并发](https://github.com/oxdingzg/miao/blob/8e8ef1295518e81b75576a557b4256f106eafb69/specs/v2/agent-concurrency.md) 设计非阻塞子代理与完成即唤醒，避免长任务卡住会话。
 - 崩溃后自动执行恢复与集群所有权尚未实现。OS 沙箱已内置于 V2 `bash` 工具但仍需开启，见 [可用范围](/zh/docs/miao/miao-vs-opencode/)。
 
 ## 7. 常见问题（FAQ）
@@ -239,7 +239,7 @@ V2 `list_sessions` 可发现同项目会话，`send_message` 接受会话 ID 或
 子会话（由 task/subagent 派生、`parent_id` 非空）侧边栏被强制隐藏；顶层会话可用。窄终端（宽度 ≤120）auto 模式也不默认显示，但手动 toggle 有效。
 
 **Q：模型/供应商怎么配？**
-`miao providers login` 写凭据；`miao models` 查看；在 `miao.jsonc` 的 `providers` 里自定义。provider 的具体报错可用 `miao debug` 排查。
+`miao providers login` 写凭据；`miao models` 查看；在 `miao.jsonc` 的 `providers` 里自定义。可用 `miao debug config` 查看生效配置，用 `miao debug info` 查看安装与插件信息；`miao debug` 列出子命令。
 
 **Q：怎么用我的 Command Code 订阅？**
 用 `miao auth login commandcode`（浏览器辅助登录）连一次，或把 `CMD_API_KEY` 设成
@@ -280,13 +280,13 @@ bun install
 bun run dev                     # 源码运行（等价 miao-dev）
 bun --cwd packages/miao typecheck
 bun --cwd packages/miao test
-./script/install-local.sh       # 构建并安装 miao-preview
+./script/install-local.sh --binary /path/to/prebuilt/miao  # 安装构建机产物
 ```
 
 ## 许可证
 
-MIT，详见 [LICENSE](https://github.com/oxdingzg/miao/blob/5dbadaa581d6b2eddf8b94faf8b3a82fe18f7fc9/LICENSE)。
+MIT，详见 [LICENSE](https://github.com/oxdingzg/miao/blob/8e8ef1295518e81b75576a557b4256f106eafb69/LICENSE)。
 
 ---
 
-*Synced from [`oxdingzg/miao@5dbadaa`](https://github.com/oxdingzg/miao/blob/5dbadaa581d6b2eddf8b94faf8b3a82fe18f7fc9/docs/guide.zh.md).*
+*Synced from [`oxdingzg/miao@8e8ef12`](https://github.com/oxdingzg/miao/blob/8e8ef1295518e81b75576a557b4256f106eafb69/docs/guide.zh.md).*

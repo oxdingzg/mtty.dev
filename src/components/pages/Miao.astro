@@ -35,7 +35,7 @@ const copy = {
     steerLabel: "steer, don't restart",
     steerH: "Add a requirement while it works.",
     steerBody: [
-      "A new input is saved before execution is scheduled, then brought into the conversation at the next safe provider-turn boundary. The current tool call is not interrupted, and nothing is lost if you type faster than it thinks.",
+      "A new input is saved before execution is scheduled, then brought into the conversation at the next safe turn boundary. The current tool call is not interrupted, and nothing is lost if you type faster than it thinks.",
       "Explicitly queued inputs wait until the work would otherwise go idle — and promoting any new input resets the agent's turn allowance.",
     ],
     t1: "Find the cause of this failing test, fix it, run the relevant checks, and explain the diff.",
@@ -49,7 +49,7 @@ const copy = {
     why: [
       ["Choose the model that fits the work", "Several providers in one interface, model switching within a session, and specialist agents with their own models and permissions. Pick for reasoning quality, speed or price without rebuilding your workflow around one vendor."],
       ["Give collaboration its own context", "Delegate a scoped task to a specialist subagent and continue that session later. With list_sessions and send_message, agents discover and message other sessions in the same project, subject to permissions."],
-      ["See where tokens and money go", "Per-turn usage, estimated cost, time to first token and prompt-cache telemetry. Context Epochs keep an immutable system-context baseline and admit changes chronologically, so cache prefixes stay reusable."],
+      ["See where tokens and money go", "Per-turn usage, estimated cost, time to first token and prompt-cache telemetry. Stable context prefixes and chronological updates help reuse prompt caches."],
       ["Keep a record you can continue", "Durable prompt admission and an event-backed history. List, reopen, fork and export sessions. Large tool results are bounded in context, with the full output kept in a temporary file when available."],
     ],
     costNote: "Cost estimates use configured model rates; your provider's bill remains authoritative. Durable history does not mean automatic recovery after a crash — unfinished provider work needs an explicit resume.",
@@ -101,8 +101,9 @@ const copy = {
     statusH: "Pre-1.0, and specific about it.",
     statusHead: ["Capability", "Availability"],
     status: [
-      ["Durable sessions, prompt admission, Context Epochs, project-local session messaging", "Implemented", "ok"],
-      ["Autonomous continuation, cost budgets, pruning and compaction tuning", "Opt-in", "opt"],
+      ["Saved sessions, mid-task input and project-local session messaging", "Implemented", "ok"],
+      ["Autonomous continuation and cost budgets", "Opt-in", "opt"],
+      ["Old tool-output pruning and automatic compaction", "On by default · configurable", "ok"],
       ["Code Mode", "Experimental", ""],
       ["Kernel sandbox for bash; native accelerators in edit and apply_patch", "Sandbox opt-in · accelerators default", "opt"],
       ["Generated clients and the embedded host", "Evolving API", ""],
@@ -151,7 +152,7 @@ const copy = {
     why: [
       ["按任务选择模型", "在同一个界面连接多个供应商，随时切换会话模型，也可以为专门的代理设置各自的模型和权限。按推理能力、响应速度或价格做选择，不必围着某一家重建工作流。"],
       ["专项工作交给独立上下文", "把范围明确的任务委派给子代理，之后还能继续同一个子会话。借助 list_sessions 和 send_message，代理能在权限约束下发现并联系同项目的其他会话。"],
-      ["看清 token 和费用花在哪里", "逐轮用量、估算费用、首 token 延迟和提示缓存遥测。Context Epoch 保持系统上下文基线不变、把变化按时间顺序引入，帮助复用缓存前缀。"],
+      ["看清 token 和费用花在哪里", "逐轮用量、估算费用、首 token 延迟和提示缓存遥测。稳定的上下文前缀与按时间顺序引入的变化，帮助复用提示缓存。"],
       ["工作记录可以继续", "持久化输入与事件记录保存会话：可查看、重新打开、分叉和导出。过大的工具输出在上下文中受到限制，完整内容在可用时保留到临时文件。"],
     ],
     costNote: "费用按配置的模型费率估算，实际扣费以供应商账单为准。保存历史不代表崩溃后自动续跑：未完成的模型执行需要显式恢复。",
@@ -203,8 +204,9 @@ const copy = {
     statusH: "1.0 之前，哪些能用说清楚。",
     statusHead: ["能力", "可用性"],
     status: [
-      ["持久化会话、输入接收、Context Epoch、项目内会话消息", "已实现", "ok"],
-      ["自治续跑、费用预算、输出裁剪与压缩调优", "可选开启", "opt"],
+      ["会话保存、中途输入与项目内会话消息", "已实现", "ok"],
+      ["自治续跑与费用预算", "可选开启", "opt"],
+      ["旧工具输出裁剪与自动压缩", "默认开启 · 可配置", "ok"],
       ["Code Mode", "实验性", ""],
       ["bash 的内核级沙箱；edit 与 apply_patch 的原生加速", "沙箱需开启 · 加速默认启用", "opt"],
       ["生成的客户端与嵌入式宿主", "API 仍在演进", ""],

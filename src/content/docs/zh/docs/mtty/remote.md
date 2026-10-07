@@ -15,7 +15,7 @@ mtty 的远程操作建立在系统自带的 **OpenSSH** 客户端之上：你�
 ```toml
 [[host]]
 name    = "prod-web"
-address = "10.0.0.12"
+address = "web.example.com"
 user    = "deploy"
 port    = 22
 group   = "production"
@@ -40,7 +40,7 @@ tags    = ["web", "eu"]
 
 ## 连接
 
-*New SSH Session…*（Shell 菜单和命令面板）在新标签页里打开一个登录。连接使用你的 `~/.ssh/config`，存在 `ControlMaster` 连接时复用它，并且不在远端安装任何 `terminfo`——mtty 通过连接把它需要的条目送过去。
+*New SSH Session…*（Shell 菜单和命令面板）在新标签页里打开一个登录。连接使用你的 `~/.ssh/config`，存在 `ControlMaster` 连接时复用它，无需远端辅助应用。若能嵌入较小的本地 terminfo 条目，引导会用 `tic` 写入远端 `~/.terminfo`；否则使用 `xterm-256color`。
 
 主机密钥按 `ssh` 的方式校验：**已知**主机静默通过；**未知**主机显示指纹，只有你比对确认后才信任；**变更**的密钥会被拒绝。生成密钥和 `ssh-copy-id` 都在普通终端标签页里运行，口令输入给 `ssh`，不经过 mtty。
 
@@ -92,12 +92,17 @@ baud   = 115200
 
 Telnet 和裸 TCP 不加密，并会被明确标注；串口则根本不是网络传输。这些会话在连接断开时结束，shell 集成（工作目录、命令历史）对它们不适用。
 
-## PuTTY 密钥
+## .ppk 密钥导入
 
-*Hosts… → Import PuTTY Key…* 读取 PuTTY 的 `.ppk`（v2 与 v3，Ed25519、RSA、ECDSA），校验后用你选择的口令重新编码为 OpenSSH 密钥。不存在未加密的输出路径。
+the key-import action in *Hosts…* 读取 .ppk 的 `.ppk`（v2 与 v3，Ed25519、RSA、ECDSA），校验后用你选择的口令重新编码为 OpenSSH 密钥。不存在未加密的输出路径。
 
 ## 安全
 
-mtty 只在 OpenSSH 会读取的地方读取私钥：它自己不持有解密后的密钥，也不会把它们转发到任何地方。刻意使用系统 OpenSSH——macOS、Linux 和 Windows 都自带它；转向 Rust 原生栈是一个有记录、可重新评估的决定，而非偶然。
+交互式 SSH 鉴权由系统 OpenSSH 与你的 agent/钥匙串处理。.ppk 导入会在内存中解密选中的
+密钥以转换格式，随后要求口令来加密 OpenSSH 输出，不提供未加密导出路径。
 
-报告漏洞见[安全](/zh/docs/mtty/security/)。控制面自身的边界见 [mtty-cli](/zh/docs/mtty/cli/)。
+漏洞报告见[安全](/zh/docs/mtty/security/)；控制面的访问边界见 [mtty-cli](/zh/docs/mtty/cli/)。
+
+---
+
+*Synced from [`oxdingzg/mtty@d64b052`](https://github.com/oxdingzg/mtty/blob/d64b052e75f291bd44298029c323d6a325a80fa6/docs/REMOTE.zh-CN.md).*

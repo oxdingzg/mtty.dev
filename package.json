@@ -9,7 +9,10 @@
     "preview": "astro preview",
     "check": "astro check",
     "check:media": "bun scripts/check-media.ts",
+    "check:content": "bun scripts/check-content.ts",
+    "test": "bun test scripts/",
     "sync:docs": "bun scripts/sync-docs.ts",
+    "sync:schemas": "bun scripts/sync-schemas.ts",
     "sync:models": "bun scripts/sync-models.ts",
     "og": "bun scripts/og.ts",
     "astro": "astro"

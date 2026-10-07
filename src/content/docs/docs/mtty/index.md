@@ -8,7 +8,7 @@ sidebar:
 mtty is an AI-native terminal and editor for local and remote work, written in
 Rust. It stands on three pillars: a GPU-rendered terminal with remote operations
 (host library, SFTP, port forwarding, jump hosts, snippets), an editor (a
-built-in viewer and editor today, a native editor pane in progress), and an
+native editor pane with syntax highlighting, LSP, multiple cursors and live previews), and an
 agent workspace that shows what each AI coding agent is doing and queues work
 for it. Underneath are UI-free engines: `mtty-core` owns the path from the
 PTY to the screen, and `mtty-editor` is the editing core.
@@ -47,11 +47,10 @@ containing `mtty.app` for macOS, `.deb`/AppImage/tar for Linux, and MSI/zip for
 Windows. Each package has a minisign `.sig` signature, and the public key is
 published with the release.
 
-```sh
-git clone https://github.com/oxdingzg/mtty.git
-cd mtty
-cargo run --release -p mtty-app
-```
+After downloading, open mtty and run an installed agent CLI such as `miao` in
+a terminal pane. Use the command palette to open a file beside it.
+[Installation and first workspace](/docs/mtty/install/) walks through each platform;
+it also includes source-build instructions.
 
 [Install](/docs/mtty/install/) has the requirements and the per-platform detail.
 

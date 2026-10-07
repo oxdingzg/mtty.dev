@@ -1,67 +1,62 @@
-name: docs-drift
+name: product-content-sync
 
-# The documentation under src/content/ is copied out of the product repositories
-# by scripts/sync-docs.ts. Both products ship often, so the copy goes stale on
-# its own. This opens a tracking issue rather than failing a build, because a
-# stale page is not a reason to block a deploy.
 on:
   schedule:
-    - cron: "17 6 * * 1"
+    - cron: "17 6 * * *"
+  repository_dispatch:
+    types: [product-docs-updated]
   workflow_dispatch:
 
+concurrency:
+  group: product-content-sync
+  cancel-in-progress: false
+
 permissions:
-  contents: read
-  issues: write
+  contents: write
+  pull-requests: write
 
 jobs:
-  check:
+  refresh:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - uses: oven-sh/setup-bun@v2
-
-      - run: bun install --frozen-lockfile
-
-      - id: drift
-        run: bun scripts/sync-docs.ts --check
-        continue-on-error: true
-
-      - if: steps.drift.outcome == 'failure'
-        uses: actions/github-script@v7
+      - uses: actions/checkout@v4
         with:
-          script: |
-            const title = "Documentation has drifted from the product repositories"
-            const body = [
-              "`bun scripts/sync-docs.ts --check` reports that the committed pages no longer match upstream.",
-              "",
-              "Run `bun run sync:docs` locally and commit the result.",
-              "",
-              `[Run log](${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId})`,
-            ].join("\n")
-
-            // One issue, commented on weekly, rather than a new one every Monday.
-            const open = await github.rest.issues.listForRepo({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              state: "open",
-              labels: "docs-drift",
-            })
-
-            if (open.data.length > 0) {
-              await github.rest.issues.createComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: open.data[0].number,
-                body: `Still drifting as of ${new Date().toISOString().slice(0, 10)}.`,
-              })
-              return
-            }
-
-            await github.rest.issues.create({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              title,
-              body,
-              labels: ["docs-drift"],
-            })
+          repository: oxdingzg/miao
+          path: .product-sources/miao
+      - uses: actions/checkout@v4
+        with:
+          repository: oxdingzg/mtty
+          path: .product-sources/mtty
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install --frozen-lockfile
+      # Schema generation is TypeScript only; no native build/install hooks.
+      - run: bun install --frozen-lockfile --ignore-scripts
+        working-directory: .product-sources/miao
+      - name: Refresh bilingual guides and shared shortcuts
+        run: bun run sync:docs --miao .product-sources/miao --mtty .product-sources/mtty
+      - name: Generate configuration and TUI schemas from the same checkout
+        run: bun run sync:schemas --miao .product-sources/miao
+      - run: bun run sync:models
+      - run: bun run test
+      - run: bun run check:content
+      - run: bun run check:media
+      - run: bun run check
+      - run: bun run build
+      - name: Open or update the product-content pull request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.DOCS_SYNC_TOKEN || github.token }}
+          branch: chore/sync-product-content
+          delete-branch: true
+          commit-message: "docs: sync product guides and configuration schemas"
+          title: "docs: sync product guides and configuration schemas"
+          body: |
+            Refreshes user guides, shared marketing shortcuts and configuration schemas from the product repositories.
+            Content tests, content/media checks, Astro checks and the production build ran in this workflow.
+            Unrelated source commits do not rewrite unchanged pages or their pinned provenance.
+          add-paths: |
+            src/content/docs
+            src/data/mtty-shortcuts.json
+            public/miao/config.json
+            public/miao/tui.json

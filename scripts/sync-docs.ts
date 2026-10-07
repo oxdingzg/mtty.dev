@@ -21,7 +21,7 @@
 //   5. a provenance line naming the source commit is appended
 
 import { mkdir } from "node:fs/promises"
-import { dirname, join, posix } from "node:path"
+import { dirname, join, posix, resolve } from "node:path"
 import { LOCALES, pages, routeFor, type DocPage, type Locale } from "./docs-sources"
 
 const ROOT = dirname(import.meta.dir)
@@ -30,12 +30,31 @@ const GITHUB = "https://github.com"
 const REF = "main"
 
 const check = process.argv.includes("--check")
+const refreshProvenance = process.argv.includes("--refresh-provenance")
+const sources = new Map<string, string>()
+for (const product of ["miao", "mtty"]) {
+  const index = process.argv.indexOf(`--${product}`)
+  if (index !== -1) {
+    const path = process.argv[index + 1]
+    if (!path || path.startsWith("--")) throw new Error(`--${product} requires a checkout path`)
+    sources.set(`oxdingzg/${product}`, resolve(path))
+  }
+}
 
 const shas = new Map<string, string>()
 
 async function shaFor(repo: string) {
   const cached = shas.get(repo)
   if (cached) return cached
+
+  const source = sources.get(repo)
+  if (source) {
+    const result = Bun.spawnSync(["git", "rev-parse", "HEAD"], { cwd: source })
+    if (result.exitCode !== 0) throw new Error(`${repo}: cannot resolve checkout HEAD`)
+    const sha = result.stdout.toString().trim()
+    shas.set(repo, sha)
+    return sha
+  }
 
   const response = await fetch(`https://api.github.com/repos/${repo}/commits/${REF}`)
   if (!response.ok) throw new Error(`${repo}: cannot resolve ${REF} (${response.status})`)
@@ -173,37 +192,106 @@ function convertAlerts(body: string) {
   return out.join("\n")
 }
 
-const drifted: string[] = []
-
-for (const page of pages) {
-  const sha = await shaFor(page.repo)
-
-  for (const locale of LOCALES) {
-    const from = page.sources[locale]
-    const response = await fetch(`${RAW}/${page.repo}/${sha}/${from}`)
-    if (!response.ok) throw new Error(`${page.repo}/${from}: ${response.status}`)
-
-    const output = transform(await response.text(), page, locale, sha)
-    const target = outputPath(page, locale)
-    const file = Bun.file(target)
-    const existing = (await file.exists()) ? await file.text() : ""
-
-    if (existing === output) continue
-    if (check) {
-      drifted.push(posix.relative(ROOT, target))
-      continue
-    }
-
-    await mkdir(dirname(target), { recursive: true })
-    await Bun.write(target, output)
-    console.log(`wrote ${posix.relative(ROOT, target)}`)
+// The pinned source commit remains valid when only unrelated product code has
+// changed. Ignore commit-only link/provenance churn, but never ignore body,
+// destination path or anchor changes.
+export function sameContent(existing: string, output: string) {
+  const normalize = (text: string) => {
+    const provenance = text.match(
+      /^\*Synced from \[`(oxdingzg\/(?:miao|mtty))@([a-f0-9]{7})`\]\(https:\/\/github\.com\/\1\/blob\/([a-f0-9]{40})\//m,
+    )
+    if (!provenance) return text
+    const [, repo, short, sha] = provenance
+    return text
+      .replaceAll(`${GITHUB}/${repo}/blob/${sha}/`, `${GITHUB}/${repo}/blob/SOURCE/`)
+      .replace(`*Synced from [\`${repo}@${short}\`]`, `*Synced from [\`${repo}@SOURCE\`]`)
   }
+  return normalize(existing) === normalize(output)
 }
 
-if (drifted.length > 0) {
-  console.error(`Drift: ${drifted.length} file(s) differ from upstream`)
-  for (const path of drifted) console.error(`  ${path}`)
-  process.exit(1)
+export function parseShortcuts(raw: string) {
+  const rows = raw.split("\n").filter((line) => line.startsWith("|"))
+  return Object.fromEntries(
+    [
+      ["palette", "Command palette", 0],
+      ["openQuickly", "Open Quickly", 0],
+      ["details", "Toggle the sidebar / details panel", 1],
+      ["composer", "Composer", 0],
+    ].map(([name, action, index]) => {
+      const row = rows.find((line) => line.split("|")[3]?.includes(String(action)))
+      if (!row) throw new Error(`Shortcut not found: ${action}`)
+      const cells = row.split("|")
+      const mac = [...cells[1].matchAll(/`([^`]+)`/g)][Number(index)]?.[1]
+      const other = [...cells[2].matchAll(/`([^`]+)`/g)][Number(index)]?.[1]
+      if (!mac || !other) throw new Error(`Incomplete shortcut: ${action}`)
+      return [name, { mac, other }]
+    }),
+  )
 }
 
-if (check) console.log("Documentation is in sync with upstream")
+async function sync() {
+  const drifted: string[] = []
+  let provenanceOnly = 0
+  let shortcuts = ""
+
+  for (const page of pages) {
+    const sha = await shaFor(page.repo)
+
+    for (const locale of LOCALES) {
+      const from = page.sources[locale]
+      const source = sources.get(page.repo)
+      const raw = source
+        ? await Bun.file(join(source, from)).text()
+        : await fetch(`${RAW}/${page.repo}/${sha}/${from}`).then((response) => {
+            if (!response.ok) throw new Error(`${page.repo}/${from}: ${response.status}`)
+            return response.text()
+          })
+
+      const output = transform(raw, page, locale, sha)
+      if (page.to === "mtty/shortcuts" && locale === "en") {
+        shortcuts = `${JSON.stringify(parseShortcuts(raw), null, 2)}\n`
+      }
+      const target = outputPath(page, locale)
+      const file = Bun.file(target)
+      const existing = (await file.exists()) ? await file.text() : ""
+
+      if (existing === output) continue
+      if (!refreshProvenance && sameContent(existing, output)) {
+        provenanceOnly += 1
+        continue
+      }
+      if (check) {
+        drifted.push(posix.relative(ROOT, target))
+        continue
+      }
+
+      await mkdir(dirname(target), { recursive: true })
+      await Bun.write(target, output)
+      console.log(`wrote ${posix.relative(ROOT, target)}`)
+    }
+  }
+
+  const shortcutPath = join(ROOT, "src/data/mtty-shortcuts.json")
+  const shortcutFile = Bun.file(shortcutPath)
+  if (!(await shortcutFile.exists()) || (await shortcutFile.text()) !== shortcuts) {
+    if (check) drifted.push("src/data/mtty-shortcuts.json")
+    else {
+      await Bun.write(shortcutPath, shortcuts)
+      console.log("wrote src/data/mtty-shortcuts.json")
+    }
+  }
+
+  if (drifted.length > 0) {
+    console.error(`Content drift: ${drifted.length} file(s) differ from the product sources`)
+    for (const path of drifted) console.error(`  ${path}`)
+    process.exit(1)
+  }
+
+  if (provenanceOnly)
+    console.log(
+      `${provenanceOnly} page(s): source commit changed, content unchanged; pinned provenance retained`,
+    )
+  if (check) console.log("Documentation content matches the product sources")
+}
+
+if (import.meta.main) await sync()

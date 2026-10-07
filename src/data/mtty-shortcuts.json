@@ -1,0 +1,18 @@
+{
+  "palette": {
+    "mac": "⌘K",
+    "other": "Ctrl+Shift+K"
+  },
+  "openQuickly": {
+    "mac": "⇧⌘O",
+    "other": "Ctrl+Shift+Alt+O"
+  },
+  "details": {
+    "mac": "⇧⌘R",
+    "other": "Ctrl+Shift+Alt+R"
+  },
+  "composer": {
+    "mac": "⌘E",
+    "other": "Ctrl+Shift+E"
+  }
+}

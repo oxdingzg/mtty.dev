@@ -5,6 +5,7 @@
 import MarketingLayout from "../../layouts/MarketingLayout.astro"
 import MttyMark from "../site/MttyMark.astro"
 import ProductMedia from "../site/ProductMedia.astro"
+import shortcuts from "../../data/mtty-shortcuts.json"
 import { prefixFor, type Locale } from "../../i18n/routes"
 
 interface Props {
@@ -24,10 +25,10 @@ const copy = {
     kind: "Terminal · editor · agents",
     h1a: "An AI-native terminal and editor,",
     h1b: "for local and remote work.",
-    lede: "Terminals, files, remote hosts and your AI coding agents in one fast, native window — the same tabs and splits for all of them. Written in Rust, GPU-rendered, held to a performance gate. No account, no forced cloud: mtty hosts the agents you choose and never calls a model itself.",
+    lede: "Keep your terminal, files, remote hosts and coding agents in one window. Edit beside the shell, see when an agent needs input, and prepare the next prompt while it works. mtty runs locally and hosts the agents you choose; it does not call a model itself.",
     naming: "The application ships as <code>mtty</code> (called <code>miaotty</code> up to v0.0.5); the source lives in <code>mtty</code>.",
     download: "Download the preview",
-    build: "Build from source",
+    build: "Installation guide",
     pkgs: [
       ["macOS", "Apple silicon · Intel"],
       ["Linux", ".deb · AppImage · tar"],
@@ -42,19 +43,25 @@ const copy = {
       ["Editor", "A built-in viewer and editor with Markdown and Mermaid preview, held to a 100 MB performance gate."],
       ["Agent workspace", "Claude Code, Codex, OpenCode and miao report idle, processing, awaiting or error — a tab badge, a notification and a prompt queue."],
     ],
+    startLabel: "getting started",
+    startH: "From download to your first workspace.",
+    installGuide: "Package details and first-run steps",
+    start: [
+      ["1. Choose a package", "macOS: Apple silicon or Intel zip. Linux: .deb, AppImage or tar. Windows: MSI or zip."],
+      ["2. Open mtty", "Use a local terminal or connect a saved SSH host. Open a file beside its shell with Open File… in the command palette."],
+      ["3. Run your agent", "Start an installed agent CLI in a pane. miao reports state automatically; other supported agents have hook setup actions."],
+    ],
     pillarsLabel: "three pillars",
     pillarsH: "One window for the terminal, the editor and the agents.",
-    pillarsToday: "Today",
-    pillarsNext: "Next",
     pillars: [
-      ["Terminal and remote", "Absorbs Termius and PuTTY", "GPU-rendered terminal, tabs and splits, session restore. Host library, keys, SFTP and FTP, port forwarding, jump hosts, snippets and broadcast input, over your own OpenSSH.", "Serial, Telnet and raw TCP sessions, .ppk keys; a Rust-native SSH stack is under consideration."],
-      ["Editor", "A first-class editor, not a side feature", "A built-in viewer and editor with Markdown and Mermaid preview. The editing core — rope buffer, multi-cursor, undo, search — is done and gated at 100 MB.", "An editor pane beside your terminals: tree-sitter highlighting, LSP, large files at full speed."],
-      ["Agent workspace", "Absorbs Superset, AI-native", "State from Claude Code, Codex, OpenCode and miao; badges and notifications when one needs you; a prompt queue; a git worktree per task with diff review; a scriptable control plane.", "Agents' edits reviewed inline as undoable diffs, an ACP client, and selections, diagnostics or terminal output sent to an agent in one step."],
+      ["Terminal and remote", "Your shells and hosts", "GPU-rendered tabs and splits, session restore, saved hosts, SSH keys, SFTP and FTP, port forwarding, jump hosts, snippets and broadcast input. Serial, Telnet, raw TCP and encrypted .ppk import are available too."],
+      ["Editor", "Code beside its terminal", "Native editor panes with syntax highlighting, multiple cursors, find and replace, large-file view mode, Markdown and Mermaid preview, language servers, optional vim, folding and outline."],
+      ["Agent workspace", "See, steer and review", "State badges, notifications and follow-up prompt queues. Review undoable inline edit proposals, use ACP agents, send selections or diagnostics as context, and automate with mtty-cli."],
     ],
     engineLabel: "engine first",
     engineH: "The engine and the app are separate on purpose.",
     engineBody: "Dependencies point inward only — host, then renderer, then core — and the core has no windowing or GPU code, so it can be embedded in something else. The app is the engine's first consumer, not its owner.",
-    hot: "The hot path takes no locks and allocates nothing per frame.",
+    hot: "Bounded output queues, damage-driven redraws and measured allocation budgets.",
     layers: [
       ["host", "mtty-widget", "winit + wgpu render loop; composites egui chrome in the same frame"],
       ["render", "mtty-render", "wgpu + glyphon glyph grid; quad and image pipelines"],
@@ -77,20 +84,20 @@ const copy = {
     wsH: "More than a window with a prompt in it.",
     ws: [
       ["Tabs and splits", "A recursive split tree with draggable dividers. Tabs can be marked and grouped, and both survive a restart.", "⌘D  ⇧⌘D"],
-      ["Open Quickly", "One palette over tabs, agents, snippets, hosts, files in the current folder, recent files and commands.", "⌘K"],
-      ["Details panel", "Info, Agent, Outline, Git, Files, Ports and Queue, beside the terminal.", "⌥⌘D"],
-      ["Reader and editor", "Line numbers, an opt-in minimal vim mode, Edit in Tab with your own editor, and CommonMark with built-in Mermaid subsets.", "⌘-open"],
+      ["Open Quickly", "One palette over tabs, agents, snippets, hosts, files in the current folder, recent files and commands.", shortcuts.openQuickly.mac],
+      ["Details panel", "Info, Agent, Outline, Git, Files, Ports and Queue, beside the terminal.", shortcuts.details.mac],
+      ["Reader and editor", "Native editor panes with highlighting and LSP, multi-cursor editing, optional vim and live Markdown previews. Edit in Tab runs your external editor.", "Open File…"],
       ["Inline graphics", "Sixel, Kitty and iTerm2 images drawn in the grid; they scroll with the content and clip to the pane.", "on by default"],
       ["Real terminal behaviour", "VT via alacritty_terminal, CJK layout with system font fallback, find with highlighting, the kitty keyboard protocol.", "⌘F"],
       ["Brings your config", "Imports ghostty and alacritty settings on first run. zsh integration arrives through a ZDOTDIR shim; your dotfiles are never modified.", "config.toml"],
-      ["Remote files over ssh", "View and edit a remote file through the pane's ssh ControlMaster connection, with a zero-install terminfo bootstrap.", "ssh"],
+      ["Remote files over ssh", "View and edit a remote file through the pane's ssh ControlMaster connection, without a remote helper application.", "ssh"],
       ["Agent state, at a glance", "Agent CLIs report idle, processing, awaiting or error. It becomes a tab badge, the Agent panel, a notification and a prompt queue.", "hook"],
-      ["The pane's own task list", "The Outline panel keeps the commands run in this pane, with their directory, so the work of a session stays visible beside it.", "⌥⌘D"],
+      ["The pane's own task list", "The Outline panel keeps the commands run in this pane, with their directory, so the work of a session stays visible beside it.", shortcuts.details.mac],
     ],
     screensLabel: "the screens",
     screensH: "Every feature, seen in the real app.",
     screensBody:
-      "Fresh captures from the current development build, using an isolated example project: agent badges, live preview, inline edit review, hosts, splits and the details panels. Agent-state events and edit proposals are driven through the real control plane; the host addresses are examples.",
+      "Captures from the 2026-10-04 development build, using an isolated example project: agent badges, live preview, inline edit review, hosts, splits and the details panels. Agent-state events and edit proposals are driven through the real control plane; the host addresses are examples.",
     screens: [
       ["/shots/mtty-workspace.webp", "Tabs that know their agent", "Three example sessions with processing, awaiting and idle badges, a code change in the terminal and Git details beside it."],
       ["/shots/mtty-editor.mp4", "Editor and live preview", "A Markdown edit updates its preview in the same workspace. Mermaid, tables and code blocks render beside the source."],
@@ -109,7 +116,7 @@ const copy = {
     agentPoints: [
       ["miao", "Reports its state from a built-in integration. Nothing to wire up."],
       ["Other agent CLIs", "mtty detects them, installs a state hook script and copies the snippet for you to add. Your agent's config is never edited for you."],
-      ["Composer", "A multi-line prompt editor that sends to the focused pane.", "⌘⇧E"],
+      ["Composer", "A multi-line prompt editor that sends to the focused pane.", shortcuts.composer.mac],
     ],
     mtpLabel: "scriptable",
     mtpH: "A control plane other programs can drive.",
@@ -120,15 +127,16 @@ const copy = {
     keys: [
       ["⌘T", "New tab"],
       ["⌘D / ⇧⌘D", "Split right / down"],
-      ["⌘K", "Open Quickly"],
+      [shortcuts.palette.mac, "Command palette"],
+      [shortcuts.openQuickly.mac, "Open Quickly"],
       ["⌘F", "Find"],
-      ["⌥⌘D", "Details panel"],
-      ["⌘⇧E", "Composer"],
+      [shortcuts.details.mac, "Details panel"],
+      [shortcuts.composer.mac, "Composer"],
       ["⌘⇧T", "Quick Terminal"],
       ["⌘⇧Z", "Reopen closed tab"],
       ["⌘,", "Settings"],
     ],
-    keysFine: "⌘ on macOS; the equivalent primary modifier elsewhere.",
+    keysFine: "These are macOS shortcuts for terminal focus. Linux/Windows bindings and editor overrides are listed in the shortcut guide.",
     endH: "Try the preview.",
     srcLabel: "or build it",
     docs: "Documentation",
@@ -140,10 +148,10 @@ const copy = {
     kind: "终端 · 编辑器 · 代理",
     h1a: "AI 原生的终端与编辑器，",
     h1b: "本地与远程同样顺手。",
-    lede: "终端、文件、远程主机和你的 AI 编程代理，放进同一个快速的原生窗口，共用同一套标签与分屏。用 Rust 编写，GPU 渲染，由性能门把关。不需要账号，不强制上云：mtty 托管你选择的代理，自己从不调用模型。",
+    lede: "终端、文件、远程主机和编程代理，同在一个窗口。在 shell 旁编辑文件，及时看到代理何时需要你，工作进行时先准备下一条提示。mtty 在本地运行，托管你选择的代理，自己不调用模型。",
     naming: "应用以 <code>mtty</code> 的名字发布（v0.0.5 及之前名为 <code>miaotty</code>），源码在 <code>mtty</code> 仓库。",
     download: "下载预览版",
-    build: "从源码构建",
+    build: "安装指引",
     pkgs: [
       ["macOS", "Apple 芯片 · Intel"],
       ["Linux", ".deb · AppImage · tar"],
@@ -158,19 +166,25 @@ const copy = {
       ["编辑器", "内置查看与编辑器，Markdown 与 Mermaid 实时预览，在 100 MB 文件上设有性能门。"],
       ["代理工作台", "Claude Code、Codex、OpenCode 与 miao 上报四种状态，变成标签徽章、通知与提示队列。"],
     ],
+    startLabel: "快速上手",
+    startH: "从下载到第一个工作区。",
+    installGuide: "安装包选择与首次启动步骤",
+    start: [
+      ["1. 选择安装包", "macOS 按 Apple 芯片或 Intel 选 zip；Linux 选 .deb、AppImage 或 tar；Windows 选 MSI 或 zip。"],
+      ["2. 打开 mtty", "使用本地终端或连接已保存的 SSH 主机。在命令面板选择打开文件，让代码与 shell 并排。"],
+      ["3. 运行代理", "在窗格里启动已安装的代理 CLI。miao 自动上报状态；其他受支持代理提供 hook 设置入口。"],
+    ],
     pillarsLabel: "三根支柱",
     pillarsH: "终端、编辑器与代理，同在一个窗口。",
-    pillarsToday: "现在",
-    pillarsNext: "接下来",
     pillars: [
-      ["终端与远程", "吸收 Termius 与 PuTTY", "GPU 渲染的终端、标签与分屏、会话恢复。主机库、密钥、SFTP 与 FTP、端口转发、跳板机、命令片段与广播输入，经由你自己的 OpenSSH。", "串口、Telnet 与原始 TCP 会话，.ppk 密钥；正在评估 Rust 原生的 SSH 实现。"],
-      ["编辑器", "一流的编辑器，而非附属功能", "内置查看与编辑，带 Markdown 与 Mermaid 预览。编辑内核——rope 缓冲区、多光标、撤销、搜索——已完成，并在 100 MB 文件上设有性能门。", "与终端并列的编辑器窗格：tree-sitter 高亮、LSP，大文件也全速。"],
-      ["代理工作台", "吸收 Superset，AI 原生", "来自 Claude Code、Codex、OpenCode 与 miao 的状态；需要你时的徽章与通知；提示队列；每个任务一个 git worktree 并审阅 diff；可脚本化的控制面。", "代理的修改以可撤销的 diff 在行内审阅、ACP 客户端，一步把选区、诊断或终端输出交给代理。"],
+      ["终端与远程", "管理 shell 与主机", "GPU 渲染的标签与分屏、会话恢复、主机库、SSH 密钥、SFTP 与 FTP、端口转发、跳板机、片段与广播输入。串口、Telnet、原始 TCP 和加密 .ppk 导入也已可用。"],
+      ["编辑器", "代码就在终端旁", "原生编辑器窗格提供语法高亮、多光标、查找替换、大文件查看模式、Markdown 与 Mermaid 预览、语言服务器，以及可选 vim、折叠与大纲。"],
+      ["代理工作台", "看状态、补要求、审改动", "状态徽章、通知与后续提示队列。可审阅可撤销的行内编辑提案，使用 ACP 代理，发送选区或诊断作为上下文，也能用 mtty-cli 自动化操作。"],
     ],
     engineLabel: "引擎优先",
     engineH: "引擎与应用，刻意分开。",
     engineBody: "依赖只向内指：宿主 → 渲染 → 内核。内核不含任何窗口或 GPU 代码，因此可以嵌入别的程序。应用是引擎的第一个使用者，而不是它的主人。",
-    hot: "热路径不加锁，每帧零分配。",
+    hot: "有界输出队列、损伤驱动重绘与实测分配预算。",
     layers: [
       ["host", "mtty-widget", "winit + wgpu 渲染循环，在同一帧合成 egui 界面"],
       ["render", "mtty-render", "wgpu + glyphon 字形网格，四边形与图像管线"],
@@ -193,20 +207,20 @@ const copy = {
     wsH: "不只是一个带提示符的窗口。",
     ws: [
       ["标签与分屏", "递归分屏树，分隔条可拖动。标签可以加标记、分组，重启后依然保留。", "⌘D  ⇧⌘D"],
-      ["快速打开", "一个面板覆盖标签、代理、命令片段、主机、当前目录的文件、最近文件和命令。", "⌘K"],
-      ["详情面板", "信息、代理、大纲、Git、文件、端口、队列，就在终端旁边。", "⌥⌘D"],
-      ["阅读器与编辑器", "行号、可选的极简 vim 模式、用你自己的编辑器「在标签中编辑」，以及内置 Mermaid 子集的 CommonMark 渲染。", "⌘-打开"],
+      ["快速打开", "一个面板覆盖标签、代理、命令片段、主机、当前目录的文件、最近文件和命令。", shortcuts.openQuickly.mac],
+      ["详情面板", "信息、代理、大纲、Git、文件、端口、队列，就在终端旁边。", shortcuts.details.mac],
+      ["阅读器与编辑器", "原生窗格提供高亮与 LSP、多光标、可选 vim 和实时 Markdown 预览；「在标签中编辑」用于运行外部编辑器。", "打开文件"],
       ["内联图像", "Sixel、Kitty、iTerm2 图像直接画进网格，随内容滚动、按窗格裁剪。", "默认开启"],
       ["真正的终端行为", "基于 alacritty_terminal 的 VT、CJK 排版与系统字体回退、带高亮的查找、kitty 键盘协议。", "⌘F"],
       ["沿用你的配置", "首次运行自动导入 ghostty 和 alacritty 的设置。zsh 集成经由 ZDOTDIR 垫片完成，绝不修改你的 dotfiles。", "config.toml"],
-      ["通过 ssh 编辑远程文件", "借助窗格的 ssh ControlMaster 连接查看和编辑远程文件，terminfo 零安装引导。", "ssh"],
+      ["通过 ssh 编辑远程文件", "借助窗格的 ssh ControlMaster 连接查看和编辑远程文件，无需远端辅助应用。", "ssh"],
       ["代理状态，一眼可见", "代理 CLI 上报 idle、processing、awaiting、error 四种状态，并体现在标签徽章、Agent 面板、通知与提示队列上。", "hook"],
-      ["窗格自己的任务清单", "大纲面板保留本窗格执行过的命令及其目录，一次会话做过的事就在旁边一目了然。", "⌥⌘D"],
+      ["窗格自己的任务清单", "大纲面板保留本窗格执行过的命令及其目录，一次会话做过的事就在旁边一目了然。", shortcuts.details.mac],
     ],
     screensLabel: "界面",
     screensH: "每个功能，都在真实应用里。",
     screensBody:
-      "使用独立示例项目，从当前开发构建重新采集：代理徽章、实时预览、行内改动审阅、主机库、分屏和详情面板。代理状态事件与改动提议通过真实控制面驱动；主机地址为示例。",
+      "使用独立示例项目，从 2026-10-04 的开发构建采集：代理徽章、实时预览、行内改动审阅、主机库、分屏和详情面板。代理状态事件与改动提议通过真实控制面驱动；主机地址为示例。",
     screens: [
       ["/shots/mtty-workspace.webp", "知道代理状态的标签", "三个示例会话标注 processing、awaiting 与 idle；终端展示代码改动，旁边是 Git 详情。"],
       ["/shots/mtty-editor.mp4", "编辑器与实时预览", "Markdown 改动实时更新同一工作区中的预览；Mermaid、表格和代码块直接在源码旁渲染。"],
@@ -225,7 +239,7 @@ const copy = {
     agentPoints: [
       ["miao", "通过内置集成上报状态，无需任何配置。"],
       ["其他代理 CLI", "mtty 能识别它们，安装状态钩子脚本，并复制好需要你自己添加的配置片段。绝不替你改动代理的配置。"],
-      ["Composer", "多行提示编辑器，发送到当前窗格。", "⌘⇧E"],
+      ["Composer", "多行提示编辑器，发送到当前窗格。", shortcuts.composer.mac],
     ],
     mtpLabel: "可脚本化",
     mtpH: "一个其他程序也能驱动的控制面。",
@@ -236,15 +250,16 @@ const copy = {
     keys: [
       ["⌘T", "新标签"],
       ["⌘D / ⇧⌘D", "向右 / 向下分屏"],
-      ["⌘K", "快速打开"],
+      [shortcuts.palette.mac, "命令面板"],
+      [shortcuts.openQuickly.mac, "快速打开"],
       ["⌘F", "查找"],
-      ["⌥⌘D", "详情面板"],
-      ["⌘⇧E", "Composer"],
+      [shortcuts.details.mac, "详情面板"],
+      [shortcuts.composer.mac, "Composer"],
       ["⌘⇧T", "Quick Terminal"],
       ["⌘⇧Z", "重新打开关闭的标签"],
       ["⌘,", "设置"],
     ],
-    keysFine: "macOS 上为 ⌘，其他平台使用对应的主修饰键。",
+    keysFine: "以上为终端获得焦点时的 macOS 快捷键；Linux/Windows 对应按键及编辑器优先键位见完整快捷键表。",
     endH: "试试预览版。",
     srcLabel: "或者自己构建",
     docs: "文档",
@@ -278,7 +293,7 @@ const copy = {
             >
             {copy.download}
           </a>
-          <a class="btn" href={REPO}>{copy.build} <span class="arrow">↗</span></a>
+          <a class="btn" href={`${prefix}/docs/mtty/install/`}>{copy.build} <span class="arrow">↗</span></a>
         </div>
         <ul class="pkgs rise" style="--i:3">
           {
@@ -316,28 +331,141 @@ const copy = {
 
   <section class="wrap section" data-reveal>
     <div class="section-head">
-      <p class="label"><b>00</b> {copy.pillarsLabel}</p>
+      <p class="label"><b>00</b> {copy.startLabel}</p>
+      <h2 class="display h2">{copy.startH}</h2>
+    </div>
+    <ul class="ws pillars">
+      {copy.start.map(([head, body]) => <li><h3>{head}</h3><p>{body}</p></li>)}
+    </ul>
+    <p class="fine note"><a href={`${prefix}/docs/mtty/install/`}>{copy.installGuide} →</a></p>
+  </section>
+
+  <section class="wrap section" data-reveal>
+    <div class="section-head">
+      <p class="label"><b>01</b> {copy.pillarsLabel}</p>
       <h2 class="display h2">{copy.pillarsH}</h2>
     </div>
     <ul class="ws pillars">
       {
-        copy.pillars.map(([head, from, today, next]) => (
+        copy.pillars.map(([head, purpose, body]) => (
           <li>
             <div class="ws-top">
               <h3>{head}</h3>
-              <kbd>{from}</kbd>
+              <span class="fine">{purpose}</span>
             </div>
-            <p><strong>{copy.pillarsToday}.</strong> {today}</p>
-            <p><strong>{copy.pillarsNext}.</strong> {next}</p>
+            <p>{body}</p>
           </li>
         ))
       }
     </ul>
   </section>
 
+  <section class="wrap section" data-reveal>
+    <div class="section-head">
+      <p class="label"><b>02</b> {copy.wsLabel}</p>
+      <h2 class="display h2">{copy.wsH}</h2>
+    </div>
+    <ul class="ws">
+      {
+        copy.ws.map(([head, body, hint]) => (
+          <li>
+            <div class="ws-top">
+              <h3>{head}</h3>
+              <kbd>{hint}</kbd>
+            </div>
+            <p>{body}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section id="screens" class="wrap section screens" data-reveal>
+    <div class="section-head">
+      <p class="label"><b>03</b> {copy.screensLabel}</p>
+      <h2 class="display h2">{copy.screensH}</h2>
+      <p class="lede">{copy.screensBody}</p>
+    </div>
+    <div class="gallery">
+      {
+        copy.screens.map(([src, head, body]) => (
+          <figure class="gcard">
+            <ProductMedia src={src} alt={body} />
+            <figcaption>
+              <b>{head}</b>
+              <span>{body}</span>
+              <a class="media-original" href={src} target="_blank" rel="noopener noreferrer">{lang === "zh" ? "放大查看" : "View full size"} ↗</a>
+            </figcaption>
+          </figure>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="wrap section agents" data-reveal>
+    <div class="agents-copy">
+      <p class="label"><b>04</b> {copy.agentLabel}</p>
+      <h2 class="display h2">{copy.agentH}</h2>
+      <p class="lede">{copy.agentBody}</p>
+    </div>
+    <div class="agents-side">
+      <div class="statebar" aria-hidden="true">
+        <span data-state="idle">idle</span>
+        <span data-state="processing">processing</span>
+        <span data-state="awaiting">awaiting</span>
+        <span data-state="error">error</span>
+      </div>
+      <dl class="agent-points">
+        {
+          copy.agentPoints.map(([term, detail, key]) => (
+            <div>
+              <dt>
+                {term} {key && <kbd>{key}</kbd>}
+              </dt>
+              <dd>{detail}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </section>
+
+  <section class="wrap section mtp" data-reveal>
+    <div>
+      <p class="label"><b>05</b> {copy.mtpLabel}</p>
+      <h2 class="display h2">{copy.mtpH}</h2>
+      <p class="lede">{copy.mtpBody}</p>
+      <p class="fine">{copy.mtpFine}</p>
+    </div>
+    <pre class="codeblock mtty"><code><span class="p">$ </span>mtty-cli pane list
+<span class="p">$ </span>mtty-cli pane run --pane ID --data "cargo test"
+<span class="p">$ </span>mtty-cli events --topic agent.state
+<span class="p">$ </span>mtty-cli wait --since 42
+<span class="p">$ </span>mtty-cli view ./README.md
+<span class="p">$ </span>mtty-cli file read --path /etc/hosts   <span class="c"># ≤ 2 MB</span></code></pre>
+  </section>
+
+  <section class="wrap section keys" data-reveal>
+    <div class="section-head">
+      <p class="label"><b>06</b> {copy.keysLabel}</p>
+      <h2 class="display h3">{copy.keysH}</h2>
+    </div>
+    <dl class="keygrid">
+      {
+        copy.keys.map(([key, action]) => (
+          <div>
+            <dt><kbd>{key}</kbd></dt>
+            <dd>{action}</dd>
+          </div>
+        ))
+      }
+    </dl>
+    <p class="fine note">{copy.keysFine} <a href={`${prefix}/docs/mtty/shortcuts/`}>{copy.docs} →</a></p>
+  </section>
+
   <section class="wrap section engine" data-reveal>
     <div class="engine-copy">
-      <p class="label"><b>01</b> {copy.engineLabel}</p>
+      <p class="label"><b>07</b> {copy.engineLabel}</p>
       <h2 class="display h2">{copy.engineH}</h2>
       <p class="lede">{copy.engineBody}</p>
       <p class="hot">
@@ -368,7 +496,7 @@ const copy = {
 
   <section class="wrap section perf" data-reveal>
     <div class="section-head">
-      <p class="label"><b>02</b> {copy.perfLabel}</p>
+      <p class="label"><b>08</b> {copy.perfLabel}</p>
       <h2 class="display h2">{copy.perfH}</h2>
       <p class="lede">{copy.perfBody}</p>
     </div>
@@ -386,109 +514,6 @@ const copy = {
       }
     </div>
     <p class="fine note">{copy.perfFine}</p>
-  </section>
-
-  <section class="wrap section" data-reveal>
-    <div class="section-head">
-      <p class="label"><b>03</b> {copy.wsLabel}</p>
-      <h2 class="display h2">{copy.wsH}</h2>
-    </div>
-    <ul class="ws">
-      {
-        copy.ws.map(([head, body, hint]) => (
-          <li>
-            <div class="ws-top">
-              <h3>{head}</h3>
-              <kbd>{hint}</kbd>
-            </div>
-            <p>{body}</p>
-          </li>
-        ))
-      }
-    </ul>
-  </section>
-
-  <section id="screens" class="wrap section screens" data-reveal>
-    <div class="section-head">
-      <p class="label"><b>04</b> {copy.screensLabel}</p>
-      <h2 class="display h2">{copy.screensH}</h2>
-      <p class="lede">{copy.screensBody}</p>
-    </div>
-    <div class="gallery">
-      {
-        copy.screens.map(([src, head, body]) => (
-          <figure class="gcard">
-            <ProductMedia src={src} alt={body} />
-            <figcaption>
-              <b>{head}</b>
-              <span>{body}</span>
-              <a class="media-original" href={src} target="_blank" rel="noopener noreferrer">{lang === "zh" ? "放大查看" : "View full size"} ↗</a>
-            </figcaption>
-          </figure>
-        ))
-      }
-    </div>
-  </section>
-
-  <section class="wrap section agents" data-reveal>
-    <div class="agents-copy">
-      <p class="label"><b>05</b> {copy.agentLabel}</p>
-      <h2 class="display h2">{copy.agentH}</h2>
-      <p class="lede">{copy.agentBody}</p>
-    </div>
-    <div class="agents-side">
-      <div class="statebar" aria-hidden="true">
-        <span data-state="idle">idle</span>
-        <span data-state="processing">processing</span>
-        <span data-state="awaiting">awaiting</span>
-        <span data-state="error">error</span>
-      </div>
-      <dl class="agent-points">
-        {
-          copy.agentPoints.map(([term, detail, key]) => (
-            <div>
-              <dt>
-                {term} {key && <kbd>{key}</kbd>}
-              </dt>
-              <dd>{detail}</dd>
-            </div>
-          ))
-        }
-      </dl>
-    </div>
-  </section>
-
-  <section class="wrap section mtp" data-reveal>
-    <div>
-      <p class="label"><b>06</b> {copy.mtpLabel}</p>
-      <h2 class="display h2">{copy.mtpH}</h2>
-      <p class="lede">{copy.mtpBody}</p>
-      <p class="fine">{copy.mtpFine}</p>
-    </div>
-    <pre class="codeblock mtty"><code><span class="p">$ </span>mtty-cli pane list
-<span class="p">$ </span>mtty-cli pane run --pane ID --data "cargo test"
-<span class="p">$ </span>mtty-cli events --topic agent.state
-<span class="p">$ </span>mtty-cli wait --since 42
-<span class="p">$ </span>mtty-cli view ./README.md
-<span class="p">$ </span>mtty-cli file read --path /etc/hosts   <span class="c"># ≤ 2 MB</span></code></pre>
-  </section>
-
-  <section class="wrap section keys" data-reveal>
-    <div class="section-head">
-      <p class="label"><b>07</b> {copy.keysLabel}</p>
-      <h2 class="display h3">{copy.keysH}</h2>
-    </div>
-    <dl class="keygrid">
-      {
-        copy.keys.map(([key, action]) => (
-          <div>
-            <dt><kbd>{key}</kbd></dt>
-            <dd>{action}</dd>
-          </div>
-        ))
-      }
-    </dl>
-    <p class="fine note">{copy.keysFine}</p>
   </section>
 
   <section class="wrap section end" data-reveal>
@@ -867,6 +892,10 @@ const copy = {
 
   .ws.pillars {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .ws.pillars h3 + p {
+    margin-top: 10px;
   }
 
   .ws.pillars p + p {

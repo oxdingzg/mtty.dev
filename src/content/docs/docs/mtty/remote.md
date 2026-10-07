@@ -23,7 +23,7 @@ with one `[[host]]` is enough:
 ```toml
 [[host]]
 name    = "prod-web"
-address = "10.0.0.12"
+address = "web.example.com"
 user    = "deploy"
 port    = 22
 group   = "production"
@@ -54,8 +54,9 @@ palette, or through the `mtty://host/<name>` URL scheme.
 
 *New SSH Session…* (Shell menu and palette) opens a login in a new tab. The
 connection uses your `~/.ssh/config`, reuses a `ControlMaster` connection when
-one exists, and installs no `terminfo` on the remote — mtty ships the entry it
-needs through the connection.
+one exists. No remote helper application is required. When a small local terminfo
+entry can be embedded, the bootstrap installs it under `~/.terminfo` with `tic`;
+otherwise it uses `xterm-256color`.
 
 Host keys are checked the way `ssh` checks them: a host that is **known** is
 verified quietly; an **unknown** host shows its fingerprints and is trusted
@@ -126,18 +127,22 @@ Telnet and raw TCP are unencrypted and marked as such; serial is not a network
 transport at all. These sessions end when the connection drops, and shell
 integration (working directory, command history) does not apply to them.
 
-## PuTTY keys
+## .ppk keys
 
-*Hosts… → Import PuTTY Key…* reads a PuTTY `.ppk` (v2 and v3, Ed25519, RSA and
+the key-import action in *Hosts…* reads a .ppk `.ppk` (v2 and v3, Ed25519, RSA and
 ECDSA), verifies it and re-encodes it as an OpenSSH key under a passphrase you
 choose. There is no unencrypted output path.
 
 ## Security
 
-mtty reads private keys only where OpenSSH would: it does not hold a decrypted
-key of its own and does not forward them anywhere. The system OpenSSH client is
-used on purpose — macOS, Linux and Windows all ship it, and moving to a
-Rust-native stack is a recorded, revisitable decision, not an accident.
+Interactive SSH authentication is handled by the system OpenSSH client and your
+agent/keychain. The .ppk import action decrypts a selected key in memory to
+convert it, then requires a passphrase for the encrypted OpenSSH output. It does
+not provide an unencrypted export path.
 
 To report a vulnerability, see [Security](/docs/mtty/security/). For the control plane's
 own boundary, see [`mtty-cli`](/docs/mtty/cli/).
+
+---
+
+*Synced from [`oxdingzg/mtty@d64b052`](https://github.com/oxdingzg/mtty/blob/d64b052e75f291bd44298029c323d6a325a80fa6/docs/REMOTE.md).*

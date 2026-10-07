@@ -5,7 +5,29 @@ sidebar:
 ---
 
 mtty(原名 miaotty)是原生 winit/wgpu 应用，只提供一个 GUI 主程序和一个 CLI。
-命名与迁移见 [APP-IDENTITY.zh-CN.md](https://github.com/oxdingzg/mtty/blob/1ce4ec38b46329e7d8d9ae4eb932fead2b3c3a71/docs/APP-IDENTITY.zh-CN.md)。
+命名与迁移见 [APP-IDENTITY.zh-CN.md](https://github.com/oxdingzg/mtty/blob/d64b052e75f291bd44298029c323d6a325a80fa6/docs/APP-IDENTITY.zh-CN.md)。
+
+## 安装发布版
+
+从 [GitHub Releases](https://github.com/oxdingzg/mtty/releases/latest) 选择最新安装包。
+
+| 平台 | 安装与首次启动 |
+|---|---|
+| macOS | Apple 芯片选 arm64 zip，Intel 选 x86_64 zip；解压后把 `mtty.app` 拖进 Applications，再打开 |
+| Linux | Debian/Ubuntu 可安装 `.deb`；AppImage 添加执行权限后运行；tar 压缩包也提供可执行文件 |
+| Windows | 运行 MSI 安装器，或解压 zip 后打开 `mtty.exe`；MSI 还会将 `mtty-cli` 加入 PATH |
+
+当前签名状态与下载提示见发布说明和 [Windows 下载指引](https://mtty.dev/zh/docs/about/windows-downloads/)。
+`.sig` 与 `minisign.pub` 用于手动验签，不是要打开的应用。
+
+## 第一个工作区
+
+1. 启动后使用默认本地终端，或通过 **New SSH Session…** 打开远程 shell。
+2. 用 `⌘K`（其他平台 `Ctrl+Shift+K`）打开命令面板；快速打开是 `⌘⇧O` / `Ctrl+Shift+Alt+O`。
+3. 在窗格里运行已安装的代理 CLI，例如 `miao`。miao 自动上报状态；其他受支持代理有状态 hook 设置入口。
+4. 在终端旁打开文件，用详情面板（`⌘⇧R` / `Ctrl+Shift+Alt+R`）查看文件、Git、代理状态与后续提示队列。
+
+后续操作见[快捷键](/zh/docs/mtty/shortcuts/)、[配置](/zh/docs/mtty/config/)、[编辑器](/zh/docs/mtty/editor/)与[远程连接](/zh/docs/mtty/remote/)。
 
 ## 从源码运行
 
@@ -32,7 +54,7 @@ bash scripts/install-macos.sh
 
 ## 发布包
 
-[release.yml](https://github.com/oxdingzg/mtty/blob/1ce4ec38b46329e7d8d9ae4eb932fead2b3c3a71/.github/workflows/release.yml) 要求 Apple Silicon macOS、Intel macOS、
+[release.yml](https://github.com/oxdingzg/mtty/blob/d64b052e75f291bd44298029c323d6a325a80fa6/.github/workflows/release.yml) 要求 Apple Silicon macOS、Intel macOS、
 Linux、Windows 四个 runner 成功。`v*` 标签触发发布，手动 dispatch 演练打包而不发布。
 
 - macOS：zip 只包含 `mtty.app`。
@@ -40,7 +62,7 @@ Linux、Windows 四个 runner 成功。`v*` 标签触发发布，手动 dispatch
 - Windows：zip、MSI，包含 `mtty.exe` 和 `mtty-cli.exe`。
 
 Apple Developer ID 签名/公证、Windows MSI 签名和 minisign 产物签名使用
-[RELEASE.zh-CN.md](https://github.com/oxdingzg/mtty/blob/1ce4ec38b46329e7d8d9ae4eb932fead2b3c3a71/docs/RELEASE.zh-CN.md) 说明的可选 secrets。
+[RELEASE.zh-CN.md](https://github.com/oxdingzg/mtty/blob/d64b052e75f291bd44298029c323d6a325a80fa6/docs/RELEASE.zh-CN.md) 说明的可选 secrets。
 `dist-workspace.toml` 仍为 cargo-dist 脚手架，不是当前发布流水线。
 
 
@@ -55,4 +77,4 @@ macOS/Linux 注册 `mtty://`、`ssh://`、`x-man-page://`；Windows MSI 只注�
 
 ---
 
-*Synced from [`oxdingzg/mtty@1ce4ec3`](https://github.com/oxdingzg/mtty/blob/1ce4ec38b46329e7d8d9ae4eb932fead2b3c3a71/docs/INSTALL.zh-CN.md).*
+*Synced from [`oxdingzg/mtty@d64b052`](https://github.com/oxdingzg/mtty/blob/d64b052e75f291bd44298029c323d6a325a80fa6/docs/INSTALL.zh-CN.md).*

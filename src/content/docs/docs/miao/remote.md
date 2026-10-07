@@ -1,152 +1,87 @@
 ---
-title: "Drive sessions from WeChat or QQ"
+title: "Remote Control"
 sidebar:
   order: 3
 ---
 
-:::caution[Experimental]
-`miao remote` is usable end to end but still experimental. Tencent neither
-permits nor forbids third-party WeChat clients; see **Limits and risks**.
-:::
+Remote Control lets you use a running miao window from another device. The
+window executes tasks locally; your own Hub relays encrypted traffic between
+that window and the Web or iOS client. A Hub login alone does not grant access
+to sessions: the local owner approves a device and the scope of its access.
 
-`miao remote` runs the miao server on `127.0.0.1` together with your IM
-channels, so you can list sessions, start one, send prompts, approve tool calls
-and interrupt — from your phone. The same sessions are visible on the desktop
-with `miao attach`, so you can start in WeChat and finish in the terminal.
+## Before you connect
 
-## Log in and run
+- Use a current miao build with `/remote-control` and a running local window.
+- Deploy a Hub with account authentication and an HTTPS address. The repository
+  contains [Hub setup and container instructions](https://github.com/oxdingzg/miao/blob/658f033c1d72b7d2eb45f1163557bacf6e2e1dc8/packages/remote-control/README.md)
+  and a [Compose deployment](https://github.com/oxdingzg/miao/blob/658f033c1d72b7d2eb45f1163557bacf6e2e1dc8/packages/remote-control/deploy/README.md).
+- Serve the Web client from that Hub's origin, or use a compatible iOS client.
+  The Hub is separate from mtty.dev and is not a hosted service provided by this site.
 
-```sh
-miao remote login wechat   # scan the QR code with WeChat
-miao remote login qq       # scan with mobile QQ, create a bot, connect it
-miao remote                # run in the foreground (debugging)
-miao remote install        # write a launchd agent and print how to load it
-miao remote status         # channel state, push budget used today, queued results
-miao remote uninstall
-```
+The computer running miao makes an outbound connection to the Hub; Remote
+Control does not require exposing the local API or mapping an inbound port.
 
-`miao remote` starts even with no account; accounts logged in later go live at
-once, and `miao remote login` through a running daemon needs no restart. Open
-the same sessions on the desktop with:
+## Connect a window and approve a device
 
-```sh
-miao attach http://127.0.0.1:4097
-```
+1. Start `miao` in the project you want to work on and open `/remote-control`.
+2. Use the dialog's setup flow to connect to your Hub and sign in. Saved
+   configuration alone does not connect a newly opened window: explicitly
+   enable access for that window.
+3. Create an invitation with the project/session scope, allowed operations and
+   expiration you intend to share. Open it in the remote client.
+4. Confirm the candidate device key and scope in the local window before
+   approving it. A transport connection is not automatic device trust.
+5. Use the remote client's session list and controls within that grant. Access
+   is limited to Sessions owned by the selected window, including Sessions
+   created remotely there.
 
-## The TUI `/remote` dialog
+The dialog also lists pending pairings and approved devices. Reject an
+unwanted pairing or revoke a device there. Revocation invalidates its grant
+and closes its active channels. Turning off Remote Control closes this
+window's connection while local work continues.
 
-`/remote` in the TUI shows the daemon and every connected account, logs in new
-ones (the QR code is drawn in the dialog), sends a test message and
-disconnects. The first account can be set up entirely from here, without the
-CLI: with no daemon running, pressing enter on a connector logs in on this
-machine, then *start daemon (launchd)* or *start once (background)* shows the
-exact command and runs it only after you confirm. A running daemon can be
-stopped from the same dialog, also after confirming.
+## What happens when a window closes
 
-## Commands in the IM app
+Each normal miao invocation owns its execution and remote connection. Closing
+that window ends both; background tasks and queued inputs do not keep it alive.
+Independent windows share durable history but retain separate execution
+ownership and connections. A remote reconnect keeps its selected window target;
+it does not silently move to a different window on the same machine.
 
-Send `/help` for the list. Text that does not start with `/` goes to the
-current session.
+Reopening history is not automatic execution recovery. Continue interrupted
+work explicitly. See [Runtime lifecycle](https://github.com/oxdingzg/miao/blob/658f033c1d72b7d2eb45f1163557bacf6e2e1dc8/docs/runtime.md) for ownership, updates
+and the private `runtime access` integration bridge.
 
-| Command | What it does |
-|---|---|
-| `/list` | Sessions: number, project, title, state, last activity (those waiting on you first) |
-| `/use 2` | Make #2 the current session |
-| `/new miao fix the README` | Start a session in project `miao`, optionally with a first prompt |
-| `/projects` | Projects allowed for remote control, with aliases |
-| `#2 message` | Send to #2 without switching the current session |
-| `/queue message` | Deliver the input as a queued turn instead of steering the running one |
-| `/stop` | Interrupt the current session (`#2 /stop` for a named one) |
-| `/r` | Fetch results that were held past the reply window |
-| `/status` | Summary of the current session's last turn: tools, changed files, cost |
-| `/help` | Commands and help |
+## Explicit server access
 
-Session numbers are short local numbers mapped to real session IDs and kept
-across restarts. While a session is running, new messages **steer** it at the
-next safe provider-turn boundary (the same default as the TUI); `/queue` waits
-until the session would otherwise become idle.
+`miao serve` is a separate foreground HTTP API server. `miao attach <url>` and
+`miao run --attach <url>` connect to the server you select; these are distinct
+from Hub/device pairing. Its listening interface and authentication are
+configured separately. See [Security](/docs/miao/security/).
 
-### Approvals and questions
+## Migrating from the old IM bridge
 
-When a remote session asks for permission, the request arrives in the chat with
-short reply codes:
+The old WeChat/QQ bridges, `miao remote` CLI and `remote.*` configuration are
+removed. `/remote` remains a compatibility alias for the new Remote Control
+dialog, not the old IM bridge. Use `/remote-control` with your Hub and a paired
+client. This is device-based remote access, not an IM bot migration;
+old chat commands and bot accounts do not carry over.
 
-```
-【#2 miao】requests to run bash:
-  rm -rf dist && bun run build
-reply y7 allow once · a7 always · n7 reject
-```
+## Troubleshooting
 
-`y7` / `a7` / `n7` map to *once* / *always* / *reject*; codes are valid only for
-that user and expire (default 30 minutes). Question prompts list numbered
-options; reply with the number.
+- **Host offline:** keep the selected miao window open and explicitly enable
+  its Remote Control connection; verify that the Hub is reachable over HTTPS.
+- **Connected but no access:** sign in to the correct Hub account, then check
+  local device approval, scope and expiration. Hub login and device grants are
+  separate requirements.
+- **Session owned by another window:** use the connection for that owner, or
+  close it before explicitly continuing the Session elsewhere.
+- **Connection lost during a write:** inspect the Session before retrying.
+  Reconnection does not automatically repeat business requests or tool effects.
 
-## Configuration
+Availability follows the installed build. Source-only UI changes may not yet
+be in the latest release; check the release notes before using preview features.
 
-```jsonc
-{
-  "remote": {
-    "port": 4097,
-    "projects": { "miao": "~/workspace/code/github/miao" },
-    "wechat": { "push_budget_per_day": 4 },
-    "qq": { "markdown": true },
-  },
-}
-```
+---
 
-| Key | What it does |
-|---|---|
-| `remote.port` | Port the server listens on at `127.0.0.1` (default 4097) |
-| `remote.projects` | Alias → directory; IM users can only list, create and drive sessions inside these |
-| `remote.wechat.push_budget_per_day` | Proactive WeChat messages allowed per day (default 4) |
-| `remote.qq` | `markdown` (default true), plus optional `api` / `portal` hosts |
-| `remote.connectors` | Third-party IM connectors to load (npm package names or local paths) |
-| `remote.settings` | Per-connector settings, keyed by connector id |
-
-A third-party connector exports a connector built with `defineConnector` from
-`@miao/remote`. Feishu and Telegram are planned.
-
-## Security
-
-- Only the account that scanned the login code is heard; everything else is
-  ignored and logged.
-- `/new` can only create sessions inside `remote.projects`, so the phone cannot
-  drive an arbitrary repository.
-- A remotely started prompt never auto-approves a tool; approvals happen in the
-  chat, and there is no `--auto`.
-- Credentials (the bot token and similar) go to miao's existing credential
-  store with `0600`; cursors and routing state live in
-  `~/.local/state/miao/remote/`.
-- One `miao remote` process may poll a given bot at a time; inbound messages are
-  de-duplicated.
-
-## Limits and risks
-
-The WeChat (iLink) channel is constrained by the platform, and miao works
-within it:
-
-- A reply must go out within about **two minutes** of your message, and a
-  `context_token` allows roughly ten replies. Results that finish later are
-  held until you write again or send `/r`.
-- Proactive messages (not a reply) are throttled after about **5–6 per day**;
-  the default budget is 4 and results beyond it wait in the queue.
-- Only one-to-one chat with the person who scanned the code — no groups and no
-  buttons.
-- Tencent does not clearly allow or forbid third-party clients. There are
-  reports of bot downlink being throttled for days to weeks; `miao remote login
-  wechat` prints this warning.
-
-QQ replies for a few minutes and then switches to proactive messages, so
-results usually arrive on time unless proactive messages are off for the bot.
-
-There is also a **single-writer** constraint: session execution is coordinated
-within one process. A session driven from IM must run inside the `miao remote`
-server; open it on the desktop with `miao attach`. A session started in a
-separate TUI appears in `/list` but cannot be driven in this version. Fencing
-across processes is on the roadmap.
-
-## Related
-
-- [The provider layer](/docs/miao/providers/) that these sessions use
-- [Security policy](/docs/miao/security/)
-- [miao Guide](/docs/miao/guide/) for configuration precedence and sessions
+*Synced from [`oxdingzg/miao@658f033`](https://github.com/oxdingzg/miao/blob/658f033c1d72b7d2eb45f1163557bacf6e2e1dc8/docs/remote-control.en.md).*
