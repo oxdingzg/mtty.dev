@@ -1,7 +1,7 @@
 ---
 title: "miao versioning and release"
 sidebar:
-  order: 4
+  order: 7
 ---
 
 ## Version scheme
@@ -35,7 +35,7 @@ Windows binaries are currently unsigned. The `publish` step records this status 
   - Write into `CHANGELOG.md`: add `--write`
   - At release time `script/version.ts` calls it with `--to <sha>` to produce `UPCOMING_CHANGELOG.md`, which becomes the release notes.
 - Release notes are **English and always link to a Simplified Chinese mirror**:
-  `docs/releases/<tag>.zh.md`, linked as `[简体中文](https://github.com/oxdingzg/miao/blob/8e8ef1295518e81b75576a557b4256f106eafb69/docs/…)` under the first
+  `docs/releases/<tag>.zh.md`, linked as `[简体中文](https://github.com/oxdingzg/miao/blob/284be7f96491a33c873335363d25625e0f126c24/docs/…)` under the first
   heading. Write the mirror before dispatching a release — `script/release-notes.ts`
   fails the publish job when it is missing. The same rule applies to every miao
   project, including `mtty`.
@@ -64,4 +64,4 @@ Windows binaries are currently unsigned. The `publish` step records this status 
 
 ---
 
-*Synced from [`oxdingzg/miao@8e8ef12`](https://github.com/oxdingzg/miao/blob/8e8ef1295518e81b75576a557b4256f106eafb69/docs/release.en.md).*
+*Synced from [`oxdingzg/miao@284be7f`](https://github.com/oxdingzg/miao/blob/284be7f96491a33c873335363d25625e0f126c24/docs/release.en.md).*

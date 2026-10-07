@@ -1,7 +1,7 @@
 ---
 title: "供应商与模型"
 sidebar:
-  order: 2
+  order: 3
 ---
 
 miao 自带模型层，但不自带模型本身：你连接自己已经在用的供应商，在会话内切换模型，并给不同的 agent 配不同的模型。它在本机运行，无需 miao 或 OpenCode 账号——凭证直接交给供应商。
@@ -104,8 +104,8 @@ miao models --refresh           # 先从 mtty.dev 刷新目录
 - 鉴权错误会指出修复方式，通常是 `miao auth login <provider>`；保存的 token 过期时重跑 `miao providers login`。
 - 供应商不显示任何模型，通常是缺凭证或被策略禁用；`miao models <provider> --verbose` 会显示解析结果。
 
-配置优先级见[使用指南](/zh/docs/miao/guide/)，供应商层的演进见[与 opencode 的对比](/zh/docs/miao/miao-vs-opencode/)。
+配置优先级见[使用指南](/zh/docs/miao/guide/)，供应商层的演进见[开源代理对比](/zh/docs/miao/comparison/)。
 
 ---
 
-*Synced from [`oxdingzg/miao@8e8ef12`](https://github.com/oxdingzg/miao/blob/8e8ef1295518e81b75576a557b4256f106eafb69/docs/providers.zh.md).*
+*Synced from [`oxdingzg/miao@284be7f`](https://github.com/oxdingzg/miao/blob/284be7f96491a33c873335363d25625e0f126c24/docs/providers.zh.md).*

@@ -1,7 +1,7 @@
 ---
 title: "远程控制"
 sidebar:
-  order: 3
+  order: 4
 ---
 
 Remote Control 让你从另一台设备操作正在运行的 miao 窗口。任务仍在本地执行；你部署的 Hub
@@ -11,8 +11,8 @@ Remote Control 让你从另一台设备操作正在运行的 miao 窗口。任�
 ## 连接前
 
 - 使用支持 `/remote-control` 的当前 miao 构建，并保持本地窗口运行。
-- 部署具有账号鉴权和 HTTPS 地址的 Hub。仓库提供 [Hub 与容器说明](https://github.com/oxdingzg/miao/blob/658f033c1d72b7d2eb45f1163557bacf6e2e1dc8/packages/remote-control/README.md)
-  和 [Compose 部署](https://github.com/oxdingzg/miao/blob/658f033c1d72b7d2eb45f1163557bacf6e2e1dc8/packages/remote-control/deploy/README.md)。
+- 部署具有账号鉴权和 HTTPS 地址的 Hub。仓库提供 [Hub 与容器说明](https://github.com/oxdingzg/miao/blob/284be7f96491a33c873335363d25625e0f126c24/packages/remote-control/README.md)
+  和 [Compose 部署](https://github.com/oxdingzg/miao/blob/284be7f96491a33c873335363d25625e0f126c24/packages/remote-control/deploy/README.md)。
 - 从同一个 Hub 域名提供 Web 客户端，或使用兼容的 iOS 客户端。
   Hub 独立于 mtty.dev，本站不提供托管的 Hub 服务。
 
@@ -38,7 +38,7 @@ Remote Control 让你从另一台设备操作正在运行的 miao 窗口。任�
 选中的窗口目标，不会自动切换到同机上的另一个窗口。
 
 重新打开历史不代表自动恢复执行，请显式继续中断的工作。
-所有权、更新与私有 `runtime access` 集成桥接见[运行时生命周期](https://github.com/oxdingzg/miao/blob/658f033c1d72b7d2eb45f1163557bacf6e2e1dc8/docs/runtime.md)。
+所有权、更新与私有 `runtime access` 集成桥接见[运行时生命周期](https://github.com/oxdingzg/miao/blob/284be7f96491a33c873335363d25625e0f126c24/docs/runtime.md)。
 
 ## 显式服务端访问
 
@@ -66,4 +66,4 @@ Remote Control 让你从另一台设备操作正在运行的 miao 窗口。任�
 
 ---
 
-*Synced from [`oxdingzg/miao@658f033`](https://github.com/oxdingzg/miao/blob/658f033c1d72b7d2eb45f1163557bacf6e2e1dc8/docs/remote-control.zh.md).*
+*Synced from [`oxdingzg/miao@284be7f`](https://github.com/oxdingzg/miao/blob/284be7f96491a33c873335363d25625e0f126c24/docs/remote-control.zh.md).*

@@ -2,7 +2,7 @@
 title: 参与贡献
 description: 如何向 miao 报告问题与提交改动。
 sidebar:
-  order: 6
+  order: 8
 ---
 
 miao 以 MIT 协议授权，在 [oxdingzg/miao](https://github.com/oxdingzg/miao) 公开开发。完整

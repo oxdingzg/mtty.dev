@@ -1,7 +1,7 @@
 ---
 title: "Remote Control"
 sidebar:
-  order: 3
+  order: 4
 ---
 
 Remote Control lets you use a running miao window from another device. The
@@ -13,8 +13,8 @@ to sessions: the local owner approves a device and the scope of its access.
 
 - Use a current miao build with `/remote-control` and a running local window.
 - Deploy a Hub with account authentication and an HTTPS address. The repository
-  contains [Hub setup and container instructions](https://github.com/oxdingzg/miao/blob/658f033c1d72b7d2eb45f1163557bacf6e2e1dc8/packages/remote-control/README.md)
-  and a [Compose deployment](https://github.com/oxdingzg/miao/blob/658f033c1d72b7d2eb45f1163557bacf6e2e1dc8/packages/remote-control/deploy/README.md).
+  contains [Hub setup and container instructions](https://github.com/oxdingzg/miao/blob/284be7f96491a33c873335363d25625e0f126c24/packages/remote-control/README.md)
+  and a [Compose deployment](https://github.com/oxdingzg/miao/blob/284be7f96491a33c873335363d25625e0f126c24/packages/remote-control/deploy/README.md).
 - Serve the Web client from that Hub's origin, or use a compatible iOS client.
   The Hub is separate from mtty.dev and is not a hosted service provided by this site.
 
@@ -49,7 +49,7 @@ ownership and connections. A remote reconnect keeps its selected window target;
 it does not silently move to a different window on the same machine.
 
 Reopening history is not automatic execution recovery. Continue interrupted
-work explicitly. See [Runtime lifecycle](https://github.com/oxdingzg/miao/blob/658f033c1d72b7d2eb45f1163557bacf6e2e1dc8/docs/runtime.md) for ownership, updates
+work explicitly. See [Runtime lifecycle](https://github.com/oxdingzg/miao/blob/284be7f96491a33c873335363d25625e0f126c24/docs/runtime.md) for ownership, updates
 and the private `runtime access` integration bridge.
 
 ## Explicit server access
@@ -84,4 +84,4 @@ be in the latest release; check the release notes before using preview features.
 
 ---
 
-*Synced from [`oxdingzg/miao@658f033`](https://github.com/oxdingzg/miao/blob/658f033c1d72b7d2eb45f1163557bacf6e2e1dc8/docs/remote-control.en.md).*
+*Synced from [`oxdingzg/miao@284be7f`](https://github.com/oxdingzg/miao/blob/284be7f96491a33c873335363d25625e0f126c24/docs/remote-control.en.md).*

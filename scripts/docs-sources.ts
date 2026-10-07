@@ -21,20 +21,26 @@ export type DocPage = {
 export const pages: DocPage[] = [
   {
     repo: "oxdingzg/miao",
-    to: "miao/guide",
+    to: "miao/why-miao",
     order: 1,
+    sources: { en: "docs/why-miao.en.md", zh: "docs/why-miao.zh.md" },
+  },
+  {
+    repo: "oxdingzg/miao",
+    to: "miao/guide",
+    order: 2,
     sources: { en: "docs/guide.en.md", zh: "docs/guide.zh.md" },
   },
   {
     repo: "oxdingzg/miao",
     to: "miao/providers",
-    order: 2,
+    order: 3,
     sources: { en: "docs/providers.en.md", zh: "docs/providers.zh.md" },
   },
   {
     repo: "oxdingzg/miao",
     to: "miao/remote",
-    order: 3,
+    order: 4,
     sources: {
       en: "docs/remote-control.en.md",
       zh: "docs/remote-control.zh.md",
@@ -43,17 +49,23 @@ export const pages: DocPage[] = [
   {
     repo: "oxdingzg/miao",
     to: "miao/release",
-    order: 4,
+    order: 7,
     sources: { en: "docs/release.en.md", zh: "docs/release.zh.md" },
   },
   {
     repo: "oxdingzg/miao",
-    to: "miao/miao-vs-opencode",
+    to: "miao/comparison",
     order: 5,
     sources: {
-      en: "docs/miao-vs-opencode.en.md",
-      zh: "docs/miao-vs-opencode.zh.md",
+      en: "docs/agent-comparison.en.md",
+      zh: "docs/agent-comparison.zh.md",
     },
+  },
+  {
+    repo: "oxdingzg/miao",
+    to: "miao/native-benchmarks",
+    order: 6,
+    sources: { en: "docs/native-benchmarks.en.md", zh: "docs/native-benchmarks.zh.md" },
   },
 
   // The security policy is published verbatim rather than summarised. A
@@ -63,7 +75,7 @@ export const pages: DocPage[] = [
   {
     repo: "oxdingzg/miao",
     to: "miao/security",
-    order: 7,
+    order: 9,
     sources: { en: "SECURITY.md", zh: "SECURITY.zh.md" },
   },
 

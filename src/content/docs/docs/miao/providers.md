@@ -1,7 +1,7 @@
 ---
 title: "Providers and models"
 sidebar:
-  order: 2
+  order: 3
 ---
 
 miao brings its own model layer but not its own model: you connect the
@@ -139,9 +139,9 @@ wins**. The supported action is `provider.use`; `resource` accepts wildcard patt
   policy; `miao models <provider> --verbose` shows what was resolved.
 
 See the [guide](/docs/miao/guide/) for configuration precedence and the
-[comparison with opencode](/docs/miao/miao-vs-opencode/) for how the provider layer
+[agent workflow comparison](/docs/miao/comparison/) for how the provider layer
 evolved.
 
 ---
 
-*Synced from [`oxdingzg/miao@8e8ef12`](https://github.com/oxdingzg/miao/blob/8e8ef1295518e81b75576a557b4256f106eafb69/docs/providers.en.md).*
+*Synced from [`oxdingzg/miao@284be7f`](https://github.com/oxdingzg/miao/blob/284be7f96491a33c873335363d25625e0f126c24/docs/providers.en.md).*
