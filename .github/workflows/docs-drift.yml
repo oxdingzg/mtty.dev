@@ -37,6 +37,7 @@ jobs:
         run: bun run sync:docs --miao .product-sources/miao --mtty .product-sources/mtty
       - name: Generate configuration and TUI schemas from the same checkout
         run: bun run sync:schemas --miao .product-sources/miao
+      - run: bun run sync:models
       - run: bun run test
       - run: bun run check:content
       - run: bun run check:media

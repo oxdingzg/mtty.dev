@@ -196,13 +196,16 @@ function convertAlerts(body: string) {
 // changed. Ignore commit-only link/provenance churn, but never ignore body,
 // destination path or anchor changes.
 export function sameContent(existing: string, output: string) {
-  const normalize = (text: string) =>
-    text
-      .replace(
-        /(https:\/\/github\.com\/oxdingzg\/(?:miao|mtty)\/blob\/)[a-f0-9]{40}\//g,
-        "$1SOURCE/",
-      )
-      .replace(/(\*Synced from \[`oxdingzg\/(?:miao|mtty)@)[a-f0-9]{7}(`\])/g, "$1SOURCE$2")
+  const normalize = (text: string) => {
+    const provenance = text.match(
+      /^\*Synced from \[`(oxdingzg\/(?:miao|mtty))@([a-f0-9]{7})`\]\(https:\/\/github\.com\/\1\/blob\/([a-f0-9]{40})\//m,
+    )
+    if (!provenance) return text
+    const [, repo, short, sha] = provenance
+    return text
+      .replaceAll(`${GITHUB}/${repo}/blob/${sha}/`, `${GITHUB}/${repo}/blob/SOURCE/`)
+      .replace(`*Synced from [\`${repo}@${short}\`]`, `*Synced from [\`${repo}@SOURCE\`]`)
+  }
   return normalize(existing) === normalize(output)
 }
 

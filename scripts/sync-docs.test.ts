@@ -34,6 +34,14 @@ describe("product documentation", () => {
     }
   })
 
+  test("explicitly pinned source links are content, not generated provenance", () => {
+    const pinned = `${raw}\n[Versioned API](https://github.com/oxdingzg/mtty/blob/${"c".repeat(40)}/README.md)`
+    const changed = pinned.replace("c".repeat(40), "d".repeat(40))
+    expect(sameContent(transform(pinned, page, "en", a), transform(changed, page, "en", b))).toBe(
+      false,
+    )
+  })
+
   test("marketing shortcuts come from the committed shortcut guide", () => {
     const guide = readFileSync(
       new URL("../src/content/docs/docs/mtty/shortcuts.md", import.meta.url),
