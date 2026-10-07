@@ -11,8 +11,8 @@ Remote Control 让你从另一台设备操作正在运行的 miao 窗口。任�
 ## 连接前
 
 - 使用支持 `/remote-control` 的当前 miao 构建，并保持本地窗口运行。
-- 部署具有账号鉴权和 HTTPS 地址的 Hub。仓库提供 [Hub 与容器说明](https://github.com/oxdingzg/miao/blob/8e8ef1295518e81b75576a557b4256f106eafb69/packages/remote-control/README.md)
-  和 [Compose 部署](https://github.com/oxdingzg/miao/blob/8e8ef1295518e81b75576a557b4256f106eafb69/packages/remote-control/deploy/README.md)。
+- 部署具有账号鉴权和 HTTPS 地址的 Hub。仓库提供 [Hub 与容器说明](https://github.com/oxdingzg/miao/blob/658f033c1d72b7d2eb45f1163557bacf6e2e1dc8/packages/remote-control/README.md)
+  和 [Compose 部署](https://github.com/oxdingzg/miao/blob/658f033c1d72b7d2eb45f1163557bacf6e2e1dc8/packages/remote-control/deploy/README.md)。
 - 从同一个 Hub 域名提供 Web 客户端，或使用兼容的 iOS 客户端。
   Hub 独立于 mtty.dev，本站不提供托管的 Hub 服务。
 
@@ -38,7 +38,7 @@ Remote Control 让你从另一台设备操作正在运行的 miao 窗口。任�
 选中的窗口目标，不会自动切换到同机上的另一个窗口。
 
 重新打开历史不代表自动恢复执行，请显式继续中断的工作。
-所有权、更新与私有 `runtime access` 集成桥接见[运行时生命周期](https://github.com/oxdingzg/miao/blob/8e8ef1295518e81b75576a557b4256f106eafb69/docs/runtime.md)。
+所有权、更新与私有 `runtime access` 集成桥接见[运行时生命周期](https://github.com/oxdingzg/miao/blob/658f033c1d72b7d2eb45f1163557bacf6e2e1dc8/docs/runtime.md)。
 
 ## 显式服务端访问
 
@@ -48,8 +48,9 @@ Remote Control 让你从另一台设备操作正在运行的 miao 窗口。任�
 
 ## 从旧 IM 桥接迁移
 
-旧 WeChat/QQ 桥接、`miao remote`、`/remote` 对话框和 `remote.*` 配置均已移除。
-请改用 `/remote-control`、自己的 Hub 与已配对客户端。这是设备级远程访问，不是 IM bot
+旧 WeChat/QQ 桥接、`miao remote` CLI 和 `remote.*` 配置均已移除。
+`/remote` 保留为新 Remote Control 对话框的兼容别名，不再是旧 IM 桥接。
+请使用 `/remote-control`、自己的 Hub 与已配对客户端。这是设备级远程访问，不是 IM bot
 的迁移；旧聊天命令和 bot 账号不会沿用。
 
 ## 排查
@@ -65,4 +66,4 @@ Remote Control 让你从另一台设备操作正在运行的 miao 窗口。任�
 
 ---
 
-*Synced from [`oxdingzg/miao@8e8ef12`](https://github.com/oxdingzg/miao/blob/8e8ef1295518e81b75576a557b4256f106eafb69/docs/remote-control.zh.md).*
+*Synced from [`oxdingzg/miao@658f033`](https://github.com/oxdingzg/miao/blob/658f033c1d72b7d2eb45f1163557bacf6e2e1dc8/docs/remote-control.zh.md).*

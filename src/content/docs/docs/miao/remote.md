@@ -13,8 +13,8 @@ to sessions: the local owner approves a device and the scope of its access.
 
 - Use a current miao build with `/remote-control` and a running local window.
 - Deploy a Hub with account authentication and an HTTPS address. The repository
-  contains [Hub setup and container instructions](https://github.com/oxdingzg/miao/blob/8e8ef1295518e81b75576a557b4256f106eafb69/packages/remote-control/README.md)
-  and a [Compose deployment](https://github.com/oxdingzg/miao/blob/8e8ef1295518e81b75576a557b4256f106eafb69/packages/remote-control/deploy/README.md).
+  contains [Hub setup and container instructions](https://github.com/oxdingzg/miao/blob/658f033c1d72b7d2eb45f1163557bacf6e2e1dc8/packages/remote-control/README.md)
+  and a [Compose deployment](https://github.com/oxdingzg/miao/blob/658f033c1d72b7d2eb45f1163557bacf6e2e1dc8/packages/remote-control/deploy/README.md).
 - Serve the Web client from that Hub's origin, or use a compatible iOS client.
   The Hub is separate from mtty.dev and is not a hosted service provided by this site.
 
@@ -49,7 +49,7 @@ ownership and connections. A remote reconnect keeps its selected window target;
 it does not silently move to a different window on the same machine.
 
 Reopening history is not automatic execution recovery. Continue interrupted
-work explicitly. See [Runtime lifecycle](https://github.com/oxdingzg/miao/blob/8e8ef1295518e81b75576a557b4256f106eafb69/docs/runtime.md) for ownership, updates
+work explicitly. See [Runtime lifecycle](https://github.com/oxdingzg/miao/blob/658f033c1d72b7d2eb45f1163557bacf6e2e1dc8/docs/runtime.md) for ownership, updates
 and the private `runtime access` integration bridge.
 
 ## Explicit server access
@@ -61,9 +61,10 @@ configured separately. See [Security](/docs/miao/security/).
 
 ## Migrating from the old IM bridge
 
-The old WeChat/QQ bridges, `miao remote`, the `/remote` dialog and `remote.*`
-configuration are removed. Use `/remote-control` with your Hub and a paired
-client instead. This is device-based remote access, not an IM bot migration;
+The old WeChat/QQ bridges, `miao remote` CLI and `remote.*` configuration are
+removed. `/remote` remains a compatibility alias for the new Remote Control
+dialog, not the old IM bridge. Use `/remote-control` with your Hub and a paired
+client. This is device-based remote access, not an IM bot migration;
 old chat commands and bot accounts do not carry over.
 
 ## Troubleshooting
@@ -83,4 +84,4 @@ be in the latest release; check the release notes before using preview features.
 
 ---
 
-*Synced from [`oxdingzg/miao@8e8ef12`](https://github.com/oxdingzg/miao/blob/8e8ef1295518e81b75576a557b4256f106eafb69/docs/remote-control.en.md).*
+*Synced from [`oxdingzg/miao@658f033`](https://github.com/oxdingzg/miao/blob/658f033c1d72b7d2eb45f1163557bacf6e2e1dc8/docs/remote-control.en.md).*
