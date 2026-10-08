@@ -16,9 +16,9 @@ Apache-2.0 允许你使用、修改和再分发 mtty，包括商用。作为交�
 
 ## miao —— MIT
 
-miao 以 MIT 协议授权。它是 [opencode](https://github.com/anomalyco/opencode)(同为 MIT)的衍生
+miao 以 MIT 协议授权。它是 [opencode](https://github.com/anomalyco/opencode) 的衍生
 项目，其 [`LICENSE`](https://github.com/oxdingzg/miao/blob/main/LICENSE) **同时保留两条版权行** ——
-miao 作者的 2026 与 opencode 的 2025 —— 因为 MIT 要求上游声明随每一份副本一同传递。
+miao 作者的 2026 与 opencode 的 2025 —— MIT 要求软件副本或其中的实质性部分附带版权及授权声明。项目中相当一部分代码来自 opencode 的 MIT 授权实现，致谢与维护关系见[项目来源与许可](/zh/docs/miao/attribution/)。
 
 ## 它们内部有什么
 

@@ -21,6 +21,12 @@ export type DocPage = {
 export const pages: DocPage[] = [
   {
     repo: "oxdingzg/miao",
+    to: "miao/attribution",
+    order: 10,
+    sources: { en: "docs/attribution.en.md", zh: "docs/attribution.zh.md" },
+  },
+  {
+    repo: "oxdingzg/miao",
     to: "miao/why-miao",
     order: 1,
     sources: { en: "docs/why-miao.en.md", zh: "docs/why-miao.zh.md" },

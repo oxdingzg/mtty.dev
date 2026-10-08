@@ -7,8 +7,7 @@ sidebar:
 
 miao is an open-source AI coding agent for the terminal. It explores a
 repository, edits code, runs commands and checks its own work, using the models
-you choose. It builds on [opencode](https://github.com/anomalyco/opencode) and
-puts its work around the model: durable sessions, context efficiency, delegation
+you choose. It focuses on the engineering around the model: durable sessions, context efficiency, delegation
 and a visible cost per turn.
 
 ```sh
@@ -28,5 +27,13 @@ curl -fsSL https://mtty.dev/miao/install | bash
 | [Security](/docs/miao/security/) | How to report a vulnerability |
 
 Source, issues and releases: [oxdingzg/miao](https://github.com/oxdingzg/miao).
-miao is MIT licensed, and this site is not affiliated with or endorsed by the
-[opencode](https://github.com/anomalyco/opencode) project.
+
+## Origins and license
+
+miao is derived from [opencode](https://github.com/anomalyco/opencode), whose
+MIT-licensed code provides a substantial part of the project. Thanks to its
+authors and contributors. miao has its own maintenance and releases; the source
+relationship does not imply affiliation or endorsement.
+
+See [project origins and licensing](/docs/miao/attribution/) for the preserved
+copyright notices and redistribution terms.
