@@ -5,7 +5,7 @@ interface Props {
   lang?: Locale
   /**
    * The marketing page this footer sits under: "" for the home page, otherwise
-   * the product slug. miao's fork notice belongs on miao's own page — the home
+   * the product slug. miao's attribution notice belongs on miao's own page — the home
    * page is the umbrella page for both products, not a miao page.
    */
   product?: string
@@ -23,8 +23,8 @@ const columns = [
       { href: `${prefix}/miao`, label: en ? "Overview" : "概览" },
       { href: `${prefix}/docs/miao/guide/`, label: en ? "Guide" : "使用指南" },
       {
-        href: `${prefix}/docs/miao/miao-vs-opencode/`,
-        label: en ? "Compared with opencode" : "与 opencode 对比",
+        href: `${prefix}/docs/miao/comparison/`,
+        label: en ? "Agent workflow comparison" : "代理工作流对比",
       },
       { href: "https://github.com/oxdingzg/miao/releases", label: en ? "Releases" : "版本发布" },
       { href: "https://github.com/oxdingzg/miao", label: "GitHub" },
@@ -78,14 +78,15 @@ const columns = [
           <p class="fork">
             {en ? (
               <>
-                miao is an independent fork of{" "}
-                <a href="https://github.com/anomalyco/opencode">opencode</a>, which is MIT
-                licensed. This site is not affiliated with or endorsed by that project.
+                miao includes MIT-licensed code from{" "}
+                <a href="https://github.com/anomalyco/opencode">opencode</a>. Thanks to its authors and contributors. See{" "}
+                <a href={`${prefix}/docs/miao/attribution/`}>origins and licensing</a>.
               </>
             ) : (
               <>
-                miao 是 <a href="https://github.com/anomalyco/opencode">opencode</a>{" "}
-                的独立分支，后者以 MIT 协议授权。本站与该上游项目无隶属关系，也未获其背书。
+                miao 包含来自 <a href="https://github.com/anomalyco/opencode">opencode</a>{" "}
+                的 MIT 授权代码，感谢其作者与贡献者。详见
+                <a href={`${prefix}/docs/miao/attribution/`}>项目来源与许可</a>。
               </>
             )}
           </p>
@@ -158,7 +159,7 @@ const columns = [
     color: var(--fg);
   }
 
-  /* miao's fork notice, shown on miao's own page only: fine print under the
+  /* miao's attribution notice, shown on miao's own page only: fine print under the
      contact line, divided like the baseline row. */
   .fork {
     margin: 20px 0 0;

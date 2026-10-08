@@ -5,7 +5,7 @@ sidebar:
 ---
 
 **如果你希望任务执行时还能补充要求、看清上下文和费用变化，并在终端里管理并行工作，miao
-值得试用。** 它延续 opencode 的开源编程工作流，把重点放在模型周围的执行、上下文和交互上。
+值得试用。** miao 把重点放在模型周围的执行、上下文和交互上。
 模型选择、MCP、LSP 与子代理不是 miao 独有；差异在于这些能力如何组合、哪些状态可见，以及
 失败时留下怎样的记录。
 
@@ -36,7 +36,7 @@ miao 显示逐轮用量、费用估算和缓存状态；大工具输出用有界
 主会话继续工作，随后读取报告或补充任务。项目内会话之间也能带权限约束地交换消息。
 
 不同会话是独立执行上下文，写同一文件仍可能冲突；后台任务属于窗口生命周期，不是常驻服务。
-见[后台子代理](https://github.com/oxdingzg/miao/blob/284be7f96491a33c873335363d25625e0f126c24/docs/background-subagents.md)与[运行时生命周期](https://github.com/oxdingzg/miao/blob/284be7f96491a33c873335363d25625e0f126c24/docs/runtime.md)。
+见[后台子代理](https://github.com/oxdingzg/miao/blob/598fb4c28fdf9a12b6390f059c574f0f59d059cd/docs/background-subagents.md)与[运行时生命周期](https://github.com/oxdingzg/miao/blob/598fb4c28fdf9a12b6390f059c574f0f59d059cd/docs/runtime.md)。
 
 ### 你在多个终端窗格里运行代理
 
@@ -102,10 +102,12 @@ miao 可以单独运行；在 mtty 中，它上报工作、等待输入、完成
 - [开源代理工作流对比](/zh/docs/miao/comparison/)
 - [提交问题或建议](https://github.com/oxdingzg/miao/issues)：附构建版本、配置、任务日志及预期/实际行为
 
-源码依据：[会话执行](https://github.com/oxdingzg/miao/blob/284be7f96491a33c873335363d25625e0f126c24/packages/core/src/session/runner/llm.ts)、[输入准入](https://github.com/oxdingzg/miao/blob/284be7f96491a33c873335363d25625e0f126c24/packages/core/src/session/input.ts)、
-[输出治理](https://github.com/oxdingzg/miao/blob/284be7f96491a33c873335363d25625e0f126c24/packages/core/src/tool-output-store.ts)、[压缩](https://github.com/oxdingzg/miao/blob/284be7f96491a33c873335363d25625e0f126c24/packages/core/src/session/compaction.ts)、
-[编辑恢复](https://github.com/oxdingzg/miao/blob/284be7f96491a33c873335363d25625e0f126c24/docs/edit-recovery.md)、[read/LSP](https://github.com/oxdingzg/miao/blob/284be7f96491a33c873335363d25625e0f126c24/packages/core/src/tool/read.ts)、[权限与隔离](/zh/docs/miao/security/)。
+源码依据：[会话执行](https://github.com/oxdingzg/miao/blob/598fb4c28fdf9a12b6390f059c574f0f59d059cd/packages/core/src/session/runner/llm.ts)、[输入准入](https://github.com/oxdingzg/miao/blob/598fb4c28fdf9a12b6390f059c574f0f59d059cd/packages/core/src/session/input.ts)、
+[输出治理](https://github.com/oxdingzg/miao/blob/598fb4c28fdf9a12b6390f059c574f0f59d059cd/packages/core/src/tool-output-store.ts)、[压缩](https://github.com/oxdingzg/miao/blob/598fb4c28fdf9a12b6390f059c574f0f59d059cd/packages/core/src/session/compaction.ts)、
+[编辑恢复](https://github.com/oxdingzg/miao/blob/598fb4c28fdf9a12b6390f059c574f0f59d059cd/docs/edit-recovery.md)、[read/LSP](https://github.com/oxdingzg/miao/blob/598fb4c28fdf9a12b6390f059c574f0f59d059cd/packages/core/src/tool/read.ts)、[权限与隔离](/zh/docs/miao/security/)。
+
+项目来源与许可说明见[项目来源与许可](/zh/docs/miao/attribution/)。
 
 ---
 
-*Synced from [`oxdingzg/miao@284be7f`](https://github.com/oxdingzg/miao/blob/284be7f96491a33c873335363d25625e0f126c24/docs/why-miao.zh.md).*
+*Synced from [`oxdingzg/miao@598fb4c`](https://github.com/oxdingzg/miao/blob/598fb4c28fdf9a12b6390f059c574f0f59d059cd/docs/why-miao.zh.md).*

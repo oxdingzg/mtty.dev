@@ -19,10 +19,13 @@ state the changes you made, and not use the project's name as an endorsement.
 ## miao — MIT
 
 miao is MIT licensed. It is a derivative of
-[opencode](https://github.com/anomalyco/opencode), also MIT, and its
+[opencode](https://github.com/anomalyco/opencode) and includes a substantial amount of its
+MIT-licensed code. Its
 [`LICENSE`](https://github.com/oxdingzg/miao/blob/main/LICENSE) carries **both**
 copyright lines — the miao authors' 2026 and opencode's 2025 — because MIT
-requires the upstream notice to travel with every copy.
+requires the copyright and permission notices with copies or substantial
+portions of the software. See [project origins and licensing](/docs/miao/attribution/)
+for acknowledgements and the maintenance relationship.
 
 ## What is inside them
 

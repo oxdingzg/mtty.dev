@@ -6,7 +6,7 @@ sidebar:
 ---
 
 miao 是面向终端的开源 AI 编程代理。它会探索代码仓库、编辑代码、执行命令并自查结果，使用的模型由
-你选择。它基于 [opencode](https://github.com/anomalyco/opencode)，把功夫花在模型周围:持久化
+你选择。它把重点放在模型周围的工程能力：持久化
 会话、上下文效率、任务委派，以及每一轮都看得见的花费。
 
 ```sh
@@ -25,5 +25,11 @@ curl -fsSL https://mtty.dev/miao/install | bash
 | [参与贡献](/zh/docs/miao/contributing/) | 报告问题与提交改动 |
 | [安全](/zh/docs/miao/security/) | 如何报告漏洞 |
 
-源码、问题与发布:[oxdingzg/miao](https://github.com/oxdingzg/miao)。miao 以 MIT 协议授权，
-本站与该上游 [opencode](https://github.com/anomalyco/opencode) 项目无隶属关系，也未获其背书。
+源码、问题与发布：[oxdingzg/miao](https://github.com/oxdingzg/miao)。
+
+## 来源与许可
+
+miao 衍生自 [opencode](https://github.com/anomalyco/opencode)，项目中相当一部分代码来自其 MIT 授权实现。
+感谢其作者与贡献者。miao 有自己的维护和发布；代码来源关系不代表隶属关系或获得背书。
+
+保留的版权声明与再分发条款见[项目来源与许可](/zh/docs/miao/attribution/)。
