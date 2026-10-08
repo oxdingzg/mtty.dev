@@ -47,7 +47,7 @@ or send follow-up work. Project peers can also exchange permission-scoped messag
 
 Sessions have separate execution contexts; shared-file writes can still
 conflict. Background work belongs to its window, not a persistent daemon.
-See [background subagents](https://github.com/oxdingzg/miao/blob/598fb4c28fdf9a12b6390f059c574f0f59d059cd/docs/background-subagents.md) and [Runtime lifecycle](https://github.com/oxdingzg/miao/blob/598fb4c28fdf9a12b6390f059c574f0f59d059cd/docs/runtime.md).
+See [background subagents](https://github.com/oxdingzg/miao/blob/aac2e8ab8ae050e5883b2ccb7d31ec0f4b23242a/docs/background-subagents.md) and [Runtime lifecycle](https://github.com/oxdingzg/miao/blob/aac2e8ab8ae050e5883b2ccb7d31ec0f4b23242a/docs/runtime.md).
 
 ### You run agents in several terminal panes
 
@@ -123,14 +123,14 @@ and actual usage.
 - [Open-source agent comparison](/docs/miao/comparison/)
 - [Report an issue or suggestion](https://github.com/oxdingzg/miao/issues): include build version, configuration, task logs and expected/observed behavior
 
-Implementation references: [execution](https://github.com/oxdingzg/miao/blob/598fb4c28fdf9a12b6390f059c574f0f59d059cd/packages/core/src/session/runner/llm.ts),
-[input admission](https://github.com/oxdingzg/miao/blob/598fb4c28fdf9a12b6390f059c574f0f59d059cd/packages/core/src/session/input.ts),
-[output governance](https://github.com/oxdingzg/miao/blob/598fb4c28fdf9a12b6390f059c574f0f59d059cd/packages/core/src/tool-output-store.ts),
-[compaction](https://github.com/oxdingzg/miao/blob/598fb4c28fdf9a12b6390f059c574f0f59d059cd/packages/core/src/session/compaction.ts), [edit recovery](https://github.com/oxdingzg/miao/blob/598fb4c28fdf9a12b6390f059c574f0f59d059cd/docs/edit-recovery.md),
-[read/LSP](https://github.com/oxdingzg/miao/blob/598fb4c28fdf9a12b6390f059c574f0f59d059cd/packages/core/src/tool/read.ts), and [permissions/isolation](/docs/miao/security/).
+Implementation references: [execution](https://github.com/oxdingzg/miao/blob/aac2e8ab8ae050e5883b2ccb7d31ec0f4b23242a/packages/core/src/session/runner/llm.ts),
+[input admission](https://github.com/oxdingzg/miao/blob/aac2e8ab8ae050e5883b2ccb7d31ec0f4b23242a/packages/core/src/session/input.ts),
+[output governance](https://github.com/oxdingzg/miao/blob/aac2e8ab8ae050e5883b2ccb7d31ec0f4b23242a/packages/core/src/tool-output-store.ts),
+[compaction](https://github.com/oxdingzg/miao/blob/aac2e8ab8ae050e5883b2ccb7d31ec0f4b23242a/packages/core/src/session/compaction.ts), [edit recovery](https://github.com/oxdingzg/miao/blob/aac2e8ab8ae050e5883b2ccb7d31ec0f4b23242a/docs/edit-recovery.md),
+[read/LSP](https://github.com/oxdingzg/miao/blob/aac2e8ab8ae050e5883b2ccb7d31ec0f4b23242a/packages/core/src/tool/read.ts), and [permissions/isolation](/docs/miao/security/).
 
 For source attribution and licensing, see [project origins and licensing](/docs/miao/attribution/).
 
 ---
 
-*Synced from [`oxdingzg/miao@598fb4c`](https://github.com/oxdingzg/miao/blob/598fb4c28fdf9a12b6390f059c574f0f59d059cd/docs/why-miao.en.md).*
+*Synced from [`oxdingzg/miao@aac2e8a`](https://github.com/oxdingzg/miao/blob/aac2e8ab8ae050e5883b2ccb7d31ec0f4b23242a/docs/why-miao.en.md).*

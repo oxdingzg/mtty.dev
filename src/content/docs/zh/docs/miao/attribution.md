@@ -15,7 +15,7 @@ miao 的问题反馈与版本下载请使用 [oxdingzg/miao](https://github.com/
 
 ## 许可与再分发
 
-miao 以 [MIT 许可证](https://github.com/oxdingzg/miao/blob/598fb4c28fdf9a12b6390f059c574f0f59d059cd/LICENSE) 发布，许可证文件保留两条版权声明：
+miao 以 [MIT 许可证](https://github.com/oxdingzg/miao/blob/aac2e8ab8ae050e5883b2ccb7d31ec0f4b23242a/LICENSE) 发布，许可证文件保留两条版权声明：
 
 ```text
 Copyright (c) 2026 the miao authors
@@ -36,4 +36,4 @@ OpenCode Zen 与 Go 是可选的第三方供应商，其名称、ID 和端点标
 
 ---
 
-*Synced from [`oxdingzg/miao@598fb4c`](https://github.com/oxdingzg/miao/blob/598fb4c28fdf9a12b6390f059c574f0f59d059cd/docs/attribution.zh.md).*
+*Synced from [`oxdingzg/miao@aac2e8a`](https://github.com/oxdingzg/miao/blob/aac2e8ab8ae050e5883b2ccb7d31ec0f4b23242a/docs/attribution.zh.md).*

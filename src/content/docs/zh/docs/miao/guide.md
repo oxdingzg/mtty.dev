@@ -12,7 +12,7 @@ miao 尚处于 pre-1.0、活跃开发中，CLI 与配置可能随版本变化。
 
 miao 是一个开源编程代理，提供终端界面、HTTP 服务与浏览器界面。它把重点放在模型调用周围的工作上：持久化会话、上下文效率、代理协作和可观察的成本。
 
-用它理解仓库、实现改动、排查测试失败，或委派专项调研。连接你偏好的供应商，配置项目工具，并在任务变化时继续补充要求。miao 支持模型选择与 MCP；miao 的运行时建设与可用范围见 [产品概览](https://github.com/oxdingzg/miao/blob/598fb4c28fdf9a12b6390f059c574f0f59d059cd/README.zh.md) 和 [工作流对比](/zh/docs/miao/comparison/)。
+用它理解仓库、实现改动、排查测试失败，或委派专项调研。连接你偏好的供应商，配置项目工具，并在任务变化时继续补充要求。miao 支持模型选择与 MCP；miao 的运行时建设与可用范围见 [产品概览](https://github.com/oxdingzg/miao/blob/aac2e8ab8ae050e5883b2ccb7d31ec0f4b23242a/README.zh.md) 和 [工作流对比](/zh/docs/miao/comparison/)。
 
 第一次可以这样提需求：「找到这个错误的原因，做出适当的最小修复，运行相关检查，再解释代码差异。」执行过程中继续补充约束，无需另开对话。
 
@@ -225,9 +225,9 @@ V2 `list_sessions` 可发现同项目会话，`send_message` 接受会话 ID 或
 
 所有已发布客户端都使用单一 V2 会话运行时；V1 会话运行时及其 `/session/*` 路由已删除。
 
-- [V1 退役计划](https://github.com/oxdingzg/miao/blob/598fb4c28fdf9a12b6390f059c574f0f59d059cd/specs/v2/v1-retirement.md) 记录了删除过程和剩余兼容面（数据库迁移与非会话旧路由）。
-- [会话存储设计](https://github.com/oxdingzg/miao/blob/598fb4c28fdf9a12b6390f059c574f0f59d059cd/specs/storage/session-storage-hardening.md) 记录存储方案。可用 `miao db stats`、`miao db vacuum` 和 JSONL 导出检查、维护本地记录。
-- [代理并发](https://github.com/oxdingzg/miao/blob/598fb4c28fdf9a12b6390f059c574f0f59d059cd/specs/v2/agent-concurrency.md) 设计非阻塞子代理与完成即唤醒，避免长任务卡住会话。
+- [V1 退役计划](https://github.com/oxdingzg/miao/blob/aac2e8ab8ae050e5883b2ccb7d31ec0f4b23242a/specs/v2/v1-retirement.md) 记录了删除过程和剩余兼容面（数据库迁移与非会话旧路由）。
+- [会话存储设计](https://github.com/oxdingzg/miao/blob/aac2e8ab8ae050e5883b2ccb7d31ec0f4b23242a/specs/storage/session-storage-hardening.md) 记录存储方案。可用 `miao db stats`、`miao db vacuum` 和 JSONL 导出检查、维护本地记录。
+- [代理并发](https://github.com/oxdingzg/miao/blob/aac2e8ab8ae050e5883b2ccb7d31ec0f4b23242a/specs/v2/agent-concurrency.md) 设计非阻塞子代理与完成即唤醒，避免长任务卡住会话。
 - 崩溃后自动执行恢复与集群所有权尚未实现。OS 沙箱已内置于 V2 `bash` 工具但仍需开启，见 [原生组件与沙箱范围](/zh/docs/miao/native-benchmarks/)。
 
 ## 7. 常见问题（FAQ）
@@ -285,8 +285,8 @@ bun --cwd packages/miao test
 
 ## 许可证
 
-MIT，详见 [LICENSE](https://github.com/oxdingzg/miao/blob/598fb4c28fdf9a12b6390f059c574f0f59d059cd/LICENSE) 与[项目来源与许可](/zh/docs/miao/attribution/)。
+MIT，详见 [LICENSE](https://github.com/oxdingzg/miao/blob/aac2e8ab8ae050e5883b2ccb7d31ec0f4b23242a/LICENSE) 与[项目来源与许可](/zh/docs/miao/attribution/)。
 
 ---
 
-*Synced from [`oxdingzg/miao@598fb4c`](https://github.com/oxdingzg/miao/blob/598fb4c28fdf9a12b6390f059c574f0f59d059cd/docs/guide.zh.md).*
+*Synced from [`oxdingzg/miao@aac2e8a`](https://github.com/oxdingzg/miao/blob/aac2e8ab8ae050e5883b2ccb7d31ec0f4b23242a/docs/guide.zh.md).*
