@@ -5,9 +5,10 @@ sidebar:
 ---
 
 一个 pane 的标签标题、图标与徽章由 *View 规则引擎* 从上下文推导
-(设计见 [ADR 0007](https://github.com/oxdingzg/mtty/blob/d64b052e75f291bd44298029c323d6a325a80fa6/docs/decisions/0007-view-rule-engine.zh-CN.md))。规则存放于
+(设计见 [ADR 0007](https://github.com/oxdingzg/mtty/blob/fdf3e2b99b6077c979c218e152b262a3d13a82fd/docs/decisions/0007-view-rule-engine.zh-CN.md))。规则存放于
 `~/.config/mtty/views.json`(JSON)。文件修改后 mtty 会自动重新加载,下一次有操作时
-几秒内生效;应用内的规则编辑器尚未提供。
+几秒内生效;应用内的规则编辑器尚未提供。首次启动时若文件不存在,mtty 会生成一个
+空规则集的默认文件,方便直接编辑。
 
 ```jsonc
 {
@@ -54,9 +55,9 @@ emoji、再到纯色圆点。内置名称:
 `user`、`home`、`bell`、`layers`、`claude`。
 
 ## 回退
-没有命中规则也没有项目时,标签显示工作目录的目录名,其次为程序的 OSC 标题。
+没有命中规则也没有项目时,标签显示程序的 OSC 标题,其次为工作目录的目录名。
 `views.json` 缺失或格式错误时退化为同样的回退,而不会导致启动失败。
 
 ---
 
-*Synced from [`oxdingzg/mtty@d64b052`](https://github.com/oxdingzg/mtty/blob/d64b052e75f291bd44298029c323d6a325a80fa6/docs/VIEW-RULES.zh-CN.md).*
+*Synced from [`oxdingzg/mtty@fdf3e2b`](https://github.com/oxdingzg/mtty/blob/fdf3e2b99b6077c979c218e152b262a3d13a82fd/docs/VIEW-RULES.zh-CN.md).*
