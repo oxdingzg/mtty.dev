@@ -9315,7 +9315,7 @@
               }
             }
           ],
-          "description": "Interrupt current session"
+          "description": "Cancel newest waiting prompt, or interrupt"
         },
         "session_background": {
           "anyOf": [

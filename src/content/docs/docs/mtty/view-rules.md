@@ -5,7 +5,7 @@ sidebar:
 ---
 
 A pane's tab title, icon and badge are derived from its context by the *view
-rule engine* (design: [ADR 0007](https://github.com/oxdingzg/mtty/blob/fdf3e2b99b6077c979c218e152b262a3d13a82fd/docs/decisions/0007-view-rule-engine.md)). Rules
+rule engine* (design: [ADR 0007](https://github.com/oxdingzg/mtty/blob/d00d70c08e18b7b4920b736f5196ba1d715b6c4e/docs/decisions/0007-view-rule-engine.md)). Rules
 live in `~/.config/mtty/views.json` (JSON). mtty reloads the file when it
 changes, so an edit shows within a couple of seconds of the next activity; an
 in-app rule editor is not available yet. A fresh install seeds this file with
@@ -62,10 +62,12 @@ names:
 `user`, `home`, `bell`, `layers`, `claude`.
 
 ## Fallback
-With no matching rule and no project, the tab shows the program's OSC title,
-then the working-directory folder name. A missing or malformed
-`views.json` degrades to that same fallback rather than failing startup.
+When no rule template or rule alias pins the title, the tab shows the
+program's live OSC title; a project alias is only the fallback for panes whose
+program reports none, then the working-directory folder name. A missing or
+malformed `views.json` degrades to that same fallback rather than failing
+startup.
 
 ---
 
-*Synced from [`oxdingzg/mtty@fdf3e2b`](https://github.com/oxdingzg/mtty/blob/fdf3e2b99b6077c979c218e152b262a3d13a82fd/docs/VIEW-RULES.md).*
+*Synced from [`oxdingzg/mtty@d00d70c`](https://github.com/oxdingzg/mtty/blob/d00d70c08e18b7b4920b736f5196ba1d715b6c4e/docs/VIEW-RULES.md).*

@@ -75,15 +75,23 @@ ends in `⋯`, and up/down skip hidden lines. `⌥⌘[` / `⌥⌘]` fold and unf
 *Fold All*, *Unfold All* and *Toggle Fold* are in the palette. `⌘R` opens a
 filterable **outline** of the file's definitions, nested by depth.
 
-## Markdown preview
+## Markdown editing
 
-A local Markdown file opens with a preview pane to its right that follows
-typing. The renderer covers headings, lists, quotes, tables, code and links,
-resolves relative images against the document's folder, and renders Mermaid
+Markdown files open in one writing pane. Blocks render in place; click a block
+to edit its Markdown source at that position. **Source** shows the complete
+source in the same pane. **Undo**, **Redo**, and `⌘S`/`Ctrl+S` use the original
+rope-backed document and saving/history path, including external reloads.
+
+The renderer covers headings, lists, quotes, tables, code and links, resolves
+relative images against the document's folder, and renders Mermaid
 `graph`/`flowchart`, `sequenceDiagram`, `stateDiagram`, `classDiagram`,
-`erDiagram` and `pie`. Set `mermaid-command` to shell out to `mermaid-cli` for
-full Mermaid. Toggle the preview with *Toggle Markdown Preview* in the palette
-and the View menu; it closes with its editor and is kept in a saved session.
+`erDiagram` and `pie`. Set `mermaid-command` to use `mermaid-cli` for full
+Mermaid. *Toggle Markdown Preview* remains available for an optional separate
+preview pane; it closes with its editor and is kept in a saved session.
+
+This is block-level live editing. Inline token-level source reveal, advanced
+table controls, and the remaining writing features are tracked in the
+[Markdown roadmap](https://github.com/oxdingzg/mtty/issues/94).
 
 ## Language servers
 
@@ -125,4 +133,4 @@ before saving a locally modified buffer.
 
 ---
 
-*Synced from [`oxdingzg/mtty@d64b052`](https://github.com/oxdingzg/mtty/blob/d64b052e75f291bd44298029c323d6a325a80fa6/docs/EDITOR.md).*
+*Synced from [`oxdingzg/mtty@d00d70c`](https://github.com/oxdingzg/mtty/blob/d00d70c08e18b7b4920b736f5196ba1d715b6c4e/docs/EDITOR.md).*
