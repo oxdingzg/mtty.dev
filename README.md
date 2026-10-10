@@ -4,7 +4,7 @@ Source for **[mtty.dev](https://mtty.dev)**, the site that documents two product
 
 | Product | What it is | Repository |
 | --- | --- | --- |
-| **miao** | An open-source AI coding agent for the terminal | [oxdingzg/miao](https://github.com/oxdingzg/miao) |
+| **miao** | An open-source AI agent for the terminal | [oxdingzg/miao](https://github.com/oxdingzg/miao) |
 | **mtty** | An AI-native terminal and editor for local and remote work, written in Rust | [oxdingzg/mtty](https://github.com/oxdingzg/mtty) |
 
 The two are separate projects; each works without the other. Inside an mtty pane, miao

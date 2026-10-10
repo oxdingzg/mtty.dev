@@ -1,13 +1,14 @@
 ---
 title: miao
-description: miao 的文档，它是一个面向终端的 AI 编程代理。
+description: miao 的文档，它是一个面向终端的 AI 智能体。
 sidebar:
   order: 0
 ---
 
-miao 是面向终端的开源 AI 编程代理。它会探索代码仓库、编辑代码、执行命令并自查结果，使用的模型由
-你选择。它把重点放在模型周围的工程能力：持久化
+miao 是面向终端的开源 AI 智能体。它帮助你编写代码、开展调研、管理文件和自动化任务，使用的模型由你选择。它把重点放在模型周围的工程能力：持久化
 会话、上下文效率、任务委派，以及每一轮都看得见的花费。
+
+搭配 [mtty](https://github.com/oxdingzg/mtty) 使用，可获得窗格级智能体状态、等待输入通知和提示排队。
 
 ```sh
 curl -fsSL https://mtty.dev/miao/install | bash

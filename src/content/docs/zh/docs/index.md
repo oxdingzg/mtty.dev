@@ -1,6 +1,6 @@
 ---
 title: 文档
-description: mtty（AI 原生终端与编辑器）与 miao（AI 编程代理）的用户文档。
+description: mtty（AI 原生终端与编辑器）与 miao（AI 智能体）的用户文档。
 ---
 
 两个开源工具，文档都在这里。使用教程由 `bun run sync:docs` 从对应产品仓库同步而来，并标注
@@ -27,9 +27,9 @@ macOS · Linux `.deb`/AppImage · Windows MSI · 预发布
 | [排障](/zh/docs/mtty/troubleshooting/) | 构建失败、配置路径、shell 集成、`mtty-cli` |
 | [安全](/zh/docs/mtty/security/) | 控制面的边界，以及如何报告漏洞 |
 
-## miao —— 面向终端的 AI 编程代理
+## miao —— 面向终端的 AI 智能体
 
-开源编程代理:理解仓库、修改代码、执行命令并自查结果，模型由你选 —— 每一轮的花费也看得见。
+开源 AI 智能体:编写代码、开展调研、管理文件和自动化任务，模型由你选 —— 每一轮的花费也看得见。
 
 ```sh
 curl -fsSL https://mtty.dev/miao/install | bash
