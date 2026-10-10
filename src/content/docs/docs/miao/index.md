@@ -1,14 +1,14 @@
 ---
 title: miao
-description: Documentation for miao, an AI coding agent for the terminal.
+description: Documentation for miao, an AI agent for the terminal.
 sidebar:
   order: 0
 ---
 
-miao is an open-source AI coding agent for the terminal. It explores a
-repository, edits code, runs commands and checks its own work, using the models
-you choose. It focuses on the engineering around the model: durable sessions, context efficiency, delegation
+miao is an open-source AI agent for the terminal. It helps you write code, research topics, manage files and automate tasks, using the models you choose. It focuses on the engineering around the model: durable sessions, context efficiency, delegation
 and a visible cost per turn.
+
+Run it inside [mtty](https://github.com/oxdingzg/mtty) for per-pane agent status, input notifications and queued prompts.
 
 ```sh
 curl -fsSL https://mtty.dev/miao/install | bash

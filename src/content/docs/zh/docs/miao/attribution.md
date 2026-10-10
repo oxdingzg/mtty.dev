@@ -6,7 +6,7 @@ sidebar:
 
 ## 来源与致谢
 
-miao 是衍生自 [opencode](https://github.com/anomalyco/opencode) 的开源 AI 编程代理。
+miao 是衍生自 [opencode](https://github.com/anomalyco/opencode) 的开源 AI 智能体。
 代码库中相当一部分来自 opencode 的 MIT 授权实现。感谢其作者与贡献者提供的终端编程工作流和工程基础。
 
 miao 作为单独的项目维护，有自己的开发方向、问题追踪和发布版本。
@@ -15,7 +15,7 @@ miao 的问题反馈与版本下载请使用 [oxdingzg/miao](https://github.com/
 
 ## 许可与再分发
 
-miao 以 [MIT 许可证](https://github.com/oxdingzg/miao/blob/aac2e8ab8ae050e5883b2ccb7d31ec0f4b23242a/LICENSE) 发布，许可证文件保留两条版权声明：
+miao 以 [MIT 许可证](https://github.com/oxdingzg/miao/blob/269692d9f9fd1108c2af553997c7937c03d89dc7/LICENSE) 发布，许可证文件保留两条版权声明：
 
 ```text
 Copyright (c) 2026 the miao authors
@@ -36,4 +36,4 @@ OpenCode Zen 与 Go 是可选的第三方供应商，其名称、ID 和端点标
 
 ---
 
-*Synced from [`oxdingzg/miao@aac2e8a`](https://github.com/oxdingzg/miao/blob/aac2e8ab8ae050e5883b2ccb7d31ec0f4b23242a/docs/attribution.zh.md).*
+*Synced from [`oxdingzg/miao@269692d`](https://github.com/oxdingzg/miao/blob/269692d9f9fd1108c2af553997c7937c03d89dc7/docs/attribution.zh.md).*

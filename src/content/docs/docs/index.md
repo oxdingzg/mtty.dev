@@ -1,6 +1,6 @@
 ---
 title: Documentation
-description: User documentation for mtty, an AI-native terminal and editor, and miao, an AI coding agent.
+description: User documentation for mtty, an AI-native terminal and editor, and miao, an AI agent.
 ---
 
 Two open-source tools, documented here. The user guides are synced
@@ -29,10 +29,10 @@ macOS · Linux `.deb`/AppImage · Windows MSI · pre-release
 | [Troubleshooting](/docs/mtty/troubleshooting/) | Build failures, config paths, shell integration, `mtty-cli` |
 | [Security](/docs/mtty/security/) | The control plane's boundary, and how to report a vulnerability |
 
-## miao — an AI coding agent for the terminal
+## miao — an AI agent for the terminal
 
-An open-source coding agent that explores a repository, edits code, runs
-commands and checks its own work, using the models you choose — with the cost of
+An open-source AI agent that helps you write code, research topics, manage files
+and automate tasks, using the models you choose — with the cost of
 every turn in view.
 
 ```sh

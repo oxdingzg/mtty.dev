@@ -6,7 +6,7 @@ sidebar:
 
 ## Origins and acknowledgements
 
-miao is an open-source AI coding agent derived from
+miao is an open-source AI agent derived from
 [opencode](https://github.com/anomalyco/opencode). A substantial part of the
 codebase comes from opencode's MIT-licensed implementation. We thank its authors
 and contributors for the terminal coding workflow and engineering foundation.
@@ -18,7 +18,7 @@ use [oxdingzg/miao](https://github.com/oxdingzg/miao).
 
 ## License and redistribution
 
-miao is distributed under the [MIT License](https://github.com/oxdingzg/miao/blob/aac2e8ab8ae050e5883b2ccb7d31ec0f4b23242a/LICENSE). The license file keeps
+miao is distributed under the [MIT License](https://github.com/oxdingzg/miao/blob/269692d9f9fd1108c2af553997c7937c03d89dc7/LICENSE). The license file keeps
 both copyright notices:
 
 ```text
@@ -46,4 +46,4 @@ licensing relationship. See [providers and models](/docs/miao/providers/) and th
 
 ---
 
-*Synced from [`oxdingzg/miao@aac2e8a`](https://github.com/oxdingzg/miao/blob/aac2e8ab8ae050e5883b2ccb7d31ec0f4b23242a/docs/attribution.en.md).*
+*Synced from [`oxdingzg/miao@269692d`](https://github.com/oxdingzg/miao/blob/269692d9f9fd1108c2af553997c7937c03d89dc7/docs/attribution.en.md).*

@@ -11,9 +11,9 @@ releases. This guide covers install, usage, and troubleshooting end to end.
 
 ## 1. What miao helps you do
 
-miao is an open-source coding agent with a terminal UI, HTTP server, and browser interface. It focuses on the work around model calls: durable sessions, context efficiency, collaboration, and visible cost.
+miao is an open-source AI agent that works with you in the terminal, with an HTTP server and browser interface as well. It helps you write code, research topics, manage files, and automate tasks. It focuses on the work around model calls: durable sessions, context efficiency, collaboration, and visible cost.
 
-Use it to explore a repository, implement a change, investigate a failing test, or delegate focused research. Connect the providers you prefer, configure project tools, and continue the conversation as the task evolves. Model selection and MCP are part of the workflow; miao's runtime work is described in the [overview](https://github.com/oxdingzg/miao/blob/aac2e8ab8ae050e5883b2ccb7d31ec0f4b23242a/README.md) and [workflow comparison](/docs/miao/comparison/).
+Use it to explore a repository, implement a change, investigate a failing test, or delegate focused research. Connect the providers you prefer, configure project tools, and continue the conversation as the task evolves. Model selection and MCP are part of the workflow; miao's runtime work is described in the [overview](https://github.com/oxdingzg/miao/blob/afd1d654c8155dc32c5045ab07b5e1751ae4ad1b/README.md) and [workflow comparison](/docs/miao/comparison/).
 
 A useful first task is: “Find the cause of this failure, make the smallest appropriate fix, run the relevant checks, and explain the diff.” Add constraints while the agent works rather than starting a second conversation.
 
@@ -234,9 +234,9 @@ Content that a compaction removed from the model window stays durable on disk. T
 
 All shipped clients use the single V2 session runtime; the V1 session runtime and its `/session/*` routes have been removed.
 
-- [V1 retirement](https://github.com/oxdingzg/miao/blob/aac2e8ab8ae050e5883b2ccb7d31ec0f4b23242a/specs/v2/v1-retirement.md) records the removal and the remaining compatibility surfaces (database migration and non-session legacy routes).
-- [Session storage](https://github.com/oxdingzg/miao/blob/aac2e8ab8ae050e5883b2ccb7d31ec0f4b23242a/specs/storage/session-storage-hardening.md) tracks storage design. Use `miao db stats`, `miao db vacuum`, and JSONL exports to inspect and maintain local records.
-- [Agent concurrency](https://github.com/oxdingzg/miao/blob/aac2e8ab8ae050e5883b2ccb7d31ec0f4b23242a/specs/v2/agent-concurrency.md) designs non-blocking subagents and wake-on-completion so long-running work does not stall a Session.
+- [V1 retirement](https://github.com/oxdingzg/miao/blob/afd1d654c8155dc32c5045ab07b5e1751ae4ad1b/specs/v2/v1-retirement.md) records the removal and the remaining compatibility surfaces (database migration and non-session legacy routes).
+- [Session storage](https://github.com/oxdingzg/miao/blob/afd1d654c8155dc32c5045ab07b5e1751ae4ad1b/specs/storage/session-storage-hardening.md) tracks storage design. Use `miao db stats`, `miao db vacuum`, and JSONL exports to inspect and maintain local records.
+- [Agent concurrency](https://github.com/oxdingzg/miao/blob/afd1d654c8155dc32c5045ab07b5e1751ae4ad1b/specs/v2/agent-concurrency.md) designs non-blocking subagents and wake-on-completion so long-running work does not stall a Session.
 - Automatic post-crash execution continuation and clustered ownership are not implemented. The OS sandbox is built into the V2 `bash` tool but remains opt-in; see the [native/sandbox scope](/docs/miao/native-benchmarks/).
 
 ## 7. FAQ
@@ -303,8 +303,8 @@ bun --cwd packages/miao test
 
 ## License
 
-MIT. See [LICENSE](https://github.com/oxdingzg/miao/blob/aac2e8ab8ae050e5883b2ccb7d31ec0f4b23242a/LICENSE) and [project origins and licensing](/docs/miao/attribution/).
+MIT. See [LICENSE](https://github.com/oxdingzg/miao/blob/afd1d654c8155dc32c5045ab07b5e1751ae4ad1b/LICENSE) and [project origins and licensing](/docs/miao/attribution/).
 
 ---
 
-*Synced from [`oxdingzg/miao@aac2e8a`](https://github.com/oxdingzg/miao/blob/aac2e8ab8ae050e5883b2ccb7d31ec0f4b23242a/docs/guide.en.md).*
+*Synced from [`oxdingzg/miao@afd1d65`](https://github.com/oxdingzg/miao/blob/afd1d654c8155dc32c5045ab07b5e1751ae4ad1b/docs/guide.en.md).*
