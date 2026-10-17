@@ -48,9 +48,13 @@ mtty 把真正的编辑器放在终端旁边，共用同一批标签页和分屏
 
 折叠来自语法树（任何跨多行的具名节点），没有语法时按缩进。装订线显示 `▸`/`▾`，折叠的标题以 `⋯` 结尾，上下移动会跳过隐藏行。`⌥⌘[` / `⌥⌘]` 折叠与展开；*Fold All*、*Unfold All*、*Toggle Fold* 在命令面板里。`⌘R` 打开可过滤的**大纲**，按深度嵌套显示文件中的定义。
 
-## Markdown 预览
+## Markdown 编辑
 
-本地 Markdown 文件会在右侧打开一个跟随输入的预览窗格。渲染器覆盖标题、列表、引用、表格、代码和链接，相对图片按文档所在目录解析，并渲染 Mermaid 的 `graph`/`flowchart`、`sequenceDiagram`、`stateDiagram`、`classDiagram`、`erDiagram` 和 `pie`。设 `mermaid-command` 可调用 `mermaid-cli` 获得完整 Mermaid。用命令面板和 View 菜单里的 *Toggle Markdown Preview* 开关预览；预览随编辑器一起关闭，并保留在保存的会话中。
+Markdown 文件默认在一个写作窗格中打开。内容块原地渲染，点击某块即可在原位置编辑它的 Markdown 源码；**Source / 源码** 在同一窗格显示完整源码。**撤销**、**重做**及 `⌘S`/`Ctrl+S` 使用原来的 rope 文档、保存和历史链路，也能接收外部重载。
+
+渲染器覆盖标题、列表、引用、表格、代码和链接，相对图片按文档所在目录解析，并渲染 Mermaid 的 `graph`/`flowchart`、`sequenceDiagram`、`stateDiagram`、`classDiagram`、`erDiagram` 和 `pie`。设 `mermaid-command` 可调用 `mermaid-cli` 获得完整 Mermaid。*Toggle Markdown Preview* 仍可额外打开独立预览窗格；预览随编辑器关闭，并保留在保存的会话中。
+
+本次实现的是块级原地编辑。逐 token 显示源码、高级表格交互及其他写作功能继续由 [Markdown 路线图](https://github.com/oxdingzg/mtty/issues/94) 跟踪。
 
 ## 语言服务器
 
@@ -64,9 +68,12 @@ mtty 把真正的编辑器放在终端旁边，共用同一批标签页和分屏
 Close Others/Below 或退出前都会询问。本地文件变化时，干净窗格会作为一次可撤销事务重载；
 有未保存修改则询问重载还是保留本地版本；本地文件被删除会报告一次。
 
-远程保存通过 SSH 的 `cat > path` 流式写入，不是原子文件替换。远程窗格会轮询外部变化，
-仅在没有未保存修改时重载；有本地改动时保留它们，不弹出重载询问。远程探测或读取失败不会
-替换缓冲区。保存已修改的远程缓冲区前，请先确认远端变化。
+远程保存会先比较上次加载或成功保存的原始字节，再通过同目录临时文件替换目标，保留权限并
+跟随符号链接；传输失败不会截断原文件。远端已变化时，冲突窗口保留本地编辑并展示两份内容，
+可继续编辑、加载远程版本，或用本地内容替换已审阅版本；替换前会再次检查该版本。
+这是乐观并发检查，并非针对外部写入者的原子比较交换。远程窗格也会轮询变化：干净缓冲区
+重载，有修改时提供冲突审阅。探测或读取失败不会替换缓冲区。超过 2 MiB 的远程文件会被拒绝，
+避免打开截断后的可编辑文件。
 
 ## 配置与快捷键
 
@@ -81,4 +88,4 @@ Close Others/Below 或退出前都会询问。本地文件变化时，干净窗�
 
 ---
 
-*Synced from [`oxdingzg/mtty@d64b052`](https://github.com/oxdingzg/mtty/blob/d64b052e75f291bd44298029c323d6a325a80fa6/docs/EDITOR.zh-CN.md).*
+*Synced from [`oxdingzg/mtty@cd5902b`](https://github.com/oxdingzg/mtty/blob/cd5902bee22cd37e2aaf2ae257241a774c05933b/docs/EDITOR.zh-CN.md).*

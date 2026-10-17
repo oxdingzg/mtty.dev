@@ -5,7 +5,7 @@ sidebar:
 ---
 
 mtty(原名 miaotty)是原生 winit/wgpu 应用，只提供一个 GUI 主程序和一个 CLI。
-命名与迁移见 [APP-IDENTITY.zh-CN.md](https://github.com/oxdingzg/mtty/blob/d64b052e75f291bd44298029c323d6a325a80fa6/docs/APP-IDENTITY.zh-CN.md)。
+命名与迁移见 [APP-IDENTITY.zh-CN.md](https://github.com/oxdingzg/mtty/blob/cd5902bee22cd37e2aaf2ae257241a774c05933b/docs/APP-IDENTITY.zh-CN.md)。
 
 ## 安装发布版
 
@@ -47,14 +47,15 @@ python3 scripts/smoke-hosts.py --bundle dist/mtty.app
 bash scripts/install-macos.sh
 ```
 
-只生成一个 ad-hoc 签名的 `dist/mtty.app`，包内有 `mtty`、`mtty-cli`、图标及 URL schemes。
+只生成一个 `dist/mtty.app`，包内有 `mtty`、`mtty-cli`、图标及 URL schemes;存在本地签名身份
+时用它签名(`Apple Development`,或 `MTTY_CODESIGN_IDENTITY`),否则退回 ad-hoc。
 安装时压缩备份身份匹配的旧应用，安装 mtty 并移除旧 native 入口，保留用户配置。
 `PROFILE=debug scripts/package-macos.sh` 可生成开发包。
 安装的 app 使用 macOS 系统菜单栏；裸跑二进制使用窗口内菜单。
 
 ## 发布包
 
-[release.yml](https://github.com/oxdingzg/mtty/blob/d64b052e75f291bd44298029c323d6a325a80fa6/.github/workflows/release.yml) 要求 Apple Silicon macOS、Intel macOS、
+[release.yml](https://github.com/oxdingzg/mtty/blob/cd5902bee22cd37e2aaf2ae257241a774c05933b/.github/workflows/release.yml) 要求 Apple Silicon macOS、Intel macOS、
 Linux、Windows 四个 runner 成功。`v*` 标签触发发布，手动 dispatch 演练打包而不发布。
 
 - macOS：zip 只包含 `mtty.app`。
@@ -62,7 +63,7 @@ Linux、Windows 四个 runner 成功。`v*` 标签触发发布，手动 dispatch
 - Windows：zip、MSI，包含 `mtty.exe` 和 `mtty-cli.exe`。
 
 Apple Developer ID 签名/公证、Windows MSI 签名和 minisign 产物签名使用
-[RELEASE.zh-CN.md](https://github.com/oxdingzg/mtty/blob/d64b052e75f291bd44298029c323d6a325a80fa6/docs/RELEASE.zh-CN.md) 说明的可选 secrets。
+[RELEASE.zh-CN.md](https://github.com/oxdingzg/mtty/blob/cd5902bee22cd37e2aaf2ae257241a774c05933b/docs/RELEASE.zh-CN.md) 说明的可选 secrets。
 `dist-workspace.toml` 仍为 cargo-dist 脚手架，不是当前发布流水线。
 
 
@@ -77,4 +78,4 @@ macOS/Linux 注册 `mtty://`、`ssh://`、`x-man-page://`；Windows MSI 只注�
 
 ---
 
-*Synced from [`oxdingzg/mtty@d64b052`](https://github.com/oxdingzg/mtty/blob/d64b052e75f291bd44298029c323d6a325a80fa6/docs/INSTALL.zh-CN.md).*
+*Synced from [`oxdingzg/mtty@cd5902b`](https://github.com/oxdingzg/mtty/blob/cd5902bee22cd37e2aaf2ae257241a774c05933b/docs/INSTALL.zh-CN.md).*
