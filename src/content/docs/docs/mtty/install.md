@@ -5,7 +5,7 @@ sidebar:
 ---
 
 mtty (formerly miaotty) is the native winit/wgpu application.
-There is one GUI executable and one CLI. See [identity and migration](https://github.com/oxdingzg/mtty/blob/d64b052e75f291bd44298029c323d6a325a80fa6/docs/APP-IDENTITY.md).
+There is one GUI executable and one CLI. See [identity and migration](https://github.com/oxdingzg/mtty/blob/cd5902bee22cd37e2aaf2ae257241a774c05933b/docs/APP-IDENTITY.md).
 
 ## Install a release
 
@@ -50,15 +50,17 @@ python3 scripts/smoke-hosts.py --bundle dist/mtty.app
 bash scripts/install-macos.sh
 ```
 
-Produces one ad-hoc-signed `dist/mtty.app` with `mtty`, `mtty-cli`, the
-icon and URL schemes. Installation archives old known bundles, installs mtty
-and removes the old native launcher without removing user configuration.
+Produces one `dist/mtty.app` with `mtty`, `mtty-cli`, the icon and URL schemes,
+signed with a local code-signing identity when one is available (`Apple
+Development`, or `MTTY_CODESIGN_IDENTITY`) and ad-hoc otherwise. Installation
+archives old known bundles, installs mtty and removes the old native launcher
+without removing user configuration.
 `PROFILE=debug scripts/package-macos.sh` builds a development bundle.
 The installed app uses the macOS system menu bar; a bare binary uses an in-window menu.
 
 ## Release packages
 
-[release.yml](https://github.com/oxdingzg/mtty/blob/d64b052e75f291bd44298029c323d6a325a80fa6/.github/workflows/release.yml) requires Apple Silicon macOS,
+[release.yml](https://github.com/oxdingzg/mtty/blob/cd5902bee22cd37e2aaf2ae257241a774c05933b/.github/workflows/release.yml) requires Apple Silicon macOS,
 Intel macOS, Linux and Windows runner builds. A `v*` tag publishes a release;
 manual dispatch rehearses packaging without publishing.
 
@@ -67,7 +69,7 @@ manual dispatch rehearses packaging without publishing.
 - Windows: zip and MSI, containing `mtty.exe` and `mtty-cli.exe`.
 
 Apple Developer ID signing/notarization, Windows MSI signing and minisign
-artifact signatures use the optional secrets described in [RELEASE.md](https://github.com/oxdingzg/mtty/blob/d64b052e75f291bd44298029c323d6a325a80fa6/docs/RELEASE.md).
+artifact signatures use the optional secrets described in [RELEASE.md](https://github.com/oxdingzg/mtty/blob/cd5902bee22cd37e2aaf2ae257241a774c05933b/docs/RELEASE.md).
 `dist-workspace.toml` remains a cargo-dist scaffold, not the active release pipeline.
 
 
@@ -87,4 +89,4 @@ identity remains unchanged.
 
 ---
 
-*Synced from [`oxdingzg/mtty@d64b052`](https://github.com/oxdingzg/mtty/blob/d64b052e75f291bd44298029c323d6a325a80fa6/docs/INSTALL.md).*
+*Synced from [`oxdingzg/mtty@cd5902b`](https://github.com/oxdingzg/mtty/blob/cd5902bee22cd37e2aaf2ae257241a774c05933b/docs/INSTALL.md).*
