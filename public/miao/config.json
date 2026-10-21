@@ -643,6 +643,10 @@
         }
       ]
     },
+    "engine": {
+      "$ref": "#/$defs/Config.Engine",
+      "description": "Engine process settings (global config file only; environment overrides)"
+    },
     "permissions": {
       "$ref": "#/$defs/PermissionV2.Ruleset",
       "description": "Ordered tool permission rules applied to agent tool use"
@@ -653,6 +657,13 @@
         "type": "string"
       },
       "description": "Tool names hidden from the model for every agent in this Location"
+    },
+    "accounts": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      },
+      "description": "Account a provider should use, keyed by provider id and valued by credential label or id"
     },
     "agents": {
       "type": "object",
@@ -682,6 +693,10 @@
     "attachments": {
       "$ref": "#/$defs/ConfigV2.Attachments",
       "description": "Attachment processing configuration"
+    },
+    "hooks": {
+      "$ref": "#/$defs/ConfigV2.Hooks",
+      "description": "Lifecycle hooks the native engine executes under its sandbox"
     },
     "cache": {
       "$ref": "#/$defs/ConfigV2.Cache",
@@ -2074,6 +2089,191 @@
       },
       "additionalProperties": false
     },
+    "Config.Engine": {
+      "type": "object",
+      "properties": {
+        "responses_websocket_contract": {
+          "type": "object",
+          "properties": {
+            "model": {
+              "type": "string",
+              "$ref": "https://mtty.dev/miao/model-schema.json#/$defs/Model"
+            },
+            "endpoint": {
+              "type": "string"
+            },
+            "authentication": {
+              "type": "string",
+              "enum": [
+                "api",
+                "subscription"
+              ]
+            },
+            "mode": {
+              "type": "string",
+              "enum": [
+                "full",
+                "delta"
+              ]
+            },
+            "beta": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "model",
+            "endpoint",
+            "authentication",
+            "mode"
+          ],
+          "additionalProperties": false
+        },
+        "tool_disclosure": {
+          "type": "string",
+          "enum": [
+            "full",
+            "compact"
+          ]
+        },
+        "provider": {
+          "type": "string",
+          "description": "Provider id the engine's primary model resolves against"
+        },
+        "model": {
+          "type": "string",
+          "description": "The engine's primary model id",
+          "$ref": "https://mtty.dev/miao/model-schema.json#/$defs/Model"
+        },
+        "endpoint": {
+          "type": "string",
+          "description": "Provider endpoint override for the engine's route"
+        },
+        "fallback_model": {
+          "type": "string",
+          "description": "Model id retried once when the primary route fails at the transport level"
+        },
+        "roles": {
+          "type": "object",
+          "properties": {
+            "summarize": {
+              "type": "string"
+            },
+            "retrieve": {
+              "type": "string"
+            },
+            "verify": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false,
+          "description": "Purpose-role model bindings (ADR-14), resolved on the engine's own route"
+        },
+        "prompt_cache": {
+          "type": "boolean",
+          "description": "Prompt-cache policy for providers that support it (default provider-dependent)"
+        },
+        "responses_cache_contract": {
+          "type": "object",
+          "properties": {
+            "model": {
+              "type": "string",
+              "$ref": "https://mtty.dev/miao/model-schema.json#/$defs/Model"
+            },
+            "endpoint": {
+              "type": "string"
+            },
+            "authentication": {
+              "type": "string",
+              "enum": [
+                "api",
+                "subscription"
+              ]
+            },
+            "profile": {
+              "type": "string",
+              "enum": [
+                "legacy",
+                "breakpoints"
+              ]
+            },
+            "mode": {
+              "type": "string",
+              "enum": [
+                "implicit",
+                "explicit",
+                "disabled"
+              ]
+            },
+            "ttl": {
+              "type": "string",
+              "enum": [
+                "30m"
+              ]
+            },
+            "retention": {
+              "type": "string",
+              "enum": [
+                "in_memory",
+                "24h"
+              ]
+            },
+            "system": {
+              "type": "boolean"
+            },
+            "prewarm": {
+              "type": "boolean",
+              "enum": [
+                false
+              ]
+            }
+          },
+          "required": [
+            "model",
+            "endpoint",
+            "authentication",
+            "profile"
+          ],
+          "additionalProperties": false
+        },
+        "verify_command": {
+          "type": "string",
+          "description": "Completion check the engine runs before ending an edit turn"
+        },
+        "mcp_config": {
+          "type": "string"
+        },
+        "lsp_config": {
+          "type": "string",
+          "description": "Native engine LSP host configuration file; relative paths resolve against the global config directory"
+        },
+        "context_limits": {
+          "type": "object",
+          "properties": {
+            "window": {
+              "type": "number"
+            },
+            "ratio": {
+              "type": "number"
+            },
+            "headroom": {
+              "type": "number"
+            },
+            "perPass": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "window",
+            "ratio",
+            "headroom",
+            "perPass"
+          ],
+          "additionalProperties": false,
+          "description": "Automatic compaction trigger (roadmap §2.13); absent keeps it off"
+        }
+      },
+      "additionalProperties": false
+    },
     "PermissionV2.Effect": {
       "type": "string",
       "enum": [
@@ -2139,6 +2339,13 @@
         },
         "variant": {
           "type": "string"
+        },
+        "accounts": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Account this agent should use per provider, valued by credential label or id"
         },
         "request": {
           "$ref": "#/$defs/ConfigV2.Provider.Request"
@@ -2366,6 +2573,68 @@
           "maximum": 9007199254740991
         }
       },
+      "additionalProperties": false
+    },
+    "ConfigV2.Hooks.Entry": {
+      "type": "object",
+      "properties": {
+        "event": {
+          "type": "string",
+          "enum": [
+            "session_start",
+            "user_prompt_submit",
+            "pre_tool_use",
+            "post_tool_use",
+            "permission_request",
+            "permission_denied",
+            "subagent_start",
+            "subagent_stop",
+            "pre_compact",
+            "post_compact",
+            "stop",
+            "stop_failure",
+            "instructions_loaded"
+          ],
+          "description": "Lifecycle event that triggers the hook."
+        },
+        "tool": {
+          "type": "string",
+          "description": "Tool name selector for tool-scoped events; defaults to all tools."
+        },
+        "command": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Argv executed under the same sandbox as bash. Never a shell string."
+        },
+        "timeout_ms": {
+          "minimum": 1000,
+          "maximum": 60000,
+          "type": "integer",
+          "description": "Hook time budget in milliseconds (default 10000)."
+        }
+      },
+      "required": [
+        "event",
+        "command"
+      ],
+      "additionalProperties": false
+    },
+    "ConfigV2.Hooks": {
+      "type": "object",
+      "properties": {
+        "entries": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ConfigV2.Hooks.Entry"
+          },
+          "description": "Lifecycle hooks the native engine executes as observation guards."
+        }
+      },
+      "required": [
+        "entries"
+      ],
       "additionalProperties": false
     },
     "ConfigV2.MCP.Timeout": {
@@ -3058,6 +3327,10 @@
           "description": "Default model to use when no session or agent model is selected",
           "$ref": "https://mtty.dev/miao/model-schema.json#/$defs/Model"
         },
+        "engine": {
+          "$ref": "#/$defs/Config.Engine",
+          "description": "Engine process settings (global config file only; environment overrides)"
+        },
         "default_agent": {
           "type": "string",
           "description": "Default primary agent to use when no session agent is selected"
@@ -3109,6 +3382,13 @@
             "type": "string"
           },
           "description": "Tool names hidden from the model for every agent in this Location"
+        },
+        "accounts": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Account a provider should use, keyed by provider id and valued by credential label or id"
         },
         "agents": {
           "type": "object",
@@ -3197,6 +3477,10 @@
         "tool_output": {
           "$ref": "#/$defs/ConfigV2.ToolOutput",
           "description": "Tool output truncation thresholds"
+        },
+        "hooks": {
+          "$ref": "#/$defs/ConfigV2.Hooks",
+          "description": "Lifecycle hooks the native engine executes under its sandbox"
         },
         "mcp": {
           "$ref": "#/$defs/ConfigV2.MCP",
