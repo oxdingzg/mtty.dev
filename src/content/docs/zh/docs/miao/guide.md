@@ -12,7 +12,7 @@ miao 尚处于 pre-1.0、活跃开发中，CLI 与配置可能随版本变化。
 
 miao 是一个在终端中与你协作的开源 AI 智能体，也提供 HTTP 服务与浏览器界面。它帮助你编写代码、开展调研、管理文件和自动化任务。它把重点放在模型调用周围的工作上：持久化会话、上下文效率、代理协作和可观察的成本。
 
-用它理解仓库、实现改动、排查测试失败，或委派专项调研。连接你偏好的供应商，配置项目工具，并在任务变化时继续补充要求。miao 支持模型选择与 MCP；miao 的运行时建设与可用范围见 [产品概览](https://github.com/oxdingzg/miao/blob/afd1d654c8155dc32c5045ab07b5e1751ae4ad1b/README.zh.md) 和 [工作流对比](/zh/docs/miao/comparison/)。
+用它理解仓库、实现改动、排查测试失败，或委派专项调研。连接你偏好的供应商，配置项目工具，并在任务变化时继续补充要求。miao 支持模型选择与 MCP；miao 的运行时建设与可用范围见 [产品概览](https://github.com/oxdingzg/miao/blob/d6da8740ff2f7eaa4a5f9bae2953bbc5e8c61929/README.zh.md) 和 [工作流对比](/zh/docs/miao/comparison/)。
 
 第一次可以这样提需求：「找到这个错误的原因，做出适当的最小修复，运行相关检查，再解释代码差异。」执行过程中继续补充约束，无需另开对话。
 
@@ -217,7 +217,7 @@ V2 `list_sessions` 可发现同项目会话，`send_message` 接受会话 ID 或
 }
 ```
 
-这组可选配置组合了待办续跑、调度预算、旧输出裁剪和逐工具的模型可见输出限额。预算不会中断正在执行的轮次，也不是账单硬上限。完整输出文件是临时的，受限的会话记录才是持久化历史。工具结果裁剪（微压缩）默认开启，可用 `"prune": false` 关闭。自动压缩默认在上下文达到窗口的 `threshold`（默认 `0.9`）时触发，并依据供应商回报的真实 prompt tokens 判断，因此会在窗口填满前提前压缩，而不是等到最后。廉价模型摘要与热前缀压缩可以单独开启，先确认它们适合当前供应商和任务。
+这组可选配置组合了待办续跑、调度预算、旧输出裁剪和逐工具的模型可见输出限额。预算不会中断正在执行的轮次，也不是账单硬上限。完整输出文件是临时的，受限的会话记录才是持久化历史。工具结果裁剪（微压缩）默认开启，可用 `"prune": false` 关闭。自动压缩默认在上下文达到窗口的 `threshold`（默认 `0.9`）时触发，并依据供应商回报的真实 prompt tokens 判断，因此会在窗口填满前提前压缩，而不是等到最后。主动压缩默认复用当前请求前缀做一次摘要，让供应商直接命中 prompt 缓存；只有前缀放不下指令时才回退到分阶段恢复，可用 `"hot_prefix": false` 强制走分阶段策略。廉价模型摘要仍需单独开启，开启前先确认解析出的廉价模型适合当前供应商和任务。
 
 被压缩出模型窗口的原文仍然持久化在磁盘上。`recall` 工具按关键词检索这段历史，让 agent 找回被摘要丢掉的细节，而不必重新读文件或重复已完成的工作。
 
@@ -225,9 +225,9 @@ V2 `list_sessions` 可发现同项目会话，`send_message` 接受会话 ID 或
 
 所有已发布客户端都使用单一 V2 会话运行时；V1 会话运行时及其 `/session/*` 路由已删除。
 
-- [V1 退役计划](https://github.com/oxdingzg/miao/blob/afd1d654c8155dc32c5045ab07b5e1751ae4ad1b/specs/v2/v1-retirement.md) 记录了删除过程和剩余兼容面（数据库迁移与非会话旧路由）。
-- [会话存储设计](https://github.com/oxdingzg/miao/blob/afd1d654c8155dc32c5045ab07b5e1751ae4ad1b/specs/storage/session-storage-hardening.md) 记录存储方案。可用 `miao db stats`、`miao db vacuum` 和 JSONL 导出检查、维护本地记录。
-- [代理并发](https://github.com/oxdingzg/miao/blob/afd1d654c8155dc32c5045ab07b5e1751ae4ad1b/specs/v2/agent-concurrency.md) 设计非阻塞子代理与完成即唤醒，避免长任务卡住会话。
+- [V1 退役计划](https://github.com/oxdingzg/miao/blob/d6da8740ff2f7eaa4a5f9bae2953bbc5e8c61929/specs/v2/v1-retirement.md) 记录了删除过程和剩余兼容面（数据库迁移与非会话旧路由）。
+- [会话存储设计](https://github.com/oxdingzg/miao/blob/d6da8740ff2f7eaa4a5f9bae2953bbc5e8c61929/specs/storage/session-storage-hardening.md) 记录存储方案。可用 `miao db stats`、`miao db vacuum` 和 JSONL 导出检查、维护本地记录。
+- [代理并发](https://github.com/oxdingzg/miao/blob/d6da8740ff2f7eaa4a5f9bae2953bbc5e8c61929/specs/v2/agent-concurrency.md) 设计非阻塞子代理与完成即唤醒，避免长任务卡住会话。
 - 崩溃后自动执行恢复与集群所有权尚未实现。OS 沙箱已内置于 V2 `bash` 工具但仍需开启，见 [原生组件与沙箱范围](/zh/docs/miao/native-benchmarks/)。
 
 ## 7. 常见问题（FAQ）
@@ -285,8 +285,8 @@ bun --cwd packages/miao test
 
 ## 许可证
 
-MIT，详见 [LICENSE](https://github.com/oxdingzg/miao/blob/afd1d654c8155dc32c5045ab07b5e1751ae4ad1b/LICENSE) 与[项目来源与许可](/zh/docs/miao/attribution/)。
+MIT，详见 [LICENSE](https://github.com/oxdingzg/miao/blob/d6da8740ff2f7eaa4a5f9bae2953bbc5e8c61929/LICENSE) 与[项目来源与许可](/zh/docs/miao/attribution/)。
 
 ---
 
-*Synced from [`oxdingzg/miao@afd1d65`](https://github.com/oxdingzg/miao/blob/afd1d654c8155dc32c5045ab07b5e1751ae4ad1b/docs/guide.zh.md).*
+*Synced from [`oxdingzg/miao@d6da874`](https://github.com/oxdingzg/miao/blob/d6da8740ff2f7eaa4a5f9bae2953bbc5e8c61929/docs/guide.zh.md).*
