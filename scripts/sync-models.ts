@@ -52,6 +52,85 @@ const COMMANDCODE_PROVIDER: Provider = {
   models: {},
 }
 
+// Volcengine Ark models the models.dev catalog does not list yet. The
+// provider-level fields (env/npm/api) are inherited from the models.dev
+// `volcengine` entry by `merge`; only the model records are overlaid here.
+// Field values are taken from the live Ark `GET /api/v3/models` response
+// (token limits, modalities, structured-output and tool support) so they
+// match what the endpoint reports. Cost is omitted rather than guessed.
+const VOLCENGINE_MODELS: Record<string, Model> = {
+  "deepseek-v4-1-flash-261017": {
+    id: "deepseek-v4-1-flash-261017",
+    name: "DeepSeek V4.1 Flash 1017",
+    description: "DeepSeek V4.1 lightweight flagship (552B MoE) with deep thinking and agentic coding",
+    family: "deepseek-flash",
+    attachment: false,
+    reasoning: true,
+    tool_call: true,
+    structured_output: false,
+    temperature: true,
+    release_date: "2026-10-17",
+    modalities: { input: ["text"], output: ["text"] },
+    limit: { context: 1048576, output: 393216 },
+  },
+  "deepseek-v4-1-flash-economy-261017": {
+    id: "deepseek-v4-1-flash-economy-261017",
+    name: "DeepSeek V4.1 Flash 1017 Economy",
+    description: "Cost-optimized DeepSeek V4.1 Flash lane with identical weights and lower pricing",
+    family: "deepseek-flash",
+    attachment: false,
+    reasoning: true,
+    tool_call: true,
+    structured_output: false,
+    temperature: true,
+    release_date: "2026-10-17",
+    modalities: { input: ["text"], output: ["text"] },
+    limit: { context: 1048576, output: 393216 },
+  },
+  "kimi-k3-1-pro-261024": {
+    id: "kimi-k3-1-pro-261024",
+    name: "Kimi K3.1 Pro",
+    description: "Moonshot Kimi K3.1 multimodal flagship with 1M context and caching",
+    family: "kimi-k3",
+    attachment: true,
+    reasoning: true,
+    tool_call: true,
+    structured_output: true,
+    temperature: false,
+    release_date: "2026-10-24",
+    modalities: { input: ["text", "image", "video"], output: ["text"] },
+    limit: { context: 1048576, output: 131072 },
+  },
+  "doubao-seed-2-1-lite-260915": {
+    id: "doubao-seed-2-1-lite-260915",
+    name: "Seed 2.1 Lite",
+    description: "ByteDance Doubao Seed 2.1 lightweight multimodal model",
+    family: "seed",
+    attachment: true,
+    reasoning: true,
+    tool_call: true,
+    structured_output: true,
+    temperature: true,
+    release_date: "2026-09-15",
+    modalities: { input: ["text", "image", "video", "audio"], output: ["text"] },
+    limit: { context: 1048576, output: 262144 },
+  },
+  "doubao-seed-2-1-pro-260915": {
+    id: "doubao-seed-2-1-pro-260915",
+    name: "Seed 2.1 Pro",
+    description: "ByteDance Doubao Seed 2.1 flagship multimodal model",
+    family: "seed",
+    attachment: true,
+    reasoning: true,
+    tool_call: true,
+    structured_output: true,
+    temperature: true,
+    release_date: "2026-09-15",
+    modalities: { input: ["text", "image", "video"], output: ["text"] },
+    limit: { context: 1048576, output: 262144 },
+  },
+}
+
 async function loadModelsDev(): Promise<Catalog> {
   const response = await fetch(MODELS_DEV)
   if (!response.ok) throw new Error(`${MODELS_DEV} answered ${response.status}`)
@@ -116,6 +195,7 @@ function merge(catalog: Catalog, commandcode: Record<string, Model>): Catalog {
   const result: Catalog = { ...catalog }
   const overlay: Catalog = {
     commandcode: { ...COMMANDCODE_PROVIDER, models: commandcode },
+    volcengine: { models: VOLCENGINE_MODELS },
   }
   for (const [id, provider] of Object.entries(overlay)) {
     const existing = result[id]
