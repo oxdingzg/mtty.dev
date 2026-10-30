@@ -28,7 +28,13 @@ jobs:
         with:
           repository: oxdingzg/mtty
           path: .product-sources/mtty
+      # Pin the Bun the product repositories pin. The miao checkout declares
+      # bun@1.4.2 and its patchedDependencies apply under that version; the
+      # unpinned action resolves to a newer Bun whose patcher rejects the
+      # photon-node hunk, failing the whole sync before any content is read.
       - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.2
       - run: bun install --frozen-lockfile
       # Schema generation is TypeScript only; no native build/install hooks.
       - run: bun install --frozen-lockfile --ignore-scripts

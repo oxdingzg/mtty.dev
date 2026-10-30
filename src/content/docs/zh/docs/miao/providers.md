@@ -21,11 +21,16 @@ miao providers logout    # 移除保存的凭证
 ## 列出与选择模型
 
 ```bash
-miao models                     # 你的构建所知的全部 provider/model
+miao models                     # 当前 channel 能跑的模型（已有凭证或已登录）
 miao models anthropic           # 只看某个供应商
 miao models --verbose           # 带上成本等元数据
 miao models --refresh           # 先从 mtty.dev 刷新目录
+miao models --all               # 全部目录，并标注当前 channel 跑不了的条目
 ```
+
+没有凭证的供应商、以及被构建禁用的模型默认不列出——TUI 和 `miao run` 都会拒绝
+它们。`--all` 仍会列出并追加 `(unavailable)`，登录前想浏览某个供应商有哪些模型
+时就查它。
 
 在 TUI 里，`/model` 或 `ctrl+x m` 切换模型；每个 agent 上次使用的模型会被记住。没有选定模型的会话使用 `model` 设置，写作 `<provider>/<model>`：
 
@@ -50,6 +55,16 @@ miao models --refresh           # 先从 mtty.dev 刷新目录
 | `MIAO_MODELS_PATH` | 使用指定的本地目录文件 |
 
 [Command Code](https://commandcode.ai) 是订阅制供应商：用 `miao auth login commandcode`（浏览器辅助）连接，或设置 `CMD_API_KEY`；连接后会从你的账号发现其模型。OpenCode Zen / Go 仍作为可选的第三方供应商保留。
+
+### mtty 网关
+
+`mtty` 是 mtty.dev 自带的 OpenAI 兼容网关（`https://my.mtty.dev/v1`），目录里同样由 miao 维护、models.dev 没有收录。连接方式：
+
+```bash
+miao auth login mtty
+```
+
+或设置 `MTTY_API_KEY`。凭证是网关 API key（`sk-` 前缀，在 my.mtty.dev 的 `/console/` 里创建），以 `Authorization: Bearer` 发送。目前目录中声明了 `mtty/deepseek-v4-1-flash-261017`，用 `miao models mtty` 查看该网关上可用的模型。
 
 ## 自定义供应商
 
@@ -77,6 +92,13 @@ miao models --refresh           # 先从 mtty.dev 刷新目录
 
 `env` 指定供应商从哪些环境变量读取 key；`disabled` 会在即使存在凭证的情况下隐藏该供应商及其模型。`api` 选择通信协议，整个文件由 `$schema` 校验。改动后运行 `miao models` 确认该供应商现在报告的内容。
 
+## 原生引擎路由
+
+放到原生引擎上的会话通过可信宿主路由清单访问同样的供应商。目录供应商到原生
+transport 的映射、清单字段、凭证引用，以及明确留在 TypeScript 侧的供应商，见
+[原生引擎的供应商路由](https://github.com/oxdingzg/miao/blob/80819c691b28a58b77d0a418c4c8f82ae3d616b3/docs/native-provider-routes.zh.md)。供应商仍在这里配置和登录；
+清单由产品生成，不需要手工编辑。
+
 ## 成本与货币
 
 每个供应商轮次都会记录用量、首 token 时间、缓存命中情况和估算成本；会话总计显示在侧边栏。成本是按模型标价的估算——以供应商的账单为准。
@@ -102,10 +124,10 @@ miao models --refresh           # 先从 mtty.dev 刷新目录
 
 - `miao debug config` 查看生效配置，`miao debug info` 查看安装与插件信息；`miao debug` 列出可用子命令。
 - 鉴权错误会指出修复方式，通常是 `miao auth login <provider>`；保存的 token 过期时重跑 `miao providers login`。
-- 供应商不显示任何模型，通常是缺凭证或被策略禁用；`miao models <provider> --verbose` 会显示解析结果。
+- 供应商不显示任何模型，通常是缺凭证或被策略禁用；`miao models <provider> --all --verbose` 列出目录里的条目，`miao models <provider> --verbose` 显示可用时的解析结果。
 
 配置优先级见[使用指南](/zh/docs/miao/guide/)，供应商层的演进见[开源代理对比](/zh/docs/miao/comparison/)。
 
 ---
 
-*Synced from [`oxdingzg/miao@284be7f`](https://github.com/oxdingzg/miao/blob/284be7f96491a33c873335363d25625e0f126c24/docs/providers.zh.md).*
+*Synced from [`oxdingzg/miao@80819c6`](https://github.com/oxdingzg/miao/blob/80819c691b28a58b77d0a418c4c8f82ae3d616b3/docs/providers.zh.md).*

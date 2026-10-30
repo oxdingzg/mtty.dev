@@ -13,7 +13,7 @@ releases. This guide covers install, usage, and troubleshooting end to end.
 
 miao is an open-source AI agent that works with you in the terminal, with an HTTP server and browser interface as well. It helps you write code, research topics, manage files, and automate tasks. It focuses on the work around model calls: durable sessions, context efficiency, collaboration, and visible cost.
 
-Use it to explore a repository, implement a change, investigate a failing test, or delegate focused research. Connect the providers you prefer, configure project tools, and continue the conversation as the task evolves. Model selection and MCP are part of the workflow; miao's runtime work is described in the [overview](https://github.com/oxdingzg/miao/blob/afd1d654c8155dc32c5045ab07b5e1751ae4ad1b/README.md) and [workflow comparison](/docs/miao/comparison/).
+Use it to explore a repository, implement a change, investigate a failing test, or delegate focused research. Connect the providers you prefer, configure project tools, and continue the conversation as the task evolves. Model selection and MCP are part of the workflow; miao's runtime work is described in the [overview](https://github.com/oxdingzg/miao/blob/80819c691b28a58b77d0a418c4c8f82ae3d616b3/README.md) and [workflow comparison](/docs/miao/comparison/).
 
 A useful first task is: “Find the cause of this failure, make the smallest appropriate fix, run the relevant checks, and explain the diff.” Add constraints while the agent works rather than starting a second conversation.
 
@@ -101,7 +101,7 @@ overrides the path. Main fields:
 | `lsp`                                                             | language servers: `true` enables all built-ins, `false` disables, or a per-name record. **Omitted = all disabled** |
 | `formatter`                                                       | formatters: `true` enables built-ins, or a per-name record with commands                                           |
 | `mcp`                                                             | MCP servers (local stdio / remote streamable-http)                                                                 |
-| `compaction`                                                      | `prune` old tool output, `threshold` ratio, `summarize_small`, `hot_prefix`, `precise_tokens`                      |
+| `compaction`                                                      | `prune` old tool output, `threshold` ratio, `max_context` per-model window, `summarize_small`, `hot_prefix`, `precise_tokens` |
 | `cache`                                                           | `ttl_seconds` extends the prompt-cache TTL                                                                         |
 | `cost`                                                            | `budget_usd` per-session cost budget (warns and stops continuation)                                                |
 | `loop`                                                            | autonomous continuation (see §5.8)                                                                                 |
@@ -109,12 +109,19 @@ overrides the path. Main fields:
 | `skills` / `commands` / `instructions` / `references` / `plugins` | skills, commands, instructions, references, plugins                                                                |
 | `watcher` / `attachments` / `tool_output` / `snapshots`           | watcher, attachments, tool-output thresholds, snapshots                                                            |
 | `providers`                                                       | custom providers/models (including native-currency `cost`)                                                         |
+| `engine`                                                          | native engine settings (global config only): `storage` places new Sessions on Rust; see [enabling the native engine](https://github.com/oxdingzg/miao/blob/80819c691b28a58b77d0a418c4c8f82ae3d616b3/docs/native-engine-enablement.en.md) |
 | `experimental`                                                    | experimental flags (e.g. Code Mode)                                                                                |
 
 **Native currency**: set `providers.<id>.models.<m>.cost` in the provider's own currency (for
 example DeepSeek in CNY) to estimate costs using the declared currency; `/currency` in the TUI switches the
 display currency (defaults to USD, with a static conversion for providers without a declared
 currency).
+
+**Native engine (opt-in)**: set `engine.storage` in the global config to place new Sessions on the
+Rust engine; `MIAO_ENGINE_STORAGE` overrides it. The release installs `miao-engine` next to the CLI,
+so no binary path is needed; existing Sessions keep their recorded engine. `miao doctor` reports the
+binary version, protocol and whether placement is on. Storage is separate from the TypeScript store,
+and `miao session migrate` moves an existing Session offline.
 
 ## 5. Daily use
 
@@ -170,7 +177,9 @@ Configure local or remote servers under `mcp.servers`; their tools appear as
 - With `lsp: true`, servers lazily activate as files are read, and diagnostics are fed back after
   edits (`LSP errors detected… please fix`).
 - With `formatter: true`, `edit` / `write` / `apply_patch` run the matching formatter on success.
-- The sidebar shows LSP connection status; **a config change requires restarting miao**.
+- The sidebar shows LSP connection status. The native engine notices config changes itself and
+  adds or removes language servers in place, so no restart is needed; the TypeScript engine still
+  reads configuration at startup.
 
 ### 5.6 Kernel-level sandbox (opt-in)
 
@@ -181,6 +190,8 @@ The V2 `bash` tool can run each command under the OS sandbox: seatbelt on macOS,
 ```
 
 `MIAO_SANDBOX=1` and `MIAO_SANDBOX_DENY_NETWORK=1` override the config. `workspace-write` leaves reads unrestricted and allows writes only to the active Location, the command's working directory, temp directories, `writable_roots`, and paths you approve after a blocked write (the command is rerun with the added directory). Network is allowed unless denied. If the sandbox is requested but no backend is available, `on_unavailable` defaults to `"warn"` and the command runs unsandboxed; set `"fail"` to refuse instead. See the [integration matrix](/docs/miao/native-benchmarks/#native-tools-and-sandbox-where-they-apply) for platform limits.
+
+The native engine always confines its own process commands (bash, run_command, start_job, terminals, hooks, formatters) regardless of permission rules — a catch-all allow rule cannot lift that sandbox. It honors the same switch as an explicit operator opt-out: `sandbox.mode: "off"` in config or `MIAO_SANDBOX=0` runs engine commands unsandboxed, while `MIAO_SANDBOX=1` or `mode: "workspace-write"` keeps the confinement. With neither set, the engine stays sandboxed.
 
 ### 5.7 Cost and cache telemetry
 
@@ -226,24 +237,26 @@ V2's `list_sessions` discovers project peers, and `send_message` accepts a sessi
 }
 ```
 
-This optional project configuration combines continued todo work, a scheduling budget, old-output pruning, and a bound on each tool's model-visible output. A budget does not interrupt an in-flight turn and is not a billing cap. Output files are temporary; the bounded transcript is the durable record. Tool-output pruning is on by default (disable with `"prune": false`). Automatic compaction triggers at `threshold` (default `0.9`) of the window using the provider's reported prompt tokens, so it runs before the window fills rather than at the last moment. Enable small-model summaries or hot-prefix compaction separately after checking that they suit your provider and workload.
+This optional project configuration combines continued todo work, a scheduling budget, old-output pruning, and a bound on each tool's model-visible output. A budget does not interrupt an in-flight turn and is not a billing cap. Output files are temporary; the bounded transcript is the durable record. Tool-output pruning is on by default (disable with `"prune": false`). Automatic compaction triggers at `threshold` (default `0.9`) of the window using the provider's reported prompt tokens, so it runs before the window fills rather than at the last moment. Proactive compaction summarizes once over the request prefix, so the provider serves it from its prompt cache, and falls back to staged recovery when the prefix no longer has room for the instruction; set `"hot_prefix": false` to force the staged strategy. Small-model summaries stay opt-in: enable them after checking that the resolved cheap model suits your provider and workload.
 
-Content that a compaction removed from the model window stays durable on disk. The `recall` tool searches that history by keyword, so an agent can recover a dropped detail instead of re-reading files or repeating finished work.
+`compaction.max_context` works in a smaller window than the model declares — for cost, latency, or cache churn. It takes one value for every model or a map keyed by `"<providerID>/<modelID>"` (globs allowed, longest key wins): a token count, a `"300K"` / `"1.5M"` shorthand, or `"50%"` of the model window. The value is clamped to the model's real window and never raises it; compaction, context notices, and overflow recovery all plan against the clamped window. Because a config merge cannot delete a key, `0` restores the model default.
+
+Content that a compaction removed from the model window stays durable on disk. The `recall` tool searches that history by keyword, so an agent can recover a dropped detail instead of re-reading files or repeating finished work, and the `history` tool reads full earlier messages in bounded, position-addressed pages (`history(from: …)` continues a page).
 
 ## 6. Runtime status and ongoing work
 
 All shipped clients use the single V2 session runtime; the V1 session runtime and its `/session/*` routes have been removed.
 
-- [V1 retirement](https://github.com/oxdingzg/miao/blob/afd1d654c8155dc32c5045ab07b5e1751ae4ad1b/specs/v2/v1-retirement.md) records the removal and the remaining compatibility surfaces (database migration and non-session legacy routes).
-- [Session storage](https://github.com/oxdingzg/miao/blob/afd1d654c8155dc32c5045ab07b5e1751ae4ad1b/specs/storage/session-storage-hardening.md) tracks storage design. Use `miao db stats`, `miao db vacuum`, and JSONL exports to inspect and maintain local records.
-- [Agent concurrency](https://github.com/oxdingzg/miao/blob/afd1d654c8155dc32c5045ab07b5e1751ae4ad1b/specs/v2/agent-concurrency.md) designs non-blocking subagents and wake-on-completion so long-running work does not stall a Session.
+- [V1 retirement](https://github.com/oxdingzg/miao/blob/80819c691b28a58b77d0a418c4c8f82ae3d616b3/specs/v2/v1-retirement.md) records the removal and the remaining compatibility surfaces (database migration and non-session legacy routes).
+- [Session storage](https://github.com/oxdingzg/miao/blob/80819c691b28a58b77d0a418c4c8f82ae3d616b3/specs/storage/session-storage-hardening.md) tracks storage design. Use `miao db stats`, `miao db vacuum`, and JSONL exports to inspect and maintain local records.
+- [Agent concurrency](https://github.com/oxdingzg/miao/blob/80819c691b28a58b77d0a418c4c8f82ae3d616b3/specs/v2/agent-concurrency.md) designs non-blocking subagents and wake-on-completion so long-running work does not stall a Session.
 - Automatic post-crash execution continuation and clustered ownership are not implemented. The OS sandbox is built into the V2 `bash` tool but remains opt-in; see the [native/sandbox scope](/docs/miao/native-benchmarks/).
 
 ## 7. FAQ
 
 **Sidebar LSP always says "LSPs are disabled"?**
-`lsp` is omitted (omitted means disabled). Add `"lsp": true` and **restart miao** (the running
-session reads config at startup).
+`lsp` is omitted (omitted means disabled). Add `"lsp": true`: the native engine reloads the config
+and connects the server without a restart; the TypeScript engine still needs a restart.
 
 **`ctrl+x b` does not open the sidebar?**
 Child sessions (spawned by task/subagent, non-empty `parent_id`) force-hide the sidebar;
@@ -303,8 +316,8 @@ bun --cwd packages/miao test
 
 ## License
 
-MIT. See [LICENSE](https://github.com/oxdingzg/miao/blob/afd1d654c8155dc32c5045ab07b5e1751ae4ad1b/LICENSE) and [project origins and licensing](/docs/miao/attribution/).
+MIT. See [LICENSE](https://github.com/oxdingzg/miao/blob/80819c691b28a58b77d0a418c4c8f82ae3d616b3/LICENSE) and [project origins and licensing](/docs/miao/attribution/).
 
 ---
 
-*Synced from [`oxdingzg/miao@afd1d65`](https://github.com/oxdingzg/miao/blob/afd1d654c8155dc32c5045ab07b5e1751ae4ad1b/docs/guide.en.md).*
+*Synced from [`oxdingzg/miao@80819c6`](https://github.com/oxdingzg/miao/blob/80819c691b28a58b77d0a418c4c8f82ae3d616b3/docs/guide.en.md).*

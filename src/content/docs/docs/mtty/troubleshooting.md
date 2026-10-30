@@ -57,7 +57,7 @@ or working directories are included. For Rust panics, consult the adjacent
 
 | Requirement | Detail |
 |---|---|
-| Rust | The **stable** toolchain, pinned in [`rust-toolchain.toml`](https://github.com/oxdingzg/mtty/blob/d64b052e75f291bd44298029c323d6a325a80fa6/rust-toolchain.toml); MSRV 1.80 |
+| Rust | The **stable** toolchain, pinned in [`rust-toolchain.toml`](https://github.com/oxdingzg/mtty/blob/72b0e565759e53bb2f19148ed5d032d63fae626a/rust-toolchain.toml); MSRV 1.80 |
 | GPU | A driver supporting Metal (macOS), Vulkan (Linux) or DX12 (Windows) |
 | Linux | The usual `winit`/`wgpu` system libraries (X11 or Wayland development packages) |
 
@@ -78,6 +78,22 @@ You can check which build you have:
 ```sh
 mtty --version     # prints "mtty <version> (native)"
 ```
+
+## macOS asks for folder access again after every rebuild
+
+The terminal inherits macOS's folder protections: when a program in a pane (or
+the shell itself) reads `~/Documents`, `~/Desktop` or `~/Downloads`, macOS asks
+the app for permission and remembers the answer **for that app identity**. A
+development bundle from `scripts/package-macos.sh` used to be ad-hoc signed,
+which produces a new identity on every build, so the stored answer never matched
+again and macOS asked after each rebuild.
+
+The script now signs with a stable identity when one is present
+(`MTTY_CODESIGN_IDENTITY`, else the first `Apple Development` identity reported
+by `security find-identity -p codesigning`). Reinstall a bundle built that way,
+grant the permission once, and later builds keep it. If the prompt is about the
+whole home directory, or you would rather not be asked at all, give the app
+**Full Disk Access** in System Settings → Privacy & Security.
 
 ## My configuration is not being read
 
@@ -158,7 +174,7 @@ the existing control socket, rather than starting a second process. Use
 | Agent hooks | Installed hook scripts and miao's integration read `MIAOTTY_PANE_ID` / `MIAOTTY_CLI`, which are still exported, so they keep reporting state; newly installed hooks use the `MTTY_*` names |
 | Notifications on macOS | The rename changed the bundle ID, so macOS asks for notification permission again |
 
-See [identity and migration](https://github.com/oxdingzg/mtty/blob/d64b052e75f291bd44298029c323d6a325a80fa6/docs/APP-IDENTITY.md) for the full table.
+See [identity and migration](https://github.com/oxdingzg/mtty/blob/72b0e565759e53bb2f19148ed5d032d63fae626a/docs/APP-IDENTITY.md) for the full table.
 
 ## The editor has no completions, diagnostics or hover
 
@@ -177,10 +193,10 @@ An explicit `[lsp] enabled = false` disables the lot. See
 
 The rest of the documentation is in the repository: [installation](/docs/mtty/install/),
 [view rules](/docs/mtty/view-rules/), and the annotated
-[`config.example.toml`](https://github.com/oxdingzg/mtty/blob/d64b052e75f291bd44298029c323d6a325a80fa6/docs/config.example.toml). For anything else, open an issue
+[`config.example.toml`](https://github.com/oxdingzg/mtty/blob/72b0e565759e53bb2f19148ed5d032d63fae626a/docs/config.example.toml). For anything else, open an issue
 on [oxdingzg/mtty](https://github.com/oxdingzg/mtty/issues), or write
 to <contact@mtty.dev>.
 
 ---
 
-*Synced from [`oxdingzg/mtty@d64b052`](https://github.com/oxdingzg/mtty/blob/d64b052e75f291bd44298029c323d6a325a80fa6/docs/TROUBLESHOOTING.md).*
+*Synced from [`oxdingzg/mtty@72b0e56`](https://github.com/oxdingzg/mtty/blob/72b0e565759e53bb2f19148ed5d032d63fae626a/docs/TROUBLESHOOTING.md).*
