@@ -131,6 +131,35 @@ const VOLCENGINE_MODELS: Record<string, Model> = {
   },
 }
 
+// mtty's own OpenAI-compatible gateway. Not listed by models.dev, so the
+// full provider record is overlaid here (like Command Code). Credentials are
+// hub API keys (`mhub_key_…`, prefix from mhub-core/src/keys.rs), presented as
+// `Authorization: Bearer`. Only the model the gateway is known to serve is
+// declared; its metadata mirrors the Ark record for the same model ID.
+const MTTY_PROVIDER: Provider = {
+  id: "mtty",
+  name: "mtty",
+  env: ["MTTY_API_KEY"],
+  npm: "@ai-sdk/openai-compatible",
+  api: "https://my.mtty.dev/v1",
+  models: {
+    "deepseek-v4-1-flash-261017": {
+      id: "deepseek-v4-1-flash-261017",
+      name: "DeepSeek V4.1 Flash 1017",
+      description: "DeepSeek V4.1 lightweight flagship (552B MoE) served over the mtty gateway",
+      family: "deepseek-flash",
+      attachment: false,
+      reasoning: true,
+      tool_call: true,
+      structured_output: false,
+      temperature: true,
+      release_date: "2026-10-17",
+      modalities: { input: ["text"], output: ["text"] },
+      limit: { context: 1048576, output: 393216 },
+    },
+  },
+}
+
 async function loadModelsDev(): Promise<Catalog> {
   const response = await fetch(MODELS_DEV)
   if (!response.ok) throw new Error(`${MODELS_DEV} answered ${response.status}`)
@@ -196,6 +225,7 @@ function merge(catalog: Catalog, commandcode: Record<string, Model>): Catalog {
   const overlay: Catalog = {
     commandcode: { ...COMMANDCODE_PROVIDER, models: commandcode },
     volcengine: { models: VOLCENGINE_MODELS },
+    mtty: MTTY_PROVIDER,
   }
   for (const [id, provider] of Object.entries(overlay)) {
     const existing = result[id]
