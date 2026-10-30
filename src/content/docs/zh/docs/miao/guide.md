@@ -12,7 +12,7 @@ miao 尚处于 pre-1.0、活跃开发中，CLI 与配置可能随版本变化。
 
 miao 是一个在终端中与你协作的开源 AI 智能体，也提供 HTTP 服务与浏览器界面。它帮助你编写代码、开展调研、管理文件和自动化任务。它把重点放在模型调用周围的工作上：持久化会话、上下文效率、代理协作和可观察的成本。
 
-用它理解仓库、实现改动、排查测试失败，或委派专项调研。连接你偏好的供应商，配置项目工具，并在任务变化时继续补充要求。miao 支持模型选择与 MCP；miao 的运行时建设与可用范围见 [产品概览](https://github.com/oxdingzg/miao/blob/afd1d654c8155dc32c5045ab07b5e1751ae4ad1b/README.zh.md) 和 [工作流对比](/zh/docs/miao/comparison/)。
+用它理解仓库、实现改动、排查测试失败，或委派专项调研。连接你偏好的供应商，配置项目工具，并在任务变化时继续补充要求。miao 支持模型选择与 MCP；miao 的运行时建设与可用范围见 [产品概览](https://github.com/oxdingzg/miao/blob/80819c691b28a58b77d0a418c4c8f82ae3d616b3/README.zh.md) 和 [工作流对比](/zh/docs/miao/comparison/)。
 
 第一次可以这样提需求：「找到这个错误的原因，做出适当的最小修复，运行相关检查，再解释代码差异。」执行过程中继续补充约束，无需另开对话。
 
@@ -103,7 +103,7 @@ miao
 | `lsp`                                                             | 语言服务器：`true` 启用全部内置，`false` 关闭，或按名配置。**省略 = 全部禁用**                                          |
 | `formatter`                                                       | 代码格式化：`true` 启用内置，或按名配置命令                                                                             |
 | `mcp`                                                             | MCP 服务器（local stdio / remote streamable-http）                                                                      |
-| `compaction`                                                      | 压缩（`prune` 裁剪旧输出、`threshold` 触发比例、`summarize_small` 廉价摘要、`hot_prefix` 热前缀、`precise_tokens` BPE） |
+| `compaction`                                                      | 压缩（`prune` 裁剪旧输出、`threshold` 触发比例、`max_context` 每模型窗口、`summarize_small` 廉价摘要、`hot_prefix` 热前缀、`precise_tokens` BPE） |
 | `cache`                                                           | `ttl_seconds` 延长 prompt cache TTL                                                                                     |
 | `cost`                                                            | `budget_usd` 每会话成本预算（超限告警并停止续跑）                                                                       |
 | `loop`                                                            | 自治续跑（见 §5.8）                                                                                                     |
@@ -111,9 +111,12 @@ miao
 | `skills` / `commands` / `instructions` / `references` / `plugins` | 技能、命令、指令、引用、插件                                                                                            |
 | `watcher` / `attachments` / `tool_output` / `snapshots`           | 文件监听、附件、工具输出阈值、快照                                                                                      |
 | `providers`                                                       | 自定义 provider / 模型（含本币单价 `cost`）                                                                             |
+| `engine`                                                          | 原生引擎设置（仅全局配置）：`storage` 让新会话落在 Rust 引擎；详见[启用原生引擎](https://github.com/oxdingzg/miao/blob/80819c691b28a58b77d0a418c4c8f82ae3d616b3/docs/native-engine-enablement.zh.md)        |
 | `experimental`                                                    | 实验开关（如 Code Mode）                                                                                                |
 
 **本币计价**：`providers.<id>.models.<m>.cost` 用 provider 官方本币单价（如 DeepSeek 的 CNY），成本按配置费率估算；TUI 内 `/currency` 可切换显示货币（默认 USD，未声明本币的 provider 按静态汇率换算）。
+
+**原生引擎（可选开启）**：在全局配置里设置 `engine.storage`，新会话就会落在 Rust 引擎上；`MIAO_ENGINE_STORAGE` 优先于它。release 会把 `miao-engine` 装在 CLI 旁边，不需要手写二进制路径；已有会话保留原来的引擎。`miao doctor` 会显示引擎版本、协议，以及是否已开启放置。原生存储与 TypeScript 存储相互独立，已有会话可用 `miao session migrate` 离线迁移。
 
 ## 5. 日常使用
 
@@ -166,7 +169,7 @@ miao
 
 - `lsp: true` 启用后，读/写文件会懒激活语言服务器，编辑后把诊断回灌给模型（`LSP errors detected… please fix`）。
 - `formatter: true` 启用后，`edit`/`write`/`apply_patch` 成功后按扩展名跑格式化命令。
-- 侧边栏 LSP 一栏显示服务器连接状态；**改配置后需重启 miao 才生效**。
+- 侧边栏 LSP 一栏显示服务器连接状态；原生引擎会自己发现配置改动并就地增删语言服务器，不必重启；TypeScript 引擎仍在启动时读取配置。
 
 ### 5.6 内核级沙箱（需开启）
 
@@ -177,6 +180,8 @@ V2 `bash` 工具可以把每条命令放进 OS 沙箱运行：macOS 用 seatbelt
 ```
 
 `MIAO_SANDBOX=1`、`MIAO_SANDBOX_DENY_NETWORK=1` 可覆盖配置。`workspace-write` 不限制读取，只允许写入当前 Location、命令工作目录、临时目录、`writable_roots`，以及被拦截后你批准的路径（命令会带该目录重跑）。网络默认允许，可显式禁止。沙箱已开启但主机没有后端时，`on_unavailable` 默认 `"warn"`，命令不带沙箱运行；设为 `"fail"` 则直接拒绝。平台限制见 [接入说明](/zh/docs/miao/native-benchmarks/#原生工具与沙箱适用范围)。
+
+原生引擎自己的进程命令（bash、run_command、start_job、终端、hooks、格式化）始终在 OS 沙箱内运行，权限规则改变不了这一点——全量放行规则也抬不掉沙箱。同一个开关也是显式的运营者退出通道：配置里 `sandbox.mode: "off"` 或环境变量 `MIAO_SANDBOX=0` 会让引擎命令不带沙箱运行；`MIAO_SANDBOX=1` 或 `mode: "workspace-write"` 则保持约束。两者都没设置时，引擎保持沙箱。
 
 ### 5.7 成本与缓存遥测
 
@@ -217,23 +222,26 @@ V2 `list_sessions` 可发现同项目会话，`send_message` 接受会话 ID 或
 }
 ```
 
-这组可选配置组合了待办续跑、调度预算、旧输出裁剪和逐工具的模型可见输出限额。预算不会中断正在执行的轮次，也不是账单硬上限。完整输出文件是临时的，受限的会话记录才是持久化历史。工具结果裁剪（微压缩）默认开启，可用 `"prune": false` 关闭。自动压缩默认在上下文达到窗口的 `threshold`（默认 `0.9`）时触发，并依据供应商回报的真实 prompt tokens 判断，因此会在窗口填满前提前压缩，而不是等到最后。廉价模型摘要与热前缀压缩可以单独开启，先确认它们适合当前供应商和任务。
+这组可选配置组合了待办续跑、调度预算、旧输出裁剪和逐工具的模型可见输出限额。预算不会中断正在执行的轮次，也不是账单硬上限。完整输出文件是临时的，受限的会话记录才是持久化历史。工具结果裁剪（微压缩）默认开启，可用 `"prune": false` 关闭。自动压缩默认在上下文达到窗口的 `threshold`（默认 `0.9`）时触发，并依据供应商回报的真实 prompt tokens 判断，因此会在窗口填满前提前压缩，而不是等到最后。主动压缩默认复用当前请求前缀做一次摘要，让供应商直接命中 prompt 缓存；只有前缀放不下指令时才回退到分阶段恢复，可用 `"hot_prefix": false` 强制走分阶段策略。廉价模型摘要仍需单独开启，开启前先确认解析出的廉价模型适合当前供应商和任务。
 
-被压缩出模型窗口的原文仍然持久化在磁盘上。`recall` 工具按关键词检索这段历史，让 agent 找回被摘要丢掉的细节，而不必重新读文件或重复已完成的工作。
+`compaction.max_context` 让模型在比其声明窗口更小的范围内工作，用于控制成本、延迟或缓存抖动。它接受一个作用于所有模型的值，或以 `"<providerID>/<modelID>"` 为键的映射（支持 `*`/`?` 通配，最长匹配键胜出）：可以是 token 数、`"300K"` / `"1.5M"` 简写，或模型窗口的 `"50%"`。该值只会被钳制到模型真实窗口之内，绝不会抬高它；压缩、上下文提示与溢出恢复都按钳制后的窗口规划。由于配置合并不支持删除键，`0` 表示恢复模型默认。
+
+被压缩出模型窗口的原文仍然持久化在磁盘上。`recall` 工具按关键词检索这段历史，让 agent 找回被摘要丢掉的细节，而不必重新读文件或重复已完成的工作；`history` 工具则按位置分页读取完整的历史消息（`history(from: …)` 继续下一页），每页都有预算上限。
+
 
 ## 6. 运行时状态与后续工作
 
 所有已发布客户端都使用单一 V2 会话运行时；V1 会话运行时及其 `/session/*` 路由已删除。
 
-- [V1 退役计划](https://github.com/oxdingzg/miao/blob/afd1d654c8155dc32c5045ab07b5e1751ae4ad1b/specs/v2/v1-retirement.md) 记录了删除过程和剩余兼容面（数据库迁移与非会话旧路由）。
-- [会话存储设计](https://github.com/oxdingzg/miao/blob/afd1d654c8155dc32c5045ab07b5e1751ae4ad1b/specs/storage/session-storage-hardening.md) 记录存储方案。可用 `miao db stats`、`miao db vacuum` 和 JSONL 导出检查、维护本地记录。
-- [代理并发](https://github.com/oxdingzg/miao/blob/afd1d654c8155dc32c5045ab07b5e1751ae4ad1b/specs/v2/agent-concurrency.md) 设计非阻塞子代理与完成即唤醒，避免长任务卡住会话。
+- [V1 退役计划](https://github.com/oxdingzg/miao/blob/80819c691b28a58b77d0a418c4c8f82ae3d616b3/specs/v2/v1-retirement.md) 记录了删除过程和剩余兼容面（数据库迁移与非会话旧路由）。
+- [会话存储设计](https://github.com/oxdingzg/miao/blob/80819c691b28a58b77d0a418c4c8f82ae3d616b3/specs/storage/session-storage-hardening.md) 记录存储方案。可用 `miao db stats`、`miao db vacuum` 和 JSONL 导出检查、维护本地记录。
+- [代理并发](https://github.com/oxdingzg/miao/blob/80819c691b28a58b77d0a418c4c8f82ae3d616b3/specs/v2/agent-concurrency.md) 设计非阻塞子代理与完成即唤醒，避免长任务卡住会话。
 - 崩溃后自动执行恢复与集群所有权尚未实现。OS 沙箱已内置于 V2 `bash` 工具但仍需开启，见 [原生组件与沙箱范围](/zh/docs/miao/native-benchmarks/)。
 
 ## 7. 常见问题（FAQ）
 
 **Q：侧边栏 LSP 一直显示 “LSPs are disabled”？**
-配置里没写 `lsp`（省略即禁用）。在 `miao.jsonc` 加 `"lsp": true` 并**重启 miao**（当前会话读的是启动时配置）。
+配置里没写 `lsp`（省略即禁用）。在 `miao.jsonc` 加 `"lsp": true` 即可：原生引擎会重载配置并连上语言服务器，不必重启；TypeScript 引擎仍需重启 miao。
 
 **Q：`ctrl+x b` 打不开侧边栏？**
 子会话（由 task/subagent 派生、`parent_id` 非空）侧边栏被强制隐藏；顶层会话可用。窄终端（宽度 ≤120）auto 模式也不默认显示，但手动 toggle 有效。
@@ -285,8 +293,8 @@ bun --cwd packages/miao test
 
 ## 许可证
 
-MIT，详见 [LICENSE](https://github.com/oxdingzg/miao/blob/afd1d654c8155dc32c5045ab07b5e1751ae4ad1b/LICENSE) 与[项目来源与许可](/zh/docs/miao/attribution/)。
+MIT，详见 [LICENSE](https://github.com/oxdingzg/miao/blob/80819c691b28a58b77d0a418c4c8f82ae3d616b3/LICENSE) 与[项目来源与许可](/zh/docs/miao/attribution/)。
 
 ---
 
-*Synced from [`oxdingzg/miao@afd1d65`](https://github.com/oxdingzg/miao/blob/afd1d654c8155dc32c5045ab07b5e1751ae4ad1b/docs/guide.zh.md).*
+*Synced from [`oxdingzg/miao@80819c6`](https://github.com/oxdingzg/miao/blob/80819c691b28a58b77d0a418c4c8f82ae3d616b3/docs/guide.zh.md).*

@@ -30,11 +30,17 @@ has a key in the environment is also picked up without `login`.
 ## List and select models
 
 ```bash
-miao models                     # every provider/model your build knows
+miao models                     # models this channel can run (credential or login present)
 miao models anthropic           # filter to one provider
 miao models --verbose           # include metadata such as costs
 miao models --refresh           # refresh the catalog from mtty.dev first
+miao models --all               # whole catalog, marking what this channel cannot run
 ```
+
+Providers without a credential and models the build disables are left out by
+default, because the TUI and `miao run` reject them. `--all` lists them anyway
+and appends `(unavailable)`, which is the way to browse a provider's model ids
+before logging in.
 
 Inside the TUI, `/model` or `ctrl+x m` switches the model; the last model used
 per agent is remembered. A session without a chosen model uses the `model`
@@ -71,6 +77,21 @@ with `miao auth login commandcode` (browser-assisted) or set `CMD_API_KEY`; its
 models are discovered from your account when it connects. OpenCode Zen / Go
 remain available as optional third-party providers.
 
+### The mtty gateway
+
+`mtty` is mtty.dev's own OpenAI-compatible gateway (`https://my.mtty.dev/v1`),
+also maintained by miao in the catalog because models.dev does not list it.
+Connect it with:
+
+```bash
+miao auth login mtty
+```
+
+or set `MTTY_API_KEY`. Credentials are gateway API keys (the `sk-` prefix,
+created in the `/console/` of my.mtty.dev), sent as `Authorization: Bearer`. The
+catalog currently declares `mtty/deepseek-v4-1-flash-261017`; run
+`miao models mtty` to see what the gateway serves.
+
 ## Custom providers
 
 The `providers` record in `miao.jsonc` adds or overrides a provider: its
@@ -102,6 +123,16 @@ and native-currency cost.
 `api` field selects the wire protocol, and the whole file is validated against
 `$schema`. After editing, run `miao models` to confirm what the provider now
 reports.
+
+## Native engine routes
+
+Sessions placed on the native engine reach these same providers through a
+trusted host route manifest. The mapping from a catalog provider to a native
+transport, the manifest fields, credential references, and the providers that
+deliberately stay on TypeScript are documented in
+[Native engine provider routes](https://github.com/oxdingzg/miao/blob/80819c691b28a58b77d0a418c4c8f82ae3d616b3/docs/native-provider-routes.en.md). You still
+configure and authenticate providers here; the manifest is generated, not
+edited.
 
 ## Cost and currency
 
@@ -136,7 +167,8 @@ wins**. The supported action is `provider.use`; `resource` accepts wildcard patt
 - An authentication error names the fix, usually `miao auth login <provider>`;
   re-run `miao providers login` if the stored token expired.
 - A provider that shows no models is usually missing credentials or disabled by
-  policy; `miao models <provider> --verbose` shows what was resolved.
+  policy; `miao models <provider> --all --verbose` shows what the catalog holds
+  and `miao models <provider> --verbose` shows what resolves once it is usable.
 
 See the [guide](/docs/miao/guide/) for configuration precedence and the
 [agent workflow comparison](/docs/miao/comparison/) for how the provider layer
@@ -144,4 +176,4 @@ evolved.
 
 ---
 
-*Synced from [`oxdingzg/miao@284be7f`](https://github.com/oxdingzg/miao/blob/284be7f96491a33c873335363d25625e0f126c24/docs/providers.en.md).*
+*Synced from [`oxdingzg/miao@80819c6`](https://github.com/oxdingzg/miao/blob/80819c691b28a58b77d0a418c4c8f82ae3d616b3/docs/providers.en.md).*
