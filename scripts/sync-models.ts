@@ -131,11 +131,11 @@ const VOLCENGINE_MODELS: Record<string, Model> = {
   },
 }
 
-// mtty's own OpenAI-compatible gateway. Not listed by models.dev, so the
-// full provider record is overlaid here (like Command Code). Credentials are
-// hub API keys (`mhub_key_…`, prefix from mhub-core/src/keys.rs), presented as
-// `Authorization: Bearer`. Only the model the gateway is known to serve is
-// declared; its metadata mirrors the Ark record for the same model ID.
+// mtty's own OpenAI-compatible gateway (a mtok instance). Not listed by
+// models.dev, so the full provider record is overlaid here (like Command
+// Code). Credentials are gateway API keys (`sk-…`, prefix from
+// mtok-app/src/auth/api_key.rs), created in the console at /console/ and sent
+// as `Authorization: Bearer`. Only the models the gateway serves are declared.
 const MTTY_PROVIDER: Provider = {
   id: "mtty",
   name: "mtty",
