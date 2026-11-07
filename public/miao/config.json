@@ -2632,6 +2632,10 @@
           "maximum": 60000,
           "type": "integer",
           "description": "Hook time budget in milliseconds (default 10000)."
+        },
+        "enabled": {
+          "type": "boolean",
+          "description": "Set false to keep the entry in configuration without running it. Defaults to true; absent means enabled, so a hook written before this field existed still fires."
         }
       },
       "required": [
