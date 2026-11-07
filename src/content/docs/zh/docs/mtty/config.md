@@ -18,7 +18,7 @@ mtty 的配置项全部可选。只有一行的文件就是一份合法配置，
 
 v0.0.5 及之前应用名为 `miaotty`。首次启动时，若 `$XDG_CONFIG_HOME/mtty` 不存在，会把
 `$XDG_CONFIG_HOME/miaotty` 复制过去，并保留旧目录，使更早的版本仍可使用。见
-[应用身份与迁移](https://github.com/oxdingzg/mtty/blob/d64b052e75f291bd44298029c323d6a325a80fa6/docs/APP-IDENTITY.zh-CN.md)。
+[应用身份与迁移](https://github.com/oxdingzg/mtty/blob/59187e28eb9437ae67842a4ed3025a211033de7c/docs/APP-IDENTITY.zh-CN.md)。
 
 ## 最小配置
 
@@ -81,7 +81,7 @@ theme = "mtty"   # nord | dracula | gruvbox | mtty
 
 ### 标签徽章
 
-`[badges]` 决定哪些 agent 状态在标签上显示:状态标记——空闲为空心圆圈,执行中为旋转的圆弧,等待你时为带实心圆心的圆环,完成(绿)或失败(红)为实心圆——以及 `!` 或完成标记。关闭某个状态后,处于该状态的标签显示普通终端图标,也不加标记。四项默认全开,系统通知不受影响:
+`[badges]` 决定哪些 agent 状态在标签上显示:状态标记——空闲为空心圆圈,执行中为旋转的圆弧,等待你时为带实心圆心的圆环,完成(绿)或失败(红)为实心圆——以及标签标题里的状态词与 `!`/完成标记。关闭某个状态后,处于该状态的标签显示普通终端图标,不再加标记,标题里也不出现该状态词。四项默认全开,系统通知不受影响:
 
 ```toml
 [badges]
@@ -187,8 +187,8 @@ fish 3.7、PowerShell 7.5;Windows 上的 PowerShell 由 CI 运行)。
 
 ## 完整参考
 
-[`config.example.toml`](https://github.com/oxdingzg/mtty/blob/d64b052e75f291bd44298029c323d6a325a80fa6/docs/config.example.toml) 是带注释的完整参考:上面每个键及其默认值都在一个文件里。
+[`config.example.toml`](https://github.com/oxdingzg/mtty/blob/59187e28eb9437ae67842a4ed3025a211033de7c/docs/config.example.toml) 是带注释的完整参考:上面每个键及其默认值都在一个文件里。
 
 ---
 
-*Synced from [`oxdingzg/mtty@d64b052`](https://github.com/oxdingzg/mtty/blob/d64b052e75f291bd44298029c323d6a325a80fa6/docs/CONFIG.zh-CN.md).*
+*Synced from [`oxdingzg/mtty@59187e2`](https://github.com/oxdingzg/mtty/blob/59187e28eb9437ae67842a4ed3025a211033de7c/docs/CONFIG.zh-CN.md).*

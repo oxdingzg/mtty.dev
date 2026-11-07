@@ -22,11 +22,35 @@ Remote Control 让你从另一台设备操作正在运行的 miao 窗口。任�
 
 下面的设备邀请流程保留给旧客户端及独立设备授权，不是新版 iOS 的前置步骤。
 
+## 手机上的待处理收件箱
+
+侧栏的**待处理**列出所有正在等你处理的会话：每条写着会话标题和具体的审批命令或提问，
+点一下就跳到那个会话继续处理，不用逐个打开去找。列表来自电脑上的一次汇总查询，只包含
+这次授权范围内的会话；没有待处理的会话不会出现，关闭共享的会话也会立即消失。
+
+这条列表随前台每十秒刷新一次，打开侧栏时也会立即刷新一次。审批和提问本身仍然只在
+会话内回答，收件箱只负责把「什么在等我」摆到眼前。
+
+## 在手机上配置服务商与模型
+
+手机可以填写服务商的 API Key、断开已保存的凭据，并选择电脑上新会话的默认模型。
+
+1. 电脑上打开 `/remote-control`，在授权流程的**选择设备权限**一步选
+   **允许配置服务商与模型**。默认是「不配置服务商」，此时手机端不显示该入口。
+2. iOS 侧栏点**服务商与模型**：已连接的服务商可以断开；可连接的服务商点进去
+   输入 API Key；默认模型在**新会话**一栏里选择。
+3. 环境变量提供的服务商、需要浏览器登录的 OAuth 服务商，仍然只在电脑上处理，
+   手机端会标注「在电脑上连接」。
+
+密钥只经加密连接送到你的电脑，并保存在电脑的凭据存储里。手机不显示已保存的密钥，
+也不会把它写进本地缓存或操作账本；配置结果由重新读取服务商列表确认。断开只删除
+电脑上保存的凭据，不影响其他设置。
+
 ## 连接前
 
 - 使用支持 `/remote-control` 的当前 miao 构建，并保持本地窗口运行。
-- 部署具有账号鉴权和 HTTPS 地址的 Hub。仓库提供 [Hub 与容器说明](https://github.com/oxdingzg/miao/blob/80819c691b28a58b77d0a418c4c8f82ae3d616b3/packages/remote-control/README.md)
-  和 [Compose 部署](https://github.com/oxdingzg/miao/blob/80819c691b28a58b77d0a418c4c8f82ae3d616b3/packages/remote-control/deploy/README.md)。
+- 部署具有账号鉴权和 HTTPS 地址的 Hub。仓库提供 [Hub 与容器说明](https://github.com/oxdingzg/miao/blob/081a96ab21cd36158866751d0c8a50f4ea0d4fc2/packages/remote-control/README.md)
+  和 [Compose 部署](https://github.com/oxdingzg/miao/blob/081a96ab21cd36158866751d0c8a50f4ea0d4fc2/packages/remote-control/deploy/README.md)。
 - 从同一个 Hub 域名提供 Web 客户端，或使用兼容的 iOS 客户端。
   Hub 独立于 mtty.dev，本站不提供托管的 Hub 服务。
 
@@ -52,7 +76,7 @@ Remote Control 让你从另一台设备操作正在运行的 miao 窗口。任�
 选中的窗口目标，不会自动切换到同机上的另一个窗口。
 
 重新打开历史不代表自动恢复执行，请显式继续中断的工作。
-所有权、更新与私有 `runtime access` 集成桥接见[运行时生命周期](https://github.com/oxdingzg/miao/blob/80819c691b28a58b77d0a418c4c8f82ae3d616b3/docs/runtime.md)。
+所有权、更新与私有 `runtime access` 集成桥接见[运行时生命周期](https://github.com/oxdingzg/miao/blob/081a96ab21cd36158866751d0c8a50f4ea0d4fc2/docs/runtime.md)。
 
 ## 显式服务端访问
 
@@ -78,6 +102,19 @@ Remote Control 让你从另一台设备操作正在运行的 miao 窗口。任�
 
 可用性以所安装的构建为准；源码中的界面改动可能尚未进入最新发布版，使用预览功能前请查看发布说明。
 
+## 在手机上整理会话
+
+侧栏顶部的搜索框把关键词交给电脑检索全部会话，而不只是手机当前加载的一页。
+
+长按一条会话可以**置顶**、**取消置顶**或**永久删除**。置顶的会话排在列表最前；
+永久删除会把会话记录从电脑上删掉、无法撤销，因此只在你于电脑上授权
+**允许永久删除会话**后才出现，删除前手机上会再确认一次。电脑上正在执行的一轮
+不会被删除，手机端会提示先停止。
+
+长按菜单里还有**归档**与**取消归档**。归档是临时的收纳：会话默认从列表隐藏，
+打开侧栏的**显示已归档**就能看到并取消归档。归档不改动会话记录本身，因此不需要
+删除会话的授权。
+
 ---
 
-*Synced from [`oxdingzg/miao@80819c6`](https://github.com/oxdingzg/miao/blob/80819c691b28a58b77d0a418c4c8f82ae3d616b3/docs/remote-control.zh.md).*
+*Synced from [`oxdingzg/miao@081a96a`](https://github.com/oxdingzg/miao/blob/081a96ab21cd36158866751d0c8a50f4ea0d4fc2/docs/remote-control.zh.md).*

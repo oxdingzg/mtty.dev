@@ -21,7 +21,7 @@ elsewhere in the documentation live in this directory too.
 Up to v0.0.5 the application was called `miaotty`. On first start,
 `$XDG_CONFIG_HOME/miaotty` is copied to `$XDG_CONFIG_HOME/mtty` when the latter
 does not exist, and the old directory is kept so an older build still works.
-See [identity and migration](https://github.com/oxdingzg/mtty/blob/d64b052e75f291bd44298029c323d6a325a80fa6/docs/APP-IDENTITY.md).
+See [identity and migration](https://github.com/oxdingzg/mtty/blob/59187e28eb9437ae67842a4ed3025a211033de7c/docs/APP-IDENTITY.md).
 
 ## A minimal configuration
 
@@ -90,9 +90,9 @@ accepted too, and an explicit `[colors]` block overrides any named theme.
 `[badges]` chooses which agent states show on tabs: the state marker — an empty
 ring when idle, a rotating arc while executing, a ring with a solid core when
 waiting for you, and a solid disc when a turn finished (green) or failed (red)
-— plus the `!` or finished mark. A state switched off shows the plain terminal
-icon and no mark. All four are on by default; system notifications are not
-affected:
+— plus the state word in the tab title and the `!` or finished mark. A state
+switched off shows the plain terminal icon and no mark, and the title drops the
+word. All four are on by default; system notifications are not affected:
 
 ```toml
 [badges]
@@ -211,9 +211,9 @@ directory. See [view rules](/docs/mtty/view-rules/).
 
 ## Full reference
 
-[`config.example.toml`](https://github.com/oxdingzg/mtty/blob/d64b052e75f291bd44298029c323d6a325a80fa6/docs/config.example.toml) is the annotated reference: every
+[`config.example.toml`](https://github.com/oxdingzg/mtty/blob/59187e28eb9437ae67842a4ed3025a211033de7c/docs/config.example.toml) is the annotated reference: every
 key above, with its default, in one file.
 
 ---
 
-*Synced from [`oxdingzg/mtty@d64b052`](https://github.com/oxdingzg/mtty/blob/d64b052e75f291bd44298029c323d6a325a80fa6/docs/CONFIG.md).*
+*Synced from [`oxdingzg/mtty@59187e2`](https://github.com/oxdingzg/mtty/blob/59187e28eb9437ae67842a4ed3025a211033de7c/docs/CONFIG.md).*

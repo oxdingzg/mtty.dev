@@ -9315,7 +9315,7 @@
               }
             }
           ],
-          "description": "Cancel newest waiting prompt, or interrupt"
+          "description": "Interrupt the running turn, or take back a waiting prompt"
         },
         "session_background": {
           "anyOf": [
