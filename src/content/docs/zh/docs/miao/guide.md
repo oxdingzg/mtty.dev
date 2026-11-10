@@ -12,7 +12,7 @@ miao 尚处于 pre-1.0、活跃开发中，CLI 与配置可能随版本变化。
 
 miao 是一个在终端中与你协作的开源 AI 智能体，也提供 HTTP 服务与浏览器界面。它帮助你编写代码、开展调研、管理文件和自动化任务。它把重点放在模型调用周围的工作上：持久化会话、上下文效率、代理协作和可观察的成本。
 
-用它理解仓库、实现改动、排查测试失败，或委派专项调研。连接你偏好的供应商，配置项目工具，并在任务变化时继续补充要求。miao 支持模型选择与 MCP；miao 的运行时建设与可用范围见 [产品概览](https://github.com/oxdingzg/miao/blob/80819c691b28a58b77d0a418c4c8f82ae3d616b3/README.zh.md) 和 [工作流对比](/zh/docs/miao/comparison/)。
+用它理解仓库、实现改动、排查测试失败，或委派专项调研。连接你偏好的供应商，配置项目工具，并在任务变化时继续补充要求。miao 支持模型选择与 MCP；miao 的运行时建设与可用范围见 [产品概览](https://github.com/oxdingzg/miao/blob/931487394a5f4ee489e09b27d76ae622ed89a411/README.zh.md) 和 [工作流对比](/zh/docs/miao/comparison/)。
 
 第一次可以这样提需求：「找到这个错误的原因，做出适当的最小修复，运行相关检查，再解释代码差异。」执行过程中继续补充约束，无需另开对话。
 
@@ -92,31 +92,31 @@ miao
 
 ## 4. 配置参考
 
-配置文件按优先级合并：项目 `.miao/` > 全局 `~/.config/miao/`，另外可用 `MIAO_CONFIG` 指定。主要字段：
+配置文件按优先级合并：项目 `.miao/` > 全局 `~/.config/miao/` > 管理员层 `/etc/miao/`（Linux）、`/Library/Application Support/miao/`（macOS）、`%ProgramData%\miao\`（Windows）。管理员层只有在该目录真实存在时才生效，且永远不优先于用户或项目里的同名键；`MIAO_MANAGED_CONFIG_DIR` 可改动它的位置，`MIAO_CONFIG` 则整体指定配置来源。`miao debug config` 会打印每个生效键以及它来自哪个文件。主要字段：
 
-| 字段                                                              | 作用                                                                                                                    |
-| ----------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
-| `model`                                                           | 默认模型（`provider/model`）                                                                                            |
-| `default_agent`                                                   | 默认 agent                                                                                                              |
-| `permission`                                                      | 权限规则（`allow` / `ask` / `deny`，可分级按工具/路径）；未匹配默认 `ask`                                               |
-| `agents`                                                          | 自定义 agent（模型、系统提示、权限、步数上限）                                                                          |
-| `lsp`                                                             | 语言服务器：`true` 启用全部内置，`false` 关闭，或按名配置。**省略 = 全部禁用**                                          |
-| `formatter`                                                       | 代码格式化：`true` 启用内置，或按名配置命令                                                                             |
-| `mcp`                                                             | MCP 服务器（local stdio / remote streamable-http）                                                                      |
+| 字段                                                              | 作用                                                                                                                                              |
+| ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `model`                                                           | 默认模型（`provider/model`）                                                                                                                      |
+| `default_agent`                                                   | 默认 agent                                                                                                                                        |
+| `permission`                                                      | 权限规则（`allow` / `ask` / `deny`，可分级按工具/路径）；未匹配默认 `ask`                                                                         |
+| `agents`                                                          | 自定义 agent（模型、系统提示、权限、步数上限）                                                                                                    |
+| `lsp`                                                             | 语言服务器：`true` 启用全部内置，`false` 关闭，或按名配置。**省略 = 全部禁用**                                                                    |
+| `formatter`                                                       | 代码格式化：`true` 启用内置，或按名配置命令                                                                                                       |
+| `mcp`                                                             | MCP 服务器（local stdio / remote streamable-http）                                                                                                |
 | `compaction`                                                      | 压缩（`prune` 裁剪旧输出、`threshold` 触发比例、`max_context` 每模型窗口、`summarize_small` 廉价摘要、`hot_prefix` 热前缀、`precise_tokens` BPE） |
-| `cache`                                                           | `ttl_seconds` 延长 prompt cache TTL                                                                                     |
-| `cost`                                                            | `budget_usd` 每会话成本预算（超限告警并停止续跑）                                                                       |
-| `loop`                                                            | 自治续跑（见 §5.8）                                                                                                     |
-| `shell`                                                           | 默认 shell                                                                                                              |
-| `skills` / `commands` / `instructions` / `references` / `plugins` | 技能、命令、指令、引用、插件                                                                                            |
-| `watcher` / `attachments` / `tool_output` / `snapshots`           | 文件监听、附件、工具输出阈值、快照                                                                                      |
-| `providers`                                                       | 自定义 provider / 模型（含本币单价 `cost`）                                                                             |
-| `engine`                                                          | 原生引擎设置（仅全局配置）：`storage` 让新会话落在 Rust 引擎；详见[启用原生引擎](https://github.com/oxdingzg/miao/blob/80819c691b28a58b77d0a418c4c8f82ae3d616b3/docs/native-engine-enablement.zh.md)        |
-| `experimental`                                                    | 实验开关（如 Code Mode）                                                                                                |
+| `cache`                                                           | `ttl_seconds` 延长 prompt cache TTL                                                                                                               |
+| `cost`                                                            | `budget_usd` 每会话成本预算（超限告警并停止续跑）                                                                                                 |
+| `loop`                                                            | 自治续跑（见 §5.8）                                                                                                                               |
+| `shell`                                                           | 默认 shell                                                                                                                                        |
+| `skills` / `commands` / `instructions` / `references` / `plugins` | 技能、命令、指令、引用、插件                                                                                                                      |
+| `watcher` / `attachments` / `tool_output` / `snapshots`           | 文件监听、附件、工具输出阈值、快照                                                                                                                |
+| `providers`                                                       | 自定义 provider / 模型（含本币单价 `cost`）                                                                                                       |
+| `engine`                                                          | 旧版配置里的引擎选择，仅为兼容保留；引擎始终在进程内运行，此项不再改变放置                                                  |
+| `experimental`                                                    | 实验开关（如 Code Mode）                                                                                                                          |
 
 **本币计价**：`providers.<id>.models.<m>.cost` 用 provider 官方本币单价（如 DeepSeek 的 CNY），成本按配置费率估算；TUI 内 `/currency` 可切换显示货币（默认 USD，未声明本币的 provider 按静态汇率换算）。
 
-**原生引擎（可选开启）**：在全局配置里设置 `engine.storage`，新会话就会落在 Rust 引擎上；`MIAO_ENGINE_STORAGE` 优先于它。release 会把 `miao-engine` 装在 CLI 旁边，不需要手写二进制路径；已有会话保留原来的引擎。`miao doctor` 会显示引擎版本、协议，以及是否已开启放置。原生存储与 TypeScript 存储相互独立，已有会话可用 `miao session migrate` 离线迁移。
+**引擎**：引擎就在 `miao` 二进制里运行，没有需要单独安装或指定路径的引擎；`MIAO_ENGINE_STORAGE` 可改写它的存储位置（默认 `~/.local/share/miao-engine/storage`），`miao doctor` 会显示协议、schema 版本与将要打开的数据库。开发构建可用 `MIAO_ENGINE_BIN` 指定单独构建的引擎。
 
 ## 5. 日常使用
 
@@ -135,6 +135,22 @@ miao
 | `ctrl+x` `c` | 压缩会话                          |
 | `ctrl+x` `g` | 时间线                            |
 | `ctrl+x` `q` | 退出                              |
+
+prompt 获得焦点时：
+
+| 按键                                    | 动作                                                |
+| --------------------------------------- | --------------------------------------------------- |
+| `shift+←` `shift+→` `shift+↑` `shift+↓` | 选中文本（`shift+Home/End`、`shift+ctrl+←/→` 按词） |
+| `alt+a`                                 | 全选草稿                                            |
+| `alt+z` / `alt+.`                       | 在草稿内撤销 / 重做                                 |
+| `ctrl+y`                                | 复制选区，没有选区时复制上一条回复                  |
+| `ctrl+j`                                | 换行而不发送                                        |
+| `ctrl+c`                                | 清空草稿（草稿为空时退出）                          |
+| `tab`                                   | 接受输入框里那条灰色建议（草稿非空时仍是两个空格缩进） |
+
+一轮结束后，空输入框会显示这条会话待办的下一件事（`Next: …`，取自会话的 todo
+列表），按 `tab` 把它变成草稿再继续编辑；有草稿、`!` 命令行或正在跑的一轮里都不
+会提出建议。
 
 可在 `~/.config/miao/tui.json`（或 miao.jsonc 的 `keybinds`）里重绑定。
 
@@ -228,14 +244,13 @@ V2 `list_sessions` 可发现同项目会话，`send_message` 接受会话 ID 或
 
 被压缩出模型窗口的原文仍然持久化在磁盘上。`recall` 工具按关键词检索这段历史，让 agent 找回被摘要丢掉的细节，而不必重新读文件或重复已完成的工作；`history` 工具则按位置分页读取完整的历史消息（`history(from: …)` 继续下一页），每页都有预算上限。
 
-
 ## 6. 运行时状态与后续工作
 
 所有已发布客户端都使用单一 V2 会话运行时；V1 会话运行时及其 `/session/*` 路由已删除。
 
-- [V1 退役计划](https://github.com/oxdingzg/miao/blob/80819c691b28a58b77d0a418c4c8f82ae3d616b3/specs/v2/v1-retirement.md) 记录了删除过程和剩余兼容面（数据库迁移与非会话旧路由）。
-- [会话存储设计](https://github.com/oxdingzg/miao/blob/80819c691b28a58b77d0a418c4c8f82ae3d616b3/specs/storage/session-storage-hardening.md) 记录存储方案。可用 `miao db stats`、`miao db vacuum` 和 JSONL 导出检查、维护本地记录。
-- [代理并发](https://github.com/oxdingzg/miao/blob/80819c691b28a58b77d0a418c4c8f82ae3d616b3/specs/v2/agent-concurrency.md) 设计非阻塞子代理与完成即唤醒，避免长任务卡住会话。
+- [V1 退役计划](https://github.com/oxdingzg/miao/blob/931487394a5f4ee489e09b27d76ae622ed89a411/specs/v2/v1-retirement.md) 记录了删除过程和剩余兼容面（数据库迁移与非会话旧路由）。
+- [会话存储设计](https://github.com/oxdingzg/miao/blob/931487394a5f4ee489e09b27d76ae622ed89a411/specs/storage/session-storage-hardening.md) 记录存储方案。可用 `miao db stats`、`miao db vacuum` 和 JSONL 导出检查、维护本地记录。
+- [代理并发](https://github.com/oxdingzg/miao/blob/931487394a5f4ee489e09b27d76ae622ed89a411/specs/v2/agent-concurrency.md) 设计非阻塞子代理与完成即唤醒，避免长任务卡住会话。
 - 崩溃后自动执行恢复与集群所有权尚未实现。OS 沙箱已内置于 V2 `bash` 工具但仍需开启，见 [原生组件与沙箱范围](/zh/docs/miao/native-benchmarks/)。
 
 ## 7. 常见问题（FAQ）
@@ -293,8 +308,8 @@ bun --cwd packages/miao test
 
 ## 许可证
 
-MIT，详见 [LICENSE](https://github.com/oxdingzg/miao/blob/80819c691b28a58b77d0a418c4c8f82ae3d616b3/LICENSE) 与[项目来源与许可](/zh/docs/miao/attribution/)。
+MIT，详见 [LICENSE](https://github.com/oxdingzg/miao/blob/931487394a5f4ee489e09b27d76ae622ed89a411/LICENSE) 与[项目来源与许可](/zh/docs/miao/attribution/)。
 
 ---
 
-*Synced from [`oxdingzg/miao@80819c6`](https://github.com/oxdingzg/miao/blob/80819c691b28a58b77d0a418c4c8f82ae3d616b3/docs/guide.zh.md).*
+*Synced from [`oxdingzg/miao@9314873`](https://github.com/oxdingzg/miao/blob/931487394a5f4ee489e09b27d76ae622ed89a411/docs/guide.zh.md).*
