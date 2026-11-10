@@ -13,8 +13,8 @@ to sessions: the local owner approves a device and the scope of its access.
 
 - Use a current miao build with `/remote-control` and a running local window.
 - Deploy a Hub with account authentication and an HTTPS address. The repository
-  contains [Hub setup and container instructions](https://github.com/oxdingzg/miao/blob/284be7f96491a33c873335363d25625e0f126c24/packages/remote-control/README.md)
-  and a [Compose deployment](https://github.com/oxdingzg/miao/blob/284be7f96491a33c873335363d25625e0f126c24/packages/remote-control/deploy/README.md).
+  contains [Hub setup and container instructions](https://github.com/oxdingzg/miao/blob/931487394a5f4ee489e09b27d76ae622ed89a411/packages/remote-control/README.md)
+  and a [Compose deployment](https://github.com/oxdingzg/miao/blob/931487394a5f4ee489e09b27d76ae622ed89a411/packages/remote-control/deploy/README.md).
 - Serve the Web client from that Hub's origin, or use a compatible iOS client.
   The Hub is separate from mtty.dev and is not a hosted service provided by this site.
 
@@ -40,6 +40,40 @@ unwanted pairing or revoke a device there. Revocation invalidates its grant
 and closes its active channels. Turning off Remote Control closes this
 window's connection while local work continues.
 
+## The pending inbox on the phone
+
+The sidebar's **Pending** section lists every Session waiting on you, each row
+showing the Session title and the exact approval command or question. Tapping a
+row jumps straight into that Session instead of opening them one by one. The
+list comes from a single aggregate query and contains only Sessions inside the
+current grant; a Session with nothing waiting never appears, and one whose
+sharing is switched off disappears immediately.
+
+It refreshes every ten seconds in the foreground and once when the sidebar
+opens. Approvals and questions are still answered inside the Session; the inbox
+only puts "what needs me" in front of you.
+
+## Configure providers and models from the phone
+
+A phone can enter a provider's API key, disconnect a stored credential, and
+choose the default model new Sessions on that computer use.
+
+1. On the computer, open `/remote-control` and pick **allow provider and model
+   configuration** in the device-permission step. The default is to leave it
+   out, and the phone then shows no entry point for it.
+2. On iOS, open **Providers and models** from the sidebar: connected providers
+   can be disconnected, connectable ones accept an API key, and the default
+   model is chosen under **New Sessions**.
+3. Providers configured through environment variables, and OAuth providers that
+   need a browser, stay a local action; the phone labels them as connectable
+   only on the computer.
+
+The key travels only over the encrypted channel and is stored by your computer.
+The phone never displays a stored key and never writes it to local cache or the
+operation ledger; the result is confirmed by re-reading the provider list.
+Disconnecting removes only the stored credential and leaves other settings
+alone.
+
 ## What happens when a window closes
 
 Each normal miao invocation owns its execution and remote connection. Closing
@@ -49,7 +83,7 @@ ownership and connections. A remote reconnect keeps its selected window target;
 it does not silently move to a different window on the same machine.
 
 Reopening history is not automatic execution recovery. Continue interrupted
-work explicitly. See [Runtime lifecycle](https://github.com/oxdingzg/miao/blob/284be7f96491a33c873335363d25625e0f126c24/docs/runtime.md) for ownership, updates
+work explicitly. See [Runtime lifecycle](https://github.com/oxdingzg/miao/blob/931487394a5f4ee489e09b27d76ae622ed89a411/docs/runtime.md) for ownership, updates
 and the private `runtime access` integration bridge.
 
 ## Explicit server access
@@ -82,6 +116,23 @@ old chat commands and bot accounts do not carry over.
 Availability follows the installed build. Source-only UI changes may not yet
 be in the latest release; check the release notes before using preview features.
 
+## Organising Sessions from the phone
+
+The search field at the top of the sidebar sends its term to the computer, so it
+searches the whole catalogue instead of the page the phone happens to hold.
+
+Long-press a Session to **pin**, **unpin** or **permanently delete** it. Pinned
+Sessions sort first. Permanent deletion removes the record from the computer and
+cannot be undone, so it appears only when the owner granted **allow permanent
+deletion of Sessions** on the computer, and the phone asks once more before
+deleting. A Session whose turn is still running is never deleted; the phone asks
+you to stop it first.
+
+The menu also offers **archive** and **unarchive**. Archiving is temporary
+storage: the Session is hidden from the list by default and the sidebar's **show
+archived** toggle reveals it again. Archiving leaves the record intact, so it
+needs no deletion authority.
+
 ---
 
-*Synced from [`oxdingzg/miao@284be7f`](https://github.com/oxdingzg/miao/blob/284be7f96491a33c873335363d25625e0f126c24/docs/remote-control.en.md).*
+*Synced from [`oxdingzg/miao@9314873`](https://github.com/oxdingzg/miao/blob/931487394a5f4ee489e09b27d76ae622ed89a411/docs/remote-control.en.md).*
